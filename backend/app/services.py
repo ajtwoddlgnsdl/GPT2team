@@ -7,7 +7,7 @@ class GameLogicService:
         if user.game_state == "MAIN" and offline_days >= GameConfig.PENALTY_DAYS_MIN:
             main_h = next((h for h in all_heroines if h.is_main == 1), None)
             if main_h:
-                drop_amount = GameConfig.PENALTY_DROP_MINOR if offline_days <= GameConfig.PENALTY_DAYS_MAX else GameConfig.PENALTY_DROP_MAJOR
+                drop_amount = GameConfig.PENALTY_DROP_MINOR if offline_days < GameConfig.PENALTY_DAYS_MAX else GameConfig.PENALTY_DROP_MAJOR
                 main_h.affection = max(0, main_h.affection - drop_amount)
                 has_penalty = True
         return has_penalty
