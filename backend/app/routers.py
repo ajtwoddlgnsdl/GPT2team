@@ -245,3 +245,7 @@ def buy_gift(heroine_name: str, user_id: str = Depends(get_current_user), db: Se
     
     db.commit()
     return {"status": "success", "current_money": user.money, "hidden_affection": heroine.affection}
+
+
+
+# 안녕하세요
