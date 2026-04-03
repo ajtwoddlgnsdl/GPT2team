@@ -173,6 +173,9 @@ def complete_story(
 
     if user.game_state == "INTRO_1":
         user.game_state = "INTRO_2"
+        all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
+        for h in all_heroines:
+            h.is_cleared_today = True
         db.commit()
         return {"status": "success"}
 
