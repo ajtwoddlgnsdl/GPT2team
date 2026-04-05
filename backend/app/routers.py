@@ -2,7 +2,7 @@ import jwt
 import datetime
 import random
 from typing import Optional
-from fastapi import APIRouter, Depends, Header
+from fastapi import APIRouter, Depends, Header, Body
 from sqlalchemy.orm import Session
 
 from app import models
@@ -44,14 +44,13 @@ def _get_story_status(user, all_heroines, current_zone):
             
     return auto_play
 
-
 # ==========================================
 # 👤 일반 유저 API 
 # ==========================================
 
-@router.post("/start")
-def start_new_game(username: str, db: Session = Depends(get_db)):
-    new_user = models.User(username=username, game_state=GameState.INTRO_1.value)
+@router.post("/auth/guest")
+def guest_login(db: Session = Depends(get_db)):
+    new_user = models.User(username="Guest", game_state=GameState.INTRO_1.value)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -65,6 +64,24 @@ def start_new_game(username: str, db: Session = Depends(get_db)):
     access_token = jwt.encode({"sub": str(new_user.id), "exp": expire_time}, JWT_SECRET_KEY, algorithm=ALGORITHM)
 
     return {"status": "success", "user_id": str(new_user.id), "access_token": access_token}
+
+@router.post("/update-nickname")
+def update_nickname(
+    username: str = Body(..., min_length=2, max_length=12, embed=True, examples=["김철수"]),
+    user_id: str = Depends(get_current_user), 
+    db: Session = Depends(get_db)
+):
+    username = username.strip()
+    if not username:
+        return {"status": "error", "error_code": "INVALID_NICKNAME"}
+    
+    user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
+    if not user: return {"status": "error"}
+    
+    user.username = username
+    db.commit()
+    
+    return {"status": "success", "new_username": user.username}
 
 @router.post("/login")
 def login(user_id: str, db: Session = Depends(get_db)):
@@ -113,7 +130,7 @@ def check_story(user_id: str = Depends(get_current_user), db: Session = Depends(
     return {"status": "success", "current_zone": current_zone, "auto_play_story": auto_play}
 
 @router.post("/complete-story")
-def complete_story(story_ticket: str, bonus_token: Optional[str] = None, user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = Body(None), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
     try:
         payload = jwt.decode(story_ticket, JWT_SECRET_KEY, algorithms=[ALGORITHM])
         heroine_name = payload.get("heroine_name")
@@ -181,7 +198,7 @@ def play_minigame(user_id: str = Depends(get_current_user), db: Session = Depend
     return {"status": "success", "earned_money": earned_money, "current_ap": user.action_points, "total_money": user.money}
 
 @router.post("/buy-gift")
-def buy_gift(heroine_name: str, user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+def buy_gift(heroine_name: str = Body(..., embed=True), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
     heroine = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id, models.HeroineProgress.heroine_name == heroine_name).with_for_update().first()
     
