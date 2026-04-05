@@ -154,9 +154,8 @@ def complete_story(story_ticket: str, bonus_token: Optional[str] = None, user_id
     
     if user.game_state == GameState.MAIN.value:
         if viewed_zone: 
-            new_vz = models.ViewedZone(heroine_progress_id=heroine.id, zone=viewed_zone)
-            db.add(new_vz)
-            db.flush()
+            new_vz = models.ViewedZone(zone=viewed_zone)
+            heroine.viewed_zones.append(new_vz)
         
         config = STORY_CONFIG.get(heroine.heroine_name, {})
         req_zones = config.get("schedule", {}).get(str(heroine.current_day), [])
