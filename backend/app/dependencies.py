@@ -19,7 +19,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Security(securi
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
         if user_id is None: 
-            raise HTTPException(status_code=401)
+            raise HTTPException(status_code=401, detail="MISSING_USER_ID_IN_TOKEN")
         return user_id
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="INVALID_TOKEN")

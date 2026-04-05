@@ -5,6 +5,6 @@ from app.routers import router
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="리얼타임 비주얼 노벨 API (모듈화 완료!)")
+app = FastAPI(title="리얼타임 비주얼 노벨 API")
 
 app.include_router(router)

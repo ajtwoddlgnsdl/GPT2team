@@ -1,12 +1,32 @@
 import json
 import os
+import logging
+from enum import Enum
 from dotenv import load_dotenv
 
 load_dotenv()
 
-ADMIN_SECRET_KEY = os.getenv("ADMIN_SECRET_KEY", "super_secret_dev_key_123!")
-JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "my_game_secret_key_777!")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
+
+ADMIN_SECRET_KEY = os.getenv("ADMIN_SECRET_KEY")
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = "HS256"
+
+if not JWT_SECRET_KEY or not ADMIN_SECRET_KEY:
+    logger.error("🚨 환경변수에 시크릿 키가 설정되지 않았습니다! .env 파일을 확인하세요.")
+
+class GameState(str, Enum):
+    INTRO_1 = "INTRO_1"
+    INTRO_2 = "INTRO_2"
+    MAIN = "MAIN"
+    END = "END"
+
+class TimeZone(str, Enum):
+    MORNING = "아침"
+    AFTERNOON = "낮"
+    EVENING = "저녁"
+    NIGHT = "새벽"
 
 class GameConfig:
     MAX_AP = 10
@@ -24,9 +44,9 @@ class GameConfig:
     GIFT_AFFECTION_BOOST = 5
 
 HEROINE_INFO = {
-    "유나": "아침",
-    "지수": "낮",
-    "민아": "저녁"
+    "이서연": TimeZone.MORNING.value,
+    "코토리": TimeZone.AFTERNOON.value,
+    "최시은": TimeZone.EVENING.value
 }
 
 STORY_CONFIG = {}
@@ -35,6 +55,6 @@ config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "
 try:
     with open(config_path, "r", encoding="utf-8") as f:
         STORY_CONFIG = json.load(f)
-        print("✅ 스토리 스케줄러(JSON) 로드 완료!")
+        logger.info("✅ 스토리 스케줄러(JSON) 로드 완료!")
 except FileNotFoundError:
-    print("🚨 story_config.json 파일이 없습니다!")
+    logger.warning("🚨 story_config.json 파일이 없습니다!")
