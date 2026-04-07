@@ -12,10 +12,12 @@ from app.services import GameLogicService
 
 router = APIRouter()
 
+KST = datetime.timezone(datetime.timedelta(hours=9))
+
 def _get_story_status(user, all_heroines, current_zone):
     auto_play = {"is_available": False}
     if user.game_state == GameState.INTRO_1.value:
-        auto_play = {"is_available": True, "heroine_name": "TUTORIAL_DUMMY", "story_id": "intro_0_prologue", "target_day": 0}
+        auto_play = {"is_available": True, "heroine_name": "TUTORIAL_DUMMY", "story_id": "intro_1_prologue", "target_day": 0}
     
     elif user.game_state == GameState.INTRO_2.value:
         target_h = next((h for h in all_heroines if HEROINE_INFO.get(h.heroine_name) == current_zone), None)
@@ -48,9 +50,29 @@ def _get_story_status(user, all_heroines, current_zone):
 # 👤 일반 유저 API 
 # ==========================================
 
-@router.post("/auth/guest")
+@router.get("/server-time")
+def get_server_time():
+    now = datetime.datetime.now(KST)
+    return {"status": "success", "hour": now.hour, "timestamp": now.isoformat()}
+
+@router.post("/verify-time")
+def verify_time(client_estimated_hour: int = Body(..., embed=True)):
+    now = datetime.datetime.now(KST)
+    if client_estimated_hour == now.hour:
+        return {"status": "success", "server_hour": now.hour}
+    else:
+        return {"status": "fail", "server_hour": now.hour}
+
+@router.get("/user/status")
+def get_user_status(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user: 
+        return {"status": "error"}
+    return {"status": "success", "username": user.username, "ap": user.action_points, "money": user.money}
+
+@router.post("/auth/guest-login")
 def guest_login(db: Session = Depends(get_db)):
-    new_user = models.User(username="Guest", game_state=GameState.INTRO_1.value)
+    new_user = models.User(username="Guest", game_state=GameState.INTRO_1.value, last_login=datetime.datetime.now(KST))
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -67,7 +89,7 @@ def guest_login(db: Session = Depends(get_db)):
 
 @router.post("/update-nickname")
 def update_nickname(
-    username: str = Body(..., min_length=2, max_length=12, embed=True, examples=["김철수"]),
+    username: str = Body(..., min_length=2, max_length=12, embed=True),
     user_id: str = Depends(get_current_user), 
     db: Session = Depends(get_db)
 ):
@@ -90,7 +112,7 @@ def login(user_id: str, db: Session = Depends(get_db)):
 
     all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).with_for_update().all()
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(KST)
     offline_days = (now.replace(tzinfo=None) - user.last_login.replace(tzinfo=None)).days if user.last_login else 0
     has_penalty = GameLogicService.calculate_penalty(user, all_heroines, offline_days)
     crossed_midnight = user.last_login and user.last_login.date() < now.date()
@@ -109,7 +131,7 @@ def login(user_id: str, db: Session = Depends(get_db)):
 
 @router.get("/check-story")
 def check_story(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
-    hour = datetime.datetime.now().hour
+    hour = datetime.datetime.now(KST).hour
     
     if 6 <= hour < 12: current_zone = TimeZone.MORNING.value
     elif 12 <= hour < 18: current_zone = TimeZone.AFTERNOON.value
@@ -223,7 +245,7 @@ def admin_login(user_id: str, cheat_offline_days: int, admin_key: str = Header(.
     if not user: return {"status": "error"}
 
     all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).with_for_update().all()
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(KST)
 
     has_penalty = GameLogicService.calculate_penalty(user, all_heroines, cheat_offline_days)
     if cheat_offline_days >= 1:
