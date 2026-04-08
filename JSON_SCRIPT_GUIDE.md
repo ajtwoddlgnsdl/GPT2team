@@ -8,9 +8,9 @@
 프론트엔드는 파일명의 **접두사(Prefix)** 를 읽어 자동으로 폴더 경로를 찾습니다. 스토리의 종류에 맞춰 아래 폴더에 `.json` 파일을 넣어주세요.
 
 * **`assets/scripts/intro1/`**: 프롤로그 및 튜토리얼 (예: `intro_1_prologue.json`)
-* **`assets/scripts/intro2/`**: 공통 루트 및 공략 전 스토리 (예: `day0_MORNING.json`)
-* **`assets/scripts/main/`**: 메인 히로인 개별 루트 (예: `MAIN_day1_AFTERNOON.json`)
-* **`assets/scripts/ending/`**: 엔딩 스토리 (예: `ENDING_TRUE_최시은.json`)
+* **`assets/scripts/intro2/{히로인이름}/`**: 공통 루트 및 공략 전 스토리 (예: `assets/scripts/intro2/이서연/day0_아침_이서연.json`)
+* **`assets/scripts/main/{히로인이름}/`**: 메인 히로인 개별 루트 (예: `assets/scripts/main/최시은/MAIN_day1_낮_최시은.json`)
+* **`assets/scripts/ending/{히로인이름}/`**: 엔딩 스토리 (예: `assets/scripts/ending/코토리/ENDING_TRUE_코토리.json`)
 
 ---
 

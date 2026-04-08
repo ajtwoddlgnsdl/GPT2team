@@ -5,7 +5,7 @@ class GameLogicService:
     def calculate_penalty(user, all_heroines, offline_days):
         has_penalty = False
         if user.game_state == GameState.MAIN.value and offline_days >= GameConfig.PENALTY_DAYS_MIN:
-            main_h = next((h for h in all_heroines if h.is_main == True), None)
+            main_h = next((h for h in all_heroines if h.is_main), None)
             if main_h:
                 drop_amount = GameConfig.PENALTY_DROP_MINOR if offline_days < GameConfig.PENALTY_DAYS_MAX else GameConfig.PENALTY_DROP_MAJOR
                 main_h.affection = max(0, main_h.affection - drop_amount)
@@ -34,7 +34,7 @@ class GameLogicService:
                     best_heroine.is_main = True
 
         elif user.game_state == GameState.MAIN.value:
-            main_h = next((h for h in all_heroines if h.is_main == True), None)
+            main_h = next((h for h in all_heroines if h.is_main), None)
             if main_h and main_h.is_cleared_today:
                 config = STORY_CONFIG.get(main_h.heroine_name, {})
                 req_zones = config.get("schedule", {}).get(str(main_h.current_day), [])

@@ -38,6 +38,7 @@ dependencies:
   dio: ^5.9.2
   flutter_secure_storage: ^10.0.0
   dart_jsonwebtoken: ^2.14.0
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -60,10 +61,17 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/scripts/intro1/
-    - assets/scripts/intro2/
-    - assets/scripts/main/
-    - assets/scripts/ending/
+    - assets/scripts/intro2/코토리/
+    - assets/scripts/intro2/이서연/
+    - assets/scripts/intro2/최시은/
+    - assets/scripts/main/코토리/
+    - assets/scripts/main/이서연/
+    - assets/scripts/main/최시은/
+    - assets/scripts/ending/코토리/
+    - assets/scripts/ending/이서연/
+    - assets/scripts/ending/최시은/
     - assets/images/bg/
     - assets/images/character/
   # To add assets to your application, add an assets section, like this:

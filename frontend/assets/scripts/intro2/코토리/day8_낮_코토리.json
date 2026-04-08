@@ -1,0 +1,44 @@
+[
+  {
+    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "코토리",
+    "text": "8"
+  },
+  {
+    "action": "choice",
+    "speaker": "코토리",
+    "text": "8",
+    "choices": [
+      {
+        "text": "8",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "8"
+          }
+        ]
+      },
+      {
+        "text": "8",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "8"
+          }
+        ]
+      },
+      {
+        "text": "8",
+        "bonus_score": -3,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "8"
+          }
+        ]
+      }
+    ]
+  }
+]

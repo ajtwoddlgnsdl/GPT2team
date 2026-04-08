@@ -80,7 +80,8 @@ class _LobbyScreenState extends State<LobbyScreen> {
   // 💡 백그라운드에서도 멈추지 않는 Time Offset 방식의 시간 모니터링
   void _startTimeMonitor() {
     _timeSyncTimer?.cancel();
-    _timeSyncTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+
+    void checkTime() {
       // 기기의 현재 시간에 아까 구해둔 오프셋을 더해서 지금 서버 시간을 유추!
       final estimatedServerTime = DateTime.now().add(_timeOffset);
 
@@ -89,6 +90,13 @@ class _LobbyScreenState extends State<LobbyScreen> {
           estimatedServerTime.day != _serverDay) {
         _handleTimeBoundaryCrossed(estimatedServerTime);
       }
+    }
+
+    // 💡 타이머 대기 없이 접속 직후 즉시 1회 체크!
+    checkTime();
+
+    _timeSyncTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      checkTime();
     });
   }
 
@@ -146,6 +154,7 @@ class _LobbyScreenState extends State<LobbyScreen> {
               builder: (context) => StoryScreen(
                 storyId: autoPlay['story_id'],
                 storyTicket: autoPlay['story_ticket'],
+                heroineName: autoPlay['heroine_name'],
               ),
             ),
           );

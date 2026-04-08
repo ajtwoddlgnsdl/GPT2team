@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import '../../core/api_client.dart';
+import '../../core/constants.dart';
 import '../lobby/lobby_screen.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
 class StoryScreen extends StatefulWidget {
   final String storyId;
   final String storyTicket;
+  final String? heroineName;
 
   const StoryScreen({
     super.key,
     required this.storyId,
     required this.storyTicket,
+    this.heroineName,
   });
 
   @override
@@ -31,18 +34,17 @@ class _StoryScreenState extends State<StoryScreen> {
   // 💡 비주얼 및 선택지 관련 상태 변수 추가
   String? _currentBgImage;
   String? _currentCharacterImage;
-  int _earnedBonusScore = 0; // 💡 획득한 호감도 점수 (숫자)
+  int _earnedBonusScore = 0;
   bool _isChoiceMode = false;
   List<dynamic> _currentChoices = [];
 
   @override
   void initState() {
     super.initState();
-    _loadPlayerName(); // 화면 켜질 때 금고에서 이름 꺼내오기!
+    _loadPlayerName();
     _loadStoryScript();
   }
 
-  // 스마트폰 금고에서 이름 꺼내오는 함수
   Future<void> _loadPlayerName() async {
     final name = await ApiClient().storage.read(key: 'username');
     if (name != null) {
@@ -54,6 +56,7 @@ class _StoryScreenState extends State<StoryScreen> {
 
   // 대본 JSON 파일 불러오기
   Future<void> _loadStoryScript() async {
+    String filePath = ''; // 에러 발생 시 경로를 출력하기 위해 밖으로 뺌
     try {
       // 💡 스토리 ID의 접두사에 따라 폴더 경로를 자동으로 분류합니다.
       String folder = 'intro2'; // day... 등 공략 전 스토리
@@ -65,9 +68,13 @@ class _StoryScreenState extends State<StoryScreen> {
         folder = 'ending';
       }
 
-      final String jsonString = await rootBundle.loadString(
-        'assets/scripts/$folder/${widget.storyId}.json',
-      );
+      filePath = 'assets/scripts/$folder/${widget.storyId}.json';
+      if (folder != 'intro1' && widget.heroineName != null) {
+        filePath =
+            'assets/scripts/$folder/${widget.heroineName}/${widget.storyId}.json';
+      }
+
+      final String jsonString = await rootBundle.loadString(filePath);
       setState(() {
         _scriptLines = jsonDecode(jsonString);
         if (_scriptLines.isNotEmpty) {
@@ -77,6 +84,11 @@ class _StoryScreenState extends State<StoryScreen> {
       });
     } catch (e) {
       debugPrint("🚨 대본 로드 실패: $e");
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -155,9 +167,7 @@ class _StoryScreenState extends State<StoryScreen> {
     if (_earnedBonusScore != 0) {
       final jwt = JWT({'bonus': _earnedBonusScore});
       final token = jwt.sign(
-        SecretKey(
-          '여기에_백엔드와_동일한_JWT_SECRET_KEY_입력',
-        ), // 백엔드의 config.py에 있는 JWT_SECRET_KEY 값과 일치시켜주세요.
+        SecretKey(ApiConstants.jwtSecretKey),
         expiresIn: const Duration(hours: 2),
       );
       requestData["bonus_token"] = token;
@@ -277,6 +287,11 @@ class _StoryScreenState extends State<StoryScreen> {
       );
     }
 
+    // 💡 대본을 찾지 못한 경우 에러 없이 빈 검은 화면을 띄워 앱 멈춤 방지
+    if (_scriptLines.isEmpty) {
+      return const Scaffold(backgroundColor: Colors.black);
+    }
+
     final currentLine = _scriptLines[_currentIndex] as Map<String, dynamic>;
 
     // 💡 마법 발생! JSON에 {name}이라고 적힌 부분을 진짜 유저 이름으로 바꿔치기!
@@ -295,7 +310,14 @@ class _StoryScreenState extends State<StoryScreen> {
             // 1. 🌅 배경 이미지 렌더링
             if (_currentBgImage != null)
               Positioned.fill(
-                child: Image.asset(_currentBgImage!, fit: BoxFit.cover),
+                child: Image.asset(
+                  _currentBgImage!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    debugPrint("🚨 배경 이미지 로드 실패: $_currentBgImage");
+                    return Container(color: Colors.black); // 실패 시 검은 배경
+                  },
+                ),
               )
             else
               Container(color: Colors.black),
@@ -304,12 +326,18 @@ class _StoryScreenState extends State<StoryScreen> {
             if (_currentCharacterImage != null)
               Align(
                 alignment: Alignment.center,
-                child: Image.asset(_currentCharacterImage!),
+                child: Image.asset(
+                  _currentCharacterImage!,
+                  errorBuilder: (context, error, stackTrace) {
+                    debugPrint("🚨 캐릭터 이미지 로드 실패: $_currentCharacterImage");
+                    return const SizedBox.shrink(); // 실패 시 투명하게 아무것도 안 그림
+                  },
+                ),
               ),
 
             // 3. 💬 대화창 렌더링
             Positioned(
-              bottom: 30,
+              bottom: 50,
               left: 20,
               right: 20,
               child: Container(

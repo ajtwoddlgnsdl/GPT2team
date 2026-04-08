@@ -1,0 +1,48 @@
+[
+  {
+    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "코토리",
+    "text": "선배! 저 오늘 꽃다발 주문 5개를 한 번에 해냈어요!"
+  },
+  {
+    "speaker": "코토리",
+    "text": "전집중… 꽃의 호흡… 이치노카타… 코스모스 부케!!"
+  },
+  {
+    "action": "choice",
+    "speaker": "코토리",
+    "text": "…선배 왜 그런 눈으로 봐요?!",
+    "choices": [
+      {
+        "text": "ㅋㅋ 전집중 꽃의 호흡",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "웃지 마세요!! …근데 웃기긴 하죠?"
+          }
+        ]
+      },
+      {
+        "text": "귀멸 좋아해? 나도 봤는데",
+        "bonus_score": 8,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "선배도요?! 오시가 누구예요?!"
+          }
+        ]
+      },
+      {
+        "text": "좀 놀라긴 했어",
+        "bonus_score": 1,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "이상한 사람이라고 생각 안 했으면…"
+          }
+        ]
+      }
+    ]
+  }
+]

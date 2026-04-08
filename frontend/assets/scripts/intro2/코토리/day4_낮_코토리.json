@@ -1,0 +1,44 @@
+[
+  {
+    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "코토리",
+    "text": "아! 선배! 구경하지 말고 같이 먹어요!"
+  },
+  {
+    "action": "choice",
+    "speaker": "코토리",
+    "text": "요리가 취미라서 매일 만들어 와요. 먹어볼래요?",
+    "choices": [
+      {
+        "text": "취미 수준이 아닌데? 진짜 맛있다",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "진짜요?! 사실 좀 자신 있었거든요 히히"
+          }
+        ]
+      },
+      {
+        "text": "요리 언제부터 좋아했어?",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "중학교 때부터… 친구한테 만들어주면서."
+          }
+        ]
+      },
+      {
+        "text": "괜찮은데, 좀 달다",
+        "bonus_score": -3,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "다음엔 한국 입맛에 맞춰볼게요!"
+          }
+        ]
+      }
+    ]
+  }
+]

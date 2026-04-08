@@ -1,0 +1,44 @@
+[
+  {
+    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "코토리",
+    "text": "선배, 혹시 ’눈치’라는 거 어떻게 배워요?"
+  },
+  {
+    "action": "choice",
+    "speaker": "코토리",
+    "text": "꽃집 손님이 ’눈치 좀 챙겨라’고 한 것 같은데…",
+    "choices": [
+      {
+        "text": "천천히 알려줄게",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "진짜요? 가끔 한국어 알려주세요!"
+          }
+        ]
+      },
+      {
+        "text": "신경 쓰지 마",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "조금 위로가 돼요…"
+          }
+        ]
+      },
+      {
+        "text": "솔직히 좀 눈치 없긴 해",
+        "bonus_score": -3,
+        "next_lines": [
+          {
+            "speaker": "코토리",
+            "text": "“…더 노력할게요"
+          }
+        ]
+      }
+    ]
+  }
+]
