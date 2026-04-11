@@ -38,7 +38,13 @@ class _LobbyScreenState extends State<LobbyScreen> {
       final responseTime = DateTime.now(); // 💡 API 응답 도착 시간 기록
 
       if (timeResponse.statusCode == 200) {
-        final serverTime = DateTime.parse(timeResponse.data['timestamp']);
+        // 💡 서버가 준 문자열(예: ...T18:23:56+09:00)에서 타임존(+09:00) 꼬리표만 잘라냄
+        final rawTimestamp = timeResponse.data['timestamp'].toString().split(
+          '+',
+        )[0];
+        final serverTime = DateTime.parse(
+          rawTimestamp,
+        ); // 꼬리표가 없으므로 무조건 18시 그대로 파싱됨!
 
         final latency =
             responseTime.difference(requestTime) ~/ 2; // 통신 지연시간(왕복의 절반) 계산

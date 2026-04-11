@@ -65,13 +65,6 @@ flutter:
     - assets/scripts/intro1/
     - assets/scripts/intro2/코토리/
     - assets/scripts/intro2/이서연/
-    - assets/scripts/intro2/최시은/
-    - assets/scripts/main/코토리/
-    - assets/scripts/main/이서연/
-    - assets/scripts/main/최시은/
-    - assets/scripts/ending/코토리/
-    - assets/scripts/ending/이서연/
-    - assets/scripts/ending/최시은/
     - assets/images/bg/
     - assets/images/character/
   # To add assets to your application, add an assets section, like this:
