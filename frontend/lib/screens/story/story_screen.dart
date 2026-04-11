@@ -402,7 +402,10 @@ class _StoryScreenState extends State<StoryScreen> {
                           ),
                           onPressed: () => _onChoiceSelected(choice),
                           child: Text(
-                            choice['text'] ?? '',
+                            (choice['text'] ?? '').replaceAll(
+                              '{name}',
+                              _playerName,
+                            ),
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

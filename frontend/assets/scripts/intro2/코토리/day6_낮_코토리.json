@@ -1,6 +1,7 @@
 [
   {
     "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "character_image": "assets/images/character/코토리_기본.png",
     "speaker": "코토리",
     "text": "6"
   },
