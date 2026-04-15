@@ -164,20 +164,11 @@ def check_story(user_id: str = Depends(get_current_user), db: Session = Depends(
 
 @router.post("/complete-story")
 def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = Body(None), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
-    try:
-        payload = jwt.decode(story_ticket, JWT_SECRET_KEY, algorithms=[ALGORITHM])
-        heroine_name = payload.get("heroine_name")
-        viewed_zone = payload.get("zone") 
-        target_day = payload.get("target_day")
-    except jwt.ExpiredSignatureError:
-        return {"status": "error", "error_code": "STORY_TICKET_EXPIRED"}
-    except jwt.PyJWTError:
-        return {"status": "error", "error_code": "INVALID_STORY_TICKET"}
-
     user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
     if not user:
         return {"status": "error"}
 
+    # 프롤로그(INTRO_1)는 티켓 유효성 검사 없이 상태만 변경
     if user.game_state == GameState.INTRO_1.value:
         user.game_state = GameState.INTRO_2.value
         all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
@@ -185,6 +176,17 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
             h.is_cleared_today = True
         db.commit()
         return {"status": "success"}
+
+    # 프롤로그가 아닌 경우, 티켓 유효성 검사
+    try:
+        payload = jwt.decode(story_ticket, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+        heroine_name = payload.get("heroine_name")
+        viewed_zone = payload.get("zone")
+        target_day = payload.get("target_day")
+    except jwt.ExpiredSignatureError:
+        return {"status": "error", "error_code": "STORY_TICKET_EXPIRED"}
+    except jwt.PyJWTError:
+        return {"status": "error", "error_code": "INVALID_STORY_TICKET"}
 
     heroine = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id, models.HeroineProgress.heroine_name == heroine_name).with_for_update().first()
     if not heroine:

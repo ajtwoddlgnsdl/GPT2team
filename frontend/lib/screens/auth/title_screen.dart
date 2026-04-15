@@ -39,20 +39,41 @@ class _StarData {
 class _PetalData {
   final double startX, startOffset, speed, swayAmp, swayFreq, size, rotation;
   final Color color;
-  const _PetalData(this.startX, this.startOffset, this.speed, this.swayAmp,
-      this.swayFreq, this.size, this.rotation, this.color);
+  const _PetalData(
+    this.startX,
+    this.startOffset,
+    this.speed,
+    this.swayAmp,
+    this.swayFreq,
+    this.size,
+    this.rotation,
+    this.color,
+  );
 }
 
 class _CloudData {
   final double y, widthFrac, height, opacity, speed, startOffset;
-  const _CloudData(this.y, this.widthFrac, this.height, this.opacity,
-      this.speed, this.startOffset);
+  const _CloudData(
+    this.y,
+    this.widthFrac,
+    this.height,
+    this.opacity,
+    this.speed,
+    this.startOffset,
+  );
 }
 
 class _FireflyData {
   final double baseX, baseY, dxAmp, dyAmp, dxFreq, dyFreq, size;
-  const _FireflyData(this.baseX, this.baseY, this.dxAmp, this.dyAmp,
-      this.dxFreq, this.dyFreq, this.size);
+  const _FireflyData(
+    this.baseX,
+    this.baseY,
+    this.dxAmp,
+    this.dyAmp,
+    this.dxFreq,
+    this.dyFreq,
+    this.size,
+  );
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -93,8 +114,8 @@ class _ParticlePainter extends CustomPainter {
   void _paintMorning(Canvas canvas, Size size) {
     // 황금 반짝임
     for (final s in stars) {
-      final opacity =
-          (0.4 + 0.6 * sin(anim * pi * 2 * s.speed + s.phase)).clamp(0.0, 1.0);
+      final opacity = (0.4 + 0.6 * sin(anim * pi * 2 * s.speed + s.phase))
+          .clamp(0.0, 1.0);
       canvas.drawCircle(
         Offset(s.x * size.width, s.y * size.height * 0.55),
         s.size,
@@ -107,16 +128,18 @@ class _ParticlePainter extends CustomPainter {
     for (final p in petals) {
       final progress = (p.startOffset + anim * p.speed) % 1.0;
       final y = progress * (size.height + 40) - 20;
-      final x = p.startX * size.width +
+      final x =
+          p.startX * size.width +
           sin(anim * p.swayFreq * pi * 2) * p.swayAmp * size.width * 0.06;
       canvas.save();
       canvas.translate(x, y);
       canvas.rotate(p.rotation + anim * pi * 2);
       canvas.drawOval(
         Rect.fromCenter(
-            center: Offset.zero,
-            width: p.size,
-            height: p.size * 0.65),
+          center: Offset.zero,
+          width: p.size,
+          height: p.size * 0.65,
+        ),
         Paint()..color = p.color.withValues(alpha: 0.88),
       );
       canvas.restore();
@@ -133,16 +156,17 @@ class _ParticlePainter extends CustomPainter {
       final w = c.widthFrac * size.width;
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-            Rect.fromLTWH(x - w / 2, y - c.height / 2, w, c.height),
-            Radius.circular(c.height / 2)),
+          Rect.fromLTWH(x - w / 2, y - c.height / 2, w, c.height),
+          Radius.circular(c.height / 2),
+        ),
         Paint()
           ..color = Colors.white.withValues(alpha: c.opacity)
           ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6),
       );
     }
     for (final s in stars) {
-      final opacity =
-          (0.3 + 0.7 * sin(anim * pi * 2 * s.speed + s.phase)).clamp(0.0, 1.0);
+      final opacity = (0.3 + 0.7 * sin(anim * pi * 2 * s.speed + s.phase))
+          .clamp(0.0, 1.0);
       canvas.drawCircle(
         Offset(s.x * size.width, s.y * size.height * 0.55),
         s.size,
@@ -156,15 +180,16 @@ class _ParticlePainter extends CustomPainter {
   void _paintNight(Canvas canvas, Size size) {
     // 별
     for (final s in stars) {
-      final opacity =
-          (0.3 + 0.7 * sin(anim * pi * 2 * s.speed + s.phase)).clamp(0.0, 1.0);
+      final opacity = (0.3 + 0.7 * sin(anim * pi * 2 * s.speed + s.phase))
+          .clamp(0.0, 1.0);
       canvas.drawCircle(
         Offset(s.x * size.width, s.y * size.height * 0.65),
         s.size,
         Paint()
           ..color = Colors.white.withValues(alpha: opacity)
-          ..maskFilter =
-              s.size > 1.8 ? const MaskFilter.blur(BlurStyle.normal, 1) : null,
+          ..maskFilter = s.size > 1.8
+              ? const MaskFilter.blur(BlurStyle.normal, 1)
+              : null,
       );
     }
     // 유성 (12초 주기 중 초반 8%에만 표시)
@@ -188,7 +213,8 @@ class _ParticlePainter extends CustomPainter {
     for (final p in petals) {
       final progress = (p.startOffset + anim * p.speed) % 1.0;
       final y = progress * (size.height + 20) - 10;
-      final x = p.startX * size.width +
+      final x =
+          p.startX * size.width +
           sin(anim * p.swayFreq * pi * 2) * p.swayAmp * size.width * 0.07;
       canvas.drawCircle(
         Offset(x, y),
@@ -201,13 +227,12 @@ class _ParticlePainter extends CustomPainter {
   // ── 새벽: 희미한 별 + 반딧불 ──────────────────────────────────────────
   void _paintDawn(Canvas canvas, Size size) {
     for (final s in stars) {
-      final opacity =
-          (0.15 + 0.3 * sin(anim * pi * 2 * s.speed + s.phase)).clamp(0.0, 0.5);
+      final opacity = (0.15 + 0.3 * sin(anim * pi * 2 * s.speed + s.phase))
+          .clamp(0.0, 0.5);
       canvas.drawCircle(
         Offset(s.x * size.width, s.y * size.height * 0.58),
         s.size,
-        Paint()
-          ..color = const Color(0xFFD2E1FF).withValues(alpha: opacity),
+        Paint()..color = const Color(0xFFD2E1FF).withValues(alpha: opacity),
       );
     }
     for (final ff in fireflies) {
@@ -215,8 +240,10 @@ class _ParticlePainter extends CustomPainter {
           ff.baseX * size.width + sin(anim * pi * 2 * ff.dxFreq) * ff.dxAmp;
       final y =
           ff.baseY * size.height + cos(anim * pi * 2 * ff.dyFreq) * ff.dyAmp;
-      final glow =
-          (0.45 + 0.55 * sin(anim * pi * 2 * ff.dyFreq + 1.0)).clamp(0.0, 1.0);
+      final glow = (0.45 + 0.55 * sin(anim * pi * 2 * ff.dyFreq + 1.0)).clamp(
+        0.0,
+        1.0,
+      );
       canvas.drawCircle(
         Offset(x, y),
         ff.size * 2.8,
@@ -227,8 +254,7 @@ class _ParticlePainter extends CustomPainter {
       canvas.drawCircle(
         Offset(x, y),
         ff.size,
-        Paint()
-          ..color = const Color(0xFF8CC3FF).withValues(alpha: glow * 0.95),
+        Paint()..color = const Color(0xFF8CC3FF).withValues(alpha: glow * 0.95),
       );
     }
   }
@@ -278,12 +304,15 @@ class _TitleScreenState extends State<TitleScreen>
 
   // ── 다이얼로그용 컨트롤러 ──
   final TextEditingController _bugReportCtrl = TextEditingController();
-  final TextEditingController _adminKeyCtrl =
-      TextEditingController(text: "여기에_어드민키_입력");
-  final TextEditingController _offlineDaysCtrl =
-      TextEditingController(text: "1");
-  final TextEditingController _cheatHourCtrl =
-      TextEditingController(text: "14");
+  final TextEditingController _adminKeyCtrl = TextEditingController(
+    text: "여기에_어드민키_입력",
+  );
+  final TextEditingController _offlineDaysCtrl = TextEditingController(
+    text: "1",
+  );
+  final TextEditingController _cheatHourCtrl = TextEditingController(
+    text: "14",
+  );
 
   // ── 초기화 ──────────────────────────────────────────────────────────────
   @override
@@ -359,9 +388,10 @@ class _TitleScreenState extends State<TitleScreen>
     switch (period) {
       case TimePeriod.morning:
         _stars = List.generate(
-            12,
-            (_) => _StarData(
-                r(), r() * 0.55, rr(1.5, 3.0), rr(0, pi * 2), rr(1, 3)));
+          12,
+          (_) =>
+              _StarData(r(), r() * 0.55, rr(1.5, 3.0), rr(0, pi * 2), rr(1, 3)),
+        );
         _petals = List.generate(20, (_) {
           final colors = [
             const Color(0xFFFFCDD2),
@@ -369,56 +399,98 @@ class _TitleScreenState extends State<TitleScreen>
             const Color(0xFFFFB3BA),
             const Color(0xFFFFD1DC),
           ];
-          return _PetalData(r(), r(), rr(0.55, 1.4), rr(0.6, 1.8),
-              rr(0.5, 2.0), rr(6, 13), rr(0, pi * 2),
-              colors[_rng.nextInt(colors.length)]);
+          return _PetalData(
+            r(),
+            r(),
+            rr(0.55, 1.4),
+            rr(0.6, 1.8),
+            rr(0.5, 2.0),
+            rr(6, 13),
+            rr(0, pi * 2),
+            colors[_rng.nextInt(colors.length)],
+          );
         });
         _clouds = [];
         _fireflies = [];
 
       case TimePeriod.day:
         _stars = List.generate(
-            22,
-            (_) => _StarData(
-                r(), r() * 0.55, rr(1.2, 2.8), rr(0, pi * 2), rr(1, 3.5)));
+          22,
+          (_) => _StarData(
+            r(),
+            r() * 0.55,
+            rr(1.2, 2.8),
+            rr(0, pi * 2),
+            rr(1, 3.5),
+          ),
+        );
         _petals = [];
         _clouds = List.generate(
-            4,
-            (i) => _CloudData(rr(0.07, 0.38), rr(0.18, 0.30), rr(20, 38),
-                rr(0.65, 0.85), rr(0.35, 0.65), r()));
+          4,
+          (i) => _CloudData(
+            rr(0.07, 0.38),
+            rr(0.18, 0.30),
+            rr(20, 38),
+            rr(0.65, 0.85),
+            rr(0.35, 0.65),
+            r(),
+          ),
+        );
         _fireflies = [];
 
       case TimePeriod.night:
         _stars = List.generate(
-            75,
-            (_) => _StarData(
-                r(), r() * 0.65, rr(0.5, 2.5), rr(0, pi * 2), rr(0.3, 1.0)));
+          75,
+          (_) => _StarData(
+            r(),
+            r() * 0.65,
+            rr(0.5, 2.5),
+            rr(0, pi * 2),
+            rr(0.3, 1.0),
+          ),
+        );
         _petals = List.generate(18, (_) {
           final ri = _rng.nextInt(50);
           final g = 110 + ri;
-          return _PetalData(r(), r(), rr(0.3, 0.8), rr(0.8, 2.2), rr(0.3, 1.0),
-              rr(1.5, 3.2), 0, Color.fromARGB(178, 160 + _rng.nextInt(50), g, 255));
+          return _PetalData(
+            r(),
+            r(),
+            rr(0.3, 0.8),
+            rr(0.8, 2.2),
+            rr(0.3, 1.0),
+            rr(1.5, 3.2),
+            0,
+            Color.fromARGB(178, 160 + _rng.nextInt(50), g, 255),
+          );
         });
         _clouds = [];
         _fireflies = [];
 
       case TimePeriod.dawn:
         _stars = List.generate(
-            48,
-            (_) => _StarData(
-                r(), r() * 0.58, rr(0.5, 2.0), rr(0, pi * 2), rr(0.5, 1.5)));
+          48,
+          (_) => _StarData(
+            r(),
+            r() * 0.58,
+            rr(0.5, 2.0),
+            rr(0, pi * 2),
+            rr(0.5, 1.5),
+          ),
+        );
         _petals = [];
         _clouds = [];
         _fireflies = List.generate(
-            14,
-            (_) => _FireflyData(
-                rr(0.05, 0.92),
-                rr(0.20, 0.82),
-                rr(15, 55),
-                rr(12, 48),
-                rr(0.18, 0.80),
-                rr(0.18, 0.75),
-                rr(1.8, 3.2)));
+          14,
+          (_) => _FireflyData(
+            rr(0.05, 0.92),
+            rr(0.20, 0.82),
+            rr(15, 55),
+            rr(12, 48),
+            rr(0.18, 0.80),
+            rr(0.18, 0.75),
+            rr(1.8, 3.2),
+          ),
+        );
     }
   }
 
@@ -508,14 +580,16 @@ class _TitleScreenState extends State<TitleScreen>
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFFFDC00)
-                          .withValues(alpha: 0.55 * pulse),
+                      color: const Color(
+                        0xFFFFDC00,
+                      ).withValues(alpha: 0.55 * pulse),
                       blurRadius: 30 * pulse,
                       spreadRadius: 4,
                     ),
                     BoxShadow(
-                      color: const Color(0xFFFF8C00)
-                          .withValues(alpha: 0.3 * pulse),
+                      color: const Color(
+                        0xFFFF8C00,
+                      ).withValues(alpha: 0.3 * pulse),
                       blurRadius: 60 * pulse,
                     ),
                   ],
@@ -549,12 +623,16 @@ class _TitleScreenState extends State<TitleScreen>
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFFFF9C4).withValues(alpha: 0.4 * glow),
+                      color: const Color(
+                        0xFFFFF9C4,
+                      ).withValues(alpha: 0.4 * glow),
                       blurRadius: 28 * glow,
                       spreadRadius: 3,
                     ),
                     BoxShadow(
-                      color: const Color(0xFFB0BFF0).withValues(alpha: 0.2 * glow),
+                      color: const Color(
+                        0xFFB0BFF0,
+                      ).withValues(alpha: 0.2 * glow),
                       blurRadius: 50 * glow,
                     ),
                   ],
@@ -611,7 +689,9 @@ class _TitleScreenState extends State<TitleScreen>
         );
         if (res.statusCode == 200 && res.data['status'] == 'success') {
           await ApiClient().storage.write(
-              key: 'access_token', value: res.data['access_token']);
+            key: 'access_token',
+            value: res.data['access_token'],
+          );
           if (mounted) setState(() => _state = TitleState.readyToStart);
           return;
         }
@@ -628,9 +708,13 @@ class _TitleScreenState extends State<TitleScreen>
       final res = await ApiClient().dio.post('/auth/guest-login');
       if (res.statusCode == 200) {
         await ApiClient().storage.write(
-            key: 'access_token', value: res.data['access_token']);
+          key: 'access_token',
+          value: res.data['access_token'],
+        );
         await ApiClient().storage.write(
-            key: 'user_id', value: res.data['user_id']);
+          key: 'user_id',
+          value: res.data['user_id'],
+        );
         debugPrint("✅ 게스트 로그인 성공 → Intro1 이동");
         _goToIntro1();
       }
@@ -638,24 +722,30 @@ class _TitleScreenState extends State<TitleScreen>
       debugPrint("🚨 게스트 로그인 실패 (서버 미실행?): ${e.response?.data ?? e.message}");
       // 서버 연결 불가(오프라인/개발 중)인 경우에도 Intro1 진입 허용
       if (!mounted) return;
-      final isConnectionError = e.type == DioExceptionType.connectionError ||
+      final isConnectionError =
+          e.type == DioExceptionType.connectionError ||
           e.type == DioExceptionType.connectionTimeout ||
           e.type == DioExceptionType.receiveTimeout;
       if (isConnectionError) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('서버 연결 불가 — 오프라인 게스트로 진입합니다.'),
-          backgroundColor: Color(0xFF444466),
-          duration: Duration(seconds: 2),
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('서버 연결 불가 — 오프라인 게스트로 진입합니다.'),
+            backgroundColor: Color(0xFF444466),
+            duration: Duration(seconds: 2),
+          ),
+        );
         await Future.delayed(const Duration(milliseconds: 600));
         _goToIntro1();
       } else {
         setState(() => _state = TitleState.needLogin);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-              '로그인 실패: ${e.response?.data?['detail'] ?? e.message ?? '알 수 없는 오류'}'),
-          backgroundColor: Colors.redAccent,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '로그인 실패: ${e.response?.data?['detail'] ?? e.message ?? '알 수 없는 오류'}',
+            ),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
       }
     }
   }
@@ -665,10 +755,8 @@ class _TitleScreenState extends State<TitleScreen>
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => const StoryScreen(
-          storyId: 'intro_1_prologue',
-          storyTicket: '',
-        ),
+        builder: (_) =>
+            const StoryScreen(storyId: 'intro_1_prologue', storyTicket: ''),
       ),
     );
   }
@@ -716,15 +804,20 @@ class _TitleScreenState extends State<TitleScreen>
       barrierColor: Colors.black.withValues(alpha: 0.72),
       builder: (ctx) => _GlassDialog(
         children: [
-          const Text('로그인',
-              style: TextStyle(
-                  fontFamily: AppFonts.title,
-                  color: Colors.white,
-                  fontSize: 22,
-                  letterSpacing: 4)),
+          const Text(
+            '로그인',
+            style: TextStyle(
+              fontFamily: AppFonts.title,
+              color: Colors.white,
+              fontSize: 22,
+              letterSpacing: 4,
+            ),
+          ),
           const SizedBox(height: 6),
-          const Text('시작하기 전에 로그인해주세요.',
-              style: TextStyle(color: Color(0x99FFFFFF), fontSize: 12)),
+          const Text(
+            '시작하기 전에 로그인해주세요.',
+            style: TextStyle(color: Color(0x99FFFFFF), fontSize: 12),
+          ),
           const SizedBox(height: 28),
           _DialogButton(
             icon: Icons.person_outline,
@@ -740,18 +833,22 @@ class _TitleScreenState extends State<TitleScreen>
             label: '구글 계정으로 로그인',
             onTap: () {
               Navigator.pop(ctx);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('구글 로그인은 곧 지원될 예정입니다.'),
-                backgroundColor: Color(0xFF2A2A55),
-                duration: Duration(seconds: 2),
-              ));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('구글 로그인은 곧 지원될 예정입니다.'),
+                  backgroundColor: Color(0xFF2A2A55),
+                  duration: Duration(seconds: 2),
+                ),
+              );
             },
           ),
           const SizedBox(height: 18),
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('취소',
-                style: TextStyle(color: Color(0x80FFFFFF), fontSize: 13)),
+            child: const Text(
+              '취소',
+              style: TextStyle(color: Color(0x80FFFFFF), fontSize: 13),
+            ),
           ),
         ],
       ),
@@ -767,17 +864,25 @@ class _TitleScreenState extends State<TitleScreen>
         children: [
           const Icon(Icons.settings_outlined, color: Colors.white54, size: 38),
           const SizedBox(height: 14),
-          const Text('C O N F I G',
-              style: TextStyle(
-                  fontFamily: AppFonts.title,
-                  color: Colors.white,
-                  fontSize: 18,
-                  letterSpacing: 4)),
+          const Text(
+            'C O N F I G',
+            style: TextStyle(
+              fontFamily: AppFonts.title,
+              color: Colors.white,
+              fontSize: 18,
+              letterSpacing: 4,
+            ),
+          ),
           const SizedBox(height: 8),
-          const Text('설정 기능은 곧 업데이트 예정입니다.',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Color(0x80FFFFFF), fontSize: 12, height: 1.6)),
+          const Text(
+            '설정 기능은 곧 업데이트 예정입니다.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0x80FFFFFF),
+              fontSize: 12,
+              height: 1.6,
+            ),
+          ),
           const SizedBox(height: 22),
           _SettingRow(label: '음악 볼륨', value: '준비 중'),
           const SizedBox(height: 8),
@@ -787,9 +892,14 @@ class _TitleScreenState extends State<TitleScreen>
           const SizedBox(height: 24),
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('닫기',
-                style: TextStyle(
-                    color: Colors.white70, fontSize: 14, letterSpacing: 2)),
+            child: const Text(
+              '닫기',
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+                letterSpacing: 2,
+              ),
+            ),
           ),
         ],
       ),
@@ -804,20 +914,25 @@ class _TitleScreenState extends State<TitleScreen>
       builder: (ctx) => _GlassDialog(
         width: 270,
         children: [
-          const Text('게임을 종료할까요?',
-              style: TextStyle(
-                  fontFamily: AppFonts.title,
-                  color: Colors.white,
-                  fontSize: 16,
-                  letterSpacing: 1)),
+          const Text(
+            '게임을 종료할까요?',
+            style: TextStyle(
+              fontFamily: AppFonts.title,
+              color: Colors.white,
+              fontSize: 16,
+              letterSpacing: 1,
+            ),
+          ),
           const SizedBox(height: 26),
           Row(
             children: [
               Expanded(
                 child: TextButton(
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text('취소',
-                      style: TextStyle(color: Colors.white54, fontSize: 14)),
+                  child: const Text(
+                    '취소',
+                    style: TextStyle(color: Colors.white54, fontSize: 14),
+                  ),
                 ),
               ),
               Expanded(
@@ -830,11 +945,14 @@ class _TitleScreenState extends State<TitleScreen>
                       exit(0);
                     }
                   },
-                  child: const Text('종료',
-                      style: TextStyle(
-                          color: Color(0xFFFF6B6B),
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    '종료',
+                    style: TextStyle(
+                      color: Color(0xFFFF6B6B),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -854,20 +972,28 @@ class _TitleScreenState extends State<TitleScreen>
         children: [
           Row(
             children: const [
-              Icon(Icons.bug_report_outlined,
-                  color: Color(0xFFFF6B6B), size: 20),
+              Icon(
+                Icons.bug_report_outlined,
+                color: Color(0xFFFF6B6B),
+                size: 20,
+              ),
               SizedBox(width: 8),
-              Text('버그 제보',
-                  style: TextStyle(
-                      fontFamily: AppFonts.title,
-                      color: Colors.white,
-                      fontSize: 18,
-                      letterSpacing: 2)),
+              Text(
+                '버그 제보',
+                style: TextStyle(
+                  fontFamily: AppFonts.title,
+                  color: Colors.white,
+                  fontSize: 18,
+                  letterSpacing: 2,
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 6),
-          const Text('발견하신 버그나 불편사항을 알려주세요.',
-              style: TextStyle(color: Color(0x80FFFFFF), fontSize: 12)),
+          const Text(
+            '발견하신 버그나 불편사항을 알려주세요.',
+            style: TextStyle(color: Color(0x80FFFFFF), fontSize: 12),
+          ),
           const SizedBox(height: 18),
           Container(
             decoration: BoxDecoration(
@@ -893,8 +1019,10 @@ class _TitleScreenState extends State<TitleScreen>
               Expanded(
                 child: TextButton(
                   onPressed: () => Navigator.pop(ctx),
-                  child: const Text('취소',
-                      style: TextStyle(color: Colors.white54)),
+                  child: const Text(
+                    '취소',
+                    style: TextStyle(color: Colors.white54),
+                  ),
                 ),
               ),
               Expanded(
@@ -904,18 +1032,21 @@ class _TitleScreenState extends State<TitleScreen>
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Color(0x7AFFFFFF)),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                   onPressed: () {
                     final text = _bugReportCtrl.text.trim();
                     Navigator.pop(ctx);
                     if (text.isNotEmpty) {
                       debugPrint("🐛 버그 제보: $text");
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('버그 제보가 접수되었습니다. 감사합니다!'),
-                        backgroundColor: Color(0xFF2A5C2A),
-                        duration: Duration(seconds: 2),
-                      ));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('버그 제보가 접수되었습니다. 감사합니다!'),
+                          backgroundColor: Color(0xFF2A5C2A),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     }
                   },
                   child: const Text('제출'),
@@ -934,8 +1065,10 @@ class _TitleScreenState extends State<TitleScreen>
       context: context,
       builder: (dialogCtx) => AlertDialog(
         backgroundColor: Colors.grey[900],
-        title: const Text('🛠️ 개발자 디버그 패널',
-            style: TextStyle(color: Colors.white)),
+        title: const Text(
+          '🛠️ 개발자 디버그 패널',
+          style: TextStyle(color: Colors.white),
+        ),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -944,24 +1077,27 @@ class _TitleScreenState extends State<TitleScreen>
                 controller: _adminKeyCtrl,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
-                    labelText: 'Admin Key',
-                    labelStyle: TextStyle(color: Colors.grey)),
+                  labelText: 'Admin Key',
+                  labelStyle: TextStyle(color: Colors.grey),
+                ),
               ),
               TextField(
                 controller: _offlineDaysCtrl,
                 keyboardType: TextInputType.number,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
-                    labelText: '오프라인 일수 조작',
-                    labelStyle: TextStyle(color: Colors.grey)),
+                  labelText: '오프라인 일수 조작',
+                  labelStyle: TextStyle(color: Colors.grey),
+                ),
               ),
               TextField(
                 controller: _cheatHourCtrl,
                 keyboardType: TextInputType.number,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
-                    labelText: '시간 조작 (0~23)',
-                    labelStyle: TextStyle(color: Colors.grey)),
+                  labelText: '시간 조작 (0~23)',
+                  labelStyle: TextStyle(color: Colors.grey),
+                ),
               ),
             ],
           ),
@@ -970,14 +1106,12 @@ class _TitleScreenState extends State<TitleScreen>
           TextButton(
             onPressed: () async {
               final adminKey = _adminKeyCtrl.text;
-              final offlineDays =
-                  int.tryParse(_offlineDaysCtrl.text) ?? 0;
+              final offlineDays = int.tryParse(_offlineDaysCtrl.text) ?? 0;
               final cheatHour = int.tryParse(_cheatHourCtrl.text) ?? 14;
               if (dialogCtx.mounted) Navigator.pop(dialogCtx);
               setState(() => _state = TitleState.loading);
               try {
-                final userId =
-                    await ApiClient().storage.read(key: 'user_id');
+                final userId = await ApiClient().storage.read(key: 'user_id');
                 if (userId == null) throw Exception("유저 ID 없음");
                 final loginRes = await ApiClient().dio.post(
                   '/admin/login',
@@ -991,8 +1125,9 @@ class _TitleScreenState extends State<TitleScreen>
                   throw Exception(loginRes.data['error_code'] ?? '어드민 로그인 실패');
                 }
                 await ApiClient().storage.write(
-                    key: 'access_token',
-                    value: loginRes.data['access_token']);
+                  key: 'access_token',
+                  value: loginRes.data['access_token'],
+                );
                 final storyRes = await ApiClient().dio.get(
                   '/admin/check-story',
                   queryParameters: {'cheat_hour': cheatHour},
@@ -1027,20 +1162,26 @@ class _TitleScreenState extends State<TitleScreen>
                   if (e is DioException) {
                     msg = e.response?.data?['error_code'] ?? '서버 통신 오류';
                   }
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
                       content: Text('치트 실패: $msg'),
-                      backgroundColor: Colors.redAccent));
+                      backgroundColor: Colors.redAccent,
+                    ),
+                  );
                 }
               }
             },
-            child: const Text('치트 적용 및 시작',
-                style: TextStyle(
-                    color: Colors.greenAccent, fontWeight: FontWeight.bold)),
+            child: const Text(
+              '치트 적용 및 시작',
+              style: TextStyle(
+                color: Colors.greenAccent,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           TextButton(
             onPressed: () => Navigator.pop(dialogCtx),
-            child: const Text('닫기',
-                style: TextStyle(color: Colors.grey)),
+            child: const Text('닫기', style: TextStyle(color: Colors.grey)),
           ),
         ],
       ),
@@ -1056,9 +1197,7 @@ class _TitleScreenState extends State<TitleScreen>
         fit: StackFit.expand,
         children: [
           // ── 배경 그라디언트 (매 초 setState → _now.hour 기반으로 즉시 반영) ──
-          Container(
-            decoration: BoxDecoration(gradient: _getBgGradient()),
-          ),
+          Container(decoration: BoxDecoration(gradient: _getBgGradient())),
 
           // ── 비네트 ──
           Container(
@@ -1113,9 +1252,7 @@ class _TitleScreenState extends State<TitleScreen>
 
           // ── 메인 콘텐츠 ──
           if (_state == TitleState.loading)
-            const Center(
-              child: CircularProgressIndicator(color: Colors.white),
-            )
+            const Center(child: CircularProgressIndicator(color: Colors.white))
           else
             Center(
               child: Column(
@@ -1126,12 +1263,16 @@ class _TitleScreenState extends State<TitleScreen>
                     animation: _floatCtrl,
                     builder: (_, child) => Transform.translate(
                       offset: Offset(
-                          0,
-                          Tween<double>(begin: 0, end: -13)
-                              .animate(CurvedAnimation(
-                                  parent: _floatCtrl,
-                                  curve: Curves.easeInOut))
-                              .value),
+                        0,
+                        Tween<double>(begin: 0, end: -13)
+                            .animate(
+                              CurvedAnimation(
+                                parent: _floatCtrl,
+                                curve: Curves.easeInOut,
+                              ),
+                            )
+                            .value,
+                      ),
                       child: child,
                     ),
                     child: Column(
@@ -1157,10 +1298,8 @@ class _TitleScreenState extends State<TitleScreen>
                             height: 1.45,
                             letterSpacing: 2,
                             shadows: [
-                              Shadow(
-                                  color: Color(0x8CFFFFFF), blurRadius: 25),
-                              Shadow(
-                                  color: Color(0x59FFC8D2), blurRadius: 55),
+                              Shadow(color: Color(0x8CFFFFFF), blurRadius: 25),
+                              Shadow(color: Color(0x59FFC8D2), blurRadius: 55),
                             ],
                           ),
                         ),
@@ -1185,14 +1324,20 @@ class _TitleScreenState extends State<TitleScreen>
                               final scale = t < 0.3
                                   ? 1.0 + 0.25 * (t / 0.3)
                                   : t < 0.6
-                                      ? 1.25 - 0.35 * ((t - 0.3) / 0.3)
-                                      : 0.9 + 0.1 * ((t - 0.6) / 0.4);
+                                  ? 1.25 - 0.35 * ((t - 0.3) / 0.3)
+                                  : 0.9 + 0.1 * ((t - 0.6) / 0.4);
                               return Transform.scale(
-                                  scale: scale, child: child);
+                                scale: scale,
+                                child: child,
+                              );
                             },
-                            child: const Text('♡',
-                                style: TextStyle(
-                                    color: Color(0xB8FFFFFF), fontSize: 16)),
+                            child: const Text(
+                              '♡',
+                              style: TextStyle(
+                                color: Color(0xB8FFFFFF),
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ),
                         Expanded(child: _dividerLine()),
@@ -1208,10 +1353,14 @@ class _TitleScreenState extends State<TitleScreen>
                     child: Column(
                       children: [
                         _GlassButton(
-                            label: 'S T A R T', onTap: _showLoginDialog),
+                          label: 'S T A R T',
+                          onTap: _showLoginDialog,
+                        ),
                         const SizedBox(height: 14),
                         _GlassButton(
-                            label: 'C O N F I G', onTap: _showConfigDialog),
+                          label: 'C O N F I G',
+                          onTap: _showConfigDialog,
+                        ),
                         const SizedBox(height: 14),
                         _GlassButton(label: 'E X I T', onTap: _exitApp),
                       ],
@@ -1231,8 +1380,12 @@ class _TitleScreenState extends State<TitleScreen>
                 animation: _blinkCtrl,
                 builder: (_, child) => Opacity(
                   opacity: Tween<double>(begin: 0.35, end: 0.85)
-                      .animate(CurvedAnimation(
-                          parent: _blinkCtrl, curve: Curves.easeInOut))
+                      .animate(
+                        CurvedAnimation(
+                          parent: _blinkCtrl,
+                          curve: Curves.easeInOut,
+                        ),
+                      )
                       .value,
                   child: child,
                 ),
@@ -1254,12 +1407,15 @@ class _TitleScreenState extends State<TitleScreen>
             top: 48,
             right: 16,
             child: GestureDetector(
+              onTap: _showBugReportDialog,
               onLongPress: _showAdminPanel,
-              child: IconButton(
-                icon: const Icon(Icons.bug_report_outlined,
-                    color: Color(0x66FFFFFF), size: 26),
-                tooltip: '버그 제보',
-                onPressed: _showBugReportDialog,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.bug_report_outlined,
+                  color: Color(0x66FFFFFF),
+                  size: 26,
+                ),
               ),
             ),
           ),
@@ -1269,13 +1425,13 @@ class _TitleScreenState extends State<TitleScreen>
   }
 
   Widget _dividerLine() => Container(
-        height: 1,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.transparent, Color(0x80FFFFFF), Colors.transparent],
-          ),
-        ),
-      );
+    height: 1,
+    decoration: const BoxDecoration(
+      gradient: LinearGradient(
+        colors: [Colors.transparent, Color(0x80FFFFFF), Colors.transparent],
+      ),
+    ),
+  );
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1299,10 +1455,7 @@ class _GlassDialog extends StatelessWidget {
           border: Border.all(color: const Color(0x7AFFFFFF), width: 1.5),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: children,
-        ),
+        child: Column(mainAxisSize: MainAxisSize.min, children: children),
       ),
     );
   }
@@ -1346,7 +1499,10 @@ class _GlassButtonState extends State<_GlassButton> {
           boxShadow: _pressed
               ? [
                   const BoxShadow(
-                      color: Color(0x38FFFFFF), blurRadius: 28, spreadRadius: 2)
+                    color: Color(0x38FFFFFF),
+                    blurRadius: 28,
+                    spreadRadius: 2,
+                  ),
                 ]
               : [],
         ),
@@ -1374,8 +1530,11 @@ class _DialogButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onTap;
-  const _DialogButton(
-      {required this.icon, required this.label, required this.onTap});
+  const _DialogButton({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1394,12 +1553,15 @@ class _DialogButton extends StatelessWidget {
           children: [
             Icon(icon, color: Colors.white70, size: 20),
             const SizedBox(width: 8),
-            Text(label,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                    letterSpacing: 1,
-                    fontWeight: FontWeight.w500)),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                letterSpacing: 1,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
         ),
       ),
@@ -1427,13 +1589,18 @@ class _SettingRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: const TextStyle(color: Colors.white70, fontSize: 13)),
-          Text(value,
-              style: const TextStyle(
-                  color: Color(0x60FFFFFF),
-                  fontSize: 12,
-                  fontStyle: FontStyle.italic)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 13),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              color: Color(0x60FFFFFF),
+              fontSize: 12,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
         ],
       ),
     );
