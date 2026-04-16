@@ -93,11 +93,11 @@ def guest_login(db: Session = Depends(get_db)):
 @router.post("/update-nickname")
 def update_nickname(
     username: str = Body(..., min_length=2, max_length=12, embed=True),
-    user_id: str = Depends(get_current_user), 
+    user_id: str = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     username = username.strip()
-    if not username:
+    if len(username) < 2 or len(username) > 12:
         return {"status": "error", "error_code": "INVALID_NICKNAME"}
     
     user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
