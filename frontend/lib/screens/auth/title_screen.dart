@@ -706,7 +706,7 @@ class _TitleScreenState extends State<TitleScreen>
     setState(() => _state = TitleState.loading);
     try {
       final res = await ApiClient().dio.post('/auth/guest-login');
-      if (res.statusCode == 200) {
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         await ApiClient().storage.write(
           key: 'access_token',
           value: res.data['access_token'],
@@ -716,18 +716,37 @@ class _TitleScreenState extends State<TitleScreen>
           value: res.data['user_id'],
         );
         debugPrint("✅ 게스트 로그인 성공 → 스토리 체크");
-        _checkStoryStatus(); // 💡 _goToIntro1 대신 스토리 상태를 체크하여 티켓을 발급받음
+        _checkStoryStatus();
+      } else {
+        debugPrint("🚨 게스트 로그인 실패: 예상치 못한 응답 ${res.data}");
+        if (!mounted) return;
+        setState(() => _state = TitleState.needLogin);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('로그인에 실패했습니다. 다시 시도해주세요.'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
       }
     } on DioException catch (e) {
-      debugPrint("🚨 게스트 로그인 실패: ${e.response?.data ?? e.message}");
+      debugPrint("🚨 게스트 로그인 DioException: ${e.response?.data ?? e.message}");
       if (!mounted) return;
-
       setState(() => _state = TitleState.needLogin);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             '서버 연결 실패: ${e.response?.data?['detail'] ?? e.message ?? '알 수 없는 오류'}',
           ),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    } catch (e) {
+      debugPrint("🚨 게스트 로그인 예외: $e");
+      if (!mounted) return;
+      setState(() => _state = TitleState.needLogin);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('오류가 발생했습니다. 다시 시도해주세요.'),
           backgroundColor: Colors.redAccent,
         ),
       );
@@ -738,7 +757,8 @@ class _TitleScreenState extends State<TitleScreen>
     setState(() => _state = TitleState.loading);
     try {
       final res = await ApiClient().dio.get('/check-story');
-      if (res.statusCode == 200 && mounted) {
+      if (!mounted) return;
+      if (res.statusCode == 200) {
         final autoPlay = res.data['auto_play_story'];
         if (autoPlay['is_available'] == true) {
           Navigator.pushReplacement(
@@ -757,9 +777,15 @@ class _TitleScreenState extends State<TitleScreen>
             MaterialPageRoute(builder: (_) => const LobbyScreen()),
           );
         }
+      } else {
+        debugPrint("🚨 스토리 체크 실패: 예상치 못한 상태코드 ${res.statusCode}");
+        setState(() => _state = TitleState.readyToStart);
       }
     } on DioException catch (e) {
-      debugPrint("🚨 스토리 체크 실패: ${e.response?.data ?? e.message}");
+      debugPrint("🚨 스토리 체크 DioException: ${e.response?.data ?? e.message}");
+      if (mounted) setState(() => _state = TitleState.readyToStart);
+    } catch (e) {
+      debugPrint("🚨 스토리 체크 예외: $e");
       if (mounted) setState(() => _state = TitleState.readyToStart);
     }
   }
