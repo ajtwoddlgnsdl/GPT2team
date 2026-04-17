@@ -787,14 +787,7 @@ class _TitleScreenState extends State<TitleScreen>
         setState(() => _state = TitleState.readyToStart);
       }
     } on DioException catch (e) {
-<<<<<<< HEAD
       debugPrint("🚨 스토리 체크 DioException: ${e.response?.data ?? e.message}");
-      if (mounted) setState(() => _state = TitleState.readyToStart);
-    } catch (e) {
-      debugPrint("🚨 스토리 체크 예외: $e");
-      if (mounted) setState(() => _state = TitleState.readyToStart);
-=======
-      debugPrint("🚨 스토리 체크 실패: ${e.response?.data ?? e.message}");
       if (!mounted) return;
 
       setState(() => _state = TitleState.readyToStart);
@@ -809,7 +802,9 @@ class _TitleScreenState extends State<TitleScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMsg), backgroundColor: Colors.redAccent),
       );
->>>>>>> 815c930e3189497bb5c7ca371165fd5d0d97e18c
+    } catch (e) {
+      debugPrint("🚨 스토리 체크 예외: $e");
+      if (mounted) setState(() => _state = TitleState.readyToStart);
     }
   }
 
