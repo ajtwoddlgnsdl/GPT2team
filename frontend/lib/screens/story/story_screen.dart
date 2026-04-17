@@ -256,16 +256,29 @@ class _StoryScreenState extends State<StoryScreen> {
           content: TextField(
             controller: _nameController,
             style: const TextStyle(color: Colors.white),
+            maxLength: 12,
             decoration: const InputDecoration(
-              hintText: '당신의 이름은 무엇입니까?',
+              hintText: '2~12자로 입력해주세요',
               hintStyle: TextStyle(color: Colors.grey),
+              counterStyle: TextStyle(color: Colors.grey),
             ),
           ),
           actions: [
             TextButton(
               onPressed: () {
+                final trimmed = _nameController.text.trim();
+                if (trimmed.length < 2) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('이름은 2자 이상 입력해주세요!'),
+                      backgroundColor: Colors.redAccent,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                  return;
+                }
                 Navigator.pop(context);
-                _updateNicknameAndContinue(); // 💡 이름 저장 후 이어서 진행!
+                _updateNicknameAndContinue();
               },
               child: const Text('확인', style: TextStyle(color: Colors.blue)),
             ),
@@ -278,7 +291,7 @@ class _StoryScreenState extends State<StoryScreen> {
   // 💡 닉네임을 서버에 저장하고, 스무스하게 다음 대사로 이어가는 함수
   Future<void> _updateNicknameAndContinue() async {
     final username = _nameController.text.trim();
-    if (username.isEmpty) return;
+    if (username.length < 2) return;
 
     setState(() {
       _isLoading = true;
@@ -302,20 +315,34 @@ class _StoryScreenState extends State<StoryScreen> {
       });
       _advanceLine(); // 여기서 자연스럽게 다음 대사로 넘어감!
     } on DioException catch (e) {
-      debugPrint("🚨 에러: ${e.response?.data ?? e.message}");
+      debugPrint("🚨 닉네임 설정 에러: ${e.response?.data ?? e.message}");
       setState(() {
         _isLoading = false;
       });
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('닉네임은 2자~12자 사이로 입력해주세요!'),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-        _showNameInputDialog();
+      if (!mounted) return;
+
+      final statusCode = e.response?.statusCode;
+      String errorMsg;
+      if (statusCode == 401 || statusCode == 403) {
+        errorMsg = '로그인 세션이 만료되었습니다. 다시 시작해주세요.';
+      } else if (statusCode == 422) {
+        errorMsg = '닉네임은 2자~12자 사이로 입력해주세요!';
+      } else if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        errorMsg = '서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.';
+      } else {
+        errorMsg = '오류가 발생했습니다. 다시 시도해주세요.';
       }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMsg),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      _showNameInputDialog();
     }
   }
 
