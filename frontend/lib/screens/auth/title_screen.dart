@@ -723,13 +723,18 @@ class _TitleScreenState extends State<TitleScreen>
       if (!mounted) return;
 
       setState(() => _state = TitleState.needLogin);
+
+      String errorMsg = e.response?.data?['detail'] ?? '알 수 없는 오류가 발생했습니다.';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        errorMsg = '서버와 연결할 수 없습니다. 백엔드 서버가 켜져 있는지 확인해주세요.';
+      } else if (e.message != null) {
+        errorMsg = e.message!;
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            '서버 연결 실패: ${e.response?.data?['detail'] ?? e.message ?? '알 수 없는 오류'}',
-          ),
-          backgroundColor: Colors.redAccent,
-        ),
+        SnackBar(content: Text(errorMsg), backgroundColor: Colors.redAccent),
       );
     }
   }
@@ -760,7 +765,20 @@ class _TitleScreenState extends State<TitleScreen>
       }
     } on DioException catch (e) {
       debugPrint("🚨 스토리 체크 실패: ${e.response?.data ?? e.message}");
-      if (mounted) setState(() => _state = TitleState.readyToStart);
+      if (!mounted) return;
+
+      setState(() => _state = TitleState.readyToStart);
+
+      String errorMsg = '스토리 정보를 불러오지 못했습니다.';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        errorMsg = '서버와 연결할 수 없습니다.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg), backgroundColor: Colors.redAccent),
+      );
     }
   }
 
