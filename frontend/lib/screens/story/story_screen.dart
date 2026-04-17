@@ -163,12 +163,12 @@ class _StoryScreenState extends State<StoryScreen> {
 
     final requestData = {"story_ticket": widget.storyTicket};
 
-    // 💡 획득한 호감도 점수가 있다면 프론트엔드에서 직접 JWT 2시간짜리로 말아서 전송!
+    // 💡 획득한 호감도 점수가 있다면 프론트엔드에서 직접 JWT로 말아서 전송!
     if (_earnedBonusScore != 0) {
       final jwt = JWT({'bonus': _earnedBonusScore});
       final token = jwt.sign(
         SecretKey(ApiConstants.jwtSecretKey),
-        expiresIn: const Duration(hours: 2),
+        // 💡 기기 시간 오차 문제를 방지하고, story_ticket의 만료 시간에 의존하기 위해 제거
       );
       requestData["bonus_token"] = token;
     }
@@ -179,19 +179,60 @@ class _StoryScreenState extends State<StoryScreen> {
         data: requestData,
       );
 
-      if (response.statusCode == 200 && response.data['status'] == 'success') {
-        debugPrint("🎉 스토리 클리어 완료! DB 업데이트 성공!");
+      if (response.statusCode == 200) {
+        if (response.data['status'] == 'success') {
+          debugPrint("🎉 스토리 클리어 완료! DB 업데이트 성공!");
 
-        if (!mounted) return;
+          if (!mounted) return;
 
-        // 💡 뒤로 가기 대신, 아예 로비 화면으로 스무스하게 갈아 끼우기!
+          // 💡 뒤로 가기 대신, 아예 로비 화면으로 스무스하게 갈아 끼우기!
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LobbyScreen()),
+          );
+        } else if (response.data['status'] == 'error') {
+          if (!mounted) return;
+          final errorCode = response.data['error_code'] ?? 'UNKNOWN_ERROR';
+          debugPrint("🚨 스토리 클리어 실패: $errorCode");
+
+          String errorMessage = '스토리 완료 처리 중 문제가 발생했습니다.';
+          if (errorCode == 'STORY_TICKET_EXPIRED') {
+            errorMessage = '스토리 진행 시간이 초과되어 티켓이 만료되었습니다.';
+          } else if (errorCode == 'ALREADY_CLEARED_TODAY' ||
+              errorCode == 'ALREADY_CLEARED_ZONE') {
+            errorMessage = '이미 클리어한 스토리입니다.';
+          } else if (errorCode == 'INVALID_STORY_TICKET' ||
+              errorCode == 'INVALID_DAY_TICKET') {
+            errorMessage = '잘못된 스토리 접근입니다.';
+          }
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(errorMessage),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const LobbyScreen()),
+          );
+        }
+      }
+    } on DioException catch (e) {
+      debugPrint("🚨 스토리 클리어 에러: ${e.response?.data ?? e.message}");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('통신 에러가 발생했습니다. 로비로 이동합니다.'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LobbyScreen()),
         );
       }
-    } on DioException catch (e) {
-      debugPrint("🚨 스토리 클리어 에러: ${e.response?.data ?? e.message}");
     } finally {
       if (mounted) {
         setState(() {
