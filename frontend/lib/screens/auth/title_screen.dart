@@ -715,50 +715,23 @@ class _TitleScreenState extends State<TitleScreen>
           key: 'user_id',
           value: res.data['user_id'],
         );
-        debugPrint("✅ 게스트 로그인 성공 → Intro1 이동");
-        _goToIntro1();
+        debugPrint("✅ 게스트 로그인 성공 → 스토리 체크");
+        _checkStoryStatus(); // 💡 _goToIntro1 대신 스토리 상태를 체크하여 티켓을 발급받음
       }
     } on DioException catch (e) {
-      debugPrint("🚨 게스트 로그인 실패 (서버 미실행?): ${e.response?.data ?? e.message}");
-      // 서버 연결 불가(오프라인/개발 중)인 경우에도 Intro1 진입 허용
+      debugPrint("🚨 게스트 로그인 실패: ${e.response?.data ?? e.message}");
       if (!mounted) return;
-      final isConnectionError =
-          e.type == DioExceptionType.connectionError ||
-          e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout;
-      if (isConnectionError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('서버 연결 불가 — 오프라인 게스트로 진입합니다.'),
-            backgroundColor: Color(0xFF444466),
-            duration: Duration(seconds: 2),
-          ),
-        );
-        await Future.delayed(const Duration(milliseconds: 600));
-        _goToIntro1();
-      } else {
-        setState(() => _state = TitleState.needLogin);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '로그인 실패: ${e.response?.data?['detail'] ?? e.message ?? '알 수 없는 오류'}',
-            ),
-            backgroundColor: Colors.redAccent,
-          ),
-        );
-      }
-    }
-  }
 
-  void _goToIntro1() {
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) =>
-            const StoryScreen(storyId: 'intro_1_prologue', storyTicket: ''),
-      ),
-    );
+      setState(() => _state = TitleState.needLogin);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '서버 연결 실패: ${e.response?.data?['detail'] ?? e.message ?? '알 수 없는 오류'}',
+          ),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
   }
 
   Future<void> _checkStoryStatus() async {

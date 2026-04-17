@@ -11,9 +11,15 @@
 ### ❌ 1-1. 치트 입력용 변수 삭제
 `_TitleScreenState` 클래스 상단에 선언된 텍스트 컨트롤러 변수 3개를 삭제합니다.
 ```dart
-final TextEditingController _adminKeyCtrl = TextEditingController(text: "여기에_어드민키_입력");
-final TextEditingController _offlineDaysCtrl = TextEditingController(text: "1");
-final TextEditingController _cheatHourCtrl = TextEditingController(text: "14");
+  final TextEditingController _adminKeyCtrl = TextEditingController(
+    text: "여기에_어드민키_입력",
+  );
+  final TextEditingController _offlineDaysCtrl = TextEditingController(
+    text: "1",
+  );
+  final TextEditingController _cheatHourCtrl = TextEditingController(
+    text: "14",
+  );
 ```
 
 ### ❌ 1-2. 디버그 패널 함수 삭제
