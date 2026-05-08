@@ -179,12 +179,27 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
     except jwt.PyJWTError:
         return {"status": "error", "error_code": "INVALID_STORY_TICKET"}
 
-    # 프롤로그(INTRO_1) 처리
+    # 프롤로그1(INTRO_1) 처리 → intro_2_prologue 티켓 발급 후 next_story로 반환
     if user.game_state == GameState.INTRO_1.value:
         if heroine_name != "TUTORIAL_DUMMY":
             return {"status": "error", "error_code": "INVALID_STORY_TICKET"}
-            
+
         user.game_state = GameState.INTRO_2.value
+        db.commit()
+
+        expire_time = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=2)
+        next_ticket = jwt.encode(
+            {"heroine_name": "TUTORIAL_DUMMY", "zone": "intro_2", "target_day": 0, "exp": expire_time},
+            JWT_SECRET_KEY, algorithm=ALGORITHM
+        )
+        return {"status": "success", "next_story": {
+            "story_id": "intro_2_prologue",
+            "heroine_name": "TUTORIAL_DUMMY",
+            "story_ticket": next_ticket
+        }}
+
+    # 프롤로그2(INTRO_2 + TUTORIAL_DUMMY) 처리 → 모든 히로인 오늘치 소비 후 로비
+    if user.game_state == GameState.INTRO_2.value and heroine_name == "TUTORIAL_DUMMY":
         all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
         for h in all_heroines:
             h.is_cleared_today = True
