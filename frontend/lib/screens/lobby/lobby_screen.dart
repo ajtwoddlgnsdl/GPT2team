@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../core/api_client.dart';
+import 'minigame_screen.dart';
 import '../story/story_screen.dart';
 
 class LobbyScreen extends StatefulWidget {
@@ -192,6 +193,13 @@ class _LobbyScreenState extends State<LobbyScreen> {
     return 'assets/images/bg/lobby_dawn.jpg';
   }
 
+  void _openCardMatchingGame() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MinigameScreen()),
+    );
+  }
+
   // 💡 시간대별 동적 버튼 생성
   Widget _buildDynamicButtons() {
     final int hour = _serverHour;
@@ -204,6 +212,14 @@ class _LobbyScreenState extends State<LobbyScreen> {
       );
     } else if (hour >= 12 && hour < 18) {
       // 낮: 미니게임 + 핸드폰
+      buttons.add(
+        _buildActionButton(
+          Icons.style,
+          "카드 맞추기",
+          Colors.pinkAccent,
+          onPressed: _openCardMatchingGame,
+        ),
+      );
       buttons.add(
         _buildActionButton(Icons.videogame_asset, "미니게임", Colors.green),
       );
@@ -220,13 +236,20 @@ class _LobbyScreenState extends State<LobbyScreen> {
       return const SizedBox.shrink();
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Wrap(
+      alignment: WrapAlignment.spaceEvenly,
+      spacing: 10,
+      runSpacing: 10,
       children: buttons,
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label, Color color) {
+  Widget _buildActionButton(
+    IconData icon,
+    String label,
+    Color color, {
+    VoidCallback? onPressed,
+  }) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.black.withValues(alpha: 0.8),
@@ -237,9 +260,10 @@ class _LobbyScreenState extends State<LobbyScreen> {
           side: BorderSide(color: color.withValues(alpha: 0.5)),
         ),
       ),
-      onPressed: () {
-        debugPrint("$label 버튼 클릭됨!");
-      },
+      onPressed: onPressed ??
+          () {
+            debugPrint("$label 버튼 클릭됨!");
+          },
       icon: Icon(icon),
       label: Text(
         label,
