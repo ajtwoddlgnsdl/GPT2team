@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../core/api_client.dart';
 import '../story/story_screen.dart';
+import 'phone_screen.dart';
+import 'minigame_screen.dart';
 
 class LobbyScreen extends StatefulWidget {
   const LobbyScreen({super.key});
@@ -10,7 +13,8 @@ class LobbyScreen extends StatefulWidget {
   State<LobbyScreen> createState() => _LobbyScreenState();
 }
 
-class _LobbyScreenState extends State<LobbyScreen> {
+class _LobbyScreenState extends State<LobbyScreen>
+    with TickerProviderStateMixin {
   String _playerName = "주인공";
   int _ap = 0;
   int _money = 0;
@@ -21,9 +25,26 @@ class _LobbyScreenState extends State<LobbyScreen> {
   Duration _timeOffset = Duration.zero; // 기기 시간과 서버 시간의 차이
   Timer? _timeSyncTimer;
 
+  // 📱 스마트폰 UI 상태
+  bool _isPhoneOpen = false;
+
+  // 💡 핸드폰 히트박스 펄스 애니메이션
+  late final AnimationController _pulseCtrl;
+
+  // 📱 핸드폰 통합 애니메이션 (올라오기 + 확장)
+  late final AnimationController _phoneAnimCtrl;
+
   @override
   void initState() {
     super.initState();
+    _pulseCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1800),
+    )..repeat(reverse: true);
+    _phoneAnimCtrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
     _loadLobbyData();
   }
 
@@ -117,6 +138,11 @@ class _LobbyScreenState extends State<LobbyScreen> {
   Future<void> _handleTimeBoundaryCrossed(DateTime newEstimatedTime) async {
     _timeSyncTimer?.cancel(); // 중복 방지
 
+    // 📱 시간대가 바뀌면 스마트폰 닫기
+    if (_isPhoneOpen) {
+      setState(() => _isPhoneOpen = false);
+    }
+
     try {
       // 1. 서버에 더블 체크
       final verifyRes = await ApiClient().dio.post(
@@ -187,38 +213,65 @@ class _LobbyScreenState extends State<LobbyScreen> {
   String _getBackgroundImage() {
     final int hour = _serverHour;
     if (hour >= 6 && hour < 12) return 'assets/images/bg/lobby_morning.jpg';
-    if (hour >= 12 && hour < 18) return 'assets/images/bg/lobby_afternoon.jpg';
+    if (hour >= 12 && hour < 18) return 'assets/images/bg/lobby_afternoon.png';
     if (hour >= 18 && hour < 24) return 'assets/images/bg/lobby_night.jpg';
     return 'assets/images/bg/lobby_dawn.jpg';
   }
 
-  // 💡 시간대별 동적 버튼 생성
+  // 📱 배경에 핸드폰 히트박스가 있는 시간대인지 (방 일러스트)
+  bool _hasPhoneInBackground() {
+    final zone = _getZoneCode(_serverHour);
+    // 새벽(0)만 제외, 아침(1)/낮(2)/밤(3)은 방 일러스트에 핸드폰 있음
+    return zone != 0;
+  }
+
+  // 📱 시간대별 핸드폰 히트박스 좌표 (배경마다 핸드폰 위치가 다름)
+  Rect _getPhoneHitboxRect(double sw, double sh) {
+    final zone = _getZoneCode(_serverHour);
+    switch (zone) {
+      case 1: // 아침 - 책상 위 스탠드 왼쪽
+        return Rect.fromLTWH(sw * 0.26, sh * 0.61, sw * 0.10, sh * 0.035);
+      case 2: // 낮 (카페) - 창문 아래 카운터 위 핸드폰
+        return Rect.fromLTWH(sw * 0.46, sh * 0.57, sw * 0.08, sh * 0.025);
+      case 3: // 밤 - 책상 위 (아침과 동일 구도)
+        return Rect.fromLTWH(sw * 0.26, sh * 0.61, sw * 0.10, sh * 0.035);
+      default:
+        return Rect.zero;
+    }
+  }
+
+  // 📱 통합 핸드폰 애니메이션 실행
+  void _openPhone() {
+    setState(() => _isPhoneOpen = true);
+    _phoneAnimCtrl.forward(from: 0.0);
+  }
+
+  void _closePhone() {
+    _phoneAnimCtrl.reverse().then((_) {
+      if (mounted) setState(() => _isPhoneOpen = false);
+    });
+  }
+
+  // 💡 시간대별 동적 버튼 생성 (핸드폰 버튼은 히트박스/FAB로 대체됨)
   Widget _buildDynamicButtons() {
     final int hour = _serverHour;
     List<Widget> buttons = [];
 
     if (hour >= 6 && hour < 12) {
-      // 아침: 핸드폰
-      buttons.add(
-        _buildActionButton(Icons.smartphone, "핸드폰", Colors.blueAccent),
-      );
+      // 아침: 핸드폰만 있었으므로 히트박스로 대체 → 추가 버튼 없음
     } else if (hour >= 12 && hour < 18) {
-      // 낮: 미니게임 + 핸드폰
+      // 낮: 미니게임 (핸드폰은 FAB로 분리)
       buttons.add(
         _buildActionButton(Icons.videogame_asset, "미니게임", Colors.green),
       );
-      buttons.add(
-        _buildActionButton(Icons.smartphone, "핸드폰", Colors.blueAccent),
-      );
     } else if (hour >= 18 && hour < 24) {
-      // 밤: 핸드폰
-      buttons.add(
-        _buildActionButton(Icons.smartphone, "핸드폰", Colors.blueAccent),
-      );
+      // 밤: 핸드폰만 있었으므로 히트박스로 대체 → 추가 버튼 없음
     } else {
       // 새벽: 현재는 버튼 없음 (추후 기능 확장을 위해 SizedBox.shrink()로 반환)
       return const SizedBox.shrink();
     }
+
+    if (buttons.isEmpty) return const SizedBox.shrink();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -250,7 +303,9 @@ class _LobbyScreenState extends State<LobbyScreen> {
 
   @override
   void dispose() {
-    _timeSyncTimer?.cancel(); // 메모리 누수 방지
+    _timeSyncTimer?.cancel();
+    _pulseCtrl.dispose();
+    _phoneAnimCtrl.dispose();
     super.dispose();
   }
 
@@ -263,7 +318,43 @@ class _LobbyScreenState extends State<LobbyScreen> {
       );
     }
 
-    return Scaffold(
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        if (_isPhoneOpen) {
+          _closePhone();
+        } else {
+          final shouldExit = await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              title: const Text('앱 종료', style: TextStyle(color: Color(0xFF2D3142), fontWeight: FontWeight.w700)),
+              content: const Text('게임을 정말 종료하시겠습니까?', style: TextStyle(color: Color(0xFF6B7280))),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('취소', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('종료', style: TextStyle(color: Color(0xFFE85D75), fontWeight: FontWeight.w600)),
+                ),
+              ],
+            ),
+          );
+
+          if (shouldExit ?? false) {
+            SystemNavigator.pop();
+          }
+        }
+      },
+      child: Scaffold(
       body: Stack(
         children: [
           // 1. 🌅 시간대별 배경
@@ -278,7 +369,58 @@ class _LobbyScreenState extends State<LobbyScreen> {
             ),
           ),
 
-          // 2. 💰 상단 상태창
+          // 2. 📱 핸드폰 히트박스 (시간대별 위치)
+          if (_hasPhoneInBackground() && !_isPhoneOpen)
+            Builder(
+              builder: (context) {
+                final rect = _getPhoneHitboxRect(screenWidth, screenHeight);
+                return Positioned(
+                  left: rect.left,
+                  top: rect.top,
+                  width: rect.width,
+                  height: rect.height,
+                  child: GestureDetector(
+                    onTap: _openPhone,
+                    child: AnimatedBuilder(
+                      animation: _pulseCtrl,
+                      builder: (_, child) {
+                        final pulse = 0.6 + 0.4 * _pulseCtrl.value;
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(
+                              color: Colors.white.withValues(
+                                alpha: 0.25 * pulse,
+                              ),
+                              width: 1.2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.white.withValues(
+                                  alpha: 0.08 * pulse,
+                                ),
+                                blurRadius: 8 * pulse,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
+            ),
+
+          // 4-1. 🎯 시간대별 행동 버튼 (핸드폰 제외한 기존 버튼들)
+          if (!_isPhoneOpen)
+            Positioned(
+              bottom: 50,
+              left: 20,
+              right: 20,
+              child: _buildDynamicButtons(),
+            ),
+
+          // 5. 💰 상단 상태창
           Positioned(
             top: 50,
             left: 20,
@@ -335,15 +477,96 @@ class _LobbyScreenState extends State<LobbyScreen> {
             ),
           ),
 
-          // 3. 🎯 메인 행동 버튼 (시간대에 맞춰 렌더링!)
-          Positioned(
-            bottom: 50,
-            left: 20,
-            right: 20,
-            child: _buildDynamicButtons(),
-          ),
+          // 6. 📱 스마트폰 오버레이 (통합 연속 연출)
+          if (_isPhoneOpen)
+            AnimatedBuilder(
+              animation: _phoneAnimCtrl,
+              builder: (context, child) {
+                // Interval 1: 0.0~0.4 (바닥에서 중간 크기로 등장)
+                final t1 = CurvedAnimation(
+                  parent: _phoneAnimCtrl,
+                  curve: const Interval(0.0, 0.8, curve: Curves.easeOutCubic),
+                ).value;
+
+                // Interval 2: 0.4~1.0 (중간 크기에서 풀스크린으로 확장)
+                final t2 = CurvedAnimation(
+                  parent: _phoneAnimCtrl,
+                  curve: const Interval(0.2, 1.0, curve: Curves.easeOutQuart),
+                ).value;
+
+                // 중간 단계 크기 (82% x 78%)
+                final midW = screenWidth * 0.82;
+                final midH = screenHeight * 0.78;
+
+                // 1. 크기 계산: 바닥(0) -> 중간(t1) -> 풀스크린(t2)
+                // t2가 0일 때는 midW 유지, t2가 1일 때는 screenWidth
+                final currentW = midW + (screenWidth - midW) * t2;
+                final currentH = midH + (screenHeight - midH) * t2;
+
+                // 2. 위치 계산:
+                final centerX = (screenWidth - currentW) / 2;
+                final midY = (screenHeight - midH) / 2; // 중간 단계의 정중앙 Y
+
+                // t1 단계: 화면 아래(screenHeight)에서 midY까지 올라옴
+                // t2 단계: midY에서 0.0(풀스크린 시작점)까지 확장됨
+                final startY = screenHeight;
+                final currentY = (startY + (midY - startY) * t1) * (1 - t2);
+
+                // 3. 스타일 보간
+                final radius = 32.0 * (1 - t2);
+                final opacity = (t1 / 0.2).clamp(0.0, 1.0); // 아주 살짝 페이드인
+
+                return Positioned(
+                  left: centerX,
+                  top: currentY,
+                  child: Opacity(
+                    opacity: opacity,
+                    child: Container(
+                      width: currentW,
+                      height: currentH,
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(radius),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(
+                              alpha: 0.2 * (1 - t2),
+                            ),
+                            blurRadius: 40 * (1 - t2),
+                            offset: Offset(0, 14 * (1 - t2)),
+                          ),
+                        ],
+                      ),
+                      child: PhoneScreen(
+                        timeOffset: _timeOffset,
+                        onClose: _closePhone,
+                        currentZoneCode: _getZoneCode(_serverHour),
+                        apps: buildDefaultApps(callbacks: {
+                          'E-class': () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => MinigameScreen(
+                                  actionPoints: _ap,
+                                  onClose: () => Navigator.of(context).pop(),
+                                  onRewardEarned: (earned) {
+                                    setState(() => _money += earned);
+                                  },
+                                  onAPChanged: (newAP) {
+                                    setState(() => _ap = newAP);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        }),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
         ],
       ),
-    );
+    ));
   }
 }

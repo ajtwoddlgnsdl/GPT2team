@@ -1,0 +1,229 @@
+﻿[
+  {
+    "bg_image": "assets/images/bg/lobby_night.jpg",
+    "character_image": "assets/images/character/리안_기본.png",
+    "speaker": "",
+    "text": "카페 알바 퇴근 시간."
+  },
+  {
+    "speaker": "",
+    "text": "오늘도 해가 지는 걸 보며 퇴근…"
+  },
+  {
+    "speaker": "",
+    "text": "을 할 예정이었지만, 점장님으로부터 추가 근무를 부탁받았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "뭐 됐어 돈도 더 모으면 좋고…"
+  },
+  {
+    "speaker": "",
+    "text": "어두워진 창 밖을 보며 샷을 내린다."
+  },
+  {
+    "speaker": "",
+    "text": "*딸랑-!*"
+  },
+  {
+    "speaker": "{name}",
+    "text": "어서오세…"
+  },
+  {
+    "speaker": "{name}",
+    "text": "… 어?"
+  },
+  {
+    "speaker": "리안",
+    "text": "어라?"
+  },
+  {
+    "speaker": "리안",
+    "text": "너 여기서 일해?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "아 으, 으응…"
+  },
+  {
+    "speaker": "리안",
+    "text": "흐음, 처음 보는데…"
+  },
+  {
+    "speaker": "",
+    "text": "리안이 위 아래로 당신을 훑어본다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "아, 아니 오늘 시간이 달라져서…"
+  },
+  {
+    "speaker": "",
+    "text": "지난번의 일을 떠올린다."
+  },
+  {
+    "action": "choice",
+    "speaker": "",
+    "text": "(뭐라고 답할까?)",
+    "choices": [
+      {
+        "text": "평소엔 낮에 일해, 저번엔 잘 들어갔어?",
+        "bonus_score": -5,
+        "next_lines": [
+          { "speaker": "리안", "text": "아… 다행이네. 뭐 우리집이니까 잘 들어갔지." },
+          { "speaker": "{name}", "text": "뭐가 다행이라는 거지..? 만날 일이 없어서…?" },
+          { "speaker": "리안", "text": "너 알바지?" },
+          { "speaker": "{name}", "text": "으,응? 그렇지?" },
+          { "speaker": "{name}", "text": "저녁에 계신 분이 사장님이셔." },
+          { "speaker": "리안", "text": "…" },
+          { "speaker": "리안", "text": "안 그래보였는데…" },
+          { "speaker": "리안", "text": "뭐, 너 잘 만들 수 있지?" },
+          { "speaker": "{name}", "text": "뭘 말야…?" },
+          { "speaker": "리안", "text": "음료수 말야!" }
+        ]
+      },
+      {
+        "text": "원래는 낮에 일하는데… 전에 빌려준 수건은 고마웠어.",
+        "bonus_score": 5,
+        "next_lines": [
+          { "speaker": "리안", "text": "그거 비싼거야." },
+          { "speaker": "{name}", "text": "앗, 아앗…." },
+          { "speaker": "", "text": "서민 자취생으로서 리안의 수건 값은 과연 감당할 수 있을지 잠시 고민했다." },
+          { "speaker": "리안", "text": "하하, 표정 웃기네" },
+          { "speaker": "{name}", "text": "… 하나 고를래…? 만들어줄게." },
+          { "speaker": "리안", "text": "필요 없어." },
+          { "speaker": "리안", "text": "…" },
+          { "speaker": "리안", "text": "좀 어려운 것도 만들어줄 수 있냐?" }
+        ]
+      },
+      {
+        "text": "뭐, 다음에 수건 받아가고… 주문은?",
+        "bonus_score": 0,
+        "next_lines": [
+          { "speaker": "리안", "text": "필요 없어. 너 가져" },
+          { "speaker": "리안", "text": "너 잘 만들 수는 있냐?" },
+          { "speaker": "{name}", "text": "점장님의 총애를 받고 있다고 볼 수 있지." },
+          { "speaker": "리안", "text": "허, 함 해 보든가." },
+          { "speaker": "{name}", "text": "뭐 주문할건데?" }
+        ]
+      }
+    ]
+  },
+  { "speaker": "리안", "text": "음 일단은 초콜릿프라푸치노인데…" },
+  { "speaker": "{name}", "text": "당연히 아메리카노를 시킬 줄 알았다…" },
+  { "speaker": "리안", "text": "얼음은 우유 얼음으로 바꿔주고…" },
+  { "speaker": "", "text": "포스기에 초콜릿 라떼에 아이스,  우유 얼음 옵션을 추가 한다." },
+  { "speaker": "리안", "text": "미디움 사이즈로 시킬건데 라지 컵에 담아줘" },
+  { "speaker": "{name}", "text": "응? 알았어" },
+  { "speaker": "", "text": "당연하지만 포스기에 그런 옵션은 없다." },
+  { "speaker": "{name}", "text": "뭐… 수건도 빌려줬고… 조금 유도리를 발휘해 볼까" },
+  { "speaker": "리안", "text": "쇼케이스에 초콜릿 쿠키, 그것도 갈아 넣어주면 안돼?" },
+  {
+    "action": "choice",
+    "speaker": "",
+    "text": "(어떻게 답할까?)",
+    "choices": [
+      { "text": "뭐??", "bonus_score": 0, "next_lines": [] },
+      { "text": "안돼 이 진상아", "bonus_score": 0, "next_lines": [] },
+      { "text": "그건… 좀 곤란한데", "bonus_score": 0, "next_lines": [] }
+    ]
+  },
+  { "speaker": "리안", "text": "…" },
+  { "speaker": "", "text": "리안의 얼굴이 빨개졌다." },
+  { "speaker": "리안", "text": "수건 물어내든가." },
+  { "speaker": "리안", "text": "창의력도 없고" },
+  { "speaker": "리안", "text": "융통성도 없고" },
+  { "speaker": "리안", "text": "참내, 사장이 니 그렇게 일 못하는 건 알고 있냐?" },
+  { "speaker": "{name}", "text": "아 알았어 해줄게 해줄게!" },
+  { "speaker": "", "text": "어쩔 수 없이 포스기에 초코칩 쿠키를 추가했다." },
+  { "speaker": "{name}", "text": "휴… 또 있어?" },
+  { "speaker": "리안", "text": "라지 사이즈 컵 뚜껑에 닿을 만큼 휘핑크림 올려줘" },
+  { "speaker": "{name}", "text": "… 그거는 오백원정도 추가 받아야할 거 같은데…" },
+  { "speaker": "리안", "text": "누굴 거지로 보나" },
+  { "speaker": "{name}", "text": "추가 했어." },
+  { "speaker": "", "text": "휘핑크림 추가 메뉴는 없지만 사장님을 위해 돈을 받아야겠다. 포스기에 샷 추가를 입력한다." },
+  { "speaker": "리안", "text": "위에 초코 시럽 올려줘!" },
+  { "speaker": "{name}", "text": "… 너무 단거 아냐?" },
+  { "speaker": "리안", "text": "엥? 안 달면 왜 마셔?" },
+  { "speaker": "", "text": "이제는 슬슬 리안의 혈당이 걱정 되기 시작한다." },
+  { "speaker": "{name}", "text": "여기까지 9,500원…" },
+  { "speaker": "리안", "text": "여기, 잘 부탁해" },
+  { "speaker": "", "text": "리안이 건네는 카드를 받아 결제한다." },
+  { "speaker": "{name}", "text": "결제 됐어, 저기 앉아서 기다려줘" },
+  { "speaker": "", "text": "우선 믹서에 초콜릿 프라푸치노 재료를 넣는다 우유 얼음, 초콜릿 시럽, 초콜릿 아이스크림…" },
+  { "speaker": "", "text": "초코칩 쿠키를 들고 머뭇거린다. 믹서에 다 들어가지 않는다. 당신은 손으로 초콜릿 쿠키를 쪼갠다." },
+  { "speaker": "", "text": "뒤에서 어쩐지 따가운 시선이 느껴지는 것 같다. 무시하고 계속 만든다" },
+  { "speaker": "리안", "text": "다 됐어?" },
+  { "speaker": "{name}", "text": "그렇게 빨리 될 리가…" },
+  { "speaker": "", "text": "휘핑크림, 초콜릿시럽을 뿌려 마무리한다." },
+  { "speaker": "{name}", "text": "자, 여기" },
+  { "speaker": "리안", "text": "고마워" },
+  { "speaker": "", "text": "리안이 카운터에서 음료를 받아 들자마자 한 모금 마신다." },
+  { "speaker": "리안", "text": "우와 맛있다!" },
+  { "speaker": "", "text": "이렇게 까지 밝은 표정, 목소리는 처음 본다…" },
+  {
+    "action": "choice",
+    "speaker": "",
+    "text": "(어떻게 반응할까?)",
+    "choices": [
+      {
+        "text": "그런 게 맛있다고?",
+        "bonus_score": 0,
+        "next_lines": [
+          { "speaker": "리안", "text": "마셔볼래?" },
+          { "speaker": "", "text": "리안이 음료를 내민다." },
+          { "speaker": "{name}", "text": "마셔도 돼?" },
+          { "speaker": "", "text": "리안의 작은 끄덕임, 당신은 빨대에 입을 가져다 댄다" },
+          { "speaker": "리안", "text": "아니 @#$*아!! 새 빨대 꽂아!" },
+          { "speaker": "", "text": "허둥지둥 빨대를 꽂는다." },
+          { "speaker": "{name}", "text": "미, 미안…" },
+          { "speaker": "리안", "text": "흥, 마셔봐" },
+          { "speaker": "", "text": "한 입 마시자 인상이 찌뿌려질 정도의 단 맛이 입 안에 훅 퍼진다." },
+          { "speaker": "", "text": "리안의 표정을 보니 어떤 불평도 할 수 없어진다…" },
+          { "speaker": "{name}", "text": "마, 맛있네. 커스텀 센스가 좋네" },
+          { "speaker": "리안", "text": "그치?" }
+        ]
+      },
+      {
+        "text": "하하하! 너 단 거 진짜 좋아하는구나!",
+        "bonus_score": 5,
+        "next_lines": [
+          { "speaker": "리안", "text": "단 거 안 좋아하는 인간도 있나…" },
+          { "speaker": "리안", "text": "그리고 달기만 한 거 아니거든! 한번 맛 보던가!" },
+          { "speaker": "{name}", "text": "흠…" },
+          { "speaker": "", "text": "작은 티스푼을 챙겨와 음료를 작게 떠 맛본다." },
+          { "speaker": "{name}", "text": "초콜릿 향이 진하긴 하네… 쿠키 식감도 있고" },
+          { "speaker": "{name}", "text": "많이…" },
+          { "speaker": "리안", "text": "그치 맛있지?" },
+          { "speaker": "", "text": "많이 달다고 말하려던 게 삼켜졌다." },
+          { "speaker": "{name}", "text": "… 이 카페 자주 와?" },
+          { "speaker": "리안", "text": "엉, 늘 부족하던 걸 채워보고 싶었단 말이지…" },
+          { "speaker": "{name}", "text": "… 쿠키 갈아 넣는 거 사장님한테 얘기 해둘게" },
+          { "speaker": "리안", "text": "진짜?? 아싸!" }
+        ]
+      },
+      {
+        "text": "특이하네… 유행하는 레시피야?",
+        "bonus_score": -5,
+        "next_lines": [
+          { "speaker": "리안", "text": "참내… 창의력 없는 인간이다 싶었어 아까부터" },
+          { "speaker": "리안", "text": "너네 카페 레시피가 너무 밍밍해, 전부터 맘에 안들었어" },
+          { "speaker": "{name}", "text": "그건 내가 한 게…" },
+          { "speaker": "리안", "text": "어쨌든!" }
+        ]
+      }
+    ]
+  },
+  { "speaker": "", "text": "*딸랑-!*" },
+  { "speaker": "{name}", "text": "어서오세요~" },
+  { "speaker": "???", "text": "어어 총각, 커피 10잔 부탁해" },
+  { "speaker": "{name}", "text": "네…? 어떤 커피요?" },
+  { "speaker": "???", "text": "으잉?" },
+  { "speaker": "", "text": "리안이 당신과 손님을 번갈아 보다가 피식 웃는다." },
+  { "speaker": "리안", "text": "고생 해 난 갈게~" },
+  { "speaker": "", "text": "멋대로 봉투를 꺼내더니 봉투안에 음료를 넣고 리안이 나간다." },
+  { "speaker": "", "text": "봉투를 오토바이 손잡이에 걸고 출발한다" },
+  { "speaker": "???", "text": "에잉 쯧, 젊은 여자가 오토바이나 타고 말야" },
+  { "speaker": "", "text": "커다란 오토바이 배기음과 할아버지 손님…" },
+  { "speaker": "", "text": "당신은 연장 근무 제안 따위 다시는 받지 않겠다고 다짐한다." }
+]
