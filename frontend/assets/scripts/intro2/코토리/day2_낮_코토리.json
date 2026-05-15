@@ -1,45 +1,208 @@
 [
   {
-    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "{name}",
+    "text": "코토리는 정말로 매일 왔다. 오후 두 시가 되면 어김없이 꽃집 문이 열리고, 코토리가 카페 안으로 들어왔다.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "항상 같은 자리 — 카운터 바로 앞 바 시트. 앉는 자리도, 주문도, 어느새 일정해지고 있었다."
+  },
+  {
     "character_image": "assets/images/character/코토리_기본.png",
     "speaker": "코토리",
-    "text": "선배, 혹시 ’눈치’라는 거 어떻게 배워요?"
+    "text": "{name}씨, 아이스 아메리카노요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "주문도 같고, 자리도 같다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "매일 오는 손님이 생겼네. 이런 게 단골이 생기는 건가."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 커피를 받아 들고 빨대를 꽂으면서 뭔가 고민스러운 얼굴을 하고 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "평소처럼 환하게 웃으며 '우마이!'를 외칠 줄 알았는데, 오늘은 한 모금 마시고 나서도 빨대를 씹고만 있었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 혹시… '눈치'라는 게 어떤 거예요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "갑자기?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "오늘 꽃집 손님이 '눈치 좀 챙겨라'고 했어요. 근데 저는 뭘 잘못했는지 모르겠는 거예요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "분명히 꽃도 잘 포장했고, 인사도 했는데…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "일본 학교 다닐 때도 '분위기 파악 못 한다'는 말 들었는데. 한국도 그런가 봐요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "뭔가… 똑같은 걸 잘 못 하는 느낌이에요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "어딘가 서툰 것 같기도 하고, 솔직한 것 같기도 하고."
   },
   {
     "action": "choice",
-    "speaker": "코토리",
-    "text": "꽃집 손님이 ’눈치 좀 챙겨라’고 한 것 같은데…",
+    "text": "[선택지 ②] 코토리가 대답을 기다리고 있다.",
     "choices": [
       {
-        "text": "천천히 알려줄게",
+        "text": "내가 천천히 알려줄게.",
         "bonus_score": 5,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기쁨.png",
             "speaker": "코토리",
-            "text": "진짜요? 가끔 한국어 알려주세요!"
+            "text": "진짜요?! 가끔 한국어 눈치 알려주세요!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "저 열심히 배울게요!! 메모도 할게요!!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "진짜 고마워요 {name}씨!!"
           }
         ]
       },
       {
-        "text": "신경 쓰지 마",
+        "text": "신경 쓰지 마. 코토리 잘못 아닌 것 같은데.",
         "bonus_score": 3,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기본.png",
             "speaker": "코토리",
-            "text": "조금 위로가 돼요…"
+            "text": "…그렇게 말해주니까 조금 위로가 돼요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "가끔 너무 모르겠어서 혼자 방 안에서 생각하거든요. 근데 생각해봐도 답이 안 나와요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "그래서 그냥 '다음에 더 잘하자' 하고 끝나는데, 오늘은 {name}씨한테 말해서 좀 나아진 것 같아요."
           }
         ]
       },
       {
-        "text": "솔직히 좀 눈치 없긴 해",
+        "text": "솔직히 좀 눈치가 없긴 해.",
         "bonus_score": -3,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_슬픔.png",
             "speaker": "코토리",
-            "text": "“…더 노력할게요"
+            "text": "…그렇게 느껴지는구나."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "더 노력할게요."
           }
         ]
       }
     ]
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리는 커피를 거의 다 마실 때까지 자리를 뜨지 않았다. 가게 안에 손님도 없고, 나도 바쁠 일은 없었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 이 가게 단골 있어요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "있어. 할아버지 한 분이 매일 같은 자리에 앉아서 신문 보고 가셔."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "아, 아까 신문 읽고 계시던 분이요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "응. 한 번도 말은 안 해봤는데."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "한 번도요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "응. 주문도 늘 똑같아서 인사만 하고 끝이야."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "우와, 그것도 일종의 인연이네요! 말은 없지만 매일 오는 사이라니. 뭔가 좋아요 그거."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "저도 이 가게 단골 될게요. 매일 오는 쪽으로."
+  },
+  {
+    "speaker": "{name}",
+    "text": "아직 이틀 단골이네."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "내일이면 나흘 단골이에요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리는 빈 컵을 내려놓고 일어서면서 작게 말했다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "내일도 올게요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그 말이 이상하게 무겁지 않았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "다음 날 누가 오기로 한 거, 은근히 좋네."
+  },
+  {
+    "speaker": "{name}",
+    "text": "퇴근 후, 오늘 코토리가 했던 말이 떠올랐다. '눈치'를 모르겠다고, 매일 혼자 생각하다가 답이 안 나온다고."
+  },
+  {
+    "speaker": "{name}",
+    "text": "{name}씨한테 말해서 좀 나아진 것 같다고 했는데. 뭔가 이상하게 마음에 걸린다."
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / 카페 미니게임 가능 (행동력 -1)"
   }
 ]

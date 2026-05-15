@@ -1,0 +1,106 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱한테 연락했어요. 어제."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "아직 답장은 없지만… 보냈다는 것만으로 괜찮아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "어제 SNS에서 본 그 계정, 맞았어요. 유이짱이었어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "프로필 사진 코스모스. 저랑 똑같은 걸 좋아하고 있더라고요 아직."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "메시지 하나 보냈어요. '나 한국에 있어. 여기서 꽃집 해.'라고."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이제야 말할 수 있어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "(도시락 뚜껑을 열면 — 김으로 '好き'가 써져 있다)"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "꽃말이 '사랑의 고백'이에요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 저 {name}씨를 좋아해요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "예전에는… 누군가를 좋아하는 게 무서웠어요. 또 놓칠까봐."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "근데 {name}씨가 옆에 있어줘서, 이제는 무섭지 않아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "내일도, 모레도, {name}씨 옆에 있고 싶어요."
+  },
+  {
+    "action": "choice",
+    "text": "나도 좋아해, 코토리.",
+    "choices": [
+      {
+        "text": "나도 좋아해, 코토리.",
+        "bonus_score": 0,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…진짜요?"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "약속해요. 내일도 같이 밥 먹는 거."
+          },
+          {
+            "speaker": "{name}",
+            "text": "약속."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "잘됐다. 도시락도 항상 두 인분씩 만들어야겠어요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: 코토리와 내일도 같이 밥 먹기 — 영원히 ♡"
+  },
+  {
+    "action": "system",
+    "text": "엔딩 CG: 카페 테라스. 나란히 앉아 도시락. 코스모스 꽃병. 코토리가 {name}의 어깨에 머리를 기대고 있다."
+  }
+]

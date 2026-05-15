@@ -1,0 +1,194 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "카페 테라스에서 코토리가 도시락을 꺼내 놓으며 잠깐 코스모스를 만지작거렸다.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "오늘은 평소보다 말수가 적었다. 도시락을 먹으면서도 자꾸 꽃잎 끝을 손가락으로 만졌다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 저 요리 좋아하게 된 이유 얘기해도 돼요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "물론이지."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "사실 어제 옛날 사진 보다가… 생각이 많이 났거든요. {N}씨한테는 말해도 괜찮을 것 같아서."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "중학교 때 유이짱이라는 친구가 있었어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "조용하고 혼자 있는 걸 좋아하는 아이였어요. 반에서 거의 말이 없었거든요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "처음엔 저도 잘 몰랐어요. 저는 그냥 '저 아이 친구 없나?' 정도로만 봤고."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "어느 날 유이짱이 점심을 안 먹길래, 제 도시락 반을 줬어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그냥 단순하게, 도시락이 많아 보이길래. 저희 엄마가 항상 많이 싸주셨거든요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그랬더니 한 입 먹고 처음으로 웃으면서 '코토리 밥 맛있다'고 했어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그게 시작이었어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱은 좀 힘든 상황이었거든요. 집에서도, 학교에서도."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "근데 제 도시락 먹을 때만큼은 웃어줬어요. 그게 너무 좋았어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그러니까 거의 매일 도시락을 두 인분씩 싸갔어요. 유이짱 몫까지."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱이 코스모스를 좋아했어요. 꽃말이 '순수한 마음'이라서요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그래서 저도 코스모스를 좋아하게 됐어요. 그래서 꽃집에서 일하는 거예요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "처음 {name}씨한테 코스모스를 준 것도… 그 마음이랑 비슷한 것 같아서요."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑪] 코토리가 유이짱 이야기를 하고 있다.",
+    "choices": [
+      {
+        "text": "억지로 웃지 않아도 돼. 듣고 있을게.",
+        "bonus_score": 8,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…고마워요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "이 말 들어보고 싶었어요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "다른 사람들은 '이제 잊어'라고 하는데, {N}씨는 달라요."
+          }
+        ]
+      },
+      {
+        "text": "유이짱, 지금은 어떻게 됐어?",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…연락이 안 돼요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "나중에 얘기할게요."
+          }
+        ]
+      },
+      {
+        "text": "맛있으면 된 거 아냐?",
+        "bonus_score": 2,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…그렇죠? 맞아요, 맛있으면 됐어요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 내일 같이 카라아게 만들어볼래요?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저녁 7시 반에 시간 돼요? 제가 제일 자신 있는 요리예요. 어제 말했죠? 카라아게. 이번엔 진짜로 해요."
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: Day 14 — 코토리와 카라아게 만들기 (19:30)"
+  },
+  {
+    "action": "unlock",
+    "text": "⏰ 01:00 새벽 과거 스토리 Ch.1 해금: '옥상의 두 사람'"
+  },
+  {
+    "speaker": "{name}",
+    "text": "(새벽) 중학교 옥상. 코스모스 꽃밭이 보이는 창 옆. 초여름의 바람이 창으로 들어온다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "어린 코토리가 도시락 뚜껑을 열고, 말이 없는 소녀에게 내밀고 있다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "오니기리 두 개. 하나에는 김으로 작은 얼굴이 그려져 있다."
+  },
+  {
+    "speaker": "코토리 (과거)",
+    "text": "맛있어요, 유이짱?"
+  },
+  {
+    "speaker": "유이 (과거)",
+    "text": "…응. 맛있어."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그 미소가 전부였다. 그것으로 충분했다."
+  },
+  {
+    "action": "system",
+    "text": "일러스트 #1 획득: '코토리와 유이 — 옥상의 도시락'"
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

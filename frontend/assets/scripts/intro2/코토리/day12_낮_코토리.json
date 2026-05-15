@@ -1,0 +1,189 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "오전 알바를 시작하려고 카운터를 정리하는데, 보자기 포장과 꽃 한 송이가 올려져 있었다.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "보자기 위에 작은 메모가 붙어 있었다."
+  },
+  {
+    "speaker": "메모",
+    "text": "어제보다 일찍 만들었어요. 맛있게 먹어요! {name}씨♡ — 코토리"
+  },
+  {
+    "speaker": "{name}",
+    "text": "뚜껑을 열었다. 오니기리 두 개. 그 위에 김으로 작은 햄스터 얼굴이 그려져 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "반찬 칸에는 달걀말이(이번에는 파가 들어있다), 소시지, 작은 한국식 김치."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…이게 뭐야. 귀엽잖아."
+  },
+  {
+    "speaker": "{name}",
+    "text": "두 개 만드는 거 쉽지 않을 텐데."
+  },
+  {
+    "speaker": "{name}",
+    "text": "같이 있는 꽃은 코스모스였다. 항상 코스모스다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코스모스. 첫날에 줬던 것도 코스모스였는데."
+  },
+  {
+    "speaker": "{name}",
+    "text": "미모사, 거베라, 리시안서스… 매일 다른 꽃을 가져다주면서, 자기가 '제일 좋아하는 꽃'은 항상 코스모스라고 했지."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 꽃집에서 달려오더니 카운터에 기대며 물었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "먹었어요?! 어땠어요?!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "저 아침에 엄청 일찍 일어났거든요. 이거 만들려고."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑨] 도시락 반응을 기다리는 코토리.",
+    "choices": [
+      {
+        "text": "이 햄스터 너무 귀여워서 못 먹겠어.",
+        "bonus_score": 8,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "햄스터 아니에요!! …맞아요 ㅎㅎ"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "칭찬인지 비판인지 모르겠는데 기분은 좋아요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "사실 처음엔 곰을 그리려고 했는데, 해놓고 보니 햄스터가 되더라고요."
+          }
+        ]
+      },
+      {
+        "text": "맛있었어. 꽃도 고마워.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "잘됐다! 내일도 만들어올까요? 뭐 먹고 싶은 거 있으면 말해요."
+          }
+        ]
+      },
+      {
+        "text": "괜히 신경 쓴 거 아냐?",
+        "bonus_score": 0,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…재료가 남아서요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 떠난 뒤, 코스모스를 카운터 꽃병에 꽂아뒀다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "오늘의 꽃이 이미 꽃병에 있었는데, 옆에 작은 유리컵을 따로 꺼내 코스모스만 단독으로 꽂았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리는 왜 항상 코스모스를 주는 걸까."
+  },
+  {
+    "speaker": "{name}",
+    "text": "퇴근하고 집에 돌아온 뒤, 코토리에게서 메시지가 왔다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "오늘 옛날 사진 정리하다가 좀 생각이 많아졌어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "아무것도 아니에요! 신경 쓰지 마요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그냥 가끔 이런 날이 있어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "사진첩 맨 뒤쪽에 중학교 때 친구랑 찍은 사진 있었거든요. 안 볼 때는 괜찮은데 보면 이상해져요."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑩] 코토리의 메시지에 답장한다.",
+    "choices": [
+      {
+        "text": "괜찮아?",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "{name}씨가 그렇게 말해주니까 괜찮아지는 것 같아요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "신기하죠? 그냥 '괜찮아?'라는 말인데."
+          }
+        ]
+      },
+      {
+        "text": "내일 얘기해줘.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "네! 오늘은 잘 자요~"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "내일 도시락 또 가져갈게요."
+          }
+        ]
+      },
+      {
+        "text": "(무시)",
+        "bonus_score": -1,
+        "next_lines": []
+      }
+    ]
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

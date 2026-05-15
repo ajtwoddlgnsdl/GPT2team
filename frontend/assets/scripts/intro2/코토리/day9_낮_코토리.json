@@ -1,0 +1,296 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "카페 앞에서 코토리를 기다렸다. 약속 시간 5분 전.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "평소 유니폼 대신 사복을 입은 코토리가 저 멀리서 손을 흔들며 뛰어왔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "연한 베이지 색 니트에 청바지. 머리는 반으로 묶어 내렸다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…평소랑 좀 다르다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨! 기다렸어요?!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "아니, 방금 왔어."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저 뛰어왔어요. 늦으면 안 될 것 같아서. 편한 신발 신고 왔어요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "운동화야."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "저도 스니커즈요! 좋아요, 가볼까요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 데리고 간 곳은 버스로 세 정거장 거리의 재래시장이었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저 이 근처 버스 탈 일이 없어서, 밖 구경 엄청 해요. 한국은 간판이 많잖아요. 그거 읽는 것도 재밌어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저기 '찜질방' 가봤어요? 저는 아직 못 가봤는데 꼭 가보고 싶어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "버스에서 내려 시장 입구에 도착했다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "짜잔! 여기예요! 사실 {N}씨한테 꼭 보여주고 싶었어요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "시장 안으로 들어서자 냄새가 확 달라졌다. 생선 냄새, 기름 냄새, 뭔가 달콤한 냄새."
+  },
+  {
+    "speaker": "{name}",
+    "text": "좁은 골목 양쪽에 가게들이 빽빽이 늘어서 있었다. 코토리는 이 안을 잘 알고 있었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "여기 이모들이 반갑게 맞아줘서요. 와봤는데 좋았어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "혼자 다닐 때는 좀 외로웠는데, 오늘은 같이 있어서 좋다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "채소 코너에서 코토리가 갑자기 멈췄다. 큰 무 하나를 두 손으로 들고 진지한 얼굴이 됐다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "이 무! {N}씨, 이 무 봐요! 진짜 좋은 무예요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "무가 다 똑같지 않아?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "달라요. 무는 요리의 기본이에요. 좋은 무는 피부가 윤기 있고, 잎 부분이 싱싱해요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "이걸로 무국 끓이면 진짜 맛있어요. 저희 할머니가 해줬던 맛이랑 비슷해져요."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑥] 무에 열정적인 코토리를 보며.",
+    "choices": [
+      {
+        "text": "요리에 대한 열정이 대단하다.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "에헤헤, 요리 얘기하면 멈출 수가 없어요! 그냥 맛있는 걸 만들어서 누군가가 맛있다고 해주면… 그 느낌이 좋아요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "엄마가 옛날에 그랬어요. '너는 요리할 때가 제일 예뻐'라고. …왜 이런 얘기를 하는 거지 나."
+          }
+        ]
+      },
+      {
+        "text": "나한테도 맛있는 거 만들어줘.",
+        "bonus_score": 8,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_반짝.png",
+            "speaker": "코토리",
+            "text": "기, 기대해주세요…!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_반짝.png",
+            "speaker": "코토리",
+            "text": "진짜예요? 그러면 진짜로 만들어드릴게요!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "…잘해야 하는데."
+          }
+        ]
+      },
+      {
+        "text": "무가 그렇게 중요해?",
+        "bonus_score": 1,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "언젠가 {name}씨도 알게 될 거예요! 요리를 좋아하게 되면 자연스럽게 알아요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "{name}",
+    "text": "생선 코너 앞에서 코토리가 얼어붙었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "…생선 머리가 다 이쪽을 쳐다보고 있어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "눈 감으면 안 쳐다봐."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "미안해, 미안해, 하면서 지나가는 게 답이에요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리는 생선 코너를 총총걸음으로 빠르게 지나갔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "과일 가게에서는 시식용 귤을 얻어 먹었다. 코토리가 한 조각씩 {N}에게 건네줬다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "이거 진짜 달아요! 먹어봐요! 저희 할머니가 그랬어요. '계절을 먹어야 건강해진다'고."
+  },
+  {
+    "speaker": "{name}",
+    "text": "뻥튀기 가게 앞에서 갑자기 '뻥—!' 소리가 났고, 코토리가 놀라서 {N}의 팔을 잡았다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "앗—! 이거 뭐예요?!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "잠깐의 접촉. 코토리가 뒤늦게 알아차리고 얼른 손을 뗐다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "죄, 죄송해요! 놀라서…"
+  },
+  {
+    "speaker": "{name}",
+    "text": "괜찮아."
+  },
+  {
+    "speaker": "{name}",
+    "text": "심장 뛰는 건 왜 이쪽이지."
+  },
+  {
+    "speaker": "{name}",
+    "text": "시장을 돌다가 떡볶이 집 앞에서 코토리가 멈췄다. 가게 앞 빨간 철판에서 떡볶이가 부글부글 끓고 있었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "저 여기 진짜 기다렸어요. 여기 떡볶이가 엄청나거든요. 먹어봐요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "둘이서 종이컵에 떡볶이와 튀김을 받아 들고, 시장 한쪽 벤치에 앉았다. 코토리가 한 입 먹더니 눈이 촉촉해졌다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "우마이!! 너무 맛있어요. 맛있는 거 먹으면 왜 이렇게 찡해지는 거야…"
+  },
+  {
+    "speaker": "{name}",
+    "text": "음식 먹고 우는 사람을 처음 봤다. 근데 이상하게 웃기지 않네."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 오늘 진짜 좋았어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "내일 같이 요리 해봐요! 저녁 7시에 {name}씨 집에서 할 수 있어요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "우리 집?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "아, 제 집은 좀… 셰어하우스 같은 거라서요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그럼 우리 집에서 해."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "정말요?! 고마워요! 재료는 제가 다 가져갈게요!"
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: Day 10 — 코토리와 함께 요리 (19:00, {name} 집)"
+  },
+  {
+    "speaker": "{name}",
+    "text": "돌아오는 버스 안에서 코토리는 오늘 찍은 사진을 보여줬다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "떡볶이 사진 두 장, 시장 골목 사진 한 장, 본인이 무 들고 있는 사진 한 장."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "이 마지막 거, 제가 찍어달라고 했어요. 기념이에요 기념!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "오늘 하루가 이렇게 지나간 게 이상하지 않다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이상하게, 편한 하루였다."
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

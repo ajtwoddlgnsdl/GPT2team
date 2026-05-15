@@ -1,22 +1,106 @@
 [
   {
-    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "{name}",
+    "text": "카페 테라스에 앉아 잠깐 쉬고 있는데, 코토리가 커다란 도시락 보자기를 들고 꽃집에서 나오는 게 보였다.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "보자기는 연분홍색. 전체적으로 코토리답다고 할까, 어딘가 정성스러운 느낌."
+  },
+  {
+    "speaker": "{name}",
+    "text": "테라스 맞은편 벤치에 앉더니, 뚜껑을 열자마자 눈이 빛났다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "{name}씨! 거기서 뭐 해요? 구경하지 말고 같이 먹어요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "아, 아니, 구경한 게 아니라…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "앉아요, 어서요! 혼자 먹으려고 했는데 {N}씨 보이니까 나눠 먹고 싶어졌어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "어쩌다 보니 코토리 옆에 앉아 있었다. 도시락 뚜껑을 여니 오니기리 두 개, 달걀말이, 소시지 볶음, 작은 샐러드."
+  },
+  {
+    "speaker": "{name}",
+    "text": "정성스럽게 만든 티가 가득했다. 무엇보다 냄새가 너무 좋았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이 오니기리에… 얼굴이 있어."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "귀엽죠?! 햄스터예요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "네! 도시락에 얼굴 있으면 먹을 때 귀엽잖아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "먹기 전에 '잘 먹겠습니다' 하면 햄스터가 더 귀여워 보여요. 해봐요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…잘 먹겠습니다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "정말 귀여워졌죠?!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "귀여워진 게 아니고 그냥 먹는 건데…"
+  },
+  {
     "character_image": "assets/images/character/코토리_기본.png",
     "speaker": "코토리",
-    "text": "아! 선배! 구경하지 말고 같이 먹어요!"
+    "text": "요리가 취미여서 매일 도시락 만들어 와요. {N}씨도 먹어볼래요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "한 입 먹었다. 달걀말이가 달고 부드러웠다. 기름과 간장 향, 그리고 아주 살짝 단맛."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…어떻게 이게 도시락 반찬이지."
   },
   {
     "action": "choice",
-    "speaker": "코토리",
-    "text": "요리가 취미라서 매일 만들어 와요. 먹어볼래요?",
+    "text": "[선택지 ④] 코토리가 반응을 기다리고 있다.",
     "choices": [
       {
-        "text": "취미 수준이 아닌데? 진짜 맛있다",
+        "text": "취미 수준이 아닌데? 진짜 맛있다.",
         "bonus_score": 5,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기쁨.png",
             "speaker": "코토리",
-            "text": "진짜요?! 사실 좀 자신 있었거든요 히히"
+            "text": "진짜요?! 사실 좀 자신 있었거든요 히히."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "달걀말이가 제일 자신 있어요. 불 세기를 맞추는 게 포인트거든요! 너무 센 불에서 하면 금방 타고, 너무 약하면 물렁해져요. 중간불에서 천천히 말아야 해요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "잘됐다, 맛있는 사람한테는 더 만들어 오고 싶어지는 거 있잖아요!"
           }
         ]
       },
@@ -25,21 +109,138 @@
         "bonus_score": 3,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기본.png",
             "speaker": "코토리",
-            "text": "중학교 때부터… 친구한테 만들어주면서."
+            "text": "중학교 때부터… 친구한테 만들어주면서요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "그 친구가 제 도시락 맛있다고 해줬거든요. 그게 시작이었어요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "그래서 요리 자체를 좋아하게 됐어요!"
           }
         ]
       },
       {
-        "text": "괜찮은데, 좀 달다",
-        "bonus_score": -3,
+        "text": "좀 달다.",
+        "bonus_score": 1,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_슬픔.png",
             "speaker": "코토리",
-            "text": "다음엔 한국 입맛에 맞춰볼게요!"
+            "text": "한국 입맛이랑 일본 입맛 차이가 좀 있나봐요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "다음엔 좀 덜 달게 만들어볼게요!"
           }
         ]
       }
     ]
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "요리하는 동안은 딴 생각이 안 돼요. 그냥 뭘 썰고, 뭘 볶고, 어떻게 담을까만 생각하니까."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그래서 도시락 만드는 게 좋아요. 뭔가… 집중할 수 있어서."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 말을 하다 말고 도시락 한쪽 구석을 쳐다봤다. 거기에 작은 매실 장아찌가 놓여 있었다. 코토리가 그걸 젓가락으로 집어 {N} 쪽으로 밀었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이건 덤이에요. 짠 거 좋아해요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "가끔."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그러면 다음엔 좀 더 넣어올게요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "요리 얘기 할 때는 눈이 달라진다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "평소에도 눈이 큰데, 진짜 좋아하는 거 얘기할 때는 더 커진다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "도시락을 다 먹은 뒤에도 둘은 잠깐 벤치에 그대로 앉아 있었다. 오후 두 시 반쯤. 해가 좋아서 눈이 부실 정도였다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 시험 공부 많이 해요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "…하긴 하는데 잘 안 돼."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저도 고등학교 때 그랬어요. 책상 앞에 앉아 있는데 시간만 가고."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저는 그럴 때 요리했어요. 10분만 요리해도 뭔가 '해냈다'는 느낌이 드니까요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨는 공부 잘 안 될 때 뭐 해요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "…카페 와."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "카페 일 하러 오는 게 쉬는 시간이라고요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "응. 뭔가 움직이게 되니까."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "이해 돼요 그거. 머리 쓰는 일 말고 손 쓰는 일이 필요한 거죠."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "그러면 {name}씨 카페 오면 제가 귀찮게 할 거예요. 손 쓰는 일 늘려드릴게요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "그건 좀 사양하고 싶은데."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "에이—! 친해졌는데 왜 그래요!"
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / 카페 미니게임 가능 (행동력 -1)"
   }
 ]

@@ -1,0 +1,133 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "코토리가 직접 도시락을 건넸다. 이번에는 꽃다발도 함께였다.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "항상 몰래 놓고 가던 것과 달리, 오늘은 정면으로 내밀었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "표정이 평소보다 살짝 긴장돼 보였다. 숨을 한 번 고르고 카운터 앞에 섰다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이건 유이짱한테 만들어주던 것을 {name}씨 버전으로 바꿔본 거예요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "꽃다발을 가리키며… 꽃은… 빨간 카네이션. 꽃말이 '당신을 사랑합니다'… 아, 아니! '감사'라는 뜻도 있어요!!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "감사예요 감사! 오해하지 마세요!!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "도시락 뚜껑을 열었다. 오니기리는 없었다. 대신 흰 밥 위에 카라아게 세 조각."
+  },
+  {
+    "speaker": "{name}",
+    "text": "어제 같이 만든 그 카라아게. 레몬즙까지 살짝 뿌려져 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그 옆엔 달걀말이, 샐러드, 그리고 오이 무침 같은 한국식 반찬까지."
+  },
+  {
+    "speaker": "{name}",
+    "text": "일본과 한국이 적당히 섞인 도시락. 어디에도 없는, 코토리만의 도시락."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑭] ★ 코토리가 도시락에 담긴 의미를 보여줬다.",
+    "choices": [
+      {
+        "text": "이건 코토리만의 맛이야.",
+        "bonus_score": 10,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "그 말 듣고 싶었어요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "유이짱 맛이 아니라 코토리 맛. 그 말이요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "어제 만들고 나서 계속 생각했어요. 이걸 누구 맛이라고 해야 할지."
+          }
+        ],
+        "branch_score": {
+          "화해": 1
+        }
+      },
+      {
+        "text": "유이짱이 먹었으면 좋아했을 거야.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "그랬으면 좋겠어요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "유이짱한테도 언젠가 전해줄 수 있으면 좋겠어요."
+          }
+        ],
+        "branch_score": {
+          "독립": 1
+        }
+      },
+      {
+        "text": "네가 만들었으니까 다 맛있어.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "그 말도 기뻐요. 계속 만들어드릴게요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 내일 저녁 7시에 좀 특별한 도시락을 같이 만들고 싶은데, 시간 돼요?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "좀… 중요한 거라서요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "중요한 거?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "네. 내일 얘기해드릴게요."
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: Day 17 — 코토리와 특별한 도시락 만들기 (19:00)"
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

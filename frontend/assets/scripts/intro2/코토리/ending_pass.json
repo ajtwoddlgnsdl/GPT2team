@@ -1,0 +1,16 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "(흰 카네이션 — '감사') 짧은 시간이었지만 즐거웠어요. 고마웠어요."
+  },
+  {
+    "action": "system",
+    "text": "엔딩 CG: 빈 꽃집 유리창. 코스모스 한 송이와 메모: '감사했어요 — 코토리'"
+  }
+]

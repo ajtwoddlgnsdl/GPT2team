@@ -1,0 +1,62 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱한테 메시지 보냈어요. 답장은 안 왔지만… 이제 괜찮아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "계속 과거만 보고 있으면, 지금 옆에 있는 사람을 놓칠 것 같아서요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "(도시락을 건네며) 이건 유이짱을 위한 요리가 아니에요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "{name}씨를 위한 요리예요. 처음부터 끝까지."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "저, {name}씨를 좋아해요. {name}씨 덕분에 새로운 계절이 시작된 것 같아요."
+  },
+  {
+    "action": "choice",
+    "text": "나도 좋아해, 코토리.",
+    "choices": [
+      {
+        "text": "나도 좋아해, 코토리.",
+        "bonus_score": 0,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "그러면 이 꽃집 계속 다닐 거예요! {N}씨 카페 옆이니까. 매일 볼 수 있으니까."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "제가 내리는 커피도 연습해두면 되겠다!"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: 코토리와 새로운 계절의 시작 ♡"
+  },
+  {
+    "action": "system",
+    "text": "엔딩 CG: 꽃집 앞 코토리 + 커피 두 잔 들고 오는 {name}."
+  }
+]

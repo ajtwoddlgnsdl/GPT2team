@@ -1,0 +1,108 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "꽃집은 열려 있다. 그런데 코토리가 없다. 다른 직원이 일하고 있었다.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "카페 테이블 위 꽃병에는 어제 코토리가 꽂아두고 간 코스모스가 고개를 숙이고 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "하룻밤 사이에 많이 시들었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…처음으로 코토리가 없는 낮이다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "점심 시간이 다 되도록 코토리에게서 추가 연락은 없었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "평소에는 아무렇지 않게 지나가던 시간이 오늘따라 조용했다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "꽃집 쪽을 자꾸 보게 됐다. 언제나 코토리가 있던 자리에 다른 사람이 있는 게 이상했다."
+  },
+  {
+    "speaker": "점장",
+    "text": "코토리 오늘 안 와?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "오후에 온대요."
+  },
+  {
+    "speaker": "점장",
+    "text": "어제 무슨 일 있었어?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "…"
+  },
+  {
+    "speaker": "점장",
+    "text": "{name}의 얼굴을 한 번 보더니. 일 있으면 기다려주는 게 답이야. 재촉하는 거 아니고."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…네."
+  },
+  {
+    "speaker": "{name}",
+    "text": "시든 코스모스를 꽃병에서 꺼내 창가에 뒀다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그 자리에 다른 꽃을 꽂지는 않았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "괜찮은 걸까."
+  },
+  {
+    "speaker": "{name}",
+    "text": "분명히 유이짱 일 때문일 거다. 어제 SNS 알림 보고 굳었던 거."
+  },
+  {
+    "speaker": "{name}",
+    "text": "점심이 지나서, 꽃집 문이 열렸다. 코토리였다. 한 손에 도시락, 한 손에 꽃다발. 어제보다 얼굴이 좀 밝았다.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "카페 테라스로 코토리가 걸어 들어왔다. 햇살이 그 뒤에서 비치고 있어서 실루엣이 살짝 빛나 보였다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "걱정했죠? 미안해요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "정리가 됐어요. 이제 앞으로 갈 수 있을 것 같아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "전부 {name}씨 덕분이에요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "말 안 해도 괜찮아요. 그냥 들어주세요."
+  },
+  {
+    "action": "system",
+    "text": "호감도에 따라 엔딩 분기"
+  }
+]
