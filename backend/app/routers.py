@@ -232,19 +232,30 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
     db.commit()
     return {"status": "success"}
 
-@router.post("/play-minigame")
-def play_minigame(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+@router.post("/minigame/start")
+def start_minigame(game_type: str = Body(..., embed=True), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
     if not user:
         return {"status": "error"}
     if user.action_points < GameConfig.MINIGAME_COST:
         return {"status": "fail", "error_code": "NOT_ENOUGH_AP"}
-        
+    
     user.action_points -= GameConfig.MINIGAME_COST
-    earned_money = random.randint(GameConfig.MINIGAME_REWARD_MIN, GameConfig.MINIGAME_REWARD_MAX)
+    db.commit()
+    return {"status": "success", "current_ap": user.action_points}
+
+@router.post("/minigame/reward")
+def reward_minigame(game_type: str = Body(...), cleared_level: int = Body(...), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
+    if not user:
+        return {"status": "error"}
+    
+    reward_table = {1: 50, 2: 100, 3: 150, 4: 200, 5: 250}
+    earned_money = reward_table.get(cleared_level, 50)
+    
     user.money += earned_money
     db.commit()
-    return {"status": "success", "earned_money": earned_money, "current_ap": user.action_points, "total_money": user.money}
+    return {"status": "success", "earned_money": earned_money, "total_money": user.money}
 
 @router.post("/buy-gift")
 def buy_gift(heroine_name: str = Body(..., embed=True), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):

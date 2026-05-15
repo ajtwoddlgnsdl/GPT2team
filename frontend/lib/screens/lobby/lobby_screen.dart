@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../core/api_client.dart';
 import '../story/story_screen.dart';
 import 'phone_screen.dart';
+import 'minigame_screen.dart';
 
 class LobbyScreen extends StatefulWidget {
   const LobbyScreen({super.key});
@@ -319,7 +321,40 @@ class _LobbyScreenState extends State<LobbyScreen>
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        if (_isPhoneOpen) {
+          _closePhone();
+        } else {
+          final shouldExit = await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              title: const Text('앱 종료', style: TextStyle(color: Color(0xFF2D3142), fontWeight: FontWeight.w700)),
+              content: const Text('게임을 정말 종료하시겠습니까?', style: TextStyle(color: Color(0xFF6B7280))),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('취소', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('종료', style: TextStyle(color: Color(0xFFE85D75), fontWeight: FontWeight.w600)),
+                ),
+              ],
+            ),
+          );
+
+          if (shouldExit ?? false) {
+            SystemNavigator.pop();
+          }
+        }
+      },
+      child: Scaffold(
       body: Stack(
         children: [
           // 1. 🌅 시간대별 배경
@@ -506,7 +541,24 @@ class _LobbyScreenState extends State<LobbyScreen>
                         timeOffset: _timeOffset,
                         onClose: _closePhone,
                         currentZoneCode: _getZoneCode(_serverHour),
-                        apps: buildDefaultApps(),
+                        apps: buildDefaultApps(callbacks: {
+                          'E-class': () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) => MinigameScreen(
+                                  actionPoints: _ap,
+                                  onClose: () => Navigator.of(context).pop(),
+                                  onRewardEarned: (earned) {
+                                    setState(() => _money += earned);
+                                  },
+                                  onAPChanged: (newAP) {
+                                    setState(() => _ap = newAP);
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        }),
                       ),
                     ),
                   ),
@@ -515,6 +567,6 @@ class _LobbyScreenState extends State<LobbyScreen>
             ),
         ],
       ),
-    );
+    ));
   }
 }

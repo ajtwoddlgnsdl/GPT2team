@@ -231,19 +231,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     }).toList(),
                   ),
                 ),
-
-                const SizedBox(height: 40),
-
-                // ── 하단 홈 인디케이터 ──
-                Container(
-                  width: 140,
-                  height: 5,
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF5F4A41).withValues(alpha: 0.2),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+                const Spacer(),
+                const SizedBox(height: 50),
               ],
             ),
           ),
