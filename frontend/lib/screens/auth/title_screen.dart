@@ -706,7 +706,7 @@ class _TitleScreenState extends State<TitleScreen>
     setState(() => _state = TitleState.loading);
     try {
       final res = await ApiClient().dio.post('/auth/guest-login');
-      if (res.statusCode == 200) {
+      if (res.statusCode == 200 && res.data['status'] == 'success') {
         await ApiClient().storage.write(
           key: 'access_token',
           value: res.data['access_token'],
@@ -715,57 +715,55 @@ class _TitleScreenState extends State<TitleScreen>
           key: 'user_id',
           value: res.data['user_id'],
         );
-        debugPrint("✅ 게스트 로그인 성공 → Intro1 이동");
-        _goToIntro1();
-      }
-    } on DioException catch (e) {
-      debugPrint("🚨 게스트 로그인 실패 (서버 미실행?): ${e.response?.data ?? e.message}");
-      // 서버 연결 불가(오프라인/개발 중)인 경우에도 Intro1 진입 허용
-      if (!mounted) return;
-      final isConnectionError =
-          e.type == DioExceptionType.connectionError ||
-          e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout;
-      if (isConnectionError) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('서버 연결 불가 — 오프라인 게스트로 진입합니다.'),
-            backgroundColor: Color(0xFF444466),
-            duration: Duration(seconds: 2),
-          ),
-        );
-        await Future.delayed(const Duration(milliseconds: 600));
-        _goToIntro1();
+        debugPrint("✅ 게스트 로그인 성공 → 스토리 체크");
+        _checkStoryStatus();
       } else {
+        debugPrint("🚨 게스트 로그인 실패: 예상치 못한 응답 ${res.data}");
+        if (!mounted) return;
         setState(() => _state = TitleState.needLogin);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              '로그인 실패: ${e.response?.data?['detail'] ?? e.message ?? '알 수 없는 오류'}',
-            ),
+          const SnackBar(
+            content: Text('로그인에 실패했습니다. 다시 시도해주세요.'),
             backgroundColor: Colors.redAccent,
           ),
         );
       }
-    }
-  }
+    } on DioException catch (e) {
+      debugPrint("🚨 게스트 로그인 DioException: ${e.response?.data ?? e.message}");
+      if (!mounted) return;
+      setState(() => _state = TitleState.needLogin);
 
-  void _goToIntro1() {
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) =>
-            const StoryScreen(storyId: 'intro_1_prologue', storyTicket: ''),
-      ),
-    );
+      String errorMsg = e.response?.data?['detail'] ?? '알 수 없는 오류가 발생했습니다.';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        errorMsg = '서버와 연결할 수 없습니다. 백엔드 서버가 켜져 있는지 확인해주세요.';
+      } else if (e.message != null) {
+        errorMsg = e.message!;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg), backgroundColor: Colors.redAccent),
+      );
+    } catch (e) {
+      debugPrint("🚨 게스트 로그인 예외: $e");
+      if (!mounted) return;
+      setState(() => _state = TitleState.needLogin);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('오류가 발생했습니다. 다시 시도해주세요.'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+    }
   }
 
   Future<void> _checkStoryStatus() async {
     setState(() => _state = TitleState.loading);
     try {
       final res = await ApiClient().dio.get('/check-story');
-      if (res.statusCode == 200 && mounted) {
+      if (!mounted) return;
+      if (res.statusCode == 200) {
         final autoPlay = res.data['auto_play_story'];
         if (autoPlay['is_available'] == true) {
           Navigator.pushReplacement(
@@ -784,9 +782,28 @@ class _TitleScreenState extends State<TitleScreen>
             MaterialPageRoute(builder: (_) => const LobbyScreen()),
           );
         }
+      } else {
+        debugPrint("🚨 스토리 체크 실패: 예상치 못한 상태코드 ${res.statusCode}");
+        setState(() => _state = TitleState.readyToStart);
       }
     } on DioException catch (e) {
-      debugPrint("🚨 스토리 체크 실패: ${e.response?.data ?? e.message}");
+      debugPrint("🚨 스토리 체크 DioException: ${e.response?.data ?? e.message}");
+      if (!mounted) return;
+
+      setState(() => _state = TitleState.readyToStart);
+
+      String errorMsg = '스토리 정보를 불러오지 못했습니다.';
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout ||
+          e.type == DioExceptionType.connectionError) {
+        errorMsg = '서버와 연결할 수 없습니다.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg), backgroundColor: Colors.redAccent),
+      );
+    } catch (e) {
+      debugPrint("🚨 스토리 체크 예외: $e");
       if (mounted) setState(() => _state = TitleState.readyToStart);
     }
   }
