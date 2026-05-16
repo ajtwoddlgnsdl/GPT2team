@@ -1,0 +1,127 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "오늘의 코토리는 어딘가 평소랑 달랐다.",
+    "bg_image": "assets/images/bg/lobby_night.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "장바구니를 내려놓는 손길이 조심스럽고, 말수도 적었다. 앞치마를 입는 동작 하나하나가 의식 같았다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱한테 만들어주지 못했던 도시락… 같이 만들어줄 수 있어요? 혼자서는 울 것 같아서."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 레시피를 설명하면서 재료를 하나씩 꺼냈다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "카라아게 재료, 달걀, 쌀, 그리고 오니기리 속재료로 매실장아찌와 연어."
+  },
+  {
+    "speaker": "{name}",
+    "text": "메뉴 구성을 보니 그날 도시락을 재현하려는 것 같았다. 그때 못 전해준 도시락을."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "어쩔 수 없죠, 있는 걸로 최선을!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨한테 배웠어요, 이거. 없는 거 아쉬워하는 대신 있는 걸로 최선 다하는 거요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "처음에 파 없을 때, {N}씨가 괜찮다고 해줬잖아요. 그때부터 생각이 바뀌었어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "주방은 조용했다. 치이익— 기름 끓는 소리, 칼로 무 써는 소리, 가끔 작은 숨소리."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 오니기리를 빚으면서 손길이 평소보다 더 조심스러웠다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이건 매실장아찌. 유이짱이 제일 좋아하던 거."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이건 연어. 이것도 좋아했고."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "…이건 {name}씨 거예요. 참치마요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "내 거?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "네. {name}씨 버전도 있어야 하잖아요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "도시락이 완성됐다. 코토리가 3단 도시락의 위 두 칸에 유이짱 몫을, 맨 아래 칸에 {N} 몫을 담았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 코스모스 한 송이를 도시락 옆에 놓았다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "전하지 못했던 도시락. 이제야 완성한 것 같아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이 코스모스는 유이짱 몫이에요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "{N}은 말없이 그 옆에 앉아 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이 자리에서 내가 할 수 있는 건 그냥 옆에 있어주는 거다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "둘이 조용히 {N}의 몫 도시락을 먹었다. 유이짱 몫은 별도의 접시에 그대로 남겨뒀다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "마치 그 자리에 비어있는 의자가 한 개 더 있는 것처럼."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 내일 2시에 카페 테라스에서 할 이야기가 있어요. 들어줄 수 있어요?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "오늘은 아직… 말할 준비가 안 돼서요."
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: Day 18 — 코토리의 이야기 듣기 (14:00, 카페 테라스)"
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

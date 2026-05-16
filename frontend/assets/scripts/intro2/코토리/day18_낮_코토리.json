@@ -1,0 +1,214 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "오늘은 코토리가 약속 시간보다 일찍 왔다. 꽃집 문을 열면서 코토리가 손을 흔들었다.",
+    "bg_image": "assets/images/bg/flowershop.png"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 오늘 날씨 좋죠?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "정말로 오늘은 날씨가 좋았다. 바람도 좀 불고."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저 오늘 좀 일찍 왔어요. 꽃 받아서 정리 중이에요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "오늘 배달 온 꽃 중에 코스모스가 좀 많아요. 한 다발 드릴까요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "갑자기?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그냥요. 오늘 많이 왔거든요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "창가에 두면 예뻐요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코스모스 한 다발을 받아 들었다. 연보라색이었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "꽃을 받은 게 몇 번째지. 다 코스모스다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "사실 오늘 꽃이 많다고 거짓말했어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "…주고 싶어서 주는 거예요. 오늘은."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "2시에 봐요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 빠르게 꽃집 안으로 들어갔다. 얼굴이 살짝 빨갰다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "점심 때 카페를 열고 혼자 청소를 하고 있었는데, 코토리가 테라스 문을 두드렸다.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "왔어요! 오늘은 제가 커피 내려볼게요. {N}씨가 가르쳐주면 돼요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "처음이야?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "카페에서 사 마셨지, 만들어본 적은 없어요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리에게 드립 방법을 가르쳐줬다. 물 붓는 속도, 원을 그리는 방향.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이렇게요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "조심조심 물을 부으면서 코토리가 혀를 살짝 내밀고 집중했다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "집중할 때의 얼굴은 꽃다발 만들 때와 똑같았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "전집중 꽃의 호흡, 이치노카타. 갑자기 그 말이 떠올랐다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "다 됐어요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 완성된 커피를 한 모금 마셨다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "…맛있어요! 제가 만든 게 맞아요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "잘 만들었어."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "그러면 다음엔 제가 내려줄게요! {name}씨가 저한테 커피 사주는 게 아니라, 제가 {name}씨한테 사주는 거."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…기대할게."
+  },
+  {
+    "speaker": "{name}",
+    "text": "도시락을 펼쳐 먹으면서 한동안 말이 없었다. 나쁘지 않은 침묵이었다. 오히려 편안한 침묵.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "있잖아요, {name}씨. 한국에 온 진짜 이유, 내일 말해도 돼요? 오늘은 좀… 준비가 필요한 것 같아서요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "물론이지."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "고마워요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 커피잔을 두 손으로 감싸고 멀리 바라봤다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이 카페 테라스, 좋아요. 여기 앉아 있으면 뭐든 말할 수 있을 것 같아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨가 있어서 그런가봐요."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지] 코토리가 마음의 준비를 하고 있다.",
+    "choices": [
+      {
+        "text": "내일 들을게. 기다릴게.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "고마워요. 내일 꼭 말할게요."
+          }
+        ]
+      },
+      {
+        "text": "준비 필요 없어. 코토리가 말하고 싶을 때 말해.",
+        "bonus_score": 8,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "…그 말이 제일 무서우면서도 제일 편해요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "판단 안 할 것 같아서요, {name}씨는."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "어쩌면 오늘 말할 수 있을지도 몰라요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: Day 19 — 코토리의 진짜 이야기 (14:00, 카페 테라스)"
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

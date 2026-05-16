@@ -1,0 +1,179 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "오늘 코토리는 왠지 조금 긴장한 것 같았다. 주방에 들어와서도 평소처럼 재잘거리지 않고, 장바구니에서 재료를 꺼내면서 조용히 손을 움직였다.",
+    "bg_image": "assets/images/bg/lobby_night.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이건 유이짱한테 매일 만들어줬던 거예요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "마지막으로 만들어준 게 이거였는데, 그 날 이후로는 전해주지 못했어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 냉장고를 열었다가 멈췄다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "레몬이 없어요…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "유이짱은 항상 레몬 꼭 짜서 먹었거든요…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "레몬즙이 있어야 이게 유이짱 카라아게인데…"
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑫] ★ 화해/독립 분기",
+    "choices": [
+      {
+        "text": "없이 가보자. 코토리 카라아게잖아.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "맛은 변하지 않으니까요. …네, 해봐요."
+          }
+        ]
+      },
+      {
+        "text": "그 맛 그대로 만들어주고 싶지? 내가 사올게.",
+        "bonus_score": 10,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "{name}씨, 왜 이렇게 좋은 사람이에요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "고마워요. 근데 편의점 멀지 않아요?"
+          },
+          {
+            "speaker": "{name}",
+            "text": "금방 갔다올게."
+          },
+          {
+            "speaker": "{name}",
+            "text": "편의점에서 레몬 한 팩을 사 돌아왔을 때, 코토리는 이미 닭가슴살을 손질하고 있었다."
+          },
+          {
+            "speaker": "{name}",
+            "text": "눈가가 살짝 붉었지만 표정은 평온했다."
+          }
+        ],
+        "branch_score": {
+          "화해": 2
+        }
+      },
+      {
+        "text": "그 친구한테 직접 만들어주면 되지 않아?",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…연락이 안 돼요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "그게 되면 좋겠는데."
+          }
+        ],
+        "branch_score": {
+          "독립": 2
+        }
+      }
+    ]
+  },
+  {
+    "speaker": "{name}",
+    "text": "카라아게가 완성됐다. 기름 소리, 좋은 냄새."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 접시 옆에 레몬 한 조각을 가지런히 놓았다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "…유이짱이 좋아했던 맛이에요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "잠깐 둘 다 말이 없었다. 코토리가 먼저 한 조각 먹고, 잠깐 천장을 봤다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "…맛이 똑같네요. 이상하다. 7년이나 지났는데."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨도 먹어봐요. 식어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이 카라아게가 코토리한테는 그냥 요리가 아니구나."
+  },
+  {
+    "speaker": "{name}",
+    "text": "식사가 끝나고도 코토리는 식탁에 앉아 있었다. 평소보다 천천히 일어섰다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 오늘 먹어줘서 고마워요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이거 만들면서 울면 어떡하지 걱정했는데, 안 울었어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "울어도 돼."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨가 이런 말 하면 진짜로 울 것 같아서 안 돼요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 가방을 메면서 잠깐 멈췄다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "또 얘기해도 돼요? 유이짱 얘기."
+  },
+  {
+    "speaker": "{name}",
+    "text": "언제든지."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "…고마워요."
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

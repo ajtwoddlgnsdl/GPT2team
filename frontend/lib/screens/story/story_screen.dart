@@ -83,11 +83,12 @@ class _StoryScreenState extends State<StoryScreen> {
         _isLoading = false;
       });
     } catch (e) {
-      debugPrint("🚨 대본 로드 실패: $e");
+      debugPrint("🚨 대본 로드 실패 ($filePath): $e");
       if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const LobbyScreen()),
+        );
       }
     }
   }
@@ -97,9 +98,8 @@ class _StoryScreenState extends State<StoryScreen> {
     if (line.containsKey('bg_image')) {
       _currentBgImage = line['bg_image'];
     }
-    if (line.containsKey('character_image')) {
-      _currentCharacterImage = line['character_image'];
-    }
+    // character_image가 없는 라인이면 null로 초기화해서 이미지를 숨김
+    _currentCharacterImage = line['character_image'] as String?;
   }
 
   // 💡 화면을 터치했을 때 다음 스토리로 넘어가는 핵심 로직!
@@ -185,11 +185,25 @@ class _StoryScreenState extends State<StoryScreen> {
 
           if (!mounted) return;
 
-          // 💡 뒤로 가기 대신, 아예 로비 화면으로 스무스하게 갈아 끼우기!
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const LobbyScreen()),
-          );
+          final nextStory = response.data['next_story'];
+          if (nextStory != null) {
+            // 다음 스토리가 있으면 바로 이어서 재생
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => StoryScreen(
+                  storyId: nextStory['story_id'],
+                  storyTicket: nextStory['story_ticket'],
+                  heroineName: nextStory['heroine_name'],
+                ),
+              ),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const LobbyScreen()),
+            );
+          }
         } else if (response.data['status'] == 'error') {
           if (!mounted) return;
           final errorCode = response.data['error_code'] ?? 'UNKNOWN_ERROR';
@@ -390,16 +404,23 @@ class _StoryScreenState extends State<StoryScreen> {
             else
               Container(color: Colors.black),
 
-            // 2. 🧍‍♀️ 캐릭터 스탠딩 이미지 렌더링
+            // 2. 🧍‍♀️ 캐릭터 스탠딩 이미지 렌더링 (character_image 있는 라인에서만 표시)
             if (_currentCharacterImage != null)
-              Align(
-                alignment: Alignment.center,
-                child: Image.asset(
-                  _currentCharacterImage!,
-                  errorBuilder: (context, error, stackTrace) {
-                    debugPrint("🚨 캐릭터 이미지 로드 실패: $_currentCharacterImage");
-                    return const SizedBox.shrink(); // 실패 시 투명하게 아무것도 안 그림
-                  },
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: MediaQuery.of(context).size.height * 0.58,
+                child: Center(
+                  child: Image.asset(
+                    _currentCharacterImage!,
+                    fit: BoxFit.contain,
+                    alignment: Alignment.bottomCenter,
+                    errorBuilder: (context, error, stackTrace) {
+                      debugPrint("🚨 캐릭터 이미지 로드 실패: $_currentCharacterImage");
+                      return const SizedBox.shrink();
+                    },
+                  ),
                 ),
               ),
 

@@ -1,45 +1,217 @@
 [
   {
-    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "{name}",
+    "text": "오전부터 비가 내렸다. 일기예보에서 비 얘기가 없었던 것 같은데, 갑자기 쏟아졌다.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "골목길에는 갑작스러운 비에 뛰어 들어오는 행인들이 보였다. 카페 창문에 빗방울이 줄줄 흘러내렸다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "두 시가 지났는데 코토리가 아직 오지 않았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "오늘은 비 와서 안 오는 건가. …근데 꽃집은 열려 있는 것 같은데."
+  },
+  {
+    "speaker": "{name}",
+    "text": "세 시쯤 꽃집 문이 열리더니 코토리가 뛰어 들어왔다. 우산 없이. 머리카락과 앞치마가 축축하게 젖어 있었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "{name}씨—!! 저 완전 비 맞았어요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "아침에 일기예보 확인 안 했거든요. 우산 없어서 비 그치길 기다렸는데 안 그치네요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그걸 기다린 거야?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "네. 근데 더 내릴 것 같아서 그냥 뛰어왔어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "수건 줄게. 잠깐만."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "고마워요—"
+  },
+  {
     "character_image": "assets/images/character/코토리_기본.png",
     "speaker": "코토리",
-    "text": "6"
+    "text": "아, {name}씨 오늘은 꽃 못 가져왔어요. 비 때문에 꽃 젖으면 안 되거든요. 내일은 꼭 가져올게요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리는 아이스 아메리카노 대신 오늘은 따뜻한 아메리카노를 시켰다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "비 오는 날엔 따뜻한 게 나아요. 따뜻한 거 받으면 손부터 따뜻해지잖아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "아— 살 것 같다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "감기 걸리면 어떡하려고."
   },
   {
     "action": "choice",
-    "speaker": "코토리",
-    "text": "6",
+    "text": "[선택지] 비 맞은 코토리가 커피를 마시고 있다.",
     "choices": [
       {
-        "text": "6",
+        "text": "감기 걸리면 어떡해. 조심해.",
         "bonus_score": 5,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기본.png",
             "speaker": "코토리",
-            "text": "6"
+            "text": "…걱정해주는 거예요?"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "저 이런 말 들을 때마다 좀 얼떨떨해요. 일본에선 이렇게 직접적으로 안 말하거든요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "그래서… 좋네요."
           }
         ]
       },
       {
-        "text": "6",
-        "bonus_score": 3,
+        "text": "너무 얇게 입었네. 집 먼 것도 아닌데.",
+        "bonus_score": 2,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기본.png",
             "speaker": "코토리",
-            "text": "6"
-          }
-        ]
-      },
-      {
-        "text": "6",
-        "bonus_score": -3,
-        "next_lines": [
+            "text": "앞치마만 입고 뛰어와서 그래요. 본래 코트도 있는데."
+          },
           {
+            "character_image": "assets/images/character/코토리_슬픔.png",
             "speaker": "코토리",
-            "text": "6"
+            "text": "…이제 비 멈출 때까지 기다려야 해요?"
           }
         ]
       }
     ]
+  },
+  {
+    "speaker": "{name}",
+    "text": "유리창에 부딪히는 빗소리와 카운터 위 꽃병에 꽂힌 어제 거베라. 그리고 따뜻한 머그컵."
+  },
+  {
+    "speaker": "{name}",
+    "text": "가게 안이 묘하게 평화로웠다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "비 오는 카페, 뭔가 낭만적이네요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "제가 좋아하는 노래에 딱 맞는 분위기예요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "무슨 노래?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "아이유 노래요. '비와 당신'이라고, 비 오는 날마다 생각나는 노래."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "…한국에 와서 제일 많이 들은 노래예요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "한국에 와서 제일 많이 들었다. 왜?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "네 시쯤 비가 조금 약해졌다. 코토리가 시계를 보더니 일어났다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "이 정도면 뛰어갈 수 있겠어요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "잠깐."
+  },
+  {
+    "speaker": "{name}",
+    "text": "가게 뒷방에서 접이식 우산을 꺼내왔다. 점장이 두고 다니는 여분 우산이었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "가져가. 내일 돌려주면 돼."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "정말요? 고마워요—!! 내일 꼭 돌려드릴게요! 깨끗하게 닦아서!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 오늘 진짜 고마워요. 수건도 커피도 우산도."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "은혜 갚을 방법 생각해볼게요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 우산을 펴고 꽃집 쪽으로 달려갔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "우산이 좀 크다. 코토리가 들기엔 확실히 좀 컸다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…귀여운데."
+  },
+  {
+    "speaker": "{name}",
+    "text": "지금 내가 무슨 생각을 한 거지."
+  },
+  {
+    "speaker": "{name}",
+    "text": "가게를 정리하면서 문득 생각했다. 코토리가 우산을 들고 뛰어가던 뒷모습이 자꾸 눈에 밟혔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그거, 솔직히 좀 기대된다."
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / 카페 미니게임 가능 (행동력 -1)"
   }
 ]

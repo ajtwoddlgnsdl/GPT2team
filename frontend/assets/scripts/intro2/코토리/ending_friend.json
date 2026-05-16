@@ -1,0 +1,30 @@
+[
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "…알겠어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "근데 도시락은 계속 만들어올 거예요! 옆 가게니까 어쩔 수 없어요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "…옆에 있는 건 괜찮죠?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "물론이지."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "그러면 됐어요. 내일도 올게요."
+  },
+  {
+    "action": "system",
+    "text": "엔딩 CG: 카페 테라스. 조금 떨어져 앉아 도시락. 코토리가 애써 밝게 웃고 있다."
+  }
+]

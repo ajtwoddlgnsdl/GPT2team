@@ -1,0 +1,314 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "카페 테라스. 코토리가 먼저 와 있었다.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "오늘은 아이스 아메리카노 대신 따뜻한 차를 시켰다. 손이 좀 차가워 보였다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "햇빛이 좋은데 코토리는 카디건 소매 끝을 자꾸 만지작거렸다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "어디서부터 시작해야 할지 고민하는 얼굴이었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "사실 한국에 온 건 유이짱 때문이에요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱 마지막 메시지가 '나 한국에 있어. 여기 좋아.'였거든요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "…유이짱이 전학 가고 나서 한참 후에 온 메시지요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저는 그때 고3이었어요. 수능 한 달 전이었어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저는 답장을 보내려고 썼는데… 전송 버튼을 못 눌렀어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "'갈게'라고 썼는데. 그게 전부예요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "뭐라고 더 써야 할지 모르겠는 거예요. 그때 답장 안 했던 것도 너무 미안하고."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그래서 결국 못 보냈어요. 몇 번 썼다 지웠다 하다가."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "수능 끝나고 1년 동안 재수했어요. 근데 결국 한국으로 유학 오기로 결정했어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "꽃집을 고른 것도… 유이짱이 코스모스를 좋아했으니까요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "혹시라도 유이짱이 지나가다가 꽃집 앞에서 코스모스를 보면…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "말도 안 되는 생각이죠? 근데 그게 제가 할 수 있는 유일한 거였어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨한테 이 얘기 하는 건… {name}씨니까예요. 다른 사람한테는 하기 어려운 이야기인데."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑮] ★ 최종 루트 분기",
+    "choices": [
+      {
+        "text": "전해졌을 거야, 네 마음. 지금은 내가 옆에 있으니까.",
+        "bonus_score": 10,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "{name}씨가 옆에 있어줘서 괜찮아요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "이상하다. 우는 게 아닌데 눈물이 나요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "오래 혼자서 안고 있었던 거, 누군가가 안다는 게 이렇게 가벼워지는 거구나."
+          }
+        ],
+        "branch_score": {
+          "화해": 3
+        }
+      },
+      {
+        "text": "보내봐. 아직 늦지 않았을 수도.",
+        "bonus_score": 7,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "…보냈어요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "이제 기다릴 수 있어요. 답장 오든 안 오든, 보냈다는 것만으로도…"
+          }
+        ],
+        "branch_score": {
+          "독립": 3
+        }
+      },
+      {
+        "text": "힘든 이야기 해줘서 고마워.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "{name}씨가 들어줘서 가벼워졌어요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "{name}",
+    "text": "오후 내내 카페에 있던 코토리가 갑자기 핸드폰을 보다가 굳어버렸다.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "SNS 알림. 낯선 계정. 프로필 사진에 코스모스."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리의 손이 미세하게 떨렸다. 얼굴에서 핏기가 빠지는 게 보일 정도였다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "…선배— 아, {name}씨."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "저 오늘 좀 일찍 갈게요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 가방을 챙기다가 잠깐 멈췄다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "…내일도 올게요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그 말을 남기고 코토리가 카페를 나갔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "평소였다면 '내일 봐요!' 하고 환하게 웃었을 텐데."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑯] 코토리가 나가려고 한다.",
+    "choices": [
+      {
+        "text": "필요하면 언제든 연락해.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "고마워요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…정말요?"
+          },
+          {
+            "speaker": "{name}",
+            "text": "정말."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "만약에… 너무 힘들면 연락할게요."
+          }
+        ]
+      },
+      {
+        "text": "무슨 일이야?",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "…유이짱 찾았어요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "내일 얘기해요."
+          }
+        ]
+      },
+      {
+        "text": "조심히 가.",
+        "bonus_score": 1,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "내일 봐요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "{name}",
+    "text": "가게 문이 닫히고 한동안 카페 안이 고요했다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…유이짱."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 찾고 있던 그 사람."
+  },
+  {
+    "speaker": "{name}",
+    "text": "조금 뒤, 코토리에게서 메시지가 왔다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "오늘 일찍 가서 미안해요. 내일은 좀 정리할 게 있어서 꽃집 못 갈 것 같아요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "오후에 시간 되면 카페로 갈게요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "…고마워요, 기다려줘서."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "도시락 만들어 갈게요. 좀 많이 만들게요."
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: Day 20 — 코토리가 돌아온다 (오후)"
+  },
+  {
+    "action": "unlock",
+    "text": "⏰ 01:00 새벽 과거 스토리 Ch.3 해금: '비행기와 코스모스'"
+  },
+  {
+    "speaker": "{name}",
+    "text": "(새벽) 인천행 비행기. 창밖에 구름이 펼쳐져 있다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리의 무릎 위에 코스모스 한 다발. 이륙 때부터 줄곧 품에 안고 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "20살 코토리. 교복이 아닌 사복을 입고 있다. 핸드폰 화면에 미전송 메시지가 그대로 있다. '갈게.'"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리는 창밖을 보다가 눈을 감는다. 1년 2개월 전에 썼던 메시지. 보내지 못한 메시지."
+  },
+  {
+    "speaker": "코토리 (과거)",
+    "text": "…유이짱, 나 갔어."
+  },
+  {
+    "action": "system",
+    "text": "일러스트 #3 획득: '코토리 — 비행기와 코스모스'"
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

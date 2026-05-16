@@ -1,45 +1,141 @@
 [
   {
-    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
-    "character_image": "assets/images/character/코토리_기본.png",
-    "speaker": "코토리",
-    "text": "8"
+    "speaker": "{name}",
+    "text": "카페 쉬는 날. 별다른 예정도 없다.",
+    "bg_image": "assets/images/bg/lobby_dawn.jpg"
   },
   {
-    "action": "choice",
+    "speaker": "{name}",
+    "text": "이불 위에 누워 천장을 보고 있는데, 어디선가 청소기 소리가 들리는 것 외에는 조용하다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "창밖으로 햇빛이 비스듬히 들어오고, 먼지가 햇살 속에서 떠다니는 게 보였다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "핸드폰을 들고 SNS를 이리저리 뒤져봤지만 재미가 없었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "특별히 뭘 해야 할 것 같은 이 느낌이 오히려 더 공허하다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그때 — 누군가의 얼굴이 불쑥 머릿속에 떠올랐다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…코토리."
+  },
+  {
+    "speaker": "{name}",
+    "text": "매일 오후 두 시에 아이스 아메리카노를 사러 오던 꽃집 아이."
+  },
+  {
+    "speaker": "{name}",
+    "text": "꽃말을 말해주던 목소리. 도시락 뚜껑을 열며 빛나던 눈."
+  },
+  {
+    "speaker": "{name}",
+    "text": "비 맞고 뛰어 들어왔던 모습. 우산 빌려주자 꾸벅 인사하던 모습."
+  },
+  {
+    "speaker": "{name}",
+    "text": "일주일이 어떻게 흘러갔는지 모르겠는데, 그 일주일 안에 이 정도의 기억이 쌓여 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…왜 제일 먼저 떠올랐지."
+  },
+  {
+    "speaker": "{name}",
+    "text": "핸드폰이 울렸다. 코토리에게서 메시지."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
     "speaker": "코토리",
-    "text": "8",
-    "choices": [
-      {
-        "text": "8",
-        "bonus_score": 5,
-        "next_lines": [
-          {
-            "speaker": "코토리",
-            "text": "8"
-          }
-        ]
-      },
-      {
-        "text": "8",
-        "bonus_score": 3,
-        "next_lines": [
-          {
-            "speaker": "코토리",
-            "text": "8"
-          }
-        ]
-      },
-      {
-        "text": "8",
-        "bonus_score": -3,
-        "next_lines": [
-          {
-            "speaker": "코토리",
-            "text": "8"
-          }
-        ]
-      }
-    ]
+    "text": "{name}씨! 오늘 카페 쉬는 날이죠? 저도 꽃집 쉬는 날이에요! 완전 우연이에요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "혹시… 내일 시간 있어요? 가고 싶은 데가 있는데 {name}씨랑 같이 가고 싶어서요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "거절해도 괜찮아요! 근데 같이 가면 더 좋을 것 같아서 물어봐요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "세 개의 메시지가 왔다. 그런데 손가락은 이미 코토리와의 대화창 위에 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…왜지. 다른 걸 먼저 열어야 하는 거 아닌가."
+  },
+  {
+    "speaker": "{name}",
+    "text": "근데 코토리한테 먼저 답하고 싶다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…내가 언제부터 이랬지."
+  },
+  {
+    "speaker": "{name}",
+    "text": "내일 시간 있어. 어디 가고 싶은데?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "정말요?!!! 비밀이에요 히히"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "근데 편한 신발 신어 와요! 좀 걸을 수도 있어요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "오후 한 시 어때?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "좋아요! 한 시에 카페 앞에서 봐요! 내일 진짜 기대돼요! 잘 자요!"
+  },
+  {
+    "action": "system",
+    "text": "📌 캘린더: Day 9 — 코토리와 외출 (장소: ???, 편한 신발 필수)"
+  },
+  {
+    "speaker": "{name}",
+    "text": "이불 위에 다시 누워서 천장을 봤다. 조금 전과 비슷한 자세. 그런데 기분은 완전히 달랐다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "내일. 코토리랑 어디를 간다고."
+  },
+  {
+    "speaker": "{name}",
+    "text": "편한 신발이라고 했지. 운동화가 낫겠다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "신발장을 한 번 들여다봤다. 오랜만에 내일 뭘 입을지 고민하는 자신이 낯설었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "창밖 하늘이 노을 색이었다. 평범한 쉬는 날이 이상하게 특별해진 느낌이었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…내일이 빨리 오면 좋겠다."
+  },
+  {
+    "action": "system",
+    "text": "코토리가 메인 히로인으로 결정되었습니다. Day 8 이후부터 새벽 시간대(24:00~06:00)가 해금됩니다. ⚠️ 미접속 페널티 시작."
   }
 ]

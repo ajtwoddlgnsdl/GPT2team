@@ -1,45 +1,185 @@
 [
   {
-    "bg_image": "assets/images/bg/lobby_afternoon.jpg",
+    "speaker": "{name}",
+    "text": "코토리가 오늘은 커피를 사면서 꽃 한 송이를 카운터에 올려뒀다. 보라색 꽃. 처음 보는 종류였다.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
     "character_image": "assets/images/character/코토리_기본.png",
     "speaker": "코토리",
-    "text": "5"
+    "text": "{name}씨, 이거 봐요. 이건 '거베라'예요. 꽃말이 '수수께끼'래요. 뭔가 멋있지 않아요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "꽃말을 다 알고 있어?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "그럼요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "예를 들면 장미는 '사랑', 해바라기는 '당신을 향해', 라벤더는 '당신의 향기에 취하다'… 이런 식으로요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "꽃다발 포장할 때 손님한테 꽃말도 같이 설명해드리면 되게 좋아하세요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "'이 꽃은 이런 뜻이 있어요'라고 하면, 선물 받는 사람도 더 좋아한다고 하더라고요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이 애는 꽃에 대해서 정말 많이 알고 있구나."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨한테 어울리는 꽃 찾아줄까요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 턱에 손을 대고 정말로 진지하게 나를 관찰했다. 너무 빤히 쳐다봐서 오히려 눈을 어디에 둬야 할지 모를 지경이었다."
   },
   {
     "action": "choice",
-    "speaker": "코토리",
-    "text": "5",
+    "text": "[선택지 ⑤] 코토리가 나를 빤히 보고 있다.",
     "choices": [
       {
-        "text": "5",
+        "text": "코토리한테 어울리는 꽃은 뭔데?",
         "bonus_score": 5,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기본.png",
             "speaker": "코토리",
-            "text": "5"
+            "text": "저요? 코스모스요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "이유는 비밀이에요. 언젠가 꼭 말해줄게요."
           }
         ]
       },
       {
-        "text": "5",
+        "text": "꽃에 진심이네.",
         "bonus_score": 3,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_기쁨.png",
             "speaker": "코토리",
-            "text": "5"
+            "text": "당연하죠! 꽃집 직원인데요!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "사실 꽃집 들어온 것도… 꽃이 좋아서예요. 설명할 수 없는 이유로."
           }
         ]
       },
       {
-        "text": "5",
-        "bonus_score": -3,
+        "text": "난 그런거 별로 안 좋아해서",
+        "bonus_score": 1,
         "next_lines": [
           {
+            "character_image": "assets/images/character/코토리_슬픔.png",
             "speaker": "코토리",
-            "text": "5"
+            "text": "그러면 제가 하나씩 알려줄게요!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "오늘부터 매일 하나씩 가르쳐드릴게요. {name}씨가 싫다고 해도요."
           }
         ]
       }
     ]
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨한테는… 음, 사계국이 어울릴 것 같아요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "사계국?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "꽃말이 '조용히 그대 곁에'예요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "뭔가… 그게 {name}씨 같은 느낌이에요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이유를 물어볼 타이밍을 놓쳤다. 코토리는 이미 거베라를 카운터에 올려두고 일어나 있었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "꽃, 카페에 두고 가도 돼요? 분위기 좋아질 것 같아서."
+  },
+  {
+    "speaker": "{name}",
+    "text": "상관없어. 점장도 꽃 좋아하니까."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기쁨.png",
+    "speaker": "코토리",
+    "text": "잘됐다! 내일도 다른 꽃 가져올게요. 매일 다른 꽃, 어때요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "매일?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "오늘부터 이 카페는 매일 다른 꽃이 있는 카페입니다! 기대해주세요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "퇴근 후 카운터 위의 거베라를 가까이서 봤다. 그냥 예쁘다 정도의 감상이 전부였는데."
+  },
+  {
+    "speaker": "{name}",
+    "text": "꽃잎이 여러 겹으로 되어 있었고, 가까이서 보니 가운데 부분이 까맣고 그 주위를 보라색이 둘러싼 구조였다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "수수께끼… 라고 했던가."
+  },
+  {
+    "speaker": "{name}",
+    "text": "오후에 단골 할아버지가 들어와서 카운터 위의 꽃을 한참 들여다봤다."
+  },
+  {
+    "speaker": "단골 할아버지",
+    "text": "…꽃이 있네."
+  },
+  {
+    "speaker": "{name}",
+    "text": "네. 옆 꽃집에서 가져다 주더라고요."
+  },
+  {
+    "speaker": "단골 할아버지",
+    "text": "옆에 꽃집 생겼나. 좋네."
+  },
+  {
+    "speaker": "{name}",
+    "text": "꽃 하나 놓은 걸로 가게 분위기가 달라졌나 보네."
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / 카페 미니게임 가능 (행동력 -1)"
   }
 ]

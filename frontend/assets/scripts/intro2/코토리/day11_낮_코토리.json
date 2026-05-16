@@ -1,0 +1,178 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "오늘 코토리는 커피 주문하면서 양손에 뭔가를 들고 왔다. 한쪽 손엔 앞치마 주머니에 꽂은 가위, 다른 손엔 작은 유리병에 꽂은 꽃.",
+    "bg_image": "assets/images/bg/cafe.jpg"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨, 이거 카페에 놓아도 돼요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "작은 유리병에 노란 꽃 두 송이가 꽂혀 있었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "카페에 꽃이 있으면 분위기가 확 달라져요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "꽃 이름이 뭐야?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "미모사예요. 꽃말이 '감수성이 풍부한 마음'이래요. 노란색이 따뜻해서, 여기 분위기랑 잘 맞을 것 같았어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "카페에 꽃 두면 손님도 좋아해요. 뭔가 '이 카페 사랑받고 있네' 하는 느낌?"
+  },
+  {
+    "speaker": "점장",
+    "text": "오, 좋은데? 매일 갖다 놔도 돼."
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "정말요?! 그러면 매일 오늘의 꽃을 가져올게요!"
+  },
+  {
+    "character_image": "assets/images/character/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "꽃은 제가 고를게요. {name}씨 취향 연구해둘게요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "취향 연구…"
+  },
+  {
+    "speaker": "점장",
+    "text": "{name}아, 꽃집 생기니까 우리 카페도 격상되네."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그런 건가요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이후 매일 코토리가 카페에 꽃을 가져다 놓는 것이 루틴이 된다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "오후 세 시쯤 손님이 빠지자 코토리가 카운터 앞 의자에 앉아 핸드폰을 보고 있었다. 아메리카노는 이미 반 정도 비워져 있었다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨는 취미 같은 거 있어요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "딱히…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "뭔가 하고 싶은 거요. 시험 끝나고 하고 싶은 것."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저는… 요즘 {name}씨랑 이야기하는 게 제일 즐거운 것 같아요. 이게 취미가 되는 건가요?"
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑧] 코토리와 쉬는 시간 대화.",
+    "choices": [
+      {
+        "text": "코토리랑 얘기하는 게 내 취미가 될 것 같은데.",
+        "bonus_score": 8,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "그런 말 하면 진짜로 믿어요?!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "아… 근데 기쁘기도 하고."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "저도 그런 게 있으면 좋겠다. {name}씨랑 하는 일이 취미가 되는 거."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "이미 있는 것 같기도 하고요."
+          }
+        ]
+      },
+      {
+        "text": "나도 뭔가 찾아봐야겠다.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "찾으면 알려주세요! 같이 해볼 수 있으면 재밌을 것 같아요."
+          }
+        ]
+      },
+      {
+        "text": "딱히 없어.",
+        "bonus_score": 0,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "그러면 제가 추천해드릴게요!"
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "요리부터 시작해봐요. 저 잘 가르쳐줄 수 있어요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저는 카페 오는 게 진짜 취미가 됐어요. 아, 커피 마시러 오는 거 말고요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "{name}씨가 있으니까 오고 싶은 것 같아요."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 자기가 한 말에 뒤늦게 당황한 것처럼 갑자기 일어났다."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "이, 일하러 가야겠어요! 또 올게요!"
+  },
+  {
+    "speaker": "{name}",
+    "text": "가게 문이 열리고 닫히는 사이, 앉았던 의자는 아직 살짝 따뜻했다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "…쟤도 부끄러움을 타기는 하는구나."
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]

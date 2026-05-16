@@ -1,0 +1,180 @@
+[
+  {
+    "speaker": "{name}",
+    "text": "오늘 코토리는 카페 테라스에 코스모스 한 다발을 테이블에 놓았다.",
+    "bg_image": "assets/images/bg/cafe_street.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "한 송이가 아니라 다발. 꽤 묵직한 크기였다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "아메리카노를 받아 들더니 한동안 말을 하지 않고 꽃을 보고 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "어제 요리 힘들었어?"
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "아니요, 그건 아닌데… 어제 카라아게 만들면서 고등학교 때 생각이 났어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "어제 말하려다 못 한 얘기 있어요. 오늘은 해도 돼요?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "해."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "고등학교 때 유이짱이 점점 힘들어했어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "학교에도 잘 안 나오고, 메시지도 읽었는데 답장을 안 할 때가 많아졌어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "저는 그때 입시 준비에 정신이 없었거든요. 고등학교 2학년 여름이었어요. 시험 기간이라서 정말 바빴고."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱 메시지를 보고도 '내일 답장해야지' 하고 넘긴 날이 많았어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "어느 날 유이짱이 '도시락 먹고 싶다'고 보냈어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "근데 저는 그날도 '내일 가져다줄게' 하고 넘겼어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "'내일' '내일' 하다가… 그게 마지막 메시지였어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "며칠 후에 유이짱이 전학 갔다는 걸 알았어요. 부모님 사정으로 한국에 갔다고 학교에서 들었어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "도시락을 한 번만 더 가져갔더라면…"
+  },
+  {
+    "character_image": "assets/images/character/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "코스모스 꽃말이 '소녀의 순정'이래요. 유이짱이 왜 코스모스를 좋아했는지… 이제야 알 것 같아요."
+  },
+  {
+    "action": "choice",
+    "text": "[선택지 ⑬] ★ 코토리가 과거 이야기를 털어놓고 있다.",
+    "choices": [
+      {
+        "text": "코토리 탓이 아니야. 충분히 해줬어.",
+        "bonus_score": 8,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "고마워요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "그렇게 말해주는 사람이 없었어요. 그 말 필요했어요."
+          },
+          {
+            "character_image": "assets/images/character/코토리_슬픔.png",
+            "speaker": "코토리",
+            "text": "저는 계속… 제가 답장 안 해서 유이짱이 더 힘들어졌을 거라고 생각했거든요."
+          }
+        ],
+        "branch_score": {
+          "화해": 2
+        }
+      },
+      {
+        "text": "유이짱 한국에 있다고 했지? 찾아보면 되잖아.",
+        "bonus_score": 5,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "무서워요. 뭐라고 해야 할지."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "…그렇게 생각한 적 없었어요. 찾는 건."
+          },
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "계속 과거에만 있었던 것 같아요."
+          }
+        ],
+        "branch_score": {
+          "독립": 2
+        }
+      },
+      {
+        "text": "힘든 이야기 해줘서 고마워.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "character_image": "assets/images/character/코토리_기본.png",
+            "speaker": "코토리",
+            "text": "{name}씨니까 말할 수 있었어요."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "action": "unlock",
+    "text": "⏰ 01:00 새벽 과거 스토리 Ch.2 해금: '읽지 못한 메시지'"
+  },
+  {
+    "speaker": "{name}",
+    "text": "(새벽) 고등학생 코토리. 책상 위에 펴진 참고서, 한쪽에 쌓인 문제집."
+  },
+  {
+    "speaker": "{name}",
+    "text": "핸드폰 화면이 밝게 켜져 있다. 유이의 메시지가 올라와 있다. '도시락 먹고 싶다.'"
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 화면을 잠깐 보다가… 닫는다. 잠시 후 다시 핸드폰을 들어 화면을 본다. 답장을 쓰려다 지운다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그 사이 참고서의 페이지가 바뀌고, 시간이 흐른다. 책상 위에 놓인 화분의 시든 코스모스 한 송이."
+  },
+  {
+    "speaker": "코토리 (과거)",
+    "text": "내일 답장해야지."
+  },
+  {
+    "action": "system",
+    "text": "일러스트 #2 획득: '코토리 — 읽지 못한 메시지'"
+  },
+  {
+    "action": "system",
+    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
+  }
+]
