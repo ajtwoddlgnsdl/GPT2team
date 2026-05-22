@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": ""
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",

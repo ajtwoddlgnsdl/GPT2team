@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "Day 7. 벌써 일주일이 지났다. 돌아보면 코토리와 얘기하지 않은 날이 없었다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "Day 7. 벌써 일주일이 지났다. 돌아보면 코토리와 얘기하지 않은 날이 없었다."
   },
   {
     "speaker": "{name}",
@@ -82,9 +82,9 @@
     "text": "앞으로도 잘 부탁해요, {name}씨!"
   },
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "오늘은 코토리가 쉬는 시간에 커다란 도시락을 들고 나왔다. 평소보다 눈에 띄게 큰 사이즈. 보자기로 꽁꽁 싸 매어 있었다.",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": "오늘은 코토리가 쉬는 시간에 커다란 도시락을 들고 나왔다. 평소보다 눈에 띄게 큰 사이즈. 보자기로 꽁꽁 싸 매어 있었다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",

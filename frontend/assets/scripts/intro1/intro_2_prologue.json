@@ -4,9 +4,9 @@
     "text": "나는 반대 방향으로 발길을 돌렸다. 내가 일하는 카페로."
   },
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "",
-    "text": "일하는 카페는 동네 골목 안쪽의 작은 가게다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "일하는 카페는 동네 골목 안쪽의 작은 가게다."
   },
   {
     "speaker": "",
@@ -96,11 +96,11 @@
     "speaker": "",
     "text": "오후가 조금 지났을 무렵이었다."
   },
-   {
+  {
     "speaker": "",
     "text": "딸랑—"
   },
-   {
+  {
     "speaker": "",
     "text": "문 위 작은 벨이 울렸다."
   },
@@ -109,9 +109,9 @@
     "text": "들어온 건 아까 창밖에서 봤던 그 여자였다."
   },
   {
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "저, 아이스 아메리카노 한 잔 주세요!",
-    "character_image": "assets/images/character/코토리/코토리_기본.png"
+    "text": "저, 아이스 아메리카노 한 잔 주세요!"
   },
   {
     "speaker": "",
@@ -127,8 +127,7 @@
   },
   {
     "speaker": "코토리",
-    "text": "여기 분위기 좋네요. 나무 느낌이 아늑하고.",
-    "character_image": "assets/images/character/코토리/코토리_기본.png"
+    "text": "여기 분위기 좋네요. 나무 느낌이 아늑하고."
   },
   {
     "speaker": "",
@@ -143,14 +142,14 @@
     "text": "아메리카노를 건네자 그녀가 두 손으로 컵을 받았다. 한 모금 마시더니 눈을 동그랗게 떴다."
   },
   {
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
-    "text": "맛있다!",
-    "character_image": "assets/images/character/코토리/코토리_반짝.png"
+    "text": "맛있다!"
   },
   {
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "옆에서 이사 준비하다 왔는데, 딱 필요했던 거예요.",
-    "character_image": "assets/images/character/코토리/코토리_기본.png"
+    "text": "옆에서 이사 준비하다 왔는데, 딱 필요했던 거예요."
   },
   {
     "speaker": "",

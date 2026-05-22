@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "카페 테라스. 코토리가 먼저 와 있었다.",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": "카페 테라스. 코토리가 먼저 와 있었다."
   },
   {
     "speaker": "{name}",
@@ -142,9 +142,9 @@
     ]
   },
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "오후 내내 카페에 있던 코토리가 갑자기 핸드폰을 보다가 굳어버렸다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "오후 내내 카페에 있던 코토리가 갑자기 핸드폰을 보다가 굳어버렸다."
   },
   {
     "speaker": "{name}",

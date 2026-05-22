@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "코토리가 직접 도시락을 건넸다. 이번에는 꽃다발도 함께였다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "코토리가 직접 도시락을 건넸다. 이번에는 꽃다발도 함께였다."
   },
   {
     "speaker": "{name}",

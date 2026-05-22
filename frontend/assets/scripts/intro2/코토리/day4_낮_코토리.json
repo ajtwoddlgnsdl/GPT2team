@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "카페 테라스에 앉아 잠깐 쉬고 있는데, 코토리가 커다란 도시락 보자기를 들고 꽃집에서 나오는 게 보였다.",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": "카페 테라스에 앉아 잠깐 쉬고 있는데, 코토리가 커다란 도시락 보자기를 들고 꽃집에서 나오는 게 보였다."
   },
   {
     "speaker": "{name}",

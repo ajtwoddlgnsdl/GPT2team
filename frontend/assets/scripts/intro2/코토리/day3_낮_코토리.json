@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "오늘 점심시간 무렵, 꽃집 쪽에서 작은 환호성이 들렸다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "오늘 점심시간 무렵, 꽃집 쪽에서 작은 환호성이 들렸다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
@@ -152,9 +152,9 @@
     "text": "근데 이 정도로 상대방 페이스에 끌려들어가는 사람은 오랜만이다."
   },
   {
+    "bg_image": "assets/images/bg/flowershop.png",
     "speaker": "{name}",
-    "text": "마감 시간 전에 잠깐 틈이 났다. 점장이 '코토리네 꽃집 한번 가봐' 하고 등을 떠밀었다.",
-    "bg_image": "assets/images/bg/flowershop.png"
+    "text": "마감 시간 전에 잠깐 틈이 났다. 점장이 '코토리네 꽃집 한번 가봐' 하고 등을 떠밀었다."
   },
   {
     "speaker": "{name}",

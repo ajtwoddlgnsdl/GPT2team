@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/lobby_dawn.jpg",
     "speaker": "{name}",
-    "text": "카페 쉬는 날. 별다른 예정도 없다.",
-    "bg_image": "assets/images/bg/lobby_dawn.jpg"
+    "text": "카페 쉬는 날. 별다른 예정도 없다."
   },
   {
     "speaker": "{name}",

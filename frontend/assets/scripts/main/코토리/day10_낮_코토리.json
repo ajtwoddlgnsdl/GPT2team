@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/lobby_night.jpg",
     "speaker": "{name}",
-    "text": "카페 알바를 마치고 집에 들어오는데 코토리가 현관 앞에 서 있었다.",
-    "bg_image": "assets/images/bg/lobby_night.jpg"
+    "text": "카페 알바를 마치고 집에 들어오는데 코토리가 현관 앞에 서 있었다."
   },
   {
     "speaker": "{name}",

@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "오전부터 비가 내렸다. 일기예보에서 비 얘기가 없었던 것 같은데, 갑자기 쏟아졌다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "오전부터 비가 내렸다. 일기예보에서 비 얘기가 없었던 것 같은데, 갑자기 쏟아졌다."
   },
   {
     "speaker": "{name}",

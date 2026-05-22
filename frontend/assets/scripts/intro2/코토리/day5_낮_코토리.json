@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "코토리가 오늘은 커피를 사면서 꽃 한 송이를 카운터에 올려뒀다. 보라색 꽃. 처음 보는 종류였다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "코토리가 오늘은 커피를 사면서 꽃 한 송이를 카운터에 올려뒀다. 보라색 꽃. 처음 보는 종류였다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",

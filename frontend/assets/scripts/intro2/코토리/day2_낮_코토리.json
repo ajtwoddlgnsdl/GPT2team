@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "코토리는 정말로 매일 왔다. 오후 두 시가 되면 어김없이 꽃집 문이 열리고, 코토리가 카페 안으로 들어왔다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "코토리는 정말로 매일 왔다. 오후 두 시가 되면 어김없이 꽃집 문이 열리고, 코토리가 카페 안으로 들어왔다."
   },
   {
     "speaker": "{name}",

@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "오전 알바를 시작하려고 카운터를 정리하는데, 보자기 포장과 꽃 한 송이가 올려져 있었다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "오전 알바를 시작하려고 카운터를 정리하는데, 보자기 포장과 꽃 한 송이가 올려져 있었다."
   },
   {
     "speaker": "{name}",

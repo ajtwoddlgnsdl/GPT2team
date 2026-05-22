@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "오늘 코토리는 카페 테라스에 코스모스 한 다발을 테이블에 놓았다.",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": "오늘 코토리는 카페 테라스에 코스모스 한 다발을 테이블에 놓았다."
   },
   {
     "speaker": "{name}",

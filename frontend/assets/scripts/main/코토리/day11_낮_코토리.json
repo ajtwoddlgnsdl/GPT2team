@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "오늘 코토리는 커피 주문하면서 양손에 뭔가를 들고 왔다. 한쪽 손엔 앞치마 주머니에 꽂은 가위, 다른 손엔 작은 유리병에 꽂은 꽃.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "오늘 코토리는 커피 주문하면서 양손에 뭔가를 들고 왔다. 한쪽 손엔 앞치마 주머니에 꽂은 가위, 다른 손엔 작은 유리병에 꽂은 꽃."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",

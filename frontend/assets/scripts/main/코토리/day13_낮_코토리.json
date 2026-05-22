@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "카페 테라스에서 코토리가 도시락을 꺼내 놓으며 잠깐 코스모스를 만지작거렸다.",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": "카페 테라스에서 코토리가 도시락을 꺼내 놓으며 잠깐 코스모스를 만지작거렸다."
   },
   {
     "speaker": "{name}",

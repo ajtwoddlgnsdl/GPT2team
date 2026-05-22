@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/lobby_night.jpg",
     "speaker": "{name}",
-    "text": "오늘의 코토리는 어딘가 평소랑 달랐다.",
-    "bg_image": "assets/images/bg/lobby_night.jpg"
+    "text": "오늘의 코토리는 어딘가 평소랑 달랐다."
   },
   {
     "speaker": "{name}",

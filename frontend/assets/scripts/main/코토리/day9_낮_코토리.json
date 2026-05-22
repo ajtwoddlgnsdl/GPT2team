@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "카페 앞에서 코토리를 기다렸다. 약속 시간 5분 전.",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": "카페 앞에서 코토리를 기다렸다. 약속 시간 5분 전."
   },
   {
     "speaker": "{name}",

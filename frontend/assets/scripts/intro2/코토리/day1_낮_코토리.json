@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "오늘도 카페 문을 열었다. 점장은 오전에 일이 생겨 자리를 비웠다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "오늘도 카페 문을 열었다. 점장은 오전에 일이 생겨 자리를 비웠다."
   },
   {
     "speaker": "{name}",
@@ -21,9 +21,9 @@
     "text": "그때 — 옆 꽃집에서 요란한 소리가 났다."
   },
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "가게 유리 너머로 작은 여자아이가 혼자 큰 화분을 옮기려다 휘청거리고 있었다.",
-    "bg_image": "assets/images/bg/cafe_street.jpg"
+    "text": "가게 유리 너머로 작은 여자아이가 혼자 큰 화분을 옮기려다 휘청거리고 있었다."
   },
   {
     "speaker": "{name}",
@@ -171,9 +171,9 @@
     ]
   },
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "꽃을 들고 카페로 돌아왔다. 카운터 뒤에 있는 작은 유리컵에 꽂았다.",
-    "bg_image": "assets/images/bg/cafe.jpg"
+    "text": "꽃을 들고 카페로 돌아왔다. 카운터 뒤에 있는 작은 유리컵에 꽂았다."
   },
   {
     "speaker": "{name}",
