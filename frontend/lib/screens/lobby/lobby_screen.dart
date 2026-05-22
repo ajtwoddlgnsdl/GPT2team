@@ -213,7 +213,7 @@ class _LobbyScreenState extends State<LobbyScreen>
   String _getBackgroundImage() {
     final int hour = _serverHour;
     if (hour >= 6 && hour < 12) return 'assets/images/bg/lobby_morning.jpg';
-    if (hour >= 12 && hour < 18) return 'assets/images/bg/lobby_afternoon.png';
+    if (hour >= 12 && hour < 18) return 'assets/images/bg/lobby_afternoon.jpg';
     if (hour >= 18 && hour < 24) return 'assets/images/bg/lobby_night.jpg';
     return 'assets/images/bg/lobby_dawn.jpg';
   }
@@ -333,17 +333,40 @@ class _LobbyScreenState extends State<LobbyScreen>
             context: context,
             builder: (context) => AlertDialog(
               backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              title: const Text('앱 종료', style: TextStyle(color: Color(0xFF2D3142), fontWeight: FontWeight.w700)),
-              content: const Text('게임을 정말 종료하시겠습니까?', style: TextStyle(color: Color(0xFF6B7280))),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: const Text(
+                '앱 종료',
+                style: TextStyle(
+                  color: Color(0xFF2D3142),
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              content: const Text(
+                '게임을 정말 종료하시겠습니까?',
+                style: TextStyle(color: Color(0xFF6B7280)),
+              ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('취소', style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w600)),
+                  child: const Text(
+                    '취소',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: const Text('종료', style: TextStyle(color: Color(0xFFE85D75), fontWeight: FontWeight.w600)),
+                  child: const Text(
+                    '종료',
+                    style: TextStyle(
+                      color: Color(0xFFE85D75),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -355,218 +378,227 @@ class _LobbyScreenState extends State<LobbyScreen>
         }
       },
       child: Scaffold(
-      body: Stack(
-        children: [
-          // 1. 🌅 시간대별 배경
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(_getBackgroundImage()),
-                fit: BoxFit.cover,
+        body: Stack(
+          children: [
+            // 1. 🌅 시간대별 배경
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(_getBackgroundImage()),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
 
-          // 2. 📱 핸드폰 히트박스 (시간대별 위치)
-          if (_hasPhoneInBackground() && !_isPhoneOpen)
-            Builder(
-              builder: (context) {
-                final rect = _getPhoneHitboxRect(screenWidth, screenHeight);
-                return Positioned(
-                  left: rect.left,
-                  top: rect.top,
-                  width: rect.width,
-                  height: rect.height,
-                  child: GestureDetector(
-                    onTap: _openPhone,
-                    child: AnimatedBuilder(
-                      animation: _pulseCtrl,
-                      builder: (_, child) {
-                        final pulse = 0.6 + 0.4 * _pulseCtrl.value;
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            border: Border.all(
-                              color: Colors.white.withValues(
-                                alpha: 0.25 * pulse,
-                              ),
-                              width: 1.2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
+            // 2. 📱 핸드폰 히트박스 (시간대별 위치)
+            if (_hasPhoneInBackground() && !_isPhoneOpen)
+              Builder(
+                builder: (context) {
+                  final rect = _getPhoneHitboxRect(screenWidth, screenHeight);
+                  return Positioned(
+                    left: rect.left,
+                    top: rect.top,
+                    width: rect.width,
+                    height: rect.height,
+                    child: GestureDetector(
+                      onTap: _openPhone,
+                      child: AnimatedBuilder(
+                        animation: _pulseCtrl,
+                        builder: (_, child) {
+                          final pulse = 0.6 + 0.4 * _pulseCtrl.value;
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
                                 color: Colors.white.withValues(
-                                  alpha: 0.08 * pulse,
+                                  alpha: 0.25 * pulse,
                                 ),
-                                blurRadius: 8 * pulse,
+                                width: 1.2,
                               ),
-                            ],
-                          ),
-                        );
-                      },
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withValues(
+                                    alpha: 0.08 * pulse,
+                                  ),
+                                  blurRadius: 8 * pulse,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
+                  );
+                },
+              ),
 
-          // 4-1. 🎯 시간대별 행동 버튼 (핸드폰 제외한 기존 버튼들)
-          if (!_isPhoneOpen)
+            // 4-1. 🎯 시간대별 행동 버튼 (핸드폰 제외한 기존 버튼들)
+            if (!_isPhoneOpen)
+              Positioned(
+                bottom: 50,
+                left: 20,
+                right: 20,
+                child: _buildDynamicButtons(),
+              ),
+
+            // 5. 💰 상단 상태창
             Positioned(
-              bottom: 50,
+              top: 50,
               left: 20,
               right: 20,
-              child: _buildDynamicButtons(),
-            ),
-
-          // 5. 💰 상단 상태창
-          Positioned(
-            top: 50,
-            left: 20,
-            right: 20,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.6),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    _playerName,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.6),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.2),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      _playerName,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.bolt,
-                        color: Colors.yellowAccent,
-                        size: 20,
-                      ),
-                      Text(
-                        " $_ap",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.bolt,
+                          color: Colors.yellowAccent,
+                          size: 20,
                         ),
-                      ),
-                      const SizedBox(width: 15),
-                      const Icon(
-                        Icons.monetization_on,
-                        color: Colors.amber,
-                        size: 20,
-                      ),
-                      Text(
-                        " $_money",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // 6. 📱 스마트폰 오버레이 (통합 연속 연출)
-          if (_isPhoneOpen)
-            AnimatedBuilder(
-              animation: _phoneAnimCtrl,
-              builder: (context, child) {
-                // Interval 1: 0.0~0.4 (바닥에서 중간 크기로 등장)
-                final t1 = CurvedAnimation(
-                  parent: _phoneAnimCtrl,
-                  curve: const Interval(0.0, 0.8, curve: Curves.easeOutCubic),
-                ).value;
-
-                // Interval 2: 0.4~1.0 (중간 크기에서 풀스크린으로 확장)
-                final t2 = CurvedAnimation(
-                  parent: _phoneAnimCtrl,
-                  curve: const Interval(0.2, 1.0, curve: Curves.easeOutQuart),
-                ).value;
-
-                // 중간 단계 크기 (82% x 78%)
-                final midW = screenWidth * 0.82;
-                final midH = screenHeight * 0.78;
-
-                // 1. 크기 계산: 바닥(0) -> 중간(t1) -> 풀스크린(t2)
-                // t2가 0일 때는 midW 유지, t2가 1일 때는 screenWidth
-                final currentW = midW + (screenWidth - midW) * t2;
-                final currentH = midH + (screenHeight - midH) * t2;
-
-                // 2. 위치 계산:
-                final centerX = (screenWidth - currentW) / 2;
-                final midY = (screenHeight - midH) / 2; // 중간 단계의 정중앙 Y
-
-                // t1 단계: 화면 아래(screenHeight)에서 midY까지 올라옴
-                // t2 단계: midY에서 0.0(풀스크린 시작점)까지 확장됨
-                final startY = screenHeight;
-                final currentY = (startY + (midY - startY) * t1) * (1 - t2);
-
-                // 3. 스타일 보간
-                final radius = 32.0 * (1 - t2);
-                final opacity = (t1 / 0.2).clamp(0.0, 1.0); // 아주 살짝 페이드인
-
-                return Positioned(
-                  left: centerX,
-                  top: currentY,
-                  child: Opacity(
-                    opacity: opacity,
-                    child: Container(
-                      width: currentW,
-                      height: currentH,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(radius),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(
-                              alpha: 0.2 * (1 - t2),
-                            ),
-                            blurRadius: 40 * (1 - t2),
-                            offset: Offset(0, 14 * (1 - t2)),
+                        Text(
+                          " $_ap",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
                           ),
-                        ],
-                      ),
-                      child: PhoneScreen(
-                        timeOffset: _timeOffset,
-                        onClose: _closePhone,
-                        currentZoneCode: _getZoneCode(_serverHour),
-                        apps: buildDefaultApps(callbacks: {
-                          'E-class': () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => MinigameScreen(
-                                  actionPoints: _ap,
-                                  onClose: () => Navigator.of(context).pop(),
-                                  onRewardEarned: (earned) {
-                                    setState(() => _money += earned);
-                                  },
-                                  onAPChanged: (newAP) {
-                                    setState(() => _ap = newAP);
-                                  },
-                                ),
+                        ),
+                        const SizedBox(width: 15),
+                        const Icon(
+                          Icons.monetization_on,
+                          color: Colors.amber,
+                          size: 20,
+                        ),
+                        Text(
+                          " $_money",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // 6. 📱 스마트폰 오버레이 (통합 연속 연출)
+            if (_isPhoneOpen)
+              AnimatedBuilder(
+                animation: _phoneAnimCtrl,
+                builder: (context, child) {
+                  // Interval 1: 0.0~0.4 (바닥에서 중간 크기로 등장)
+                  final t1 = CurvedAnimation(
+                    parent: _phoneAnimCtrl,
+                    curve: const Interval(0.0, 0.8, curve: Curves.easeOutCubic),
+                  ).value;
+
+                  // Interval 2: 0.4~1.0 (중간 크기에서 풀스크린으로 확장)
+                  final t2 = CurvedAnimation(
+                    parent: _phoneAnimCtrl,
+                    curve: const Interval(0.2, 1.0, curve: Curves.easeOutQuart),
+                  ).value;
+
+                  // 중간 단계 크기 (82% x 78%)
+                  final midW = screenWidth * 0.82;
+                  final midH = screenHeight * 0.78;
+
+                  // 1. 크기 계산: 바닥(0) -> 중간(t1) -> 풀스크린(t2)
+                  // t2가 0일 때는 midW 유지, t2가 1일 때는 screenWidth
+                  final currentW = midW + (screenWidth - midW) * t2;
+                  final currentH = midH + (screenHeight - midH) * t2;
+
+                  // 2. 위치 계산:
+                  final centerX = (screenWidth - currentW) / 2;
+                  final midY = (screenHeight - midH) / 2; // 중간 단계의 정중앙 Y
+
+                  // t1 단계: 화면 아래(screenHeight)에서 midY까지 올라옴
+                  // t2 단계: midY에서 0.0(풀스크린 시작점)까지 확장됨
+                  final startY = screenHeight;
+                  final currentY = (startY + (midY - startY) * t1) * (1 - t2);
+
+                  // 3. 스타일 보간
+                  final radius = 32.0 * (1 - t2);
+                  final opacity = (t1 / 0.2).clamp(0.0, 1.0); // 아주 살짝 페이드인
+
+                  return Positioned(
+                    left: centerX,
+                    top: currentY,
+                    child: Opacity(
+                      opacity: opacity,
+                      child: Container(
+                        width: currentW,
+                        height: currentH,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(radius),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(
+                                alpha: 0.2 * (1 - t2),
                               ),
-                            );
-                          },
-                        }),
+                              blurRadius: 40 * (1 - t2),
+                              offset: Offset(0, 14 * (1 - t2)),
+                            ),
+                          ],
+                        ),
+                        child: PhoneScreen(
+                          timeOffset: _timeOffset,
+                          onClose: _closePhone,
+                          currentZoneCode: _getZoneCode(_serverHour),
+                          apps: buildDefaultApps(
+                            callbacks: {
+                              'E-class': () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => MinigameScreen(
+                                      actionPoints: _ap,
+                                      onClose: () =>
+                                          Navigator.of(context).pop(),
+                                      onRewardEarned: (earned) {
+                                        setState(() => _money += earned);
+                                      },
+                                      onAPChanged: (newAP) {
+                                        setState(() => _ap = newAP);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            },
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-        ],
+                  );
+                },
+              ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
