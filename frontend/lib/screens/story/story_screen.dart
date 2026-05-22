@@ -98,8 +98,9 @@ class _StoryScreenState extends State<StoryScreen> {
     if (line.containsKey('bg_image')) {
       _currentBgImage = line['bg_image'];
     }
-    // character_image가 없는 라인이면 null로 초기화해서 이미지를 숨김
-    _currentCharacterImage = line['character_image'] as String?;
+    if (line.containsKey('character_image')) {
+      _currentCharacterImage = line['character_image'] as String?;
+    }
   }
 
   // 💡 화면을 터치했을 때 다음 스토리로 넘어가는 핵심 로직!
