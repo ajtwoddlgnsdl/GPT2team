@@ -111,7 +111,7 @@
   {
     "speaker": "코토리",
     "text": "저, 아이스 아메리카노 한 잔 주세요!",
-    "character_image": "assets/images/character/코토리_기본.png"
+    "character_image": "assets/images/character/코토리/코토리_기본.png"
   },
   {
     "speaker": "",
@@ -128,7 +128,7 @@
   {
     "speaker": "코토리",
     "text": "여기 분위기 좋네요. 나무 느낌이 아늑하고.",
-    "character_image": "assets/images/character/코토리_기본.png"
+    "character_image": "assets/images/character/코토리/코토리_기본.png"
   },
   {
     "speaker": "",
@@ -145,12 +145,12 @@
   {
     "speaker": "코토리",
     "text": "맛있다!",
-    "character_image": "assets/images/character/코토리_반짝.png"
+    "character_image": "assets/images/character/코토리/코토리_반짝.png"
   },
   {
     "speaker": "코토리",
     "text": "옆에서 이사 준비하다 왔는데, 딱 필요했던 거예요.",
-    "character_image": "assets/images/character/코토리_기본.png"
+    "character_image": "assets/images/character/코토리/코토리_기본.png"
   },
   {
     "speaker": "",

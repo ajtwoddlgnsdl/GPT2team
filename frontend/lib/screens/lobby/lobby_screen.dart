@@ -5,6 +5,7 @@ import '../../core/api_client.dart';
 import '../story/story_screen.dart';
 import 'phone_screen.dart';
 import 'minigame_screen.dart';
+import 'cafe_game_screen.dart';
 
 class LobbyScreen extends StatefulWidget {
   const LobbyScreen({super.key});
@@ -262,7 +263,7 @@ class _LobbyScreenState extends State<LobbyScreen>
     } else if (hour >= 12 && hour < 18) {
       // 낮: 미니게임 (핸드폰은 FAB로 분리)
       buttons.add(
-        _buildActionButton(Icons.videogame_asset, "미니게임", Colors.green),
+        _buildActionButton(Icons.videogame_asset, "미니게임", Colors.green, onPressed: _openCafeGame),
       );
     } else if (hour >= 18 && hour < 24) {
       // 밤: 핸드폰만 있었으므로 히트박스로 대체 → 추가 버튼 없음
@@ -279,7 +280,26 @@ class _LobbyScreenState extends State<LobbyScreen>
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label, Color color) {
+  void _openCafeGame() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => CafeGameScreen(
+          actionPoints: _ap,
+          money: _money,
+          day: _serverDay,
+          onClose: () => Navigator.of(context).pop(),
+          onRewardEarned: (earned) {
+            setState(() => _money += earned);
+          },
+          onAPChanged: (newAP) {
+            setState(() => _ap = newAP);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(IconData icon, String label, Color color, {VoidCallback? onPressed}) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.black.withValues(alpha: 0.8),
@@ -290,7 +310,7 @@ class _LobbyScreenState extends State<LobbyScreen>
           side: BorderSide(color: color.withValues(alpha: 0.5)),
         ),
       ),
-      onPressed: () {
+      onPressed: onPressed ?? () {
         debugPrint("$label 버튼 클릭됨!");
       },
       icon: Icon(icon),

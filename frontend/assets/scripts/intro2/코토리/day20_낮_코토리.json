@@ -78,17 +78,17 @@
     "text": "카페 테라스로 코토리가 걸어 들어왔다. 햇살이 그 뒤에서 비치고 있어서 실루엣이 살짝 빛나 보였다."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "걱정했죠? 미안해요."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "정리가 됐어요. 이제 앞으로 갈 수 있을 것 같아요."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "전부 {name}씨 덕분이에요."
   },
@@ -97,7 +97,7 @@
     "text": "…"
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "말 안 해도 괜찮아요. 그냥 들어주세요."
   },

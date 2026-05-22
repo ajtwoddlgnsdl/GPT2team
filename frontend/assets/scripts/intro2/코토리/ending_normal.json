@@ -5,12 +5,12 @@
     "bg_image": "assets/images/bg/cafe_street.jpg"
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "유이짱 일은… 아직 잘 모르겠어요. 근데 하나는 확실해요."
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "{name}씨가 좋아요. 좋아해요, {name}씨."
   },
@@ -23,17 +23,17 @@
         "bonus_score": 0,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "…히히. 그 말 듣고 싶었어요."
           },
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "내일도 같이 밥 먹죠? 오니기리 만들어올게요."
           },
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "이번엔 햄스터 아닌 거로 만들어줄게요 ㅎㅎ"
           }

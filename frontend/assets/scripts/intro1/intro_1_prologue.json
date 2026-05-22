@@ -56,7 +56,7 @@
   {
     "speaker": "이서연",
     "text": "…….",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -85,7 +85,7 @@
           {
             "speaker": "이서연",
             "text": "…이서연이에요.",
-            "character_image": "assets/images/character/이서연_기본.png"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -126,7 +126,7 @@
           {
             "speaker": "이서연",
             "text": "……일주일 됐어요.",
-            "character_image": "assets/images/character/이서연_기본.png"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -147,7 +147,7 @@
   {
     "speaker": "이서연",
     "text": "…….",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",

@@ -9,7 +9,7 @@
     "text": "항상 같은 자리 — 카운터 바로 앞 바 시트. 앉는 자리도, 주문도, 어느새 일정해지고 있었다."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "{name}씨, 아이스 아메리카노요!"
   },
@@ -30,7 +30,7 @@
     "text": "평소처럼 환하게 웃으며 '우마이!'를 외칠 줄 알았는데, 오늘은 한 모금 마시고 나서도 빨대를 씹고만 있었다."
   },
   {
-    "character_image": "assets/images/character/코토리_슬픔.png",
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "{name}씨, 혹시… '눈치'라는 게 어떤 거예요?"
   },
@@ -39,22 +39,22 @@
     "text": "갑자기?"
   },
   {
-    "character_image": "assets/images/character/코토리_슬픔.png",
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "오늘 꽃집 손님이 '눈치 좀 챙겨라'고 했어요. 근데 저는 뭘 잘못했는지 모르겠는 거예요."
   },
   {
-    "character_image": "assets/images/character/코토리_슬픔.png",
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "분명히 꽃도 잘 포장했고, 인사도 했는데…"
   },
   {
-    "character_image": "assets/images/character/코토리_슬픔.png",
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "일본 학교 다닐 때도 '분위기 파악 못 한다'는 말 들었는데. 한국도 그런가 봐요."
   },
   {
-    "character_image": "assets/images/character/코토리_슬픔.png",
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "뭔가… 똑같은 걸 잘 못 하는 느낌이에요."
   },
@@ -71,17 +71,17 @@
         "bonus_score": 5,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "진짜요?! 가끔 한국어 눈치 알려주세요!"
           },
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "저 열심히 배울게요!! 메모도 할게요!!"
           },
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "진짜 고마워요 {name}씨!!"
           }
@@ -92,17 +92,17 @@
         "bonus_score": 3,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기본.png",
+            "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
             "text": "…그렇게 말해주니까 조금 위로가 돼요."
           },
           {
-            "character_image": "assets/images/character/코토리_기본.png",
+            "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
             "text": "가끔 너무 모르겠어서 혼자 방 안에서 생각하거든요. 근데 생각해봐도 답이 안 나와요."
           },
           {
-            "character_image": "assets/images/character/코토리_기본.png",
+            "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
             "text": "그래서 그냥 '다음에 더 잘하자' 하고 끝나는데, 오늘은 {name}씨한테 말해서 좀 나아진 것 같아요."
           }
@@ -113,12 +113,12 @@
         "bonus_score": -3,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_슬픔.png",
+            "character_image": "assets/images/character/코토리/코토리_슬픔.png",
             "speaker": "코토리",
             "text": "…그렇게 느껴지는구나."
           },
           {
-            "character_image": "assets/images/character/코토리_슬픔.png",
+            "character_image": "assets/images/character/코토리/코토리_슬픔.png",
             "speaker": "코토리",
             "text": "더 노력할게요."
           }
@@ -131,7 +131,7 @@
     "text": "코토리는 커피를 거의 다 마실 때까지 자리를 뜨지 않았다. 가게 안에 손님도 없고, 나도 바쁠 일은 없었다."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "{name}씨, 이 가게 단골 있어요?"
   },
@@ -140,7 +140,7 @@
     "text": "있어. 할아버지 한 분이 매일 같은 자리에 앉아서 신문 보고 가셔."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "아, 아까 신문 읽고 계시던 분이요?"
   },
@@ -149,7 +149,7 @@
     "text": "응. 한 번도 말은 안 해봤는데."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "한 번도요?"
   },
@@ -158,12 +158,12 @@
     "text": "응. 주문도 늘 똑같아서 인사만 하고 끝이야."
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "우와, 그것도 일종의 인연이네요! 말은 없지만 매일 오는 사이라니. 뭔가 좋아요 그거."
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "저도 이 가게 단골 될게요. 매일 오는 쪽으로."
   },
@@ -172,7 +172,7 @@
     "text": "아직 이틀 단골이네."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "내일이면 나흘 단골이에요!"
   },
@@ -181,7 +181,7 @@
     "text": "코토리는 빈 컵을 내려놓고 일어서면서 작게 말했다."
   },
   {
-    "character_image": "assets/images/character/코토리_기쁨.png",
+    "character_image": "assets/images/character/코토리/코토리_기쁨.png",
     "speaker": "코토리",
     "text": "내일도 올게요."
   },

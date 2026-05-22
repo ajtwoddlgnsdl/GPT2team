@@ -13,6 +13,59 @@ from app.services import GameLogicService
 router = APIRouter()
 
 KST = datetime.timezone(datetime.timedelta(hours=9))
+KOTORI_NAME = "코토리"
+CAFE_GAME_TYPE = "cafe_kotori"
+
+def _zone_from_hour(hour):
+    if 6 <= hour < 12:
+        return TimeZone.MORNING.value
+    if 12 <= hour < 18:
+        return TimeZone.AFTERNOON.value
+    if 18 <= hour < 24:
+        return TimeZone.EVENING.value
+    return TimeZone.NIGHT.value
+
+def _current_day(all_heroines):
+    if not all_heroines:
+        return 0
+    return max(h.current_day for h in all_heroines)
+
+def _kotori_progress(all_heroines):
+    return next((h for h in all_heroines if h.heroine_name == KOTORI_NAME), None)
+
+def _kotori_story_completed_today(user, kotori):
+    if not kotori:
+        return False
+    if user.game_state == GameState.INTRO_2.value:
+        return kotori.is_cleared_today
+    if user.game_state == GameState.MAIN.value:
+        if not kotori.is_main:
+            return False
+        viewed_zone_names = [vz.zone for vz in kotori.viewed_zones]
+        return kotori.is_cleared_today or TimeZone.AFTERNOON.value in viewed_zone_names
+    return False
+
+def _cafe_minigame_status(user, all_heroines, current_zone=None):
+    current_zone = current_zone or _zone_from_hour(datetime.datetime.now(KST).hour)
+    kotori = _kotori_progress(all_heroines)
+    story_completed = _kotori_story_completed_today(user, kotori)
+    day = kotori.current_day if kotori else _current_day(all_heroines)
+    can_play = (
+        current_zone == TimeZone.AFTERNOON.value
+        and story_completed
+        and user.action_points >= GameConfig.MINIGAME_COST
+    )
+    return {
+        "current_day": day,
+        "day": day,
+        "current_zone": current_zone,
+        "ap": user.action_points,
+        "current_ap": user.action_points,
+        "money": user.money,
+        "story_completed_today": story_completed,
+        "can_play": can_play,
+        "game_type": CAFE_GAME_TYPE,
+    }
 
 def _get_story_status(user, all_heroines, current_zone):
     auto_play = {"is_available": False}
@@ -71,7 +124,16 @@ def get_user_status(user_id: str = Depends(get_current_user), db: Session = Depe
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user: 
         return {"status": "error"}
-    return {"status": "success", "username": user.username, "ap": user.action_points, "money": user.money}
+    all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
+    current_day = _current_day(all_heroines)
+    return {
+        "status": "success",
+        "username": user.username,
+        "ap": user.action_points,
+        "money": user.money,
+        "day": current_day,
+        "current_day": current_day,
+    }
 
 @router.post("/auth/guest-login")
 def guest_login(db: Session = Depends(get_db)):
@@ -137,16 +199,7 @@ def login(user_id: str, db: Session = Depends(get_db)):
 
 @router.get("/check-story")
 def check_story(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
-    hour = datetime.datetime.now(KST).hour
-    
-    if 6 <= hour < 12:
-        current_zone = TimeZone.MORNING.value
-    elif 12 <= hour < 18:
-        current_zone = TimeZone.AFTERNOON.value
-    elif 18 <= hour < 24:
-        current_zone = TimeZone.EVENING.value
-    else:
-        current_zone = TimeZone.NIGHT.value
+    current_zone = _zone_from_hour(datetime.datetime.now(KST).hour)
 
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
@@ -229,7 +282,10 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
             print(f"🚨 보너스 토큰 디코딩 에러: {e}")
             return {"status": "error", "error_code": "INVALID_BONUS_TOKEN"}
 
-    heroine.affection += (GameConfig.BASE_STORY_SCORE + bonus_affection) 
+    heroine.affection += (GameConfig.BASE_STORY_SCORE + bonus_affection)
+
+    if heroine.heroine_name == KOTORI_NAME and viewed_zone == TimeZone.AFTERNOON.value:
+        user.action_points = min(GameConfig.MAX_AP, user.action_points + 1)
     
     if user.game_state == GameState.MAIN.value:
         if viewed_zone: 
@@ -247,11 +303,41 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
     db.commit()
     return {"status": "success"}
 
+@router.get("/minigame/status")
+def minigame_status(game_type: str = CAFE_GAME_TYPE, user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return {"status": "error"}
+
+    all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
+    if game_type == CAFE_GAME_TYPE:
+        return {"status": "success", **_cafe_minigame_status(user, all_heroines)}
+
+    return {
+        "status": "success",
+        "game_type": game_type,
+        "ap": user.action_points,
+        "current_ap": user.action_points,
+        "money": user.money,
+        "day": _current_day(all_heroines),
+        "current_day": _current_day(all_heroines),
+        "can_play": user.action_points >= GameConfig.MINIGAME_COST,
+    }
+
 @router.post("/minigame/start")
 def start_minigame(game_type: str = Body(..., embed=True), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
     if not user:
         return {"status": "error"}
+
+    if game_type == CAFE_GAME_TYPE:
+        all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).with_for_update().all()
+        status = _cafe_minigame_status(user, all_heroines)
+        if status["current_zone"] != TimeZone.AFTERNOON.value:
+            return {"status": "fail", "error_code": "CAFE_ONLY_AFTERNOON", **status}
+        if not status["story_completed_today"]:
+            return {"status": "fail", "error_code": "KOTORI_STORY_REQUIRED", **status}
+
     if user.action_points < GameConfig.MINIGAME_COST:
         return {"status": "fail", "error_code": "NOT_ENOUGH_AP"}
     
@@ -260,14 +346,39 @@ def start_minigame(game_type: str = Body(..., embed=True), user_id: str = Depend
     return {"status": "success", "current_ap": user.action_points}
 
 @router.post("/minigame/reward")
-def reward_minigame(game_type: str = Body(...), cleared_level: int = Body(...), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+def reward_minigame(
+    game_type: str = Body(...),
+    cleared_level: Optional[int] = Body(None),
+    result: Optional[str] = Body(None),
+    latte_art: bool = Body(False),
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
     user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
     if not user:
         return {"status": "error"}
-    
+
+    if game_type == CAFE_GAME_TYPE:
+        reward_table = {"success": 2500, "normal": 1800, "funny": 700, "fail": 900}
+        safe_result = result if result in reward_table else "fail"
+        earned_money = reward_table[safe_result]
+        tip = 700 if safe_result == "success" else 0
+        if safe_result == "success" and latte_art:
+            earned_money += 500
+            tip += 300
+        user.money += earned_money + tip
+        db.commit()
+        return {
+            "status": "success",
+            "earned_money": earned_money,
+            "tip": tip,
+            "total_money": user.money,
+            "result": safe_result,
+        }
+
     reward_table = {1: 50, 2: 100, 3: 150, 4: 200, 5: 250}
     earned_money = reward_table.get(cleared_level, 50)
-    
+
     user.money += earned_money
     db.commit()
     return {"status": "success", "earned_money": earned_money, "total_money": user.money}

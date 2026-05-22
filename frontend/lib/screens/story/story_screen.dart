@@ -187,15 +187,25 @@ class _StoryScreenState extends State<StoryScreen> {
 
           final nextStory = response.data['next_story'];
           if (nextStory != null) {
-            // 다음 스토리가 있으면 바로 이어서 재생
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (_) => StoryScreen(
+              PageRouteBuilder(
+                pageBuilder: (_, _, _) => StoryScreen(
                   storyId: nextStory['story_id'],
                   storyTicket: nextStory['story_ticket'],
                   heroineName: nextStory['heroine_name'],
                 ),
+                transitionDuration: const Duration(milliseconds: 800),
+                reverseTransitionDuration: const Duration(milliseconds: 400),
+                transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(
+                    opacity: CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.easeInOut,
+                    ),
+                    child: child,
+                  );
+                },
               ),
             );
           } else {
@@ -360,6 +370,39 @@ class _StoryScreenState extends State<StoryScreen> {
     }
   }
 
+  // 긴 대사를 문장부호 뒤에서 자동 줄바꿈
+  String _formatLongText(String text) {
+    if (text.length <= 25) return text;
+    // 이미 줄바꿈이 있으면 그대로
+    if (text.contains('\n')) return text;
+    // 문장부호 뒤 공백 위치에서 줄바꿈 삽입
+    final buffer = StringBuffer();
+    int lineLen = 0;
+    for (int i = 0; i < text.length; i++) {
+      buffer.write(text[i]);
+      lineLen++;
+      if (lineLen >= 20) {
+        // 문장부호 + 공백 조합이면 줄바꿈
+        final c = text[i];
+        final isBreakChar = '.!?~…, 。'.contains(c);
+        final nextIsSpace = i + 1 < text.length && text[i + 1] == ' ';
+        if (isBreakChar && nextIsSpace) {
+          buffer.write('\n');
+          i++; // 공백 스킵
+          lineLen = 0;
+          continue;
+        }
+        // 공백이면 줄바꿈
+        if (c == ' ') {
+          buffer.write('\n');
+          lineLen = 0;
+          continue;
+        }
+      }
+    }
+    return buffer.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -381,7 +424,7 @@ class _StoryScreenState extends State<StoryScreen> {
     String textRaw = currentLine['text'] ?? "";
 
     String displaySpeaker = speakerRaw.replaceAll('{name}', _playerName);
-    String displayText = textRaw.replaceAll('{name}', _playerName);
+    String displayText = _formatLongText(textRaw.replaceAll('{name}', _playerName));
 
     return Scaffold(
       backgroundColor: Colors.black,

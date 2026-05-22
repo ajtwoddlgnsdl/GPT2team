@@ -13,17 +13,17 @@
     "text": "표정이 평소보다 살짝 긴장돼 보였다. 숨을 한 번 고르고 카운터 앞에 섰다."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "이건 유이짱한테 만들어주던 것을 {name}씨 버전으로 바꿔본 거예요."
   },
   {
-    "character_image": "assets/images/character/코토리_슬픔.png",
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "꽃다발을 가리키며… 꽃은… 빨간 카네이션. 꽃말이 '당신을 사랑합니다'… 아, 아니! '감사'라는 뜻도 있어요!!"
   },
   {
-    "character_image": "assets/images/character/코토리_슬픔.png",
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "감사예요 감사! 오해하지 마세요!!"
   },
@@ -52,17 +52,17 @@
         "bonus_score": 10,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_슬픔.png",
+            "character_image": "assets/images/character/코토리/코토리_슬픔.png",
             "speaker": "코토리",
             "text": "그 말 듣고 싶었어요."
           },
           {
-            "character_image": "assets/images/character/코토리_슬픔.png",
+            "character_image": "assets/images/character/코토리/코토리_슬픔.png",
             "speaker": "코토리",
             "text": "유이짱 맛이 아니라 코토리 맛. 그 말이요."
           },
           {
-            "character_image": "assets/images/character/코토리_슬픔.png",
+            "character_image": "assets/images/character/코토리/코토리_슬픔.png",
             "speaker": "코토리",
             "text": "어제 만들고 나서 계속 생각했어요. 이걸 누구 맛이라고 해야 할지."
           }
@@ -76,12 +76,12 @@
         "bonus_score": 5,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기본.png",
+            "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
             "text": "그랬으면 좋겠어요."
           },
           {
-            "character_image": "assets/images/character/코토리_기본.png",
+            "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
             "text": "유이짱한테도 언젠가 전해줄 수 있으면 좋겠어요."
           }
@@ -95,7 +95,7 @@
         "bonus_score": 5,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "그 말도 기뻐요. 계속 만들어드릴게요."
           }
@@ -104,12 +104,12 @@
     ]
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "{name}씨, 내일 저녁 7시에 좀 특별한 도시락을 같이 만들고 싶은데, 시간 돼요?"
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "좀… 중요한 거라서요."
   },
@@ -118,7 +118,7 @@
     "text": "중요한 거?"
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "네. 내일 얘기해드릴게요."
   },

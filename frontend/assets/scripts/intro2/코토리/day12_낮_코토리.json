@@ -45,12 +45,12 @@
     "text": "코토리가 꽃집에서 달려오더니 카운터에 기대며 물었다."
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "먹었어요?! 어땠어요?!"
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "저 아침에 엄청 일찍 일어났거든요. 이거 만들려고."
   },
@@ -63,17 +63,17 @@
         "bonus_score": 8,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "햄스터 아니에요!! …맞아요 ㅎㅎ"
           },
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "칭찬인지 비판인지 모르겠는데 기분은 좋아요."
           },
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "사실 처음엔 곰을 그리려고 했는데, 해놓고 보니 햄스터가 되더라고요."
           }
@@ -84,7 +84,7 @@
         "bonus_score": 5,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "잘됐다! 내일도 만들어올까요? 뭐 먹고 싶은 거 있으면 말해요."
           }
@@ -95,7 +95,7 @@
         "bonus_score": 0,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_슬픔.png",
+            "character_image": "assets/images/character/코토리/코토리_슬픔.png",
             "speaker": "코토리",
             "text": "…재료가 남아서요."
           }
@@ -120,22 +120,22 @@
     "text": "퇴근하고 집에 돌아온 뒤, 코토리에게서 메시지가 왔다."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "오늘 옛날 사진 정리하다가 좀 생각이 많아졌어요."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "아무것도 아니에요! 신경 쓰지 마요."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "그냥 가끔 이런 날이 있어요."
   },
   {
-    "character_image": "assets/images/character/코토리_기본.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "사진첩 맨 뒤쪽에 중학교 때 친구랑 찍은 사진 있었거든요. 안 볼 때는 괜찮은데 보면 이상해져요."
   },
@@ -148,12 +148,12 @@
         "bonus_score": 5,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기본.png",
+            "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
             "text": "{name}씨가 그렇게 말해주니까 괜찮아지는 것 같아요."
           },
           {
-            "character_image": "assets/images/character/코토리_기본.png",
+            "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
             "text": "신기하죠? 그냥 '괜찮아?'라는 말인데."
           }
@@ -164,12 +164,12 @@
         "bonus_score": 3,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "네! 오늘은 잘 자요~"
           },
           {
-            "character_image": "assets/images/character/코토리_기쁨.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "내일 도시락 또 가져갈게요."
           }

@@ -39,6 +39,7 @@ dependencies:
   flutter_secure_storage: ^10.0.0
   dart_jsonwebtoken: ^2.14.0
   flutter_dotenv: ^6.0.0
+  webview_flutter: ^4.13.1
 
 dev_dependencies:
   flutter_test:
@@ -62,11 +63,15 @@ flutter:
 
   assets:
     - .env
+    - assets/html/cafe_game/
+    - assets/html/cafe_game/customers/
     - assets/scripts/intro1/
     - assets/scripts/intro2/코토리/
     - assets/scripts/intro2/이서연/
     - assets/images/bg/
-    - assets/images/character/
+    - assets/images/character/코토리/
+    - assets/images/character/이서연/
+    - assets/images/character/리안/
     - assets/fonts/
 
   fonts:

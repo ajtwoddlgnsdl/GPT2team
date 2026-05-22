@@ -1,7 +1,7 @@
 [
   {
     "bg_image": "assets/images/bg/lobby_morning.jpg",
-    "character_image": "assets/images/character/이서연_기본.png",
+    "character_image": "assets/images/character/이서연/이서연_기본.png",
     "speaker": "",
     "text": "현관문을 열었다. 동시에, 옆집 문도 열렸다."
   },
