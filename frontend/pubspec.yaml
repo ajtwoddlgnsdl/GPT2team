@@ -66,12 +66,19 @@ flutter:
     - assets/html/cafe_game/
     - assets/html/cafe_game/customers/
     - assets/scripts/intro1/
-    - assets/scripts/intro2/코토리/
     - assets/scripts/intro2/이서연/
+    - assets/scripts/intro2/리안/
+    - assets/scripts/intro2/코토리/
     - assets/images/bg/
+<<<<<<< HEAD
     - assets/images/character/코토리/
     - assets/images/character/이서연/
     - assets/images/character/리안/
+=======
+    - assets/images/character/이서연/
+    - assets/images/character/리안/
+    - assets/images/character/코토리/
+>>>>>>> 85f2cc393793ad4df7efc07375bd880a4f874606
     - assets/fonts/
 
   fonts:

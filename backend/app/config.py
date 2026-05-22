@@ -46,7 +46,7 @@ class GameConfig:
 HEROINE_INFO = {
     "이서연": TimeZone.MORNING.value,
     "코토리": TimeZone.AFTERNOON.value,
-    "최시은": TimeZone.EVENING.value
+    "리안": TimeZone.EVENING.value
 }
 
 STORY_CONFIG = {}
