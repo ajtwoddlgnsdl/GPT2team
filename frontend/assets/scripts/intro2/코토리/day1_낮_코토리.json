@@ -309,9 +309,5 @@
     "character_image": "assets/images/character/코토리/코토리_기쁨.png",
     "speaker": "코토리",
     "text": "그럼 또 올게요!"
-  },
-  {
-    "action": "system",
-    "text": "행동력 +1 / 카페 미니게임 가능 (행동력 -1)"
   }
 ]

@@ -115,13 +115,5 @@
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "오늘은 아직… 말할 준비가 안 돼서요."
-  },
-  {
-    "action": "system",
-    "text": "📌 캘린더: Day 18 — 코토리의 이야기 듣기 (14:00, 카페 테라스)"
-  },
-  {
-    "action": "system",
-    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
   }
 ]

@@ -171,9 +171,5 @@
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "…고마워요."
-  },
-  {
-    "action": "system",
-    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
   }
 ]

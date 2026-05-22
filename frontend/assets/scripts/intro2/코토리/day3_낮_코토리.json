@@ -88,7 +88,7 @@
           {
             "character_image": "assets/images/character/코토리/코토리_반짝.png",
             "speaker": "코토리",
-            "text": "저는 이노스케요! {N}씨는요? 빨리 말해줘요!"
+            "text": "저는 이노스케요! {name}씨는요? 빨리 말해줘요!"
           },
           {
             "speaker": "{name}",
@@ -192,9 +192,5 @@
     "character_image": "assets/images/character/코토리/코토리_기쁨.png",
     "speaker": "코토리",
     "text": "또 오세요! 꽃 자주 바뀌니까 볼 때마다 다를 거예요!"
-  },
-  {
-    "action": "system",
-    "text": "행동력 +1 / 카페 미니게임 가능 (행동력 -1)"
   }
 ]

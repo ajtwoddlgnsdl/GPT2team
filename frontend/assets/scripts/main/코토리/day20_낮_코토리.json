@@ -100,9 +100,5 @@
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "말 안 해도 괜찮아요. 그냥 들어주세요."
-  },
-  {
-    "action": "system",
-    "text": "호감도에 따라 엔딩 분기"
   }
 ]

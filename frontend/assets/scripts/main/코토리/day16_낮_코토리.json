@@ -121,13 +121,5 @@
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "네. 내일 얘기해드릴게요."
-  },
-  {
-    "action": "system",
-    "text": "📌 캘린더: Day 17 — 코토리와 특별한 도시락 만들기 (19:00)"
-  },
-  {
-    "action": "system",
-    "text": "행동력 +1 / ⏰ 12:00~18:00 카페 미니게임 가능"
   }
 ]
