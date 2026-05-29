@@ -210,9 +210,14 @@ class _StoryScreenState extends State<StoryScreen> {
               ),
             );
           } else {
+            final unlockedId = response.data['unlocked_id'];
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LobbyScreen()),
+              MaterialPageRoute(
+                builder: (context) => LobbyScreen(
+                  unlockedIllustrationId: unlockedId,
+                ),
+              ),
             );
           }
         } else if (response.data['status'] == 'error') {

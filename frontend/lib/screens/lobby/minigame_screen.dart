@@ -31,11 +31,11 @@ class _LevelConfig {
 }
 
 const List<_LevelConfig> _levels = [
-  _LevelConfig(2, 2), // 1단계: 12장
-  _LevelConfig(3, 4), // 2단계: 16장
-  _LevelConfig(4, 4), // 3단계: 20장
-  _LevelConfig(4, 5), // 4단계: 24장
-  _LevelConfig(5, 5), // 5단계: 30장
+  _LevelConfig(2, 2),
+  _LevelConfig(3, 4),
+  _LevelConfig(4, 4),
+  _LevelConfig(4, 5),
+  _LevelConfig(6, 5),
 ];
 
 const Map<int, int> _rewardTable = {1: 50, 2: 100, 3: 150, 4: 200, 5: 250};

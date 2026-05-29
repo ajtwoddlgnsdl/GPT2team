@@ -2,7 +2,7 @@ name: frontend
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -69,8 +69,7 @@ flutter:
     - assets/scripts/intro2/코토리/
     - assets/scripts/intro2/이서연/
     - assets/scripts/intro2/리안/
-    # main/과 ending/ 폴더는 스크립트 파일 추가 시 여기에 선언
-    # - assets/scripts/main/{히로인이름}/
+    - assets/scripts/main/코토리/
     - assets/scripts/ending/코토리/
     - assets/images/bg/
     - assets/images/character/코토리/
