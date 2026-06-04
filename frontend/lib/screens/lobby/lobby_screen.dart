@@ -15,8 +15,10 @@ import 'album_home_screen.dart';
 class PhoneHitbox {
   /// 화면 좌표계 기준 다각형 꼭짓점 (좌상 → 우상 → 우하 → 좌하, 시계방향)
   final List<Offset> polygon;
+
   /// 모서리 둥글기 반경
   final double cornerRadius;
+
   /// 배경 조명에 어울리는 글로우 색상
   final Color glowColor;
 
@@ -305,20 +307,20 @@ class _LobbyScreenState extends State<LobbyScreen>
     switch (zone) {
       case 1: // 아침 - 책상 위 스탠드 왼쪽
         poly = [
-          toScreen(255, 1175),
-          toScreen(315, 1160),
-          toScreen(325, 1240),
-          toScreen(265, 1255),
+          toScreen(301, 1177),
+          toScreen(357, 1180),
+          toScreen(347, 1280),
+          toScreen(285, 1280),
         ];
         cornerRadius = 5.0;
         glowColor = const Color(0xFFFFF3D4); // 아침 따스한 햇살
         break;
       case 3: // 밤 - 책상 위 (스탠드 불빛)
         poly = [
-          toScreen(255, 1175),
-          toScreen(315, 1160),
-          toScreen(325, 1240),
-          toScreen(265, 1255),
+          toScreen(301, 1177),
+          toScreen(357, 1180),
+          toScreen(347, 1280),
+          toScreen(285, 1280),
         ];
         cornerRadius = 5.0;
         glowColor = const Color(0xFFFFE4A0); // 밤 스탠드 불빛 웜톤
@@ -337,7 +339,11 @@ class _LobbyScreenState extends State<LobbyScreen>
         return const PhoneHitbox(polygon: []);
     }
 
-    return PhoneHitbox(polygon: poly, cornerRadius: cornerRadius, glowColor: glowColor);
+    return PhoneHitbox(
+      polygon: poly,
+      cornerRadius: cornerRadius,
+      glowColor: glowColor,
+    );
   }
 
   // 📱 통합 핸드폰 애니메이션 실행
