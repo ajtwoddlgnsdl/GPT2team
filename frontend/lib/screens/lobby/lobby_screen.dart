@@ -1,4 +1,6 @@
+import 'dart:ui';
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../core/api_client.dart';
@@ -6,9 +8,43 @@ import '../story/story_screen.dart';
 import 'phone_screen.dart';
 import 'minigame_screen.dart';
 import 'cafe_game_screen.dart';
+import 'album_constants.dart';
+import 'album_home_screen.dart';
+
+/// 다각형 기반 핸드폰 히트박스 (원근감 있는 기울어진 스마트폰 모양 매칭)
+class PhoneHitbox {
+  /// 화면 좌표계 기준 다각형 꼭짓점 (좌상 → 우상 → 우하 → 좌하, 시계방향)
+  final List<Offset> polygon;
+  /// 모서리 둥글기 반경
+  final double cornerRadius;
+  /// 배경 조명에 어울리는 글로우 색상
+  final Color glowColor;
+
+  const PhoneHitbox({
+    required this.polygon,
+    this.cornerRadius = 6.0,
+    this.glowColor = const Color(0xFFFFFFFF),
+  });
+
+  bool get isEmpty => polygon.length < 3;
+
+  Rect get boundingBox {
+    if (isEmpty) return Rect.zero;
+    double minX = polygon[0].dx, minY = polygon[0].dy;
+    double maxX = polygon[0].dx, maxY = polygon[0].dy;
+    for (final p in polygon) {
+      if (p.dx < minX) minX = p.dx;
+      if (p.dy < minY) minY = p.dy;
+      if (p.dx > maxX) maxX = p.dx;
+      if (p.dy > maxY) maxY = p.dy;
+    }
+    return Rect.fromLTRB(minX, minY, maxX, maxY);
+  }
+}
 
 class LobbyScreen extends StatefulWidget {
-  const LobbyScreen({super.key});
+  final String? unlockedIllustrationId;
+  const LobbyScreen({super.key, this.unlockedIllustrationId});
 
   @override
   State<LobbyScreen> createState() => _LobbyScreenState();
@@ -47,6 +83,13 @@ class _LobbyScreenState extends State<LobbyScreen>
       duration: const Duration(milliseconds: 500),
     );
     _loadLobbyData();
+
+    // 💡 스토리 감상 후 넘어온 일러스트 해금 정보가 있다면 오버레이 팝업 트리거
+    if (widget.unlockedIllustrationId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showIllustrationUnlockOverlay(context, widget.unlockedIllustrationId!);
+      });
+    }
   }
 
   Future<void> _loadLobbyData() async {
@@ -226,19 +269,75 @@ class _LobbyScreenState extends State<LobbyScreen>
     return zone != 0;
   }
 
-  // 📱 시간대별 핸드폰 히트박스 좌표 (배경마다 핸드폰 위치가 다름)
-  Rect _getPhoneHitboxRect(double sw, double sh) {
+  // 📱 시간대별 핸드폰 히트박스 다각형 (배경 이미지 속 스마트폰 모양에 정확히 매칭)
+  // 원본 이미지(1080x1920) 기준 꼭짓점 좌표를 정의한 뒤
+  // BoxFit.cover 보정을 거쳐 실제 화면 좌표로 변환
+  PhoneHitbox _getPhoneHitbox(double sw, double sh) {
+    const double imageW = 1080;
+    const double imageH = 1920;
+    const double imageAspect = imageW / imageH;
+    final double screenAspect = sw / sh;
+
+    double scaledW, scaledH, offX = 0, offY = 0;
+    if (screenAspect > imageAspect) {
+      scaledW = sw;
+      scaledH = sw / imageAspect;
+      offY = (sh - scaledH) / 2;
+    } else {
+      scaledH = sh;
+      scaledW = sh * imageAspect;
+      offX = (sw - scaledW) / 2;
+    }
+
+    Offset toScreen(double imgX, double imgY) {
+      return Offset(
+        offX + (imgX / imageW) * scaledW,
+        offY + (imgY / imageH) * scaledH,
+      );
+    }
+
     final zone = _getZoneCode(_serverHour);
+    List<Offset> poly;
+    double cornerRadius;
+
+    Color glowColor;
+
     switch (zone) {
       case 1: // 아침 - 책상 위 스탠드 왼쪽
-        return Rect.fromLTWH(sw * 0.26, sh * 0.61, sw * 0.10, sh * 0.035);
-      case 2: // 낮 (카페) - 창문 아래 카운터 위 핸드폰
-        return Rect.fromLTWH(sw * 0.46, sh * 0.57, sw * 0.08, sh * 0.025);
-      case 3: // 밤 - 책상 위 (아침과 동일 구도)
-        return Rect.fromLTWH(sw * 0.26, sh * 0.61, sw * 0.10, sh * 0.035);
+        poly = [
+          toScreen(255, 1175),
+          toScreen(315, 1160),
+          toScreen(325, 1240),
+          toScreen(265, 1255),
+        ];
+        cornerRadius = 5.0;
+        glowColor = const Color(0xFFFFF3D4); // 아침 따스한 햇살
+        break;
+      case 3: // 밤 - 책상 위 (스탠드 불빛)
+        poly = [
+          toScreen(255, 1175),
+          toScreen(315, 1160),
+          toScreen(325, 1240),
+          toScreen(265, 1255),
+        ];
+        cornerRadius = 5.0;
+        glowColor = const Color(0xFFFFE4A0); // 밤 스탠드 불빛 웜톤
+        break;
+      case 2: // 낮 (카페) - 카운터 위 핸드폰
+        poly = [
+          toScreen(543, 1456),
+          toScreen(635, 1460),
+          toScreen(614, 1589),
+          toScreen(505, 1580),
+        ];
+        cornerRadius = 8.0;
+        glowColor = const Color(0xFFFFF0D0); // 카페 따뜻한 자연광
+        break;
       default:
-        return Rect.zero;
+        return const PhoneHitbox(polygon: []);
     }
+
+    return PhoneHitbox(polygon: poly, cornerRadius: cornerRadius, glowColor: glowColor);
   }
 
   // 📱 통합 핸드폰 애니메이션 실행
@@ -263,7 +362,12 @@ class _LobbyScreenState extends State<LobbyScreen>
     } else if (hour >= 12 && hour < 18) {
       // 낮: 미니게임 (핸드폰은 FAB로 분리)
       buttons.add(
-        _buildActionButton(Icons.videogame_asset, "미니게임", Colors.green, onPressed: _openCafeGame),
+        _buildActionButton(
+          Icons.videogame_asset,
+          "미니게임",
+          Colors.green,
+          onPressed: _openCafeGame,
+        ),
       );
     } else if (hour >= 18 && hour < 24) {
       // 밤: 핸드폰만 있었으므로 히트박스로 대체 → 추가 버튼 없음
@@ -288,6 +392,12 @@ class _LobbyScreenState extends State<LobbyScreen>
           money: _money,
           day: _serverDay,
           onClose: () => Navigator.of(context).pop(),
+          onPhoneRequested: () {
+            Navigator.of(context).pop();
+            Future<void>.delayed(const Duration(milliseconds: 120), () {
+              if (mounted) _openPhone();
+            });
+          },
           onRewardEarned: (earned) {
             setState(() => _money += earned);
           },
@@ -299,7 +409,335 @@ class _LobbyScreenState extends State<LobbyScreen>
     );
   }
 
-  Widget _buildActionButton(IconData icon, String label, Color color, {VoidCallback? onPressed}) {
+  Map<String, VoidCallback?> _buildPhoneAppCallbacks() {
+    return {
+      '쇼핑': _showShoppingApp,
+      'E-class': _openStudyMinigame,
+      '캘린더': _showCalendarApp,
+      '앨범': () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const AlbumHomeScreen()),
+        );
+      },
+      '메신저': _showMessengerApp,
+      '오늘의 운세': _showFortuneApp,
+    };
+  }
+
+  void _openStudyMinigame() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => MinigameScreen(
+          actionPoints: _ap,
+          onClose: () => Navigator.of(context).pop(),
+          onRewardEarned: (earned) {
+            setState(() => _money += earned);
+          },
+          onAPChanged: (newAP) {
+            setState(() => _ap = newAP);
+          },
+        ),
+      ),
+    );
+  }
+
+  String _formatWon(int value) {
+    return '${value.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (match) => ',')}원';
+  }
+
+  String _zoneLabel() {
+    switch (_getZoneCode(_serverHour)) {
+      case 1:
+        return '아침';
+      case 2:
+        return '낮';
+      case 3:
+        return '밤';
+      default:
+        return '새벽';
+    }
+  }
+
+  void _showShoppingApp() {
+    final items = <({String name, String desc, int price, IconData icon})>[
+      (
+        name: '카페 라떼 쿠폰',
+        desc: '코토리에게 건네기 좋은 작은 선물',
+        price: 1200,
+        icon: Icons.local_cafe_outlined,
+      ),
+      (
+        name: '꽃집 미니 부케',
+        desc: '낮 시간대 스토리 분위기에 잘 맞는 선물',
+        price: 3500,
+        icon: Icons.local_florist_outlined,
+      ),
+      (
+        name: '필기 노트',
+        desc: 'E-class 공부 전에 챙겨두면 좋은 아이템',
+        price: 900,
+        icon: Icons.menu_book_outlined,
+      ),
+    ];
+
+    _showPhoneAppSheet(
+      title: '쇼핑',
+      icon: Icons.shopping_bag_outlined,
+      children: [
+        _phoneInfoTile(
+          Icons.account_balance_wallet_outlined,
+          '보유 금액',
+          _formatWon(_money),
+        ),
+        ...items.map(
+          (item) => _phoneInfoTile(
+            item.icon,
+            item.name,
+            item.desc,
+            trailing: FilledButton.tonal(
+              onPressed: _money >= item.price
+                  ? () {
+                      setState(() => _money -= item.price);
+                      Navigator.of(context).pop();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('${item.name} 구매 완료'),
+                          duration: const Duration(seconds: 2),
+                        ),
+                      );
+                    }
+                  : null,
+              child: Text(_formatWon(item.price)),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showCalendarApp() {
+    final events = <({IconData icon, String title, String body})>[
+      (
+        icon: Icons.today_outlined,
+        title: 'Day $_serverDay ${_zoneLabel()} 일정',
+        body: _serverHour >= 12 && _serverHour < 18
+            ? '코토리 카페 미니게임과 낮 스토리를 진행할 수 있습니다.'
+            : '현재 시간대의 자동 스토리와 행동을 확인하세요.',
+      ),
+      (
+        icon: Icons.local_cafe_outlined,
+        title: '낮 12:00 - 18:00',
+        body: '카페 미니게임, 코토리 루트 진행',
+      ),
+      (
+        icon: Icons.school_outlined,
+        title: '아침/밤',
+        body: 'E-class에서 공부 미니게임을 진행',
+      ),
+    ];
+
+    _showPhoneAppSheet(
+      title: '캘린더',
+      icon: Icons.calendar_month_outlined,
+      children: events
+          .map((event) => _phoneInfoTile(event.icon, event.title, event.body))
+          .toList(),
+    );
+  }
+
+  void _showMessengerApp() {
+    _showPhoneAppSheet(
+      title: '메신저',
+      icon: Icons.mail_outline_rounded,
+      children: [
+        _messageBubble('코토리', '오늘도 카페 도와주러 와줄 수 있어?', false),
+        _messageBubble(_playerName, '낮 시간에 들를게.', true),
+        _messageBubble('E-class', '오늘 학습 미니게임이 열려 있습니다.', false),
+      ],
+    );
+  }
+
+  void _showFortuneApp() {
+    const fortunes = [
+      '작은 선택지가 호감도를 크게 바꿀 수 있는 날입니다.',
+      '카페에서 침착하게 주문을 맞추면 좋은 흐름이 이어집니다.',
+      '메시지를 확인하고 다음 약속을 놓치지 마세요.',
+      '공부 미니게임으로 행동 리듬을 정리하기 좋은 날입니다.',
+    ];
+    const luckyItems = ['라떼', '민트색', '창가 자리', '필기 노트'];
+    final index = (_serverDay + _getZoneCode(_serverHour)) % fortunes.length;
+
+    _showPhoneAppSheet(
+      title: '오늘의 운세',
+      icon: Icons.star_rounded,
+      children: [
+        _phoneInfoTile(Icons.auto_awesome, '오늘의 흐름', fortunes[index]),
+        _phoneInfoTile(Icons.favorite_border, '럭키 아이템', luckyItems[index]),
+      ],
+    );
+  }
+
+  void _showPhoneAppSheet({
+    required String title,
+    required IconData icon,
+    required List<Widget> children,
+  }) {
+    showModalBottomSheet<void>(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) {
+        return SafeArea(
+          top: false,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(
+              20,
+              12,
+              20,
+              20 + MediaQuery.of(sheetContext).viewInsets.bottom,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 36,
+                      height: 4,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE6DED9),
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Icon(icon, color: const Color(0xFF6D574A)),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            color: Color(0xFF2D3142),
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.of(sheetContext).pop(),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  ...children,
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _phoneInfoTile(
+    IconData icon,
+    String title,
+    String body, {
+    Widget? trailing,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF8F5F2),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE7DDD8)),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: const Color(0xFF8B6F61)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color(0xFF3E3029),
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  body,
+                  style: const TextStyle(
+                    color: Color(0xFF79695F),
+                    fontSize: 13,
+                    height: 1.3,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (trailing != null) ...[const SizedBox(width: 10), trailing],
+        ],
+      ),
+    );
+  }
+
+  Widget _messageBubble(String sender, String text, bool mine) {
+    return Align(
+      alignment: mine ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 300),
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: mine ? const Color(0xFF6EA8FF) : const Color(0xFFF0ECE8),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          crossAxisAlignment: mine
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
+          children: [
+            Text(
+              sender,
+              style: TextStyle(
+                color: mine ? Colors.white70 : const Color(0xFF8B6F61),
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              text,
+              style: TextStyle(
+                color: mine ? Colors.white : const Color(0xFF3E3029),
+                height: 1.35,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(
+    IconData icon,
+    String label,
+    Color color, {
+    VoidCallback? onPressed,
+  }) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.black.withValues(alpha: 0.8),
@@ -310,9 +748,11 @@ class _LobbyScreenState extends State<LobbyScreen>
           side: BorderSide(color: color.withValues(alpha: 0.5)),
         ),
       ),
-      onPressed: onPressed ?? () {
-        debugPrint("$label 버튼 클릭됨!");
-      },
+      onPressed:
+          onPressed ??
+          () {
+            debugPrint("$label 버튼 클릭됨!");
+          },
       icon: Icon(icon),
       label: Text(
         label,
@@ -412,39 +852,36 @@ class _LobbyScreenState extends State<LobbyScreen>
               ),
             ),
 
-            // 2. 📱 핸드폰 히트박스 (시간대별 위치)
+            // 2. 📱 핸드폰 히트박스 (다각형 — 배경 속 기울어진 스마트폰과 정확히 일치)
             if (_hasPhoneInBackground() && !_isPhoneOpen)
               Builder(
                 builder: (context) {
-                  final rect = _getPhoneHitboxRect(screenWidth, screenHeight);
+                  final hitbox = _getPhoneHitbox(screenWidth, screenHeight);
+                  if (hitbox.isEmpty) return const SizedBox.shrink();
+                  final bbox = hitbox.boundingBox;
+                  // 다각형 꼭짓점을 Positioned 기준 로컬 좌표로 변환
+                  final localPoly = hitbox.polygon
+                      .map((p) => Offset(p.dx - bbox.left, p.dy - bbox.top))
+                      .toList();
                   return Positioned(
-                    left: rect.left,
-                    top: rect.top,
-                    width: rect.width,
-                    height: rect.height,
+                    left: bbox.left,
+                    top: bbox.top,
+                    width: bbox.width,
+                    height: bbox.height,
                     child: GestureDetector(
                       onTap: _openPhone,
+                      behavior: HitTestBehavior.deferToChild,
                       child: AnimatedBuilder(
                         animation: _pulseCtrl,
                         builder: (_, child) {
                           final pulse = 0.6 + 0.4 * _pulseCtrl.value;
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              border: Border.all(
-                                color: Colors.white.withValues(
-                                  alpha: 0.25 * pulse,
-                                ),
-                                width: 1.2,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.white.withValues(
-                                    alpha: 0.08 * pulse,
-                                  ),
-                                  blurRadius: 8 * pulse,
-                                ),
-                              ],
+                          return CustomPaint(
+                            size: Size(bbox.width, bbox.height),
+                            painter: _PhoneHitboxPainter(
+                              polygon: localPoly,
+                              cornerRadius: hitbox.cornerRadius,
+                              pulse: pulse,
+                              glowColor: hitbox.glowColor,
                             ),
                           );
                         },
@@ -590,25 +1027,7 @@ class _LobbyScreenState extends State<LobbyScreen>
                           onClose: _closePhone,
                           currentZoneCode: _getZoneCode(_serverHour),
                           apps: buildDefaultApps(
-                            callbacks: {
-                              'E-class': () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => MinigameScreen(
-                                      actionPoints: _ap,
-                                      onClose: () =>
-                                          Navigator.of(context).pop(),
-                                      onRewardEarned: (earned) {
-                                        setState(() => _money += earned);
-                                      },
-                                      onAPChanged: (newAP) {
-                                        setState(() => _ap = newAP);
-                                      },
-                                    ),
-                                  ),
-                                );
-                              },
-                            },
+                            callbacks: _buildPhoneAppCallbacks(),
                           ),
                         ),
                       ),
@@ -620,5 +1039,299 @@ class _LobbyScreenState extends State<LobbyScreen>
         ),
       ),
     );
+  }
+
+  // 💡 스토리 완료 후 일러스트 해금 팝업 연출 (10년차 디자이너 연출 기법 적용)
+  void _showIllustrationUnlockOverlay(BuildContext context, String unlockedId) {
+    AlbumItem? unlockedItem;
+    for (var list in kHeroineAlbumMetadata.values) {
+      for (var item in list) {
+        if (item.id == unlockedId) {
+          unlockedItem = item;
+          break;
+        }
+      }
+      if (unlockedItem != null) break;
+    }
+
+    if (unlockedItem == null) return;
+
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierLabel: "unlock_overlay",
+      transitionDuration: const Duration(milliseconds: 600),
+      pageBuilder: (context, anim1, anim2) {
+        return const SizedBox.shrink();
+      },
+      transitionBuilder: (context, anim1, anim2, child) {
+        final scale = CurvedAnimation(
+          parent: anim1,
+          curve: Curves.easeOutBack,
+        ).value;
+        final opacity = CurvedAnimation(
+          parent: anim1,
+          curve: Curves.easeInOut,
+        ).value;
+
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12 * opacity, sigmaY: 12 * opacity),
+          child: Opacity(
+            opacity: opacity,
+            child: Scaffold(
+              backgroundColor: Colors.black.withValues(alpha: 0.55),
+              body: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // 황금빛 타이틀 데코
+                      ShaderMask(
+                        shaderCallback: (bounds) => const LinearGradient(
+                          colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                        ).createShader(bounds),
+                        child: const Text(
+                          "NEW ILLUSTRATION",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 4.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      const Text(
+                        "UNLOCKED!",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      // 일러스트 카드 썸네일 (바운스 스케일링 연계)
+                      Transform.scale(
+                        scale: scale,
+                        child: Container(
+                          width: double.infinity,
+                          height: 320,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(28),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.25),
+                              width: 1.5,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFFFFD700,
+                                ).withValues(alpha: 0.2),
+                                blurRadius: 40,
+                                spreadRadius: 5,
+                              ),
+                            ],
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: Image.asset(
+                            unlockedItem!.imagePath,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      // 일러스트 제목
+                      Text(
+                        unlockedItem.title,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        "Day ${unlockedItem.unlockDay} ${unlockedItem.unlockZone} 에피소드 해금",
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.6),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                      // 하단 버튼 구성
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // 닫기 버튼
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                                vertical: 12,
+                              ),
+                            ),
+                            child: Text(
+                              "나중에 보기",
+                              style: TextStyle(
+                                color: Colors.white.withValues(alpha: 0.6),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          // 앨범 바로가기 버튼
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 팝업 닫기
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) => const AlbumHomeScreen(),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: const Color(0xFF5F4A41),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 28,
+                                vertical: 14,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              elevation: 0,
+                            ),
+                            child: const Text(
+                              "앨범으로 이동",
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// 📱 다각형 기반 핸드폰 히트박스 페인터 (배경 조명과 어우러지는 앰비언트 글로우)
+class _PhoneHitboxPainter extends CustomPainter {
+  final List<Offset> polygon;
+  final double cornerRadius;
+  final double pulse;
+  final Color glowColor;
+
+  _PhoneHitboxPainter({
+    required this.polygon,
+    required this.cornerRadius,
+    required this.pulse,
+    required this.glowColor,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (polygon.length < 3) return;
+
+    final path = _buildRoundedPolygonPath(polygon, cornerRadius);
+
+    // 1️⃣ 은은한 아주 연한 내부 채움 (스마트폰 영역을 암시하는 정도)
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = glowColor.withValues(alpha: (0.03 * pulse).clamp(0.0, 1.0)),
+    );
+
+    // 2️⃣ 가장 바깥의 넓게 퍼지는 아우라 네온 글로우 (가장 굵고 흐릿한 선)
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = glowColor.withValues(alpha: (0.35 * pulse).clamp(0.0, 1.0))
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 9.0 * pulse
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 8.0 * pulse),
+    );
+
+    // 3️⃣ 중간 강도의 응축된 네온 글로우 (적당히 굵고 약간 흐릿한 선)
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = glowColor.withValues(alpha: (0.55 * pulse).clamp(0.0, 1.0))
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 5.0 * pulse
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, 3.5 * pulse),
+    );
+
+    // 4️⃣ 가장 중심에서 밝게 빛나는 코어 핵심 테두리 (가장 밝고 뚜렷한 선)
+    // 테두리가 자체 발광하는 고광도 느낌을 주기 위해 흰색을 70% 섞은 극도로 밝은 빛으로 표현합니다.
+    final coreColor = Color.lerp(glowColor, Colors.white, 0.7) ?? Colors.white;
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = coreColor.withValues(alpha: (0.95 * pulse).clamp(0.0, 1.0))
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.0
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round,
+    );
+  }
+
+  /// 각 꼭짓점을 둥글게 깎은 다각형 경로 생성 (Quadratic Bézier)
+  Path _buildRoundedPolygonPath(List<Offset> pts, double radius) {
+    final path = Path();
+    final n = pts.length;
+
+    for (int i = 0; i < n; i++) {
+      final prev = pts[(i - 1 + n) % n];
+      final curr = pts[i];
+      final next = pts[(i + 1) % n];
+
+      final toPrev = prev - curr;
+      final toNext = next - curr;
+      final distPrev = toPrev.distance;
+      final distNext = toNext.distance;
+
+      final r = math.min(radius, math.min(distPrev / 2, distNext / 2));
+
+      final startPt = curr + toPrev * (r / distPrev);
+      final endPt = curr + toNext * (r / distNext);
+
+      if (i == 0) {
+        path.moveTo(startPt.dx, startPt.dy);
+      } else {
+        path.lineTo(startPt.dx, startPt.dy);
+      }
+      path.quadraticBezierTo(curr.dx, curr.dy, endPt.dx, endPt.dy);
+    }
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldRepaint(covariant _PhoneHitboxPainter old) => old.pulse != pulse;
+
+  @override
+  bool hitTest(Offset position) {
+    if (polygon.length < 3) return false;
+    final path = Path()..addPolygon(polygon, true);
+    return path.contains(position);
   }
 }

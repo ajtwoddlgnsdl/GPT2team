@@ -78,10 +78,11 @@ class _StoryScreenState extends State<StoryScreen> {
       setState(() {
         _scriptLines = jsonDecode(jsonString);
         if (_scriptLines.isNotEmpty) {
-          _updateVisuals(_scriptLines[0]); // 첫 번째 씬 이미지 로드
+          _updateVisuals(_scriptLines[0]);
         }
         _isLoading = false;
       });
+      _precacheScriptImages();
     } catch (e) {
       debugPrint("🚨 대본 로드 실패 ($filePath): $e");
       if (mounted) {
@@ -90,6 +91,19 @@ class _StoryScreenState extends State<StoryScreen> {
           MaterialPageRoute(builder: (_) => const LobbyScreen()),
         );
       }
+    }
+  }
+
+  void _precacheScriptImages() {
+    final Set<String> paths = {};
+    for (final line in _scriptLines) {
+      if (line is Map<String, dynamic>) {
+        if (line.containsKey('bg_image')) paths.add(line['bg_image']);
+        if (line['character_image'] != null) paths.add(line['character_image']);
+      }
+    }
+    for (final path in paths) {
+      precacheImage(AssetImage(path), context);
     }
   }
 
@@ -105,7 +119,7 @@ class _StoryScreenState extends State<StoryScreen> {
 
   // 💡 화면을 터치했을 때 다음 스토리로 넘어가는 핵심 로직!
   void _nextStory() {
-    if (_isChoiceMode) return; // 선택지가 떠있을 땐 화면 터치 무시
+    if (_isChoiceMode || _isLoading) return;
 
     final currentLine = _scriptLines[_currentIndex] as Map<String, dynamic>;
 
@@ -210,9 +224,14 @@ class _StoryScreenState extends State<StoryScreen> {
               ),
             );
           } else {
+            final unlockedId = response.data['unlocked_id'];
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const LobbyScreen()),
+              MaterialPageRoute(
+                builder: (context) => LobbyScreen(
+                  unlockedIllustrationId: unlockedId,
+                ),
+              ),
             );
           }
         } else if (response.data['status'] == 'error') {
@@ -229,6 +248,8 @@ class _StoryScreenState extends State<StoryScreen> {
           } else if (errorCode == 'INVALID_STORY_TICKET' ||
               errorCode == 'INVALID_DAY_TICKET') {
             errorMessage = '잘못된 스토리 접근입니다.';
+          } else if (errorCode == 'INVALID_BONUS_TOKEN') {
+            errorMessage = '보너스 토큰 검증에 실패했습니다.';
           }
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -439,9 +460,10 @@ class _StoryScreenState extends State<StoryScreen> {
                 child: Image.asset(
                   _currentBgImage!,
                   fit: BoxFit.cover,
+                  gaplessPlayback: true,
                   errorBuilder: (context, error, stackTrace) {
                     debugPrint("🚨 배경 이미지 로드 실패: $_currentBgImage");
-                    return Container(color: Colors.black); // 실패 시 검은 배경
+                    return Container(color: Colors.black);
                   },
                 ),
               )
@@ -459,6 +481,7 @@ class _StoryScreenState extends State<StoryScreen> {
                   child: Image.asset(
                     _currentCharacterImage!,
                     fit: BoxFit.contain,
+                    gaplessPlayback: true,
                     alignment: Alignment.bottomCenter,
                     errorBuilder: (context, error, stackTrace) {
                       debugPrint("🚨 캐릭터 이미지 로드 실패: $_currentCharacterImage");

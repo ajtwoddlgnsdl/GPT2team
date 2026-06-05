@@ -16,6 +16,21 @@ KST = datetime.timezone(datetime.timedelta(hours=9))
 KOTORI_NAME = "코토리"
 CAFE_GAME_TYPE = "cafe_kotori"
 
+# 💡 일러스트 해금 조건 매핑 테이블 (히로인 이름 -> (Day, Zone) -> 일러스트 ID)
+ILLUSTRATION_UNLOCK_CONDITIONS = {
+    "리안": {
+        (1, "밤"): "lian_first_meet",
+        (2, "밤"): "lian_home_lobby",
+        (3, "밤"): "lian_riding_day3",
+    },
+    "이서연": {
+        (9, "아침"): "seoyeon_flowershop",
+    },
+    "코토리": {
+        (2, "낮"): "kotori_cafe",
+    }
+}
+
 def _zone_from_hour(hour):
     if 6 <= hour < 12:
         return TimeZone.MORNING.value
@@ -300,8 +315,47 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
     else:
         heroine.is_cleared_today = True 
 
+    # 💡 앨범 일러스트 동적 해금 판정
+    unlocked_id = None
+    if heroine_name in ILLUSTRATION_UNLOCK_CONDITIONS:
+        conds = ILLUSTRATION_UNLOCK_CONDITIONS[heroine_name]
+        target_key = (heroine.current_day, viewed_zone)
+        if target_key in conds:
+            tgt_id = conds[target_key]
+            # 기존 해금 리스트 파싱
+            current_unlocked = [x.strip() for x in (heroine.unlocked_illustrations or "").split(",") if x.strip()]
+            if tgt_id not in current_unlocked:
+                current_unlocked.append(tgt_id)
+                heroine.unlocked_illustrations = ",".join(current_unlocked)
+                unlocked_id = tgt_id
+
     db.commit()
-    return {"status": "success"}
+    
+    response_data = {"status": "success"}
+    if unlocked_id:
+        response_data["unlocked_id"] = unlocked_id
+    return response_data
+
+@router.get("/album/status")
+def album_status(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return {"status": "error"}
+
+    all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
+    
+    unlocked_data = {
+        "리안": [],
+        "이서연": [],
+        "코토리": []
+    }
+    
+    for hp in all_heroines:
+        if hp.heroine_name in unlocked_data:
+            ids = [x.strip() for x in (hp.unlocked_illustrations or "").split(",") if x.strip()]
+            unlocked_data[hp.heroine_name] = ids
+            
+    return {"status": "success", "unlocked_data": unlocked_data}
 
 @router.get("/minigame/status")
 def minigame_status(game_type: str = CAFE_GAME_TYPE, user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):

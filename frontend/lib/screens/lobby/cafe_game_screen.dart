@@ -8,6 +8,7 @@ class CafeGameScreen extends StatefulWidget {
   final int money;
   final int day;
   final VoidCallback onClose;
+  final VoidCallback? onPhoneRequested;
   final Function(int earnedMoney)? onRewardEarned;
   final Function(int newAP)? onAPChanged;
 
@@ -17,6 +18,7 @@ class CafeGameScreen extends StatefulWidget {
     required this.money,
     required this.day,
     required this.onClose,
+    this.onPhoneRequested,
     this.onRewardEarned,
     this.onAPChanged,
   });
@@ -33,8 +35,7 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitUp,
     ]);
     _initWebView();
   }
@@ -47,76 +48,43 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
     super.dispose();
   }
 
-  Future<String> _assetToDataUri(String assetPath, String mimeType) async {
-    final data = await rootBundle.load(assetPath);
-    final b64 = base64Encode(data.buffer.asUint8List());
-    return 'data:$mimeType;base64,$b64';
+  Future<void> _initWebView() async {
+    try {
+      _setupWebView();
+    } catch (e) {
+      debugPrint('🚨 카페 미니게임 로드 실패: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('미니게임을 불러오지 못했습니다.'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+        _closeCafeGame();
+      }
+    }
   }
 
-  Future<void> _initWebView() async {
-    const basePath = 'assets/html/cafe_game';
-
-    // Load HTML source
-    String html = await rootBundle.loadString('$basePath/index.html');
-
-    // Load font and images in parallel
-    final customerNames = [
-      'barista', 'beanie-boy', 'child', 'complainer', 'couple',
-      'dark-flame', 'grandma', 'gym-bro', 'office-worker', 'poet',
-      'sns-girl', 'student',
-    ];
-
-    final futures = <Future<String>>[
-      _assetToDataUri('$basePath/YOnepick-Bold.ttf', 'font/ttf'),
-      _assetToDataUri('$basePath/cafe_main.png', 'image/png'),
-      _assetToDataUri('$basePath/cafe제조대.png', 'image/png'),
-      ...customerNames.map(
-        (name) => _assetToDataUri('$basePath/customers/$name.png', 'image/png'),
-      ),
-    ];
-
-    final dataUris = await Future.wait(futures);
-
-    // Replace font reference
-    html = html.replaceAll(
-      'url("YOnepick-Bold.ttf")',
-      'url("${dataUris[0]}")',
-    );
-
-    // Replace background image references
-    html = html.replaceAll('url("cafe_main.png")', 'url("${dataUris[1]}")');
-    html = html.replaceAll('url("cafe제조대.png")', 'url("${dataUris[2]}")');
-
-    // Replace customer image references
-    for (var i = 0; i < customerNames.length; i++) {
-      html = html.replaceAll(
-        'customers/${customerNames[i]}.png',
-        dataUris[3 + i],
-      );
-    }
-
-    // Inject initial state (day/ap/money) into HTML before init() runs.
-    // Bridge stays disabled — loadHtmlString uses about:blank origin,
-    // so fetch() to the backend API would fail with CORS/network errors.
-    // The game runs in standalone mode, managing state locally.
-    final stateScript = '''
-<script>
-  window.GPT2TEAM_CAFE_CONFIG = {
-    day: ${widget.day},
-    ap: ${widget.actionPoints},
-    money: ${widget.money},
-    storyCompleted: true,
-    canPlay: true
-  };
-</script>
-''';
-    html = html.replaceFirst('</head>', '$stateScript</head>');
-
+  void _setupWebView() {
     _controller
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setNavigationDelegate(NavigationDelegate(
         onPageFinished: (_) {
+          _controller.runJavaScript('''
+            if (typeof GPT2TeamCafeGame !== 'undefined' && GPT2TeamCafeGame.setState) {
+              GPT2TeamCafeGame.setState({
+                day: ${widget.day},
+                ap: ${widget.actionPoints},
+                money: ${widget.money},
+                storyCompleted: true,
+                canPlay: true
+              });
+            }
+          ''');
           if (mounted) setState(() => _isLoading = false);
+        },
+        onWebResourceError: (error) {
+          debugPrint('🚨 WebView 리소스 에러: ${error.description}');
         },
       ))
       ..addJavaScriptChannel(
@@ -125,7 +93,7 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
           _handleBridgeMessage(message.message);
         },
       )
-      ..loadHtmlString(html);
+      ..loadFlutterAsset('assets/html/cafe_game/index.html');
   }
 
   void _handleBridgeMessage(String rawMessage) {
@@ -147,8 +115,26 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
         case 'story_requested':
           _closeCafeGame();
           break;
+        case 'phone_requested':
+          _openPhoneFromCafe();
+          break;
+        case 'phone_app_requested':
+          _openPhoneFromCafe();
+          break;
       }
     } catch (_) {}
+  }
+
+  void _openPhoneFromCafe() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]).then((_) {
+      if (widget.onPhoneRequested != null) {
+        widget.onPhoneRequested!.call();
+      } else {
+        widget.onClose();
+      }
+    });
   }
 
   void _closeCafeGame() {
