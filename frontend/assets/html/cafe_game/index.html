@@ -1,0 +1,2029 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>코토리 카페 미니게임</title>
+  <style>
+    @font-face {
+      font-family: "YOnepick";
+      src: url("YOnepick-Bold.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --stage-w: min(100vw, calc(100vh * 16 / 9));
+      --stage-h: min(100vh, calc(100vw * 9 / 16));
+      --ink: #3c271c;
+      --paper: #fff6dc;
+      --line: #9d744b;
+      --green: #7fa361;
+      --red: #e76f51;
+      --blue: #398fbc;
+      --brown: #8b5a3c;
+      --shadow: 0 .55vmin 0 rgba(92, 54, 24, .28), 0 1.2vmin 2.2vmin rgba(66, 36, 12, .22);
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --stage-w: min(100vw, calc(100dvh * 16 / 9));
+        --stage-h: min(100dvh, calc(100vw * 9 / 16));
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #2f271f;
+      color: var(--ink);
+      font-family: "YOnepick", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-weight: 700;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    .shell {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      background:
+        radial-gradient(circle at 24% 12%, rgba(255, 232, 178, .3), transparent 32%),
+        linear-gradient(135deg, #5c4736, #282018 65%, #201914);
+    }
+
+    .stage {
+      position: relative;
+      width: var(--stage-w);
+      height: var(--stage-h);
+      max-width: 100vw;
+      max-height: 100dvh;
+      overflow: hidden;
+      border-radius: min(1.25vmin, 8px);
+      background: #f6d8a8;
+      box-shadow: 0 1.4vmin 4vmin rgba(0, 0, 0, .42);
+      isolation: isolate;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: hidden;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: -2;
+    }
+
+    #cafeScreen::before {
+      background-image: url("cafe_main.png");
+    }
+
+    #cafeScreen::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("cafe_main.png") center / cover no-repeat;
+      clip-path: inset(70.6% 0 0 0);
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    #prepScreen::before {
+      background-image: url("cafe제조대.png");
+    }
+
+    .hud {
+      position: absolute;
+      top: 1.7%;
+      left: 1.4%;
+      right: 1.4%;
+      height: 7.1%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1vmin;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hud-left,
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: .8vmin;
+      min-width: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 8.8vmin;
+      height: 4.3vmin;
+      padding: 0 1.35vmin;
+      border: .24vmin solid rgba(129, 91, 53, .82);
+      border-radius: .75vmin;
+      background: rgba(255, 247, 222, .9);
+      box-shadow: 0 .35vmin 0 rgba(111, 72, 41, .28);
+      font-size: clamp(11px, 1.65vmin, 18px);
+      line-height: 1;
+      white-space: nowrap;
+      backdrop-filter: blur(.25vmin);
+    }
+
+    .badge.compact {
+      min-width: 6.4vmin;
+    }
+
+    .badge.energy {
+      color: #81521d;
+    }
+
+    .badge.money {
+      color: #267341;
+    }
+
+    .badge.time {
+      color: #5f4632;
+    }
+
+    .icon {
+      display: inline-grid;
+      place-items: center;
+      width: 2.45vmin;
+      height: 2.45vmin;
+      margin-right: .45vmin;
+      border-radius: 50%;
+      color: #fff7df;
+      font-size: 1.55vmin;
+      line-height: 1;
+      text-shadow: 0 .1vmin rgba(0, 0, 0, .15);
+    }
+
+    .icon.energy-icon {
+      background: #efb72e;
+    }
+
+    .icon.money-icon {
+      background: #4ca764;
+    }
+
+    .cafe-customer {
+      position: absolute;
+      left: 22.8%;
+      bottom: 6.2%;
+      width: min(30%, 40vmin);
+      height: 66%;
+      display: grid;
+      place-items: end center;
+      transform: translateX(-42vw);
+      opacity: 0;
+      z-index: 5;
+      animation: walkIn .62s cubic-bezier(.2, .88, .24, 1.1) forwards;
+    }
+
+    .cafe-customer img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 .7vmin 1vmin rgba(55, 33, 18, .28));
+      transform-origin: 50% 100%;
+      animation: idleBob 2.4s ease-in-out infinite;
+    }
+
+    .speech {
+      position: absolute;
+      left: 40%;
+      top: 14.5%;
+      width: 42%;
+      min-height: 25.5%;
+      padding: 2.3vmin 2.7vmin 2.1vmin 3.1vmin;
+      border: .32vmin solid #ad7b48;
+      border-radius: 2.2vmin;
+      background: linear-gradient(180deg, rgba(255, 253, 236, .97), rgba(255, 243, 209, .97));
+      box-shadow: var(--shadow);
+      transform: scale(.88);
+      opacity: 0;
+      transform-origin: 15% 100%;
+      animation: bubbleIn .28s .48s cubic-bezier(.18, .88, .28, 1.25) forwards;
+      z-index: 8;
+      isolation: isolate;
+    }
+
+    .speech::before {
+      content: "";
+      position: absolute;
+      left: -1.6vmin;
+      bottom: -2.2vmin;
+      width: 5.1vmin;
+      height: 5vmin;
+      background: linear-gradient(180deg, rgba(255, 253, 236, .97), rgba(255, 243, 209, .97));
+      clip-path: polygon(100% 0, 8% 100%, 68% 18%);
+      filter:
+        drop-shadow(-.18vmin 0 0 #ad7b48)
+        drop-shadow(0 .18vmin 0 #ad7b48);
+      z-index: -1;
+    }
+
+    .customer-name {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      min-height: 3.1vmin;
+      padding: .45vmin 1.2vmin .35vmin;
+      margin-bottom: 1vmin;
+      border-radius: 999px;
+      background: #8cb66a;
+      color: #fff9e8;
+      font-size: clamp(11px, 1.55vmin, 17px);
+      line-height: 1.15;
+      box-shadow: inset 0 -.2vmin rgba(67, 95, 43, .2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-text {
+      margin: 0;
+      color: #4b3327;
+      font-size: clamp(15px, 2.34vmin, 28px);
+      line-height: 1.36;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .order-type {
+      display: none;
+    }
+
+    .counter-actions {
+      position: absolute;
+      left: 40%;
+      top: 44.2%;
+      display: flex;
+      align-items: center;
+      gap: 1.1vmin;
+      z-index: 9;
+      opacity: 0;
+      transform: translateY(1vmin);
+      animation: fadeUp .26s .72s ease-out forwards;
+    }
+
+    .primary,
+    .secondary,
+    .icon-btn {
+      min-width: 12vmin;
+      min-height: 4.9vmin;
+      border: .24vmin solid rgba(104, 64, 32, .66);
+      border-radius: .9vmin;
+      background: #f9e4b5;
+      box-shadow: 0 .42vmin 0 rgba(114, 71, 33, .34);
+      cursor: pointer;
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+      font-size: clamp(12px, 1.65vmin, 18px);
+      line-height: 1;
+    }
+
+    .primary {
+      color: #fffaf0;
+      background: linear-gradient(180deg, #91bd70, #628f4b);
+    }
+
+    .secondary {
+      color: #5f3d25;
+      background: linear-gradient(180deg, #fff3d1, #eec786);
+    }
+
+    .primary:active,
+    .secondary:active,
+    .icon-btn:active,
+    .machine-button:active,
+    .customer-choice:active {
+      transform: translateY(.35vmin) scale(.97);
+      box-shadow: 0 .12vmin 0 rgba(114, 71, 33, .28);
+    }
+
+
+    .prep-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .machine-button,
+    .customer-choice,
+    .ingredient-hotspot,
+    .trash-button {
+      position: absolute;
+      border: 0;
+      border-radius: 1vmin;
+      background: rgba(255, 255, 255, .02);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .machine-button {
+      display: grid;
+      place-items: center;
+      color: transparent;
+      outline: .2vmin solid transparent;
+      transition: outline-color .14s ease, background .14s ease, transform .12s ease;
+    }
+
+    .machine-button.selected {
+      outline-color: rgba(255, 249, 214, .95);
+      background: rgba(255, 251, 218, .18);
+      box-shadow: 0 0 1.2vmin rgba(255, 241, 168, .95);
+      animation: buttonPop .26s ease;
+    }
+
+    .hot-zone,
+    .ice-zone { display: none; }
+    .shot-zone { left: 1.2%; top: 44.2%; width: 7.9%; height: 17.2%; }
+    .hot-cup-zone { left: 87.3%; top: 44.1%; width: 10.7%; height: 22.3%; }
+    .ice-cup-zone { left: 87.3%; top: 66.5%; width: 10.7%; height: 23.2%; }
+
+    .shot-count {
+      position: absolute;
+      left: 2.2%;
+      top: 61.3%;
+      min-width: 4.2vmin;
+      height: 2.4vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #fff4d4;
+      border: .18vmin solid rgba(121, 78, 43, .45);
+      color: #775034;
+      font-size: clamp(10px, 1.22vmin, 13px);
+      z-index: 7;
+      opacity: .92;
+    }
+
+    .ingredient-hotspot {
+      display: grid;
+      place-items: center;
+      outline: .18vmin solid transparent;
+      transition: outline-color .12s ease, background .12s ease, transform .12s ease;
+    }
+
+    .ingredient-hotspot::after {
+      content: attr(data-name);
+      position: absolute;
+      left: 50%;
+      bottom: .45vmin;
+      transform: translateX(-50%);
+      max-width: 92%;
+      padding: .2vmin .45vmin;
+      border-radius: .42vmin;
+      background: rgba(255, 249, 227, .72);
+      color: rgba(69, 43, 25, .76);
+      font-size: clamp(8px, 1vmin, 12px);
+      line-height: 1;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .12s ease;
+      pointer-events: none;
+    }
+
+    .ingredient-hotspot:hover,
+    .ingredient-hotspot:focus-visible {
+      outline-color: rgba(255, 252, 226, .92);
+      background: rgba(255, 255, 255, .13);
+    }
+
+    .ingredient-hotspot:hover::after,
+    .ingredient-hotspot:focus-visible::after {
+      opacity: 1;
+    }
+
+    .ingredient-hotspot:active {
+      transform: scale(.94);
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .trash-button {
+      left: 1.2%;
+      top: 75.6%;
+      width: 7.1%;
+      height: 19%;
+    }
+
+    .order-card {
+      position: absolute;
+      left: 78.8%;
+      top: 5.8%;
+      width: 19.1%;
+      height: 33.8%;
+      padding: 10.1vmin 1.7vmin 1.5vmin;
+      color: #5d3d29;
+      text-align: center;
+      z-index: 6;
+      pointer-events: none;
+    }
+
+    .order-card .small-title {
+      display: none;
+    }
+
+    .order-card p {
+      margin: 0;
+      max-height: 100%;
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-align: center;
+      font-size: clamp(9px, 1.12vmin, 13px);
+      line-height: 1.34;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .delivery-zone {
+      position: absolute;
+      left: 58.6%;
+      top: 5.6%;
+      width: 18.3%;
+      height: 34.2%;
+      border: .28vmin dashed transparent;
+      border-radius: 1.2vmin;
+      z-index: 5;
+      pointer-events: none;
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .delivery-zone.ready {
+      border-color: rgba(255, 247, 212, .8);
+      background: rgba(255, 248, 218, .08);
+      animation: deliveryPulse 1.15s ease-in-out infinite;
+    }
+
+    .delivery-zone.hot {
+      border-color: rgba(128, 190, 94, .85);
+      background: rgba(255, 250, 216, .19);
+    }
+
+    .drink-workspace {
+      position: absolute;
+      left: 9.9%;
+      top: 5.7%;
+      width: 47.3%;
+      height: 34.1%;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .drink-workspace::before {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 50%;
+      top: 50%;
+      width: 23vmin;
+      height: 27vmin;
+      transform: translate(-50%, -50%);
+      border-radius: 1.8vmin;
+      background:
+        radial-gradient(ellipse at 50% 44%, rgba(255, 236, 199, .95), rgba(239, 195, 139, .94) 58%, rgba(226, 174, 110, .88)),
+        linear-gradient(180deg, rgba(246, 211, 166, .92), rgba(224, 170, 105, .9));
+      box-shadow:
+        inset 0 0 1.2vmin rgba(255, 251, 232, .42),
+        0 .4vmin 1.2vmin rgba(123, 79, 42, .1);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .cup {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 17.2vmin;
+      height: 23.1vmin;
+      transform: translate(-50%, -48%);
+      transform-origin: 50% 90%;
+      pointer-events: auto;
+      touch-action: none;
+      cursor: grab;
+      filter: drop-shadow(0 .55vmin .75vmin rgba(81, 48, 23, .24));
+      transition: filter .15s ease;
+      z-index: 12;
+    }
+
+    .cup.dragging {
+      cursor: grabbing;
+      filter: drop-shadow(0 1.1vmin 1.35vmin rgba(68, 38, 18, .34));
+      transition: none;
+      z-index: 30;
+    }
+
+    .cup.shake {
+      animation: cupShake .24s ease;
+    }
+
+    .cup.pop {
+      animation: cupPop .32s cubic-bezier(.2, .88, .24, 1.2);
+    }
+
+    .cup-body {
+      position: absolute;
+      left: 14%;
+      top: 7%;
+      width: 72%;
+      height: 85%;
+      overflow: hidden;
+      clip-path: polygon(8% 1%, 92% 1%, 79% 99%, 21% 99%);
+      border-radius: 1.8vmin 1.8vmin 3.4vmin 3.4vmin;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .36), transparent 24%, rgba(255, 255, 255, .2) 74%, rgba(255, 255, 255, .54)),
+        rgba(255, 255, 255, .18);
+    }
+
+    .cup-outline {
+      position: absolute;
+      inset: 0;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 220'%3E%3Cellipse cx='80' cy='21' rx='67' ry='18' fill='none' stroke='rgba(255,255,255,.92)' stroke-width='5'/%3E%3Cpath d='M19 25 L45 207 Q80 222 115 207 L141 25' fill='none' stroke='rgba(255,255,255,.88)' stroke-width='5' stroke-linejoin='round'/%3E%3Cellipse cx='80' cy='198' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,.58)' stroke-width='4'/%3E%3C/svg%3E")
+        center / contain no-repeat;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .liquid {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: 0;
+      height: 0%;
+      background: rgba(160, 109, 61, .78);
+      transition: height .22s ease, background-color .22s ease;
+      overflow: hidden;
+    }
+
+    .liquid::before {
+      content: "";
+      position: absolute;
+      left: -12%;
+      top: -1.2vmin;
+      width: 124%;
+      height: 2.4vmin;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .24);
+      transform: rotate(-2deg);
+      animation: slosh 1.8s ease-in-out infinite;
+    }
+
+    .liquid-layer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: var(--h, 12%);
+      bottom: var(--b, 0%);
+      background: var(--c, rgba(160, 109, 61, .8));
+      opacity: .9;
+      transition: bottom .2s ease;
+    }
+
+    .ice-cube,
+    .pearl-dot,
+    .bubble-dot,
+    .spark-dot,
+    .whip {
+      position: absolute;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .ice-cube {
+      width: 2.1vmin;
+      height: 1.7vmin;
+      border: .18vmin solid rgba(255, 255, 255, .78);
+      border-radius: .35vmin;
+      background: rgba(205, 240, 255, .45);
+      transform: rotate(var(--r, -12deg));
+      animation: iceFloat 2.3s ease-in-out infinite;
+    }
+
+    .pearl-dot {
+      width: 1.25vmin;
+      height: 1.25vmin;
+      border-radius: 50%;
+      background: #252019;
+      box-shadow: inset -.18vmin -.18vmin rgba(255, 255, 255, .12);
+    }
+
+    .bubble-dot {
+      width: .75vmin;
+      height: .75vmin;
+      border: .14vmin solid rgba(255, 255, 255, .78);
+      border-radius: 50%;
+      opacity: .78;
+      animation: bubbleRise 1.35s ease-in infinite;
+    }
+
+    .spark-dot {
+      width: .72vmin;
+      height: .72vmin;
+      border-radius: 50%;
+      background: #ffe66d;
+      box-shadow: 0 0 .8vmin #fff2a2;
+      animation: sparkle .7s ease-out forwards;
+    }
+
+    .whip {
+      left: 24%;
+      top: 18%;
+      width: 52%;
+      height: 24%;
+      background:
+        radial-gradient(circle at 47% 28%, #fff 0 18%, transparent 19%),
+        radial-gradient(circle at 35% 51%, #fffdfa 0 26%, transparent 27%),
+        radial-gradient(circle at 62% 55%, #fff7ee 0 27%, transparent 28%),
+        radial-gradient(circle at 50% 78%, #fffaf3 0 34%, transparent 35%);
+      filter: drop-shadow(0 .2vmin .18vmin rgba(135, 94, 61, .18));
+      animation: whipPop .25s ease-out;
+    }
+
+    .latte-canvas {
+      position: absolute;
+      left: 23%;
+      top: 21%;
+      width: 54%;
+      height: 37%;
+      z-index: 7;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease;
+    }
+
+    .latte-canvas.enabled {
+      opacity: .78;
+      pointer-events: auto;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .cup-label {
+      position: absolute;
+      left: 50%;
+      bottom: -2.4vmin;
+      transform: translateX(-50%);
+      min-width: 9vmin;
+      padding: .35vmin .65vmin;
+      border-radius: 999px;
+      background: rgba(255, 245, 219, .88);
+      border: .16vmin solid rgba(121, 78, 43, .38);
+      color: #795034;
+      text-align: center;
+      font-size: clamp(9px, 1.08vmin, 12px);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .float-particle {
+      position: absolute;
+      width: 2.7vmin;
+      height: 2.7vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 248, 220, .96);
+      border: .2vmin solid rgba(133, 88, 45, .35);
+      box-shadow: 0 .35vmin .7vmin rgba(88, 52, 22, .2);
+      font-size: 1.55vmin;
+      z-index: 40;
+      pointer-events: none;
+      animation: flyToCup .36s cubic-bezier(.17, .84, .38, 1) forwards;
+    }
+
+    .prep-actions {
+      position: absolute;
+      left: 23.4%;
+      bottom: 5.8%;
+      width: 62%;
+      height: 7%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1vmin;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .prep-actions button {
+      pointer-events: auto;
+    }
+
+    .mini-btn {
+      min-width: 10.5vmin;
+      min-height: 4.2vmin;
+      border: .22vmin solid rgba(84, 54, 31, .58);
+      border-radius: .78vmin;
+      background: rgba(255, 242, 209, .94);
+      color: #6a452c;
+      box-shadow: 0 .34vmin 0 rgba(97, 58, 30, .24);
+      cursor: pointer;
+      font-size: clamp(10px, 1.34vmin, 15px);
+      line-height: 1;
+    }
+
+    .mini-btn:disabled {
+      opacity: .5;
+      cursor: default;
+    }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      top: 10%;
+      max-width: 52%;
+      padding: .9vmin 1.4vmin;
+      border-radius: 999px;
+      background: rgba(68, 45, 29, .88);
+      color: #fff6dc;
+      font-size: clamp(10px, 1.45vmin, 16px);
+      line-height: 1.2;
+      transform: translate(-50%, -1vmin);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      transition: opacity .18s ease, transform .18s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .result {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(42, 29, 20, .42);
+      z-index: 80;
+    }
+
+    .result.show {
+      display: grid;
+    }
+
+    .result-panel {
+      position: relative;
+      width: min(76vmin, 74%);
+      max-height: 82%;
+      padding: 2.4vmin 2.8vmin;
+      border: .32vmin solid #a97948;
+      border-radius: 1.4vmin;
+      background: linear-gradient(180deg, #fff8e7, #f6dcab);
+      box-shadow: 0 1.1vmin 2.8vmin rgba(35, 21, 11, .38);
+      display: grid;
+      grid-template-columns: 15vmin minmax(0, 1fr);
+      grid-template-areas:
+        "face title"
+        "face line"
+        "face reward"
+        "face actions";
+      column-gap: 2vmin;
+      align-items: center;
+      text-align: left;
+      overflow: auto;
+      animation: bubbleIn .22s ease-out;
+    }
+
+    .result-face {
+      grid-area: face;
+      height: 16vmin;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      align-self: center;
+    }
+
+    .result-face img {
+      max-height: 100%;
+      max-width: 14vmin;
+      object-fit: contain;
+      filter: drop-shadow(0 .5vmin .7vmin rgba(70, 42, 20, .24));
+    }
+
+    .reaction-title {
+      grid-area: title;
+      margin: 0 0 .75vmin;
+      color: #69432b;
+      font-size: clamp(16px, 2.3vmin, 26px);
+      line-height: 1.1;
+    }
+
+    .reaction-line {
+      grid-area: line;
+      margin: 0 0 1vmin;
+      max-width: none;
+      color: #4b3327;
+      font-size: clamp(13px, 1.75vmin, 20px);
+      line-height: 1.38;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .reward-line {
+      grid-area: reward;
+      min-height: 2.6vmin;
+      color: #2e7340;
+      font-size: clamp(11px, 1.48vmin, 16px);
+      line-height: 1.2;
+      margin-bottom: 1.3vmin;
+    }
+
+    .result-actions {
+      grid-area: actions;
+      display: flex;
+      justify-content: flex-start;
+      gap: 1vmin;
+      flex-wrap: wrap;
+    }
+
+    .portrait-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 1.2%;
+      transform: translateX(-50%);
+      padding: .55vmin 1vmin;
+      border-radius: 999px;
+      background: rgba(61, 42, 29, .74);
+      color: rgba(255, 247, 225, .95);
+      font-size: clamp(9px, 1.15vmin, 12px);
+      line-height: 1;
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (orientation: portrait) {
+      .portrait-hint {
+        opacity: 1;
+      }
+    }
+
+    @media (max-aspect-ratio: 13/9) {
+      .speech {
+        left: 35%;
+        width: 52%;
+      }
+
+.badge {
+        min-width: 7.5vmin;
+        padding: 0 .9vmin;
+      }
+    }
+
+    @keyframes walkIn {
+      from {
+        transform: translateX(-42vw);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes idleBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-.55vmin); }
+    }
+
+    @keyframes bubbleIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes buttonPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes cupPop {
+      0% { transform: translate(-50%, -48%) scale(.92); }
+      55% { transform: translate(-50%, -48%) scale(1.08); }
+      100% { transform: translate(-50%, -48%) scale(1); }
+    }
+
+    @keyframes cupShake {
+      0%, 100% { transform: translate(-50%, -48%) rotate(0deg); }
+      25% { transform: translate(-51%, -48%) rotate(-2deg); }
+      75% { transform: translate(-49%, -48%) rotate(2deg); }
+    }
+
+    @keyframes slosh {
+      0%, 100% { transform: translateX(-2%) rotate(-2deg); }
+      50% { transform: translateX(2%) rotate(2deg); }
+    }
+
+    @keyframes flyToCup {
+      to {
+        transform: translate(var(--tx), var(--ty)) scale(.25);
+        opacity: .15;
+      }
+    }
+
+    @keyframes deliveryPulse {
+      0%, 100% { box-shadow: inset 0 0 0 rgba(255, 247, 212, .3); }
+      50% { box-shadow: inset 0 0 2vmin rgba(255, 247, 212, .45); }
+    }
+
+    @keyframes iceFloat {
+      0%, 100% { transform: translateY(0) rotate(var(--r)); }
+      50% { transform: translateY(-.5vmin) rotate(calc(var(--r) + 4deg)); }
+    }
+
+    @keyframes bubbleRise {
+      from { transform: translateY(1.2vmin); opacity: 0; }
+      35% { opacity: .78; }
+      to { transform: translateY(-6.8vmin); opacity: 0; }
+    }
+
+    @keyframes sparkle {
+      from { transform: scale(.4); opacity: 1; }
+      to { transform: translateY(-3vmin) scale(1.3); opacity: 0; }
+    }
+
+    @keyframes whipPop {
+      from { transform: translateY(.9vmin) scale(.78); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell" aria-label="코토리 카페 미니게임">
+    <section class="stage" id="stage">
+      <div class="hud" aria-live="polite">
+        <div class="hud-left">
+          <span class="badge compact" id="dayBadge">Day 5</span>
+          <span class="badge time" id="timeBadge">--:--</span>
+          <span class="badge" id="dateBadge">--</span>
+        </div>
+        <div class="hud-right">
+          <span class="badge energy"><span class="icon energy-icon">⚡</span><span id="energyText">5/10</span></span>
+          <span class="badge money"><span class="icon money-icon">₩</span><span id="moneyText">12,000원</span></span>
+        </div>
+      </div>
+
+      <section class="screen active" id="cafeScreen" aria-label="카페 화면">
+        <div class="cafe-customer" id="cafeCustomer">
+          <img id="customerImage" src="customers/student.png" alt="">
+        </div>
+
+        <div class="speech" id="speechBubble">
+          <span class="customer-name" id="customerName">손님</span>
+          <p class="order-text" id="orderText">주문을 기다리는 중...</p>
+          <div class="order-type" id="orderType">NORMAL</div>
+        </div>
+
+        <div class="counter-actions">
+          <button class="primary" id="makeButton" type="button">네, 만들어볼게요</button>
+          <button class="secondary" id="listenButton" type="button">네...?</button>
+        </div>
+
+      </section>
+
+      <section class="screen" id="prepScreen" aria-label="제조 화면">
+        <div class="prep-overlay">
+          <button class="machine-button hot-zone" id="hotButton" type="button" aria-label="HOT 선택">HOT</button>
+          <button class="machine-button ice-zone" id="iceButton" type="button" aria-label="ICE 선택">ICE</button>
+          <button class="machine-button shot-zone" id="shotButton" type="button" aria-label="샷 추가">SHOT</button>
+          <button class="machine-button hot-cup-zone" id="hotCupButton" type="button" aria-label="HOT 컵 선택">HOT 컵</button>
+          <button class="machine-button ice-cup-zone" id="iceCupButton" type="button" aria-label="ICE 컵 선택">ICE 컵</button>
+          <button class="trash-button" id="trashButton" type="button" aria-label="버리기"></button>
+
+          <div class="shot-count" id="shotCount">SHOT 0</div>
+          <div class="delivery-zone" id="deliveryZone" aria-hidden="true"></div>
+
+          <div class="drink-workspace" id="drinkWorkspace">
+            <div class="cup pop" id="cup" role="button" aria-label="완성 음료를 손님에게 드래그해서 전달">
+              <div class="cup-body" id="cupBody">
+                <div class="liquid" id="liquid"></div>
+                <canvas class="latte-canvas" id="latteCanvas"></canvas>
+              </div>
+              <div class="cup-outline"></div>
+              <div class="cup-label" id="cupLabel">빈 컵</div>
+            </div>
+          </div>
+
+          <div class="order-card">
+            <h2 class="small-title">주문 메모</h2>
+            <p id="orderMemo">손님 말을 잘 떠올려보자.</p>
+          </div>
+
+          <div class="prep-actions">
+            <button class="mini-btn" id="backButton" type="button">카운터로</button>
+            <button class="mini-btn" id="latteButton" type="button" disabled>라떼아트</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="result" id="resultLayer" aria-live="assertive">
+        <div class="result-panel">
+          <div class="result-face">
+            <img id="resultImage" src="customers/student.png" alt="">
+          </div>
+          <h2 class="reaction-title" id="reactionTitle">반응</h2>
+          <p class="reaction-line" id="reactionLine">...</p>
+          <div class="reward-line" id="rewardLine"></div>
+          <div class="result-actions">
+            <button class="primary" id="nextButton" type="button">다음 손님</button>
+            <button class="secondary" id="storyButton" type="button">코토리 스토리 보기 (행동력 +1)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast">알림</div>
+      <div class="portrait-hint">가로 화면에 맞춰 만든 미니게임입니다</div>
+    </section>
+  </main>
+
+  <script>
+    const INGREDIENTS = [
+      { name: "물", color: "#d5eff8", icon: "물", x: 10.9, y: 43.6, w: 7.4, h: 16.8, flavor: "clean" },
+      { name: "우유", color: "#fff1d2", icon: "우", x: 18.3, y: 43.6, w: 7.4, h: 16.8, flavor: "milk" },
+      { name: "두유", color: "#ead4a3", icon: "두", x: 25.7, y: 43.6, w: 7.4, h: 16.8, flavor: "milk" },
+      { name: "초콜릿", color: "#6b3e2d", icon: "초", x: 33.2, y: 43.6, w: 7.4, h: 16.8, flavor: "sweet" },
+      { name: "춘장", color: "#2d211b", icon: "춘", x: 40.9, y: 43.6, w: 7.25, h: 16.8, flavor: "danger" },
+      { name: "레몬", color: "#ffe15d", icon: "레", x: 48.35, y: 43.6, w: 7.25, h: 16.8, flavor: "sour" },
+      { name: "카라멜", color: "#c67a29", icon: "카", x: 55.8, y: 43.6, w: 7.25, h: 16.8, flavor: "sweet" },
+      { name: "피스타치오", color: "#9dbf63", icon: "피", x: 63.25, y: 43.6, w: 7.25, h: 16.8, flavor: "nut" },
+      { name: "딸기", color: "#e85c68", icon: "딸", x: 70.7, y: 43.6, w: 7.25, h: 16.8, flavor: "fruit" },
+      { name: "수박", color: "#e84f4d", icon: "수", x: 78.1, y: 43.6, w: 7.25, h: 16.8, flavor: "fruit" },
+      { name: "녹차", color: "#5f9c4b", icon: "녹", x: 11.7, y: 61.7, w: 8.25, h: 17.1, flavor: "tea" },
+      { name: "시금치", color: "#3f7e36", icon: "시", x: 20.1, y: 61.7, w: 8.1, h: 17.1, flavor: "danger" },
+      { name: "꿀", color: "#f2b829", icon: "꿀", x: 28.3, y: 61.7, w: 8.1, h: 17.1, flavor: "sweet" },
+      { name: "연유", color: "#f7e3b7", icon: "연", x: 36.4, y: 61.7, w: 8.1, h: 17.1, flavor: "sweet" },
+      { name: "펄", color: "#252019", icon: "펄", x: 44.5, y: 61.7, w: 8.1, h: 17.1, flavor: "topping" },
+      { name: "휘핑크림", color: "#fff9ef", icon: "휘", x: 52.5, y: 61.7, w: 8.1, h: 17.1, flavor: "topping" },
+      { name: "홍차", color: "#a45e36", icon: "홍", x: 60.6, y: 61.7, w: 8.1, h: 17.1, flavor: "tea" },
+      { name: "탄산수", color: "#bdeeff", icon: "탄", x: 68.6, y: 61.7, w: 8.1, h: 17.1, flavor: "sparkle" }
+    ];
+
+    const ingredientByName = Object.fromEntries(INGREDIENTS.map((item) => [item.name, item]));
+
+    const CUSTOMERS = [
+      {
+        name: "졸린 직장인",
+        img: "customers/office-worker.png",
+        type: "ABSTRACT",
+        order: "잠 좀 깨게 해주세요. 얼음이 저를 때려도 괜찮아요.",
+        hint: "차갑게, 물 베이스, 샷을 넉넉히.",
+        recipe: { temp: "ICE", minShots: 2, ingredients: ["물"], allowExtra: ["꿀"] },
+        success: "와... 방금 제 영혼이 출근 도장을 찍었어요.",
+        normal: "오, 잠은 깼어요. 퇴근하고 싶다는 마음도 같이 깼네요.",
+        fail: "잠 깨랬지 기절시키랬냐고요."
+      },
+      {
+        name: "방과 후 학생",
+        img: "customers/student.png",
+        type: "ABSTRACT",
+        order: "달달한 초록색 느낌으로요. 근데 너무 어른 맛은 싫어요.",
+        hint: "녹차에 우유와 꿀을 더하면 부드럽다.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["우유", "녹차", "꿀"], allowExtra: ["연유", "휘핑크림"] },
+        success: "이거 마시면 숙제도 귀여워 보일 것 같아요!",
+        normal: "초록색은 맞는데... 살짝 동아리 벌칙 맛이에요.",
+        fail: "이거 왜 시금치 맛 남?"
+      },
+      {
+        name: "휘핑크림 커플",
+        img: "customers/couple.png",
+        type: "MEME",
+        order: "오빠 나 휘핑크림도~ 딸기맛이면 더 좋구...",
+        hint: "아이스, 우유, 딸기, 휘핑크림.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["우유", "딸기", "휘핑크림"], allowExtra: ["연유", "펄"] },
+        success: "여친분이 박수치고 남친분은 영수증을 못 봅니다.",
+        normal: "맛있는데 휘핑이 조금 수줍어요.",
+        fail: "남친분 표정이 결제 오류처럼 멈췄어요."
+      },
+      {
+        name: "흑염룡 손님",
+        img: "customers/dark-flame.png",
+        type: "TROUBLEMAKER",
+        order: "차갑지만 따뜻한 어둠... 내 안의 용이 마실 검은 달을 줘.",
+        hint: "아이스 홍차에 초콜릿을 섞고 샷 하나.",
+        recipe: { temp: "ICE", shots: 1, ingredients: ["홍차", "초콜릿"], allowExtra: ["카라멜"] },
+        success: "크큭... 어둠이 달콤하군. 마음에 들었다.",
+        normal: "어둠은 있는데 용이 아직 알바 첫날 같군.",
+        fail: "이건 흑염룡이 아니라 춘장룡인데?"
+      },
+      {
+        name: "운동 끝난 헬창",
+        img: "customers/gym-bro.png",
+        type: "CUSTOM",
+        order: "두유 베이스로 고소하게요. 단백질은 없지만 근성은 넣어주세요.",
+        hint: "두유, 피스타치오, 꿀. 커피 샷은 빼는 편이 좋다.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["두유", "피스타치오", "꿀"], allowExtra: ["펄"] },
+        success: "오, 오늘 등 운동보다 이게 더 안정적입니다.",
+        normal: "괜찮아요. 근데 근성은 반 스쿱만 들어간 듯해요.",
+        fail: "이 맛은 벌크업이 아니라 벌칙업입니다."
+      },
+      {
+        name: "창가의 시인",
+        img: "customers/poet.png",
+        type: "ABSTRACT",
+        order: "비 오는 오후처럼 따뜻하고, 끝맛은 노란 문장처럼 남게 해주세요.",
+        hint: "HOT 홍차에 레몬과 꿀.",
+        recipe: { temp: "HOT", shots: 0, ingredients: ["홍차", "레몬", "꿀"], allowExtra: [] },
+        success: "잔 안에서 오후가 천천히 걸어가네요.",
+        normal: "운율은 괜찮은데 마지막 행이 조금 삐끗했어요.",
+        fail: "이건 시가 아니라 회의록입니다."
+      },
+      {
+        name: "방학 중 어린이",
+        img: "customers/child.png",
+        type: "CUSTOM",
+        order: "톡톡 터지는 빨간 거요! 밑에 동그란 것도 넣어주세요!",
+        hint: "ICE, 수박, 탄산수, 펄.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["수박", "탄산수", "펄"], allowExtra: ["꿀"] },
+        success: "우와! 컵 안에 여름 방학이 들어있어!",
+        normal: "맛있는데 톡톡이 조금만 더 있으면 좋겠어요.",
+        fail: "엄마가 이 색깔 보고 놀랄 것 같아요."
+      },
+      {
+        name: "SNS 감성 손님",
+        img: "customers/sns-girl.png",
+        type: "CUSTOM",
+        order: "사진 잘 나오는 핑크 음료요. 위에는 구름처럼, 아래는 동글동글.",
+        hint: "딸기, 우유, 휘핑크림, 펄.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["딸기", "우유", "휘핑크림", "펄"], allowExtra: ["연유"] },
+        success: "필터 안 씌웠는데 이미 좋아요 300개 느낌이에요.",
+        normal: "사진은 예쁜데 맛 해시태그가 조금 고민돼요.",
+        fail: "스토리에 올리면 친구들이 걱정할 색이에요."
+      },
+      {
+        name: "동네 할머니",
+        img: "customers/grandma.png",
+        type: "NORMAL",
+        order: "따뜻한 홍차에 연유 조금만. 오늘은 손이 차네.",
+        hint: "HOT 홍차와 연유. 자극적인 재료는 피하자.",
+        recipe: { temp: "HOT", shots: 0, ingredients: ["홍차", "연유"], allowExtra: ["꿀"] },
+        success: "아이고, 마음까지 데워지네. 고마워요.",
+        normal: "괜찮네. 다음엔 조금만 더 부드럽게 부탁해요.",
+        fail: "이건 내 손보다 컵이 더 놀란 맛이야."
+      },
+      {
+        name: "비니 쓴 단골",
+        img: "customers/beanie-boy.png",
+        type: "CUSTOM",
+        order: "쓴데 달고, 달지만 멋은 있어야 해요. 너무 평범하면 안 됩니다.",
+        hint: "ICE, 샷 하나, 초콜릿, 카라멜.",
+        recipe: { temp: "ICE", shots: 1, ingredients: ["초콜릿", "카라멜"], allowExtra: ["우유"] },
+        success: "오... 오늘 제 플레이리스트랑 같은 톤이에요.",
+        normal: "나쁘지 않은데 아직 인디 감성이 덜 우러났어요.",
+        fail: "이건 멋이 아니라 미스터리입니다."
+      },
+      {
+        name: "까다로운 진상",
+        img: "customers/complainer.png",
+        type: "TROUBLEMAKER",
+        order: "커피는 싫은데 커피 같고, 달면 싫은데 안 달면 서운해요.",
+        hint: "녹차와 우유, 꿀 조금. 샷은 넣지 않는 게 안전하다.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["녹차", "우유", "꿀"], allowExtra: ["연유"] },
+        success: "흠... 불평하려고 했는데 맛있어서 짜증나네요.",
+        normal: "나쁘진 않은데 제 불평 포인트가 아직 살아있어요.",
+        fail: "역시 메뉴판에 없는 건 시키면 안 되네요."
+      }
+    ];
+
+    const state = {
+      energy: 5,
+      money: 12000,
+      day: 5,
+      customerIndex: -1,
+      currentCustomer: null,
+      screen: "cafe",
+      cup: {
+        temp: null,
+        shots: 0,
+        ingredients: [],
+        latteArt: false
+      },
+      drag: null,
+      latteDrawing: false
+    };
+
+    const bridge = {
+      enabled: false,
+      apiBase: "",
+      token: "",
+      gameType: "cafe_kotori",
+      storyCompleted: false,
+      canPlay: true,
+      statusLoaded: false
+    };
+
+    const els = {
+      stage: document.getElementById("stage"),
+      cafeScreen: document.getElementById("cafeScreen"),
+      prepScreen: document.getElementById("prepScreen"),
+      cafeCustomer: document.getElementById("cafeCustomer"),
+      customerImage: document.getElementById("customerImage"),
+      customerName: document.getElementById("customerName"),
+      orderText: document.getElementById("orderText"),
+      orderType: document.getElementById("orderType"),
+      makeButton: document.getElementById("makeButton"),
+      listenButton: document.getElementById("listenButton"),
+      hotButton: document.getElementById("hotButton"),
+      iceButton: document.getElementById("iceButton"),
+      hotCupButton: document.getElementById("hotCupButton"),
+      iceCupButton: document.getElementById("iceCupButton"),
+      shotButton: document.getElementById("shotButton"),
+      shotCount: document.getElementById("shotCount"),
+      drinkWorkspace: document.getElementById("drinkWorkspace"),
+      cup: document.getElementById("cup"),
+      cupBody: document.getElementById("cupBody"),
+      liquid: document.getElementById("liquid"),
+      cupLabel: document.getElementById("cupLabel"),
+      deliveryZone: document.getElementById("deliveryZone"),
+      orderMemo: document.getElementById("orderMemo"),
+      trashButton: document.getElementById("trashButton"),
+      backButton: document.getElementById("backButton"),
+      latteButton: document.getElementById("latteButton"),
+      latteCanvas: document.getElementById("latteCanvas"),
+      resultLayer: document.getElementById("resultLayer"),
+      resultImage: document.getElementById("resultImage"),
+      reactionTitle: document.getElementById("reactionTitle"),
+      reactionLine: document.getElementById("reactionLine"),
+      rewardLine: document.getElementById("rewardLine"),
+      nextButton: document.getElementById("nextButton"),
+      storyButton: document.getElementById("storyButton"),
+      toast: document.getElementById("toast"),
+      dayBadge: document.getElementById("dayBadge"),
+      timeBadge: document.getElementById("timeBadge"),
+      dateBadge: document.getElementById("dateBadge"),
+      energyText: document.getElementById("energyText"),
+      moneyText: document.getElementById("moneyText")
+    };
+
+    function parseBool(value) {
+      if (typeof value === "boolean") return value;
+      if (typeof value !== "string") return false;
+      return ["1", "true", "yes", "y"].includes(value.toLowerCase());
+    }
+
+    function parseNumber(value, fallback) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    function configureBridge() {
+      const params = new URLSearchParams(window.location.search);
+      const hostConfig = window.GPT2TEAM_CAFE_CONFIG || {};
+      const apiBase = params.get("apiBase") || params.get("api_base") || hostConfig.apiBase || "";
+      const token = params.get("token") || params.get("access_token") || hostConfig.token || "";
+
+      bridge.enabled = parseBool(params.get("gpt2team")) || Boolean(hostConfig.enabled) || Boolean(apiBase);
+      bridge.apiBase = String(apiBase).replace(/\/+$/, "");
+      bridge.token = token || "";
+      bridge.gameType = params.get("game_type") || hostConfig.gameType || bridge.gameType;
+      bridge.storyCompleted = parseBool(params.get("storyCompleted") || params.get("story_completed_today")) || Boolean(hostConfig.storyCompleted);
+
+      applyHostState({
+        day: params.get("day") || hostConfig.day,
+        ap: params.get("ap") || params.get("energy") || hostConfig.ap,
+        money: params.get("money") || hostConfig.money,
+        story_completed_today: bridge.storyCompleted,
+        can_play: hostConfig.canPlay
+      });
+
+      window.GPT2TeamCafeGame = {
+        configure: (config = {}) => {
+          window.GPT2TEAM_CAFE_CONFIG = { ...(window.GPT2TEAM_CAFE_CONFIG || {}), ...config, enabled: true };
+          configureBridge();
+          loadBridgeStatus();
+        },
+        setState: applyHostState,
+        refresh: loadBridgeStatus
+      };
+    }
+
+    function applyHostState(data = {}) {
+      if (data.day !== undefined && data.day !== null) state.day = parseNumber(data.day, state.day);
+      if (data.current_day !== undefined && data.current_day !== null) state.day = parseNumber(data.current_day, state.day);
+      if (data.ap !== undefined && data.ap !== null) state.energy = parseNumber(data.ap, state.energy);
+      if (data.current_ap !== undefined && data.current_ap !== null) state.energy = parseNumber(data.current_ap, state.energy);
+      if (data.money !== undefined && data.money !== null) state.money = parseNumber(data.money, state.money);
+      if (data.total_money !== undefined && data.total_money !== null) state.money = parseNumber(data.total_money, state.money);
+      if (data.story_completed_today !== undefined) bridge.storyCompleted = Boolean(data.story_completed_today);
+      if (data.storyCompleted !== undefined) bridge.storyCompleted = Boolean(data.storyCompleted);
+      if (data.can_play !== undefined) bridge.canPlay = Boolean(data.can_play);
+      if (data.canPlay !== undefined) bridge.canPlay = Boolean(data.canPlay);
+      updateHud();
+      tickClock();
+    }
+
+    function notifyHost(type, payload = {}) {
+      const message = { source: "kotori-cafe-minigame", type, payload };
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage(message, "*");
+      }
+      if (window.KotoriCafeBridge && typeof window.KotoriCafeBridge.postMessage === "function") {
+        window.KotoriCafeBridge.postMessage(JSON.stringify(message));
+      }
+      if (window.chrome?.webview?.postMessage) {
+        window.chrome.webview.postMessage(message);
+      }
+    }
+
+    async function bridgeFetch(path, options = {}) {
+      if (!bridge.apiBase) return null;
+      const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+      if (bridge.token) headers.Authorization = `Bearer ${bridge.token}`;
+      const response = await fetch(`${bridge.apiBase}${path}`, { ...options, headers });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error_code || data.detail || response.statusText);
+      }
+      return data;
+    }
+
+    async function loadBridgeStatus() {
+      if (!bridge.enabled || !bridge.apiBase) return;
+      try {
+        const data = await bridgeFetch(`/minigame/status?game_type=${encodeURIComponent(bridge.gameType)}`);
+        bridge.statusLoaded = true;
+        applyHostState(data);
+        notifyHost("status", data);
+      } catch (error) {
+        notifyHost("status_error", { message: error.message });
+      }
+    }
+
+    function canStartCafeGame() {
+      if (state.energy <= 0) return false;
+      if (!bridge.enabled) return true;
+      return bridge.canPlay && bridge.storyCompleted;
+    }
+
+    async function requestBridgeStart() {
+      if (!bridge.enabled) {
+        state.energy = Math.max(0, state.energy - 1);
+        return true;
+      }
+
+      try {
+        const data = await bridgeFetch("/minigame/start", {
+          method: "POST",
+          body: JSON.stringify({ game_type: bridge.gameType })
+        });
+        if (data?.status !== "success") {
+          showToast(data?.error_code || "카페 미니게임을 시작할 수 없습니다.");
+          return false;
+        }
+        applyHostState(data);
+        notifyHost("started", data);
+        return true;
+      } catch (error) {
+        notifyHost("start_error", { message: error.message });
+        showToast(error.message || "카페 미니게임을 시작할 수 없습니다.");
+        await loadBridgeStatus();
+        return false;
+      }
+    }
+
+    async function submitBridgeReward(result, latteArt) {
+      if (!bridge.enabled) return null;
+      const data = await bridgeFetch("/minigame/reward", {
+        method: "POST",
+        body: JSON.stringify({
+          game_type: bridge.gameType,
+          result,
+          latte_art: Boolean(latteArt)
+        })
+      });
+      applyHostState(data);
+      notifyHost("reward", data);
+      return data;
+    }
+
+    function init() {
+      configureBridge();
+      createIngredientHotspots();
+      bindEvents();
+      tickClock();
+      setInterval(tickClock, 1000 * 20);
+      nextCustomer();
+      updateHud();
+      resizeLatteCanvas();
+      window.addEventListener("resize", resizeLatteCanvas);
+      loadBridgeStatus();
+    }
+
+    function bindEvents() {
+      els.makeButton.addEventListener("click", startMaking);
+      els.listenButton.addEventListener("click", startMaking);
+      els.hotButton.addEventListener("click", () => selectTemp("HOT"));
+      els.iceButton.addEventListener("click", () => selectTemp("ICE"));
+      els.hotCupButton.addEventListener("click", () => selectTemp("HOT"));
+      els.iceCupButton.addEventListener("click", () => selectTemp("ICE"));
+      els.shotButton.addEventListener("click", addShot);
+      els.trashButton.addEventListener("click", resetCup);
+      els.backButton.addEventListener("click", () => switchScreen("cafe"));
+      els.latteButton.addEventListener("click", toggleLatteArt);
+      els.nextButton.addEventListener("click", queueNextCustomer);
+      els.storyButton.addEventListener("click", watchStory);
+      els.cup.addEventListener("pointerdown", startCupDrag);
+      window.addEventListener("pointermove", moveCupDrag);
+      window.addEventListener("pointerup", endCupDrag);
+      window.addEventListener("pointercancel", endCupDrag);
+      els.latteCanvas.addEventListener("pointerdown", startLatteDraw);
+      els.latteCanvas.addEventListener("pointermove", moveLatteDraw);
+      els.latteCanvas.addEventListener("pointerup", stopLatteDraw);
+      els.latteCanvas.addEventListener("pointercancel", stopLatteDraw);
+    }
+
+    function createIngredientHotspots() {
+      const overlay = document.querySelector(".prep-overlay");
+      INGREDIENTS.forEach((ingredient) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "ingredient-hotspot";
+        button.dataset.name = ingredient.name;
+        button.setAttribute("aria-label", ingredient.name + " 넣기");
+        button.style.left = ingredient.x + "%";
+        button.style.top = ingredient.y + "%";
+        button.style.width = ingredient.w + "%";
+        button.style.height = ingredient.h + "%";
+        button.addEventListener("click", () => addIngredient(ingredient, button));
+        overlay.appendChild(button);
+      });
+    }
+
+    function tickClock() {
+      const now = new Date();
+      const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+      els.timeBadge.textContent = now.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+      els.dateBadge.textContent = `${now.getMonth() + 1}/${now.getDate()} ${weekdays[now.getDay()]}요일`;
+      els.dayBadge.textContent = `Day ${state.day}`;
+    }
+
+    function updateHud() {
+      els.energyText.textContent = `${state.energy}/10`;
+      els.moneyText.textContent = formatWon(state.money);
+      els.storyButton.style.display = state.energy >= 10 ? "none" : "";
+      els.makeButton.disabled = !canStartCafeGame();
+      if (!canStartCafeGame()) {
+        if (state.energy <= 0) {
+          els.makeButton.textContent = "행동력 부족";
+        } else if (bridge.enabled && !bridge.storyCompleted) {
+          els.makeButton.textContent = "스토리 먼저 완료";
+        } else {
+          els.makeButton.textContent = "잠김";
+        }
+      } else {
+        els.makeButton.textContent = "네, 만들어볼게요";
+      }
+    }
+
+    function formatWon(value) {
+      return `${value.toLocaleString("ko-KR")}원`;
+    }
+
+    function nextCustomer() {
+      state.customerIndex = (state.customerIndex + 1) % CUSTOMERS.length;
+      state.currentCustomer = CUSTOMERS[state.customerIndex];
+      resetCup();
+      closeResult();
+      renderCustomer();
+      switchScreen("cafe");
+    }
+
+    function queueNextCustomer(force = false) {
+      if (els.nextButton.disabled && !force) return;
+      els.nextButton.disabled = true;
+      els.storyButton.disabled = true;
+      els.nextButton.textContent = "다음 손님 입장중...";
+      window.setTimeout(() => {
+        els.storyButton.disabled = false;
+        nextCustomer();
+      }, 720);
+    }
+
+    function renderCustomer() {
+      const customer = state.currentCustomer;
+      els.customerImage.src = customer.img;
+      els.customerImage.alt = customer.name;
+      els.resultImage.src = customer.img;
+      els.customerName.textContent = customer.name;
+      els.orderText.textContent = customer.order;
+      els.orderType.textContent = customer.type;
+      els.orderMemo.textContent = customer.order;
+      els.cafeCustomer.style.animation = "none";
+      els.cafeCustomer.offsetHeight;
+      els.cafeCustomer.style.animation = "";
+      document.getElementById("speechBubble").style.animation = "none";
+      document.getElementById("speechBubble").offsetHeight;
+      document.getElementById("speechBubble").style.animation = "";
+    }
+
+    async function startMaking() {
+      if (!canStartCafeGame()) {
+        if (bridge.enabled && !bridge.storyCompleted) {
+          showToast("코토리 스토리를 먼저 완료해주세요.");
+        } else {
+          showToast("행동력이 부족합니다. 스토리를 보면 행동력이 1 회복돼요.");
+        }
+        return;
+      }
+      const started = await requestBridgeStart();
+      if (!started) return;
+      updateHud();
+      resetCup();
+      switchScreen("prep");
+      showToast("재료를 터치해서 컵에 넣고, 완성되면 컵을 오른쪽 전달 칸으로 드래그하세요.");
+    }
+
+    function switchScreen(name) {
+      state.screen = name;
+      els.cafeScreen.classList.toggle("active", name === "cafe");
+      els.prepScreen.classList.toggle("active", name === "prep");
+      if (name === "prep") {
+        requestAnimationFrame(resizeLatteCanvas);
+      }
+    }
+
+    function selectTemp(temp) {
+      state.cup.temp = temp;
+      els.hotButton.classList.toggle("selected", temp === "HOT");
+      els.iceButton.classList.toggle("selected", temp === "ICE");
+      els.hotCupButton.classList.toggle("selected", temp === "HOT");
+      els.iceCupButton.classList.toggle("selected", temp === "ICE");
+      pulseCup();
+      renderCup();
+      showToast(temp === "HOT" ? "따뜻한 컵을 준비했어요." : "얼음 컵을 준비했어요.");
+    }
+
+    function addShot() {
+      if (!state.cup.temp) {
+        showToast("먼저 HOT 또는 ICE 컵을 골라주세요.");
+        return;
+      }
+      if (state.cup.shots >= 3) {
+        showToast("샷은 3번까지 넣을 수 있어요.");
+        return;
+      }
+      state.cup.shots = Math.min(3, state.cup.shots + 1);
+      els.shotCount.textContent = `SHOT ${state.cup.shots}`;
+      addIngredient({ name: "샷", color: "#4b2c1d", icon: "샷", flavor: "coffee" }, els.shotButton, true);
+      showToast(`샷 ${state.cup.shots}번`);
+    }
+
+    function addIngredient(ingredient, sourceButton, silent) {
+      if (!state.cup.temp) {
+        showToast("먼저 HOT 또는 ICE 컵을 골라주세요.");
+        return;
+      }
+      if (ingredient.name !== "샷") {
+        state.cup.ingredients.push(ingredient.name);
+      }
+      flyParticle(ingredient, sourceButton);
+      pulseCup();
+      renderCup();
+      if (!silent) {
+        const messages = {
+          "꿀": "꿀이 반짝 하고 들어갔어요.",
+          "탄산수": "기포가 톡톡 올라옵니다.",
+          "펄": "펄이 컵 아래로 떨어졌어요.",
+          "휘핑크림": "휘핑이 폭신하게 올라갔어요.",
+          "춘장": "코토리가 조용히 눈을 크게 떴습니다.",
+          "시금치": "건강한 기운이 너무 앞서갑니다."
+        };
+        showToast(messages[ingredient.name] || `${ingredient.name} 추가`);
+      }
+    }
+
+    function flyParticle(ingredient, sourceButton) {
+      const stageRect = els.stage.getBoundingClientRect();
+      const from = sourceButton.getBoundingClientRect();
+      const to = els.cup.getBoundingClientRect();
+      const particle = document.createElement("div");
+      particle.className = "float-particle";
+      particle.textContent = ingredient.icon || ingredient.name[0];
+      particle.style.left = from.left - stageRect.left + from.width / 2 - 12 + "px";
+      particle.style.top = from.top - stageRect.top + from.height / 2 - 12 + "px";
+      particle.style.setProperty("--tx", `${to.left + to.width / 2 - from.left - from.width / 2}px`);
+      particle.style.setProperty("--ty", `${to.top + to.height / 2 - from.top - from.height / 2}px`);
+      els.stage.appendChild(particle);
+      particle.addEventListener("animationend", () => particle.remove(), { once: true });
+    }
+
+    function pulseCup() {
+      els.cup.classList.remove("shake", "pop");
+      els.cup.offsetHeight;
+      els.cup.classList.add("shake");
+    }
+
+    function resetCup() {
+      state.cup = {
+        temp: null,
+        shots: 0,
+        ingredients: [],
+        latteArt: false
+      };
+      els.hotButton.classList.remove("selected");
+      els.iceButton.classList.remove("selected");
+      els.hotCupButton.classList.remove("selected");
+      els.iceCupButton.classList.remove("selected");
+      els.shotCount.textContent = "SHOT 0";
+      els.deliveryZone.classList.remove("ready", "hot");
+      els.cup.style.left = "";
+      els.cup.style.top = "";
+      els.cup.style.transform = "";
+      clearLatteCanvas();
+      renderCup();
+      els.cup.classList.remove("shake", "dragging");
+      els.cup.classList.add("pop");
+    }
+
+    function renderCup() {
+      const cup = state.cup;
+      const ingredients = cup.ingredients.map((name) => ingredientByName[name]).filter(Boolean);
+      const visibleItems = ingredients.concat(Array.from({ length: cup.shots }, () => ({ name: "샷", color: "#4b2c1d", flavor: "coffee" })));
+      const fill = Math.min(82, visibleItems.length * 12 + (cup.temp ? 8 : 0));
+      const color = blendColors(visibleItems.map((item) => item.color), cup.temp === "ICE" ? "#dff4ff" : "#f4d3a2");
+      els.liquid.style.height = `${fill}%`;
+      els.liquid.style.backgroundColor = color;
+      els.cupBody.querySelectorAll(".liquid-layer, .ice-cube, .pearl-dot, .bubble-dot, .spark-dot, .whip").forEach((node) => node.remove());
+
+      let bottom = 0;
+      visibleItems.slice(-6).forEach((item, index) => {
+        const layer = document.createElement("div");
+        layer.className = "liquid-layer";
+        layer.style.setProperty("--b", `${bottom}%`);
+        layer.style.setProperty("--h", `${Math.max(9, Math.min(16, fill / Math.max(1, visibleItems.length)))}%`);
+        layer.style.setProperty("--c", item.color);
+        layer.style.opacity = 0.26 + Math.min(.38, index * .05);
+        els.liquid.appendChild(layer);
+        bottom += Math.max(8, Math.min(14, fill / Math.max(1, visibleItems.length)));
+      });
+
+      if (cup.temp === "ICE") {
+        addIceCubes(Math.max(3, Math.min(6, visibleItems.length + 2)));
+      }
+      if (cup.ingredients.includes("펄")) {
+        addPearls();
+      }
+      if (cup.ingredients.includes("탄산수")) {
+        addBubbles();
+      }
+      if (cup.ingredients.includes("꿀")) {
+        addSparkles();
+      }
+      if (cup.ingredients.includes("휘핑크림")) {
+        const whip = document.createElement("div");
+        whip.className = "whip";
+        els.cupBody.appendChild(whip);
+      }
+
+      const canLatte = state.day >= 5 && hasMilkBase() && fill > 20;
+      els.latteButton.disabled = !canLatte;
+      if (!canLatte) {
+        els.latteCanvas.classList.remove("enabled");
+      }
+      els.deliveryZone.classList.toggle("ready", cup.temp && visibleItems.length > 0);
+      els.cupLabel.textContent = labelCup();
+    }
+
+    function labelCup() {
+      if (!state.cup.temp) return "빈 컵";
+      const count = state.cup.ingredients.length + state.cup.shots;
+      if (count === 0) return `${state.cup.temp} 컵`;
+      return `${state.cup.temp} · ${count}개`;
+    }
+
+    function hasMilkBase() {
+      return state.cup.ingredients.includes("우유") || state.cup.ingredients.includes("두유") || state.cup.ingredients.includes("연유");
+    }
+
+    function addIceCubes(count) {
+      for (let i = 0; i < count; i++) {
+        const cube = document.createElement("span");
+        cube.className = "ice-cube";
+        cube.style.left = 25 + Math.random() * 48 + "%";
+        cube.style.top = 28 + Math.random() * 28 + "%";
+        cube.style.setProperty("--r", `${-18 + Math.random() * 36}deg`);
+        cube.style.animationDelay = `${Math.random() * .7}s`;
+        els.cupBody.appendChild(cube);
+      }
+    }
+
+    function addPearls() {
+      for (let i = 0; i < 9; i++) {
+        const pearl = document.createElement("span");
+        pearl.className = "pearl-dot";
+        pearl.style.left = 28 + (i % 5) * 9 + Math.random() * 2 + "%";
+        pearl.style.bottom = 5 + Math.floor(i / 5) * 5 + Math.random() * 2 + "%";
+        els.cupBody.appendChild(pearl);
+      }
+    }
+
+    function addBubbles() {
+      for (let i = 0; i < 13; i++) {
+        const bubble = document.createElement("span");
+        bubble.className = "bubble-dot";
+        bubble.style.left = 25 + Math.random() * 50 + "%";
+        bubble.style.bottom = 15 + Math.random() * 48 + "%";
+        bubble.style.animationDelay = `${Math.random() * 1.1}s`;
+        els.cupBody.appendChild(bubble);
+      }
+    }
+
+    function addSparkles() {
+      for (let i = 0; i < 7; i++) {
+        const spark = document.createElement("span");
+        spark.className = "spark-dot";
+        spark.style.left = 28 + Math.random() * 48 + "%";
+        spark.style.bottom = 20 + Math.random() * 46 + "%";
+        spark.style.animationDelay = `${Math.random() * .3}s`;
+        els.cupBody.appendChild(spark);
+      }
+    }
+
+    function blendColors(colors, fallback) {
+      if (!colors.length) return fallback;
+      const rgb = colors.reduce((acc, color) => {
+        const clean = color.replace("#", "");
+        acc[0] += parseInt(clean.slice(0, 2), 16);
+        acc[1] += parseInt(clean.slice(2, 4), 16);
+        acc[2] += parseInt(clean.slice(4, 6), 16);
+        return acc;
+      }, [0, 0, 0]).map((value) => Math.round(value / colors.length));
+      return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+    }
+
+    function startCupDrag(event) {
+      if (state.screen !== "prep") return;
+      if (!state.cup.temp || state.cup.ingredients.length + state.cup.shots === 0) {
+        showToast("아직 전달할 음료가 없어요.");
+        return;
+      }
+      event.preventDefault();
+      els.cup.setPointerCapture?.(event.pointerId);
+      const stageRect = els.stage.getBoundingClientRect();
+      const parentRect = els.drinkWorkspace.getBoundingClientRect();
+      const cupRect = els.cup.getBoundingClientRect();
+      state.drag = {
+        id: event.pointerId,
+        offsetX: event.clientX - cupRect.left,
+        offsetY: event.clientY - cupRect.top,
+        stageLeft: stageRect.left,
+        stageTop: stageRect.top,
+        stageW: stageRect.width,
+        stageH: stageRect.height,
+        parentLeft: parentRect.left - stageRect.left,
+        parentTop: parentRect.top - stageRect.top
+      };
+      els.cup.classList.add("dragging");
+      els.deliveryZone.classList.add("ready");
+    }
+
+    function moveCupDrag(event) {
+      if (!state.drag || event.pointerId !== state.drag.id) return;
+      const x = event.clientX - state.drag.stageLeft - state.drag.offsetX;
+      const y = event.clientY - state.drag.stageTop - state.drag.offsetY;
+      const w = els.cup.offsetWidth;
+      const h = els.cup.offsetHeight;
+      const clampedX = Math.max(0, Math.min(state.drag.stageW - w, x));
+      const clampedY = Math.max(0, Math.min(state.drag.stageH - h, y));
+      els.cup.style.left = clampedX - state.drag.parentLeft + w / 2 + "px";
+      els.cup.style.top = clampedY - state.drag.parentTop + h / 2 + "px";
+      els.cup.style.transform = "translate(-50%, -50%)";
+      const over = overlaps(els.cup.getBoundingClientRect(), els.deliveryZone.getBoundingClientRect());
+      els.deliveryZone.classList.toggle("hot", over);
+    }
+
+    function endCupDrag(event) {
+      if (!state.drag || event.pointerId !== state.drag.id) return;
+      const delivered = overlaps(els.cup.getBoundingClientRect(), els.deliveryZone.getBoundingClientRect());
+      els.cup.classList.remove("dragging");
+      els.deliveryZone.classList.remove("hot");
+      state.drag = null;
+      if (delivered) {
+        evaluateDrink();
+      } else {
+        els.cup.style.left = "";
+        els.cup.style.top = "";
+        els.cup.style.transform = "";
+      }
+    }
+
+    function overlaps(a, b) {
+      const ax = a.left + a.width / 2;
+      const ay = a.top + a.height / 2;
+      return ax > b.left && ax < b.right && ay > b.top && ay < b.bottom;
+    }
+
+    function toggleLatteArt() {
+      if (els.latteButton.disabled) return;
+      state.cup.latteArt = !state.cup.latteArt;
+      resizeLatteCanvas();
+      els.latteCanvas.classList.toggle("enabled", state.cup.latteArt);
+      showToast(state.cup.latteArt ? "컵 위에 손가락으로 라떼아트를 그려보세요." : "라떼아트 모드를 껐어요.");
+    }
+
+    function resizeLatteCanvas() {
+      const rect = els.latteCanvas.getBoundingClientRect();
+      const ratio = window.devicePixelRatio || 1;
+      els.latteCanvas.width = Math.max(1, Math.floor(rect.width * ratio));
+      els.latteCanvas.height = Math.max(1, Math.floor(rect.height * ratio));
+      const ctx = els.latteCanvas.getContext("2d");
+      ctx.scale(ratio, ratio);
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.strokeStyle = "rgba(255,255,255,.9)";
+      ctx.lineWidth = Math.max(3, rect.width * .035);
+    }
+
+    function clearLatteCanvas() {
+      const canvas = els.latteCanvas;
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      canvas.classList.remove("enabled");
+    }
+
+    function getCanvasPoint(event) {
+      const rect = els.latteCanvas.getBoundingClientRect();
+      return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+    }
+
+    function startLatteDraw(event) {
+      if (!state.cup.latteArt) return;
+      event.preventDefault();
+      state.latteDrawing = true;
+      const ctx = els.latteCanvas.getContext("2d");
+      const point = getCanvasPoint(event);
+      ctx.beginPath();
+      ctx.moveTo(point.x, point.y);
+    }
+
+    function moveLatteDraw(event) {
+      if (!state.latteDrawing || !state.cup.latteArt) return;
+      event.preventDefault();
+      const ctx = els.latteCanvas.getContext("2d");
+      const point = getCanvasPoint(event);
+      ctx.lineTo(point.x, point.y);
+      ctx.stroke();
+    }
+
+    function stopLatteDraw() {
+      if (!state.latteDrawing) return;
+      state.latteDrawing = false;
+      showToast("라떼아트가 컵 위에 번졌어요.");
+    }
+
+    async function evaluateDrink() {
+      const customer = state.currentCustomer;
+      const recipe = customer.recipe;
+      const made = state.cup;
+      const ingredients = made.ingredients;
+      const required = recipe.ingredients || [];
+      const allowExtra = new Set(recipe.allowExtra || []);
+      const requiredSet = new Set(required);
+      const missing = required.filter((name) => !ingredients.includes(name));
+      const extra = ingredients.filter((name) => !requiredSet.has(name) && !allowExtra.has(name));
+      const tempOk = made.temp === recipe.temp;
+      const shotsOk = typeof recipe.minShots === "number" ? made.shots >= recipe.minShots : made.shots === (recipe.shots || 0);
+      const danger = ingredients.find((name) => ingredientByName[name]?.flavor === "danger");
+      const tooMany = ingredients.length > required.length + allowExtra.size + 2;
+
+      let result = "fail";
+      if (danger) {
+        result = "funny";
+      } else if (tempOk && shotsOk && missing.length === 0 && extra.length === 0) {
+        result = "success";
+      } else if (tempOk && missing.length <= 1 && extra.length <= 2 && !tooMany) {
+        result = "normal";
+      }
+
+      let reward = result === "success" ? 2500 + (made.latteArt ? 500 : 0) : result === "normal" ? 1800 : result === "funny" ? 700 : 900;
+      let tip = result === "success" ? 700 + (made.latteArt ? 300 : 0) : 0;
+
+      if (bridge.enabled) {
+        try {
+          const rewardData = await submitBridgeReward(result, made.latteArt);
+          if (rewardData) {
+            reward = Number(rewardData.earned_money ?? reward);
+            tip = Number(rewardData.tip ?? 0);
+          }
+        } catch (error) {
+          notifyHost("reward_error", { message: error.message, result });
+          showToast(error.message || "보상 동기화에 실패했어요.");
+        }
+      } else {
+        state.money += reward + tip;
+      }
+      updateHud();
+
+      const titles = {
+        success: "대만족",
+        normal: "괜찮은 반응",
+        fail: "실패",
+        funny: "웃긴 실패"
+      };
+      let line = customer[result] || customer.fail;
+      if (result === "funny") {
+        line = danger === "춘장" ? "춘장 왜 넣었어요ㅋㅋ 이건 음료가 아니라 사건인데요?" : "건강해지긴 했는데, 제가 원한 건 카페였어요.";
+      }
+      if (result === "normal" && missing.length) {
+        line += ` 빠진 느낌: ${missing.join(", ")}.`;
+      }
+      if (result === "fail" && !tempOk) {
+        line += made.temp ? ` 온도가 반대였어요.` : " 컵 온도부터 골라야 했어요.";
+      }
+
+      els.reactionTitle.textContent = titles[result];
+      els.reactionLine.textContent = line;
+      els.rewardLine.textContent = tip > 0 ? `매출 +${formatWon(reward)}, 팁 +${formatWon(tip)}` : `매출 +${formatWon(reward)}`;
+      els.resultImage.src = customer.img;
+      els.resultLayer.classList.add("show");
+      els.nextButton.disabled = false;
+      els.nextButton.textContent = "다음 손님";
+    }
+
+    function closeResult() {
+      els.resultLayer.classList.remove("show");
+      els.nextButton.disabled = false;
+      els.nextButton.textContent = "다음 손님";
+    }
+
+    function watchStory() {
+      if (bridge.enabled) {
+        notifyHost("story_requested", { heroine_name: "코토리" });
+        showToast("코토리 스토리로 돌아간 뒤, 다시 미니게임에 와주세요.");
+        return;
+      }
+      state.energy = Math.min(10, state.energy + 1);
+      state.money += 0;
+      updateHud();
+      showToast("짧은 코토리 스토리를 보고 행동력이 1 회복됐어요.");
+      if (els.resultLayer.classList.contains("show")) {
+        queueNextCustomer(true);
+      } else {
+        switchScreen("cafe");
+      }
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => {
+        els.toast.classList.remove("show");
+      }, 1900);
+    }
+
+    init();
+  </script>
+</body>
+</html>

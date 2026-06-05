@@ -1,8 +1,8 @@
 [
   {
+    "bg_image": "assets/images/bg/lobby_dawn.jpg",
     "speaker": "{name}",
-    "text": "카페 쉬는 날. 별다른 예정도 없다.",
-    "bg_image": "assets/images/bg/lobby_dawn.jpg"
+    "text": "카페 쉬는 날. 별다른 예정도 없다."
   },
   {
     "speaker": "{name}",
@@ -53,17 +53,17 @@
     "text": "핸드폰이 울렸다. 코토리에게서 메시지."
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "{name}씨! 오늘 카페 쉬는 날이죠? 저도 꽃집 쉬는 날이에요! 완전 우연이에요!"
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "혹시… 내일 시간 있어요? 가고 싶은 데가 있는데 {name}씨랑 같이 가고 싶어서요!"
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "거절해도 괜찮아요! 근데 같이 가면 더 좋을 것 같아서 물어봐요."
   },
@@ -88,12 +88,12 @@
     "text": "내일 시간 있어. 어디 가고 싶은데?"
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "정말요?!!! 비밀이에요 히히"
   },
   {
-    "character_image": "assets/images/character/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "근데 편한 신발 신어 와요! 좀 걸을 수도 있어요!"
   },
@@ -102,7 +102,7 @@
     "text": "오후 한 시 어때?"
   },
   {
-    "character_image": "assets/images/character/코토리_기쁨.png",
+    "character_image": "assets/images/character/코토리/코토리_기쁨.png",
     "speaker": "코토리",
     "text": "좋아요! 한 시에 카페 앞에서 봐요! 내일 진짜 기대돼요! 잘 자요!"
   },

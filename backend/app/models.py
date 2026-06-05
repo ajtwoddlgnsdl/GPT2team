@@ -23,6 +23,7 @@ class HeroineProgress(Base):
     affection = Column(Integer, default=0) 
     is_main = Column(Boolean, default=False)
     is_cleared_today = Column(Boolean, default=False) 
+    unlocked_illustrations = Column(String, default="") # 💡 콤마 구분자 형태의 해금 일러스트 ID 보관
     user = relationship("User", back_populates="heroines")
     viewed_zones = relationship("ViewedZone", back_populates="heroine_progress", cascade="all, delete-orphan")
 
