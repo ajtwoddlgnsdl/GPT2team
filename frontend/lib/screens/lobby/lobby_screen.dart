@@ -15,8 +15,10 @@ import 'album_home_screen.dart';
 class PhoneHitbox {
   /// 화면 좌표계 기준 다각형 꼭짓점 (좌상 → 우상 → 우하 → 좌하, 시계방향)
   final List<Offset> polygon;
+
   /// 모서리 둥글기 반경
   final double cornerRadius;
+
   /// 배경 조명에 어울리는 글로우 색상
   final Color glowColor;
 
@@ -305,20 +307,20 @@ class _LobbyScreenState extends State<LobbyScreen>
     switch (zone) {
       case 1: // 아침 - 책상 위 스탠드 왼쪽
         poly = [
-          toScreen(255, 1175),
-          toScreen(315, 1160),
-          toScreen(325, 1240),
-          toScreen(265, 1255),
+          toScreen(301, 1177),
+          toScreen(357, 1180),
+          toScreen(347, 1280),
+          toScreen(285, 1280),
         ];
         cornerRadius = 5.0;
         glowColor = const Color(0xFFFFF3D4); // 아침 따스한 햇살
         break;
       case 3: // 밤 - 책상 위 (스탠드 불빛)
         poly = [
-          toScreen(255, 1175),
-          toScreen(315, 1160),
-          toScreen(325, 1240),
-          toScreen(265, 1255),
+          toScreen(301, 1177),
+          toScreen(357, 1180),
+          toScreen(347, 1280),
+          toScreen(285, 1280),
         ];
         cornerRadius = 5.0;
         glowColor = const Color(0xFFFFE4A0); // 밤 스탠드 불빛 웜톤
@@ -337,7 +339,11 @@ class _LobbyScreenState extends State<LobbyScreen>
         return const PhoneHitbox(polygon: []);
     }
 
-    return PhoneHitbox(polygon: poly, cornerRadius: cornerRadius, glowColor: glowColor);
+    return PhoneHitbox(
+      polygon: poly,
+      cornerRadius: cornerRadius,
+      glowColor: glowColor,
+    );
   }
 
   // 📱 통합 핸드폰 애니메이션 실행
@@ -392,341 +398,12 @@ class _LobbyScreenState extends State<LobbyScreen>
           money: _money,
           day: _serverDay,
           onClose: () => Navigator.of(context).pop(),
-          onPhoneRequested: () {
-            Navigator.of(context).pop();
-            Future<void>.delayed(const Duration(milliseconds: 120), () {
-              if (mounted) _openPhone();
-            });
-          },
           onRewardEarned: (earned) {
             setState(() => _money += earned);
           },
           onAPChanged: (newAP) {
             setState(() => _ap = newAP);
           },
-        ),
-      ),
-    );
-  }
-
-  Map<String, VoidCallback?> _buildPhoneAppCallbacks() {
-    return {
-      '쇼핑': _showShoppingApp,
-      'E-class': _openStudyMinigame,
-      '캘린더': _showCalendarApp,
-      '앨범': () {
-        Navigator.of(context).push(
-          MaterialPageRoute(builder: (_) => const AlbumHomeScreen()),
-        );
-      },
-      '메신저': _showMessengerApp,
-      '오늘의 운세': _showFortuneApp,
-    };
-  }
-
-  void _openStudyMinigame() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => MinigameScreen(
-          actionPoints: _ap,
-          onClose: () => Navigator.of(context).pop(),
-          onRewardEarned: (earned) {
-            setState(() => _money += earned);
-          },
-          onAPChanged: (newAP) {
-            setState(() => _ap = newAP);
-          },
-        ),
-      ),
-    );
-  }
-
-  String _formatWon(int value) {
-    return '${value.toString().replaceAllMapped(RegExp(r'\B(?=(\d{3})+(?!\d))'), (match) => ',')}원';
-  }
-
-  String _zoneLabel() {
-    switch (_getZoneCode(_serverHour)) {
-      case 1:
-        return '아침';
-      case 2:
-        return '낮';
-      case 3:
-        return '밤';
-      default:
-        return '새벽';
-    }
-  }
-
-  void _showShoppingApp() {
-    final items = <({String name, String desc, int price, IconData icon})>[
-      (
-        name: '카페 라떼 쿠폰',
-        desc: '코토리에게 건네기 좋은 작은 선물',
-        price: 1200,
-        icon: Icons.local_cafe_outlined,
-      ),
-      (
-        name: '꽃집 미니 부케',
-        desc: '낮 시간대 스토리 분위기에 잘 맞는 선물',
-        price: 3500,
-        icon: Icons.local_florist_outlined,
-      ),
-      (
-        name: '필기 노트',
-        desc: 'E-class 공부 전에 챙겨두면 좋은 아이템',
-        price: 900,
-        icon: Icons.menu_book_outlined,
-      ),
-    ];
-
-    _showPhoneAppSheet(
-      title: '쇼핑',
-      icon: Icons.shopping_bag_outlined,
-      children: [
-        _phoneInfoTile(
-          Icons.account_balance_wallet_outlined,
-          '보유 금액',
-          _formatWon(_money),
-        ),
-        ...items.map(
-          (item) => _phoneInfoTile(
-            item.icon,
-            item.name,
-            item.desc,
-            trailing: FilledButton.tonal(
-              onPressed: _money >= item.price
-                  ? () {
-                      setState(() => _money -= item.price);
-                      Navigator.of(context).pop();
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('${item.name} 구매 완료'),
-                          duration: const Duration(seconds: 2),
-                        ),
-                      );
-                    }
-                  : null,
-              child: Text(_formatWon(item.price)),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _showCalendarApp() {
-    final events = <({IconData icon, String title, String body})>[
-      (
-        icon: Icons.today_outlined,
-        title: 'Day $_serverDay ${_zoneLabel()} 일정',
-        body: _serverHour >= 12 && _serverHour < 18
-            ? '코토리 카페 미니게임과 낮 스토리를 진행할 수 있습니다.'
-            : '현재 시간대의 자동 스토리와 행동을 확인하세요.',
-      ),
-      (
-        icon: Icons.local_cafe_outlined,
-        title: '낮 12:00 - 18:00',
-        body: '카페 미니게임, 코토리 루트 진행',
-      ),
-      (
-        icon: Icons.school_outlined,
-        title: '아침/밤',
-        body: 'E-class에서 공부 미니게임을 진행',
-      ),
-    ];
-
-    _showPhoneAppSheet(
-      title: '캘린더',
-      icon: Icons.calendar_month_outlined,
-      children: events
-          .map((event) => _phoneInfoTile(event.icon, event.title, event.body))
-          .toList(),
-    );
-  }
-
-  void _showMessengerApp() {
-    _showPhoneAppSheet(
-      title: '메신저',
-      icon: Icons.mail_outline_rounded,
-      children: [
-        _messageBubble('코토리', '오늘도 카페 도와주러 와줄 수 있어?', false),
-        _messageBubble(_playerName, '낮 시간에 들를게.', true),
-        _messageBubble('E-class', '오늘 학습 미니게임이 열려 있습니다.', false),
-      ],
-    );
-  }
-
-  void _showFortuneApp() {
-    const fortunes = [
-      '작은 선택지가 호감도를 크게 바꿀 수 있는 날입니다.',
-      '카페에서 침착하게 주문을 맞추면 좋은 흐름이 이어집니다.',
-      '메시지를 확인하고 다음 약속을 놓치지 마세요.',
-      '공부 미니게임으로 행동 리듬을 정리하기 좋은 날입니다.',
-    ];
-    const luckyItems = ['라떼', '민트색', '창가 자리', '필기 노트'];
-    final index = (_serverDay + _getZoneCode(_serverHour)) % fortunes.length;
-
-    _showPhoneAppSheet(
-      title: '오늘의 운세',
-      icon: Icons.star_rounded,
-      children: [
-        _phoneInfoTile(Icons.auto_awesome, '오늘의 흐름', fortunes[index]),
-        _phoneInfoTile(Icons.favorite_border, '럭키 아이템', luckyItems[index]),
-      ],
-    );
-  }
-
-  void _showPhoneAppSheet({
-    required String title,
-    required IconData icon,
-    required List<Widget> children,
-  }) {
-    showModalBottomSheet<void>(
-      context: context,
-      useSafeArea: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (sheetContext) {
-        return SafeArea(
-          top: false,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              20,
-              12,
-              20,
-              20 + MediaQuery.of(sheetContext).viewInsets.bottom,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      width: 36,
-                      height: 4,
-                      margin: const EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE6DED9),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Icon(icon, color: const Color(0xFF6D574A)),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          title,
-                          style: const TextStyle(
-                            color: Color(0xFF2D3142),
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.of(sheetContext).pop(),
-                        icon: const Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  ...children,
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _phoneInfoTile(
-    IconData icon,
-    String title,
-    String body, {
-    Widget? trailing,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8F5F2),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE7DDD8)),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, color: const Color(0xFF8B6F61)),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Color(0xFF3E3029),
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  body,
-                  style: const TextStyle(
-                    color: Color(0xFF79695F),
-                    fontSize: 13,
-                    height: 1.3,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (trailing != null) ...[const SizedBox(width: 10), trailing],
-        ],
-      ),
-    );
-  }
-
-  Widget _messageBubble(String sender, String text, bool mine) {
-    return Align(
-      alignment: mine ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        constraints: const BoxConstraints(maxWidth: 300),
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: mine ? const Color(0xFF6EA8FF) : const Color(0xFFF0ECE8),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          crossAxisAlignment: mine
-              ? CrossAxisAlignment.end
-              : CrossAxisAlignment.start,
-          children: [
-            Text(
-              sender,
-              style: TextStyle(
-                color: mine ? Colors.white70 : const Color(0xFF8B6F61),
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              text,
-              style: TextStyle(
-                color: mine ? Colors.white : const Color(0xFF3E3029),
-                height: 1.35,
-              ),
-            ),
-          ],
         ),
       ),
     );
@@ -1027,7 +704,32 @@ class _LobbyScreenState extends State<LobbyScreen>
                           onClose: _closePhone,
                           currentZoneCode: _getZoneCode(_serverHour),
                           apps: buildDefaultApps(
-                            callbacks: _buildPhoneAppCallbacks(),
+                            callbacks: {
+                              '앨범': () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const AlbumHomeScreen(),
+                                  ),
+                                );
+                              },
+                              'E-class': () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => MinigameScreen(
+                                      actionPoints: _ap,
+                                      onClose: () =>
+                                          Navigator.of(context).pop(),
+                                      onRewardEarned: (earned) {
+                                        setState(() => _money += earned);
+                                      },
+                                      onAPChanged: (newAP) {
+                                        setState(() => _ap = newAP);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            },
                           ),
                         ),
                       ),
