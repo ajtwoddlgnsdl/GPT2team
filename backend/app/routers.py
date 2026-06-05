@@ -145,6 +145,7 @@ def get_user_status(user_id: str = Depends(get_current_user), db: Session = Depe
         "status": "success",
         "username": user.username,
         "ap": user.action_points,
+        "study_ap": user.study_ap,
         "money": user.money,
         "day": current_day,
         "current_day": current_day,
@@ -203,6 +204,7 @@ def login(user_id: str, db: Session = Depends(get_db)):
         ap_refill_needed = GameLogicService.process_daily_reset(user, all_heroines)
         if ap_refill_needed:
             user.action_points = GameConfig.MAX_AP 
+            user.study_ap = GameConfig.MAX_AP
 
     user.last_login = now
     db.commit()
@@ -395,15 +397,16 @@ def minigame_status(game_type: str = CAFE_GAME_TYPE, user_id: str = Depends(get_
     if game_type == CAFE_GAME_TYPE:
         return {"status": "success", **_cafe_minigame_status(user, all_heroines)}
 
+    current_ap = user.action_points if game_type == CAFE_GAME_TYPE else user.study_ap
     return {
         "status": "success",
         "game_type": game_type,
-        "ap": user.action_points,
-        "current_ap": user.action_points,
+        "ap": current_ap,
+        "current_ap": current_ap,
         "money": user.money,
         "day": _current_day(all_heroines),
         "current_day": _current_day(all_heroines),
-        "can_play": user.action_points >= GameConfig.MINIGAME_COST,
+        "can_play": current_ap >= GameConfig.MINIGAME_COST,
     }
 
 @router.post("/minigame/start")
@@ -420,12 +423,18 @@ def start_minigame(game_type: str = Body(..., embed=True), user_id: str = Depend
         if not status["story_completed_today"]:
             return {"status": "fail", "error_code": "KOTORI_STORY_REQUIRED", **status}
 
-    if user.action_points < GameConfig.MINIGAME_COST:
-        return {"status": "fail", "error_code": "NOT_ENOUGH_AP"}
-    
-    user.action_points -= GameConfig.MINIGAME_COST
-    db.commit()
-    return {"status": "success", "current_ap": user.action_points}
+    if game_type == CAFE_GAME_TYPE:
+        if user.action_points < GameConfig.MINIGAME_COST:
+            return {"status": "fail", "error_code": "NOT_ENOUGH_AP"}
+        user.action_points -= GameConfig.MINIGAME_COST
+        db.commit()
+        return {"status": "success", "current_ap": user.action_points}
+    else:
+        if user.study_ap < GameConfig.MINIGAME_COST:
+            return {"status": "fail", "error_code": "NOT_ENOUGH_AP"}
+        user.study_ap -= GameConfig.MINIGAME_COST
+        db.commit()
+        return {"status": "success", "current_ap": user.study_ap}
 
 @router.post("/minigame/reward")
 def reward_minigame(
@@ -502,6 +511,7 @@ def admin_login(user_id: str, cheat_offline_days: int, admin_key: str = Header(.
         ap_refill_needed = GameLogicService.process_daily_reset(user, all_heroines)
         if ap_refill_needed:
             user.action_points = GameConfig.MAX_AP 
+            user.study_ap = GameConfig.MAX_AP
 
     user.last_login = now
     db.commit()
