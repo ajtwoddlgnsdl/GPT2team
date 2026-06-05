@@ -10,6 +10,7 @@ class User(Base):
     username = Column(String, index=True)
     game_state = Column(String, default="INTRO_1") 
     action_points = Column(Integer, default=10) 
+    study_ap = Column(Integer, default=10) 
     money = Column(Integer, default=0) 
     last_login = Column(DateTime(timezone=True), server_default=func.now()) 
     heroines = relationship("HeroineProgress", back_populates="user", cascade="all, delete-orphan")
