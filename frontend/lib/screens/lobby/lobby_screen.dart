@@ -10,6 +10,7 @@ import 'minigame_screen.dart';
 import 'cafe_game_screen.dart';
 import 'album_constants.dart';
 import 'album_home_screen.dart';
+import 'calendar_home_screen.dart';
 
 /// 다각형 기반 핸드폰 히트박스 (원근감 있는 기울어진 스마트폰 모양 매칭)
 class PhoneHitbox {
@@ -709,6 +710,13 @@ class _LobbyScreenState extends State<LobbyScreen>
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => const AlbumHomeScreen(),
+                                  ),
+                                );
+                              },
+                              '캘린더': () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const CalendarHomeScreen(),
                                   ),
                                 );
                               },

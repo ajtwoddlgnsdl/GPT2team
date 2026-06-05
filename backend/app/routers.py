@@ -291,7 +291,7 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
     bonus_affection = 0
     if bonus_token:
         try:
-            b_payload = jwt.decode(bonus_token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
+            b_payload = jwt.decode(bonus_token, JWT_SECRET_KEY, algorithms=[ALGORITHM], options={"verify_iat": False})
             bonus_affection = b_payload.get("bonus", 0)
         except jwt.PyJWTError as e:
             print(f"🚨 보너스 토큰 디코딩 에러: {e}")
@@ -356,6 +356,34 @@ def album_status(user_id: str = Depends(get_current_user), db: Session = Depends
             unlocked_data[hp.heroine_name] = ids
             
     return {"status": "success", "unlocked_data": unlocked_data}
+
+@router.get("/calendar/status")
+def calendar_status(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return {"status": "error"}
+
+    all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
+    current_zone = _zone_from_hour(datetime.datetime.now(KST).hour)
+
+    heroine_list = []
+    for hp in all_heroines:
+        viewed_zones = [vz.zone for vz in hp.viewed_zones]
+        heroine_list.append({
+            "name": hp.heroine_name,
+            "current_day": hp.current_day,
+            "is_main": hp.is_main,
+            "is_cleared_today": hp.is_cleared_today,
+            "viewed_zones": viewed_zones
+        })
+
+    return {
+        "status": "success",
+        "game_state": user.game_state,
+        "current_zone": current_zone,
+        "heroines": heroine_list,
+        "story_config": STORY_CONFIG
+    }
 
 @router.get("/minigame/status")
 def minigame_status(game_type: str = CAFE_GAME_TYPE, user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
