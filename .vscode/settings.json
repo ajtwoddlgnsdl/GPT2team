@@ -1,5 +1,7 @@
 {
     "python-envs.defaultEnvManager": "ms-python.python:system",
     "cmake.ignoreCMakeListsMissing": true,
-    "python.terminal.useEnvFile": true
+    "python.terminal.useEnvFile": true,
+    "dart.flutterSdkPath": "C:\\Users\\hyemi\\Desktop\\GPT\\flutter",
+    "dart.sdkPath": "C:\\Users\\hyemi\\Desktop\\GPT\\flutter\\bin\\cache\\dart-sdk"
 }
