@@ -18,24 +18,18 @@
   },
   {
     "speaker": "",
-    "text": "대충 세수를 하고, 물기 어린 손으로 뻗친 머리를 꾹꾹 눌러 정리한 뒤 가방을 챙겨 현관문을 나선다."
+    "text": "대충 세수를 하고, 물기 어린 손으로 뻗친 머리를 꾹꾹 눌러 정리한 뒤 가방을 챙겨 현관문을 나섰다.",
+    "bg_image": "assets/images/bg/morningroom.png.jpg"
   },
   {
     "speaker": "",
-    "text": "(끼익- 철문이 열리는 소리)",
-    "sound_effect": "door_open"
+    "text": "현관문을 열고 나서자, 옆집 문도 스르륵 함께 열렸다.",
+    "bg_image": "assets/images/bg/door.jpg"
   },
   {
+    "character_image": "assets/images/character/이서연_기본.jpg",
     "speaker": "",
-    "text": "현관문을 열고 나서려는 찰나, 타이밍 좋게 옆집 문도 스르륵 함께 열렸다."
-  },
-  {
-    "speaker": "",
-    "text": "무심코 고개를 돌린 곳에는, 단정한 정장 차림의 여자가 서 있었다."
-  },
-  {
-    "speaker": "",
-    "text": "깔끔한 정장 차림에, 가방, 그리고 가볍게 쥔 텀블러. 차가우면서도 이지적인 분위기가 물씬 풍겼다."
+    "text": "문틈 사이로 모습을 드러낸 여자는 단정한 정장 차림이었다. 나와 눈이 마주치자 흠칫 놀라며 가방을 몸쪽으로 바짝 당겨 안았고, 다른 한 손으로는 텀블러를 생명줄처럼 꽉 움켜쥐었다."
   },
   {
     "speaker": "{name}",
@@ -43,24 +37,21 @@
   },
   {
     "speaker": "",
-    "text": "여자는 손목시계를 힐끗 내려다보더니, 또각또각 구두 소리를 내며 엘리베이터 쪽으로 걸어간다."
+    "text": "여자는 손목시계를 힐끗 내려다보더니, 또각또각 구두 소리를 내며 엘리베이터 쪽으로 걸어갔다."
   },
   {
     "speaker": "",
-    "text": "나도 서둘러 엘리베이터 앞으로 다가갔다. 버튼을 누르려 손을 뻗었는데, 하행선 화살표에는 이미 빨간 불이 들어와 있었다."
-  },
-  {
-    "speaker": "",
-    "text": "그 순간, 그녀와 아주 짧게 눈이 마주쳤다."
+    "text": "나도 서둘러 엘리베이터 앞으로 다가갔다.",
+    "bg_image":"assets/images/bg/Elevator1.png.jpg"
   },
   {
     "speaker": "이서연",
     "text": "…….",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연_기본.jpg"
   },
   {
     "speaker": "",
-    "text": "그녀는 곧바로 굳게 닫힌 엘리베이터 문 쪽으로 시선을 고정했다. 정적."
+    "text": "그녀는 굳게 닫힌 엘리베이터 문 쪽으로 시선을 고정한 채였다."
   },
   {
     "speaker": "",
@@ -71,48 +62,26 @@
     "text": "'아, 어떡하지? 그냥 내가 먼저 가볍게 인사라도 건네볼까?'",
     "choices": [
       {
-        "text": "안녕하세요, 옆집에 사는 {name}이라고 합니다.",
-        "bonus_score": 3,
+        "text": "아, 저... 안녕하세요, 옆집에 사는 {name}이라고 합니다.",
+        "bonus_score": 2,
         "next_lines": [
           {
             "speaker": "",
-            "text": "최대한 자연스럽게 미소를 지으며 말을 건넸다."
-          },
-          {
-            "speaker": "",
-            "text": "내 인사에 여자는 아주 미세하게 어깨를 움찔하더니, 다시 내 쪽으로 고개를 돌렸다."
+            "text": "여자는 아주 미세하게 어깨를 움찔하더니, 내 쪽으로 고개를 돌렸다."
           },
           {
             "speaker": "이서연",
-            "text": "…이서연이에요.",
-            "character_image": "assets/images/character/이서연_기본.png"
+            "text": "아... 네... 안녕하세요... 이서연이에요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
           },
           {
             "speaker": "",
-            "text": "여전히 표정 변화는 거의 없었지만, 굳게 닫혀 있던 입술 사이로 조그맣게 이름이 흘러나왔다."
+            "text": "굳게 닫혀 있던 입술 사이로 조그맣게 이름이 흘러나왔다."
           }
         ]
       },
       {
-        "text": "(굳이 말을 걸지 않고 조용히 함께 기다린다)",
-        "bonus_score": 0,
-        "next_lines": [
-          {
-            "speaker": "{name}",
-            "text": "'굳이 아침부터 모르는 사람에게 말을 걸어 피곤하게 만들 필요는 없겠지.'"
-          },
-          {
-            "speaker": "",
-            "text": "나는 시선을 앞으로 돌렸다."
-          },
-          {
-            "speaker": "",
-            "text": "엘리베이터 문이 열리고 닫힐 때까지 우리 사이에는 무거운 공기만이 흘렀다."
-          }
-        ]
-      },
-      {
-        "text": "……혹시 여기 언제부터 사셨어요? 처음 뵙는 것 같아서요.",
+        "text": "혹시 여기 언제부터 사셨어요? 처음 뵙는 것 같아서요.",
         "bonus_score": 1,
         "next_lines": [
           {
@@ -126,44 +95,42 @@
           {
             "speaker": "이서연",
             "text": "……일주일 됐어요.",
-            "character_image": "assets/images/character/이서연_기본.png"
+            "character_image": "assets/images/character/이서연_기본.jpg"
           },
           {
             "speaker": "",
-            "text": "짧고 건조한 대답. 더 이상 대화를 이어가고 싶지 않다는 명확한 선 긋기처럼 느껴졌다."
+            "text": "처음 뵙겠습니다, 저는 옆집에 사는 {name}이라고 합니다."
+          },
+          {
+            "speaker": "이서연",
+            "text": "아, 네... 안녕하세요... 이서연이라고 합니다.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
           }
         ]
       }
     ]
   },
-  {
+    {
     "speaker": "",
-    "text": "1층 버튼이 눌리고 하강이 시작되었다."
+    "text": "그때, 엘리베이터가 1층에 도착했다. 이서연과 나는 차례로 엘리베이터에 탑승했다."
   },
   {
     "speaker": "",
-    "text": "내려가는 내내, 이서연은 텀블러를 두 손으로 꼭 감싸 쥐고만 있었다."
+    "text": "엘리베이터 문이 닫히고 아래로 내려가는 동안 이서연은 텀블러를 두 손으로 꼭 감싸 쥐고만 있었다.",
+    "bg_image":"assets/images/bg/Elevator2.png.jpg"
   },
   {
     "speaker": "이서연",
     "text": "…….",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연_기본.jpg"
   },
   {
     "speaker": "",
-    "text": "(띵- 1층 도착 소리)",
-    "sound_effect": "elevator_arrive"
+    "text": "(띵-)"
   },
   {
     "speaker": "",
-    "text": "이서연은 1층에 도착하고 문이 열리자마자, 누군가에게 쫓기기라도 하는 듯 빠른 걸음으로 로비를 빠져나갔다."
-  },
-  {
-    "speaker": "",
-    "text": "그녀가 사라진 자리에 희미하게 남은 샴푸 향이 맴돌았다."
-  },
-  {
-    "speaker": "",
-    "text": "늘 똑같을 줄 알았던 나의 일상에, 아주 작은 파문이 일어난 아침이었다."
+    "text": "문이 열리자, 그녀는 누군가에게 쫓기기라도 하는 듯 빠른 걸음으로 로비를 빠져나갔다.",
+    "bg_image":"assets/images/bg/morninglobby.png.jpg"
   }
 ]

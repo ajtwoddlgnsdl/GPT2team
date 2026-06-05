@@ -1,0 +1,204 @@
+[
+  {
+    "speaker": "",
+    "text": "마감 타임 알바생이 갑작스럽게 결근하는 바람에, 내 교대 시간이 끝났는데도 밤 9시까지 카페를 더 지켜야 했다. 손님이 뚝 끊겨 한산해진 매장 안에서 멍하니 창밖을 내다보던 그때였다.",
+    "bg_image":"assets/images/bg/storycafe.png"
+  },
+  {
+    "speaker": "",
+    "text": "유리창 너머로 유독 눈에 익은 실루엣이 스쳐 지나갔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "'이서연 씨였다.'",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "걷는 속도가 평소와 달리 한없이 느렸다. 아침 출근길에 보여주던 그 빠르고 효율적인 걸음걸이가 아니라, 발끝이 바닥에 질질 끌리는 듯한 지치고 무거운 걸음이었다. 카페 앞에서 우뚝 멈춰 선 그녀가 무심코 고개를 돌리다 유리창 안을 들여다보았다."
+  },
+  {
+    "speaker": "이서연",
+    "text": "어?",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "나와 눈이 마주쳤다. 그녀는 잠시 밖에서 망설이는 듯하더니, 이내 조심스럽게 카페 문을 열고 들어왔다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "{name} 씨가 카페 알바하신다는 곳이 여기였군요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "그냥 지나가다 본 건데, 안에 계셔서 좀 놀랐어요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "퇴근하는 길이에요? 걸음이 영 무거워 보이던데요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……티 났나요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "그녀는 멋쩍게 웃으며 카운터 앞에 섰다. 그러고는 잠깐 손끝을 만지작거리다 작게 말했다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "따뜻한 아메리카노 한 잔 주세요.",
+    "character_image": "assets/images/character/이서연_기본.jpg",
+    "choices": [
+      {
+        "text": "서연 씨 첫 방문 기념으로, 이건 제가 서비스할게요.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "서연 씨 첫 방문 기념으로, 이건 제가 서비스할게요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "네? 아니에요, 돈 낼게요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "{name}",
+            "text": "저희 카페는 지인 첫 방문이면 무조건 서비스 주는 게 룰이거든요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "……그런 이상한 규정이 어디 있어요?",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "{name}",
+            "text": "방금 제가 만들었어요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "",
+            "text": "내 당당한 억지에 그녀는 기가 막힌다는 듯 픽 웃음을 터뜨리며 고개를 저었다.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "별난 사람이네요, 진짜.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          }
+        ]
+      },
+      {
+        "text": "많이 힘들어 보이는데, 괜찮아요?",
+        "bonus_score": 2,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "많이 힘들어 보이는데, 괜찮아요?",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "……괜찮아요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "",
+            "text": "담담하게 대답했지만, 그녀의 안색은 전혀 괜찮아 보이지 않았다.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "",
+    "text": "이서연 씨는 구석 창가 자리에 가만히 앉아 조용히 아메리카노를 마셨다. 그녀는 턱을 괸 채 멍한 눈으로 창밖의 밤거리만 바라보고 있었다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "마감 시간이 다가와 빈 테이블을 정리하던 나는 문득 그녀 쪽을 바라보았다. 내 시선을 알아챈 그녀가 화들짝 놀라며 살짝 몸을 움츠렸다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "아…… 제가 너무 오래 앉아 있었죠?",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "아뇨. 더 있어도 돼요. 여기 눈치 주는 사람 아무도 없으니까요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "좋네요...",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "커피가요?",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "그것도 좋고요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "그녀는 식어가는 머그잔을 두 손으로 소중하게 감싸 쥐며, 혼잣말처럼 작게 덧붙였다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "아무것도 안 하고 이렇게 멍하니 있어도, 아무도 눈치 주지 않는 이 시간도 좋아요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "평소라면 불안한 듯 쉼 없이 손톱 주변을 뜯고 만지작거렸을 그녀의 두 손이, 오늘은 그저 따뜻한 컵을 얌전히 감싸고 있을 뿐이었다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "얼마 지나지 않아 카페 마감 청소가 모두 끝났다. 내가 정리를 마치자, 그녀도 자리에서 일어났다. 우리는 나란히 카페 문을 나서서 밤공기를 맞으며 걷기 시작했다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "집으로 향하는 길목, 종일 사람과 업무에 치여 지쳤을 그녀를 위해 나는 굳이 많은 말을 걸지 않았다. 조용한 발걸음 소리만이 우리 사이를 채웠지만, 그 침묵이 낯설거나 어색하지 않았다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "집에 도착해 익숙한 복도를 지나 각자의 현관문 앞에 섰다. 도어록에 손을 얹으려던 서연 씨가 나를 향해 고개를 돌렸다.",
+    "character_image": "assets/images/character/이서연_기본.jpg",
+    "bg_image": "assets/images/bg/door2.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "오늘 커피, 정말 잘 마셨어요. 덕분에 마음 편히 푹 쉴 수 있었네요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "다행이네요. 얼른 들어가서 푹 쉬어요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "그녀가 먼저 집 안으로 들어갔다. 굳게 닫힌 옆집 문을 잠시 바라보았다. 카페 밖에서 처음 마주쳤을 때보다 한결 가벼워진 그녀의 표정과 뒷모습이, 어쩐지 꽤 오랫동안 마음속에 잔잔하게 남았다."
+  }
+]

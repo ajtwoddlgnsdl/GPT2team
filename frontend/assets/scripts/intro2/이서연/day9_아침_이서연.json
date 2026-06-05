@@ -1,0 +1,126 @@
+[
+  {
+    "speaker": "",
+    "text": "삐삐삐삐—",
+    "bg_image": "assets/images/bg/morningroom.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "요란한 알람을 끄고 느릿느릿 몸을 일으켰다. 달콤했던 공휴일이 지나고 다시 찾아온 평일. 오늘도 어김없이 1교시 수업이다. 찬물로 세수를 하며 억지로 잠을 깨우고는, 가방을 챙겨 현관을 나섰다."
+  },
+  {
+    "speaker": "",
+    "text": "문을 열고 복도로 나서니,"
+  },
+  {
+    "speaker": "",
+    "text": "엘리베이터 앞에 이서연 씨가 서 있었다. 깔끔한 정장 차림에, 손에는 늘 들고 다니던 익숙한 텀블러가 들려 있었다. 완벽한 직장인의 모습으로 돌아와 있었지만, 풍기는 분위기는 사뭇 달랐다.",
+    "bg_image": "assets/images/bg/Elevator1.jpg",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "안녕하세요, {name} 씨.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "좋은 아침입니다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "눈을 마주치며 건네는 인사가 한결 자연스럽고 편안해 보였다. 불과 일주일 전, 처음 이 엘리베이터 앞에서 마주쳤을 땐 시선조차 제대로 맞추지 못하던 사람이었는데.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "띵-",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "문이 닫히고 엘리베이터가 부드럽게 내려가기 시작했다. 좁은 공간에 잠시 기분 좋은 정적이 머문 끝에, 이서연 씨가 먼저 입을 열었다.",
+    "character_image": "assets/images/character/이서연_기본.jpg",
+    "bg_image":"assets/images/bg/Elevator2.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "어제…… 오랜만에 아주 깊게 잤어요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "그래요?",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "낮에 산책하고 들어가서 그런지, 침대에 눕자마자 잠이 오더라고요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "담담한 말투였지만, 그 한마디를 내게 굳이 꺼내주었다는 것 자체가 그녀에게는 꽤 용기를 낸 큰 표현처럼 느껴졌다.",
+    "character_image": "assets/images/character/이서연_기본.jpg",
+    "choices": [
+      {
+        "text": "그럼 앞으로도 종종 같이 걸어요.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "그럼 앞으로도 종종 같이 걸어요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "그럴까요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "",
+            "text": "그녀는 기분 좋은 제안이라는 듯, 옅은 미소를 지으며 작게 긍정했다.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          }
+        ]
+      },
+      {
+        "text": "다행이네요. 푹 주무셨다니.",
+        "bonus_score": 2,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "다행이네요. 그렇게 푹 주무셨다니.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "네…… 덕분에요.",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "",
+    "text": "띵—.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "1층에 도착해 엘리베이터 문이 열렸다. 이서연 씨가 먼저 내렸고, 몇 걸음 걷던 그녀가 문득 고개를 돌려 나를 바라보았다.",
+    "character_image": "assets/images/character/이서연_기본.jpg",
+    "bg_image":"assets/images/bg/morninglobby.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "오늘 하루도 잘 보내세요, {name} 씨.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "그러고는 다시 빠른 걸음으로 로비를 빠져나갔다. 여전히 걸음걸이는 빨랐지만, 어쩐지 며칠 전처럼 쫓기듯 위태로워 보이지는 않았다."
+  }
+]

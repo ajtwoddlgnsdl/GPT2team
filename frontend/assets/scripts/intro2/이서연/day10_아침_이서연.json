@@ -1,0 +1,259 @@
+[
+  {
+    "speaker": "",
+    "text": "오늘은 점장님 부탁으로 카페 마감 타임까지 대타를 뛴 날이었다. 평소보다 한참이나 늦은 시간에야, 피곤한 몸을 이끌고 아파트로 돌아왔다."
+  },
+  {
+    "speaker": "",
+    "text": "터덜터덜 걸어와 도어록 비밀번호를 누르려는데, 서연 씨 집 현관문이 스르륵 열렸다.",
+    "bg_image": "assets/images/bg/door2.png"
+  },
+  {
+    "speaker": "",
+    "text": "헐렁하고 편안한 실내복, 대충 묶어 반쯤 흘러내린 머리칼, 슬리퍼를 아무렇게나 꿴 맨발. 그런 차림새의 이서연 씨가 한 손에 쓰레기봉투를 든 채 서 있었다.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……!",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "나와 눈이 마주친 그녀가 놀란 흠칫 멈춰 섰다.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "{name} 씨……? 이제 들어오시는 거예요?",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "네, 오늘은 카페 마감까지 하고 왔어요. 서연 씨는……?",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "아, 저는…… 잠깐 쓰레기 좀 버리러 가려고요.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "복도 조명 아래 비친 그녀의 눈 밑이 유독 퀭했다. 화장기 없는 창백한 맨얼굴에 그간의 피로가 고스란히 묻어 있었다.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg",
+    "choices": [
+      {
+        "text": "이 시간에요? 피곤해 보이는데 그냥 내일 버리는 건 어때요?",
+        "bonus_score": 1,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "이 시간에요? 피곤해 보이는데 그냥 내일 버리는 건 어때요?",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "그러려고 했는데…… 답답해서, 바람이라도 쐴 겸 나왔어요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "{name}",
+            "text": "그럼 저도 같이 가요. 마침 저도 버릴 게 있어서요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          }
+        ]
+      },
+      {
+        "text": "같이 가요. 시간도 늦었는데, 마침 저도 버리려던 참이었어요.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "같이 가요. 시간도 늦었는데, 마침 저도 버리려던 참이었어요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "괜찮아요. 혼자 다녀올 수 있어요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "{name}",
+            "text": "제가 안 괜찮아서요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "",
+            "text": "단호한 내 대답에 그녀는 잠시 멈칫하더니, 이내 못 이기는 척 고개를 푹 숙이며 작게 탄성을 내뱉었다.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "……아.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "{name}",
+            "text": "잠깐만 기다려요. 금방 가지고 나올게요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          }
+        ]
+      },
+      {
+        "text": "무거워 보이는데 이리 줘요.",
+        "bonus_score": 2,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "무거워 보이는데 이리 줘요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "아, 아뇨! 가벼워요. 별거 없어요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "{name}",
+            "text": "가볍다고 하기엔, 서연 씨 손가락 벌써 빨개졌는데요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "",
+            "text": "나는 그녀의 손에서 쓰레기봉투를 자연스럽게 건네받으며 덧붙였다.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "{name}",
+            "text": "피곤해 보이는 분을 혼자 보내면 제 마음이 불편해서요.",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          },
+          {
+            "speaker": "이서연",
+            "text": "고마워요….",
+            "bg_image": "assets/images/bg/door2.png",
+            "character_image": "assets/images/character/이서연_기본.jpg"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "",
+    "text": "서연 씨와 나는 나란히 걸음을 옮겨 아파트 분리수거장으로 향했다. 조용한 밤공기 사이로 그녀가 먼저 작게 속삭였다.",
+    "character_image": "assets/images/character/이서연_기본.jpg",
+    "bg_image":"assets/images/bg/trash.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "이런 모습은 안 보여드리고 싶었는데...",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "무슨 모습이요?",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "이렇게 엉망인 거요. 머리도 이렇고…….",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "저야말로 하루 종일 카페에서 일하다 와서 커피 냄새에 절어있을걸요. 밤엔 다들 그냥 지친 동네 사람 1, 2 하는 거죠, 뭐.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "내 가벼운 너스레에 그녀가 픽, 하고 희미하게 웃음을 터뜨렸다.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "그런가요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "저녁은 드셨어요?",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "먹었어요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "진짜요?",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……커피 마셨어요.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "커피는 밥이 아닌데.",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "…….",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "우리는 쓰레기를 마저 버리고 다시 복도로 올라왔다. 각자의 집 문 앞에 다다랐을 때, 이서연 씨가 문을 열다 말고 멈춰 서서 나를 돌아보았다.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "늦었는데 같이 나와줘서 고마워요.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "{name}",
+    "text": "별말씀을요. 아, 다음엔 끼니 거르지 말고 꼭 챙겨 드세요. 커피 말고요.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "",
+    "text": "내 당부에 그녀는 기분 좋은 듯 맑게 소리 내어 웃으며 흔쾌히 대답했다.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  },
+  {
+    "speaker": "이서연",
+    "text": "네. 그럴게요.",
+    "bg_image": "assets/images/bg/door2.png",
+    "character_image": "assets/images/character/이서연_기본.jpg"
+  }
+]
