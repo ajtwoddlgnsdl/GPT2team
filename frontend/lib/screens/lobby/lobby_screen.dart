@@ -10,6 +10,7 @@ import 'minigame_screen.dart';
 import 'cafe_game_screen.dart';
 import 'album_constants.dart';
 import 'album_home_screen.dart';
+import 'calendar_home_screen.dart';
 
 /// 다각형 기반 핸드폰 히트박스 (원근감 있는 기울어진 스마트폰 모양 매칭)
 class PhoneHitbox {
@@ -56,6 +57,7 @@ class _LobbyScreenState extends State<LobbyScreen>
     with TickerProviderStateMixin {
   String _playerName = "주인공";
   int _ap = 0;
+  int _studyAp = 0;
   int _money = 0;
   int _serverHour = 12; // 서버에서 받아올 시간 (기본값: 낮)
   int _serverDay = 1; // 서버 기준 날짜 (자정 체크용)
@@ -134,6 +136,7 @@ class _LobbyScreenState extends State<LobbyScreen>
             _playerName = response.data['username'];
           }
           _ap = response.data['ap'];
+          _studyAp = response.data['study_ap'] ?? 0;
           _money = response.data['money'];
         });
       }
@@ -141,6 +144,7 @@ class _LobbyScreenState extends State<LobbyScreen>
       debugPrint("🚨 유저 상태창 에러: $e");
       setState(() {
         _ap = 50;
+        _studyAp = 50;
         _money = 1500;
       });
     } finally {
@@ -214,6 +218,7 @@ class _LobbyScreenState extends State<LobbyScreen>
             if (userRes.statusCode == 200 && mounted) {
               setState(() {
                 _ap = userRes.data['ap'];
+                _studyAp = userRes.data['study_ap'] ?? 0;
                 _money = userRes.data['money'];
               });
             }
@@ -712,18 +717,26 @@ class _LobbyScreenState extends State<LobbyScreen>
                                   ),
                                 );
                               },
+                              '캘린더': () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const CalendarHomeScreen(),
+                                  ),
+                                );
+                              },
                               'E-class': () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => MinigameScreen(
-                                      actionPoints: _ap,
+                                      actionPoints: _studyAp,
+                                      currentDay: _serverDay,
                                       onClose: () =>
                                           Navigator.of(context).pop(),
                                       onRewardEarned: (earned) {
                                         setState(() => _money += earned);
                                       },
                                       onAPChanged: (newAP) {
-                                        setState(() => _ap = newAP);
+                                        setState(() => _studyAp = newAP);
                                       },
                                     ),
                                   ),

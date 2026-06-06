@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <title>코토리 카페 미니게임</title>
+  <title>코토리 카페 미니게임 세로 미리보기</title>
   <style>
     @font-face {
       font-family: "YOnepick";
@@ -117,7 +117,7 @@
     }
 
     #prepScreen::before {
-      background-image: url("cafe제조대.png");
+      background-image: url("cafe_prep1.png");
     }
 
     .hud {
@@ -341,6 +341,7 @@
     .machine-button,
     .customer-choice,
     .ingredient-hotspot,
+    .phone-hotspot,
     .trash-button {
       position: absolute;
       border: 0;
@@ -396,7 +397,8 @@
     }
 
     .ingredient-hotspot::after {
-      content: attr(data-name);
+      content: "";
+      display: none;
       position: absolute;
       left: 50%;
       bottom: .45vmin;
@@ -422,12 +424,188 @@
 
     .ingredient-hotspot:hover::after,
     .ingredient-hotspot:focus-visible::after {
-      opacity: 1;
+      opacity: 0;
     }
 
     .ingredient-hotspot:active {
       transform: scale(.94);
       background: rgba(255, 255, 255, .2);
+    }
+
+    .phone-hotspot {
+      display: none;
+      padding: 0;
+      background: transparent;
+      color: transparent;
+      z-index: 12;
+      touch-action: manipulation;
+    }
+
+    .phone-hotspot::before,
+    .phone-hotspot::after {
+      content: "";
+      position: absolute;
+      inset: -9%;
+      border-radius: 18%;
+      pointer-events: none;
+    }
+
+    .phone-hotspot::before {
+      border: .22vmin solid rgba(255, 246, 196, .88);
+      box-shadow:
+        0 0 .85vmin rgba(255, 239, 156, .75),
+        inset 0 0 .5vmin rgba(255, 255, 255, .35);
+      animation: phoneHintPulse 1.9s ease-in-out infinite;
+    }
+
+    .phone-hotspot::after {
+      inset: -18%;
+      background:
+        radial-gradient(circle at 24% 18%, rgba(255, 255, 255, .78) 0 7%, transparent 8%),
+        radial-gradient(circle at 73% 79%, rgba(124, 214, 255, .34) 0 11%, transparent 12%);
+      opacity: .76;
+      animation: phoneHintGlint 2.6s ease-in-out infinite;
+    }
+
+    .phone-hotspot:hover::before,
+    .phone-hotspot:focus-visible::before {
+      border-color: rgba(255, 255, 230, .98);
+      box-shadow:
+        0 0 1.4vmin rgba(255, 241, 165, .9),
+        inset 0 0 .55vmin rgba(255, 255, 255, .45);
+    }
+
+    .phone-hotspot:active {
+      transform: scale(.96) rotate(-1.5deg);
+    }
+
+    .phone-hotspot.opening::before {
+      animation: phoneOpenPop .42s cubic-bezier(.2, .88, .28, 1.25);
+    }
+
+    .phone-preview {
+      position: absolute;
+      inset: 0;
+      z-index: 80;
+      overflow: hidden;
+      background: rgba(42, 31, 24, .26);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .phone-preview.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .phone-preview-panel {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255, 235, 229, .82), transparent 28%),
+        radial-gradient(circle at 88% 28%, rgba(225, 239, 255, .9), transparent 31%),
+        #fffaf6;
+      color: #5f4a41;
+      transform: translateY(18%) scale(.86);
+      transform-origin: 50% 100%;
+      transition: transform .34s cubic-bezier(.2, .86, .24, 1);
+    }
+
+    .phone-preview.open .phone-preview-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    .phone-close-button {
+      position: absolute;
+      top: max(2.6vmin, env(safe-area-inset-top));
+      right: 3vmin;
+      width: 5.8vmin;
+      height: 5.8vmin;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .74);
+      color: rgba(109, 87, 74, .78);
+      box-shadow: 0 1.1vmin 2.4vmin rgba(206, 180, 172, .24);
+      font-size: clamp(20px, 4.1vmin, 34px);
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .phone-clock {
+      margin-top: 12.5vmin;
+      display: grid;
+      justify-items: center;
+      gap: 1.1vmin;
+    }
+
+    .phone-meridiem {
+      color: rgba(95, 74, 65, .72);
+      font-size: clamp(13px, 2.4vmin, 18px);
+      line-height: 1;
+    }
+
+    .phone-time {
+      color: #5f4a41;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(52px, 13.2vmin, 90px);
+      font-weight: 500;
+      line-height: .95;
+      letter-spacing: 0;
+    }
+
+    .phone-app-grid {
+      width: min(88%, 58vmin);
+      margin: auto auto 10vmin;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.8vmin;
+    }
+
+    .phone-app-button {
+      min-width: 0;
+      min-height: 9.2vmin;
+      display: flex;
+      align-items: center;
+      gap: 1.5vmin;
+      padding: 1.4vmin 1.6vmin;
+      border: 0;
+      border-radius: 1.4vmin;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 .8vmin 2vmin rgba(222, 199, 196, .22);
+      color: #5f4a41;
+      cursor: pointer;
+    }
+
+    .phone-app-icon {
+      flex: 0 0 5.8vmin;
+      width: 5.8vmin;
+      height: 5.8vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 1.25vmin;
+      background: linear-gradient(135deg, var(--app-a), var(--app-b));
+      color: #fff;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(13px, 2.1vmin, 18px);
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 .55vmin 1.3vmin rgba(120, 95, 105, .24);
+    }
+
+    .phone-app-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #5f4a41;
+      font-size: clamp(12px, 2vmin, 16px);
+      line-height: 1.2;
+      white-space: nowrap;
     }
 
     .trash-button {
@@ -766,21 +944,24 @@
       position: absolute;
       left: 50%;
       top: 10%;
+      box-sizing: border-box;
+      width: max-content;
       max-width: 52%;
       padding: .9vmin 1.4vmin;
       border-radius: 999px;
       background: rgba(68, 45, 29, .88);
       color: #fff6dc;
       font-size: clamp(10px, 1.45vmin, 16px);
-      line-height: 1.2;
+      line-height: 1.35;
       transform: translate(-50%, -1vmin);
       opacity: 0;
       pointer-events: none;
       z-index: 60;
       transition: opacity .18s ease, transform .18s ease;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      text-align: center;
+      white-space: normal;
+      overflow-wrap: keep-word;
+      word-break: keep-all;
     }
 
     .toast.show {
@@ -910,6 +1091,451 @@
       }
     }
 
+    /* Portrait preview overrides */
+    :root {
+      --stage-w: min(100vw, calc(100vh * 941 / 1672));
+      --stage-h: min(100vh, calc(100vw * 1672 / 941));
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --stage-w: min(100vw, calc(100dvh * 941 / 1672));
+        --stage-h: min(100dvh, calc(100vw * 1672 / 941));
+      }
+    }
+
+    .stage.prep-mode {
+      --stage-w: min(100vw, calc(100vh * 864 / 1821));
+      --stage-h: min(100vh, calc(100vw * 1821 / 864));
+    }
+
+    @supports (height: 100dvh) {
+      .stage.prep-mode {
+        --stage-w: min(100vw, calc(100dvh * 864 / 1821));
+        --stage-h: min(100dvh, calc(100vw * 1821 / 864));
+      }
+    }
+
+    .screen::before {
+      background-size: 100% 100%;
+    }
+
+    #cafeScreen::before {
+      background-image: url("cafe_main.png");
+    }
+
+    #cafeScreen::after {
+      background: url("cafe_main.png") center / 100% 100% no-repeat;
+      clip-path: inset(68.8% 0 0 0);
+    }
+
+    #prepScreen::before {
+      background: url("cafe_prep1.png") center / 100% 100% no-repeat;
+    }
+
+    #prepScreen::after {
+      display: none;
+    }
+
+    .prep-bg-drag {
+      display: none;
+    }
+
+    .hud {
+      top: 1%;
+      left: 2.2%;
+      right: 2.2%;
+      height: 4.6%;
+      gap: .65vmin;
+    }
+
+    .hud-left,
+    .hud-right {
+      gap: .45vmin;
+    }
+
+    .badge {
+      min-width: 6.8vmin;
+      height: 3.6vmin;
+      padding: 0 .75vmin;
+      font-size: clamp(9px, 1.45vmin, 14px);
+    }
+
+    .badge.compact {
+      min-width: 5.2vmin;
+    }
+
+    .icon {
+      width: 2vmin;
+      height: 2vmin;
+      font-size: 1.25vmin;
+    }
+
+    .cafe-customer {
+      left: 29%;
+      bottom: 18.2%;
+      width: min(47%, 38vmin);
+      height: 54%;
+      z-index: 5;
+    }
+
+    .speech {
+      left: 7%;
+      top: 8.4%;
+      width: 86%;
+      min-height: 13.7%;
+      padding: 2vmin 2.35vmin 1.8vmin;
+      border-radius: 1.7vmin;
+    }
+
+    .speech::before {
+      left: 43%;
+      bottom: -1.9vmin;
+      transform: rotate(18deg);
+    }
+
+    .customer-name {
+      min-height: 2.8vmin;
+      margin-bottom: .75vmin;
+      font-size: clamp(10px, 1.5vmin, 15px);
+    }
+
+    .order-text {
+      font-size: clamp(13px, 2.05vmin, 19px);
+      line-height: 1.34;
+    }
+
+    .counter-actions {
+      left: 7%;
+      top: 24.7%;
+      transform: translateY(1vmin);
+      justify-content: center;
+      width: 86%;
+    }
+
+    .counter-actions .primary,
+    .counter-actions .secondary {
+      min-width: 24vmin;
+      min-height: 5.2vmin;
+    }
+
+    .prep-overlay {
+      touch-action: none;
+    }
+
+    .ingredient-shelf {
+      position: absolute;
+      left: 5.32%;
+      top: 37.56%;
+      width: 88.77%;
+      height: 27.95%;
+      overflow: hidden;
+      z-index: 2;
+      touch-action: none;
+    }
+
+    .ingredient-strip {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      transform: translate3d(0, 0, 0);
+      transition: transform .36s cubic-bezier(.2, .82, .2, 1);
+      will-change: transform;
+    }
+
+    .ingredient-strip.dragging {
+      transition: none;
+    }
+
+    .ingredient-page {
+      position: relative;
+      flex: 0 0 50%;
+      height: 100%;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .ingredient-page::before {
+      display: block;
+      content: "";
+      position: absolute;
+      left: -6.01%;
+      top: -132.92%;
+      width: 112.3%;
+      height: 353.98%;
+      z-index: 0;
+      pointer-events: none;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: center;
+    }
+
+    .ingredient-page-one::before {
+      background-image: url("cafe_prep1.png");
+    }
+
+    .ingredient-page-two::before {
+      background-image: url("cafe_prep2.png");
+    }
+
+    .ingredient-pager {
+      position: absolute;
+      right: 3.2%;
+      bottom: 3.6%;
+      display: flex;
+      gap: .8vmin;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .ingredient-pager span {
+      width: 1.15vmin;
+      height: 1.15vmin;
+      border-radius: 50%;
+      background: rgba(255, 245, 221, .72);
+      box-shadow: 0 .15vmin .35vmin rgba(80, 43, 15, .28);
+      opacity: .7;
+    }
+
+    .ingredient-shelf[data-page="0"] .ingredient-pager span:first-child,
+    .ingredient-shelf[data-page="1"] .ingredient-pager span:last-child {
+      background: #7fa361;
+      opacity: 1;
+    }
+
+    .ingredient-hotspot {
+      z-index: 3;
+      border-radius: .8vmin;
+      touch-action: none;
+    }
+
+    .ingredient-hotspot::after {
+      bottom: .35vmin;
+      font-size: clamp(8px, 1.15vmin, 12px);
+    }
+
+    .phone-hotspot {
+      display: block;
+      --phone-hit-shape: polygon(13% 0, 92% 4%, 100% 86%, 88% 100%, 0 91%, 5% 12%);
+      left: 47.85%;
+      top: 75.66%;
+      width: 10.65%;
+      height: 6.65%;
+      clip-path: var(--phone-hit-shape);
+    }
+
+    .delivery-zone {
+      left: 60.05%;
+      top: 1.65%;
+      width: 34.05%;
+      height: 16.45%;
+      z-index: 5;
+    }
+
+    .drink-workspace {
+      left: 5.35%;
+      top: 1.65%;
+      width: 52.7%;
+      height: 34.65%;
+      z-index: 8;
+    }
+
+    .cup {
+      width: 9.8vmin;
+      height: 13.5vmin;
+    }
+
+    .cup-label {
+      bottom: -1.85vmin;
+      min-width: 7.2vmin;
+      padding: .25vmin .45vmin;
+      font-size: clamp(8px, .92vmin, 10px);
+    }
+
+    .order-card {
+      left: 60.05%;
+      top: 19%;
+      width: 34.05%;
+      height: 17.5%;
+      padding: 4.8vmin 1.6vmin 1vmin;
+      z-index: 6;
+    }
+
+    .order-card .small-title {
+      display: block;
+      margin: 0 0 .4vmin;
+      font-size: clamp(8px, 1.05vmin, 11px);
+      color: #9b7348;
+      text-align: center;
+    }
+
+    .order-card p {
+      font-size: clamp(8px, 1.15vmin, 12px);
+      -webkit-line-clamp: 5;
+      line-height: 1.3;
+    }
+
+    .hot-cup-zone {
+      left: 20.15%;
+      top: 70.85%;
+      width: 21.5%;
+      height: 11.95%;
+      z-index: 5;
+    }
+
+    .ice-cup-zone {
+      left: 56.85%;
+      top: 70.85%;
+      width: 21.5%;
+      height: 11.95%;
+      z-index: 5;
+    }
+
+    .trash-button {
+      left: 1.75%;
+      top: 85.3%;
+      width: 14%;
+      height: 9.65%;
+      z-index: 6;
+    }
+
+    .shot-zone {
+      left: 82.65%;
+      top: 85.3%;
+      width: 15.55%;
+      height: 9.65%;
+      z-index: 6;
+    }
+
+    .shot-count {
+      left: 82.65%;
+      right: auto;
+      top: 83.75%;
+      width: 15.55%;
+      min-width: 0;
+      height: 2.45vmin;
+      font-size: clamp(8px, 1.2vmin, 11px);
+      z-index: 8;
+    }
+
+    .prep-actions {
+      left: 18%;
+      bottom: 1%;
+      width: 64%;
+      height: 4.5%;
+      gap: .8vmin;
+      z-index: 16;
+    }
+
+    .mini-btn {
+      min-width: 18vmin;
+      min-height: 4.4vmin;
+      font-size: clamp(9px, 1.35vmin, 13px);
+    }
+
+    .toast {
+      top: 6.2%;
+      max-width: 88%;
+      font-size: clamp(10px, 1.55vmin, 14px);
+    }
+
+    .result-panel {
+      width: min(88%, 82vmin);
+      grid-template-columns: 12vmin minmax(0, 1fr);
+      column-gap: 1.6vmin;
+    }
+
+    .result-face {
+      height: 13vmin;
+    }
+
+    .result-face img {
+      max-width: 11vmin;
+    }
+
+    .portrait-hint {
+      display: none;
+    }
+
+    .ingredient-ghost {
+      position: absolute;
+      width: 6.5vmin;
+      height: 6.5vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ig-color, #f6d8a8);
+      border: .28vmin solid rgba(133, 88, 45, .55);
+      box-shadow: 0 .7vmin 1.6vmin rgba(88, 52, 22, .35);
+      font-size: 2.2vmin;
+      font-weight: 700;
+      color: #fff;
+      text-shadow:
+        0 .12vmin .25vmin rgba(0, 0, 0, .4),
+        0 0 .6vmin rgba(0, 0, 0, .15);
+      z-index: 50;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1.08);
+      animation: ghostAppear .18s ease-out;
+    }
+
+    @keyframes ghostAppear {
+      from { transform: translate(-50%, -50%) scale(.5); opacity: 0; }
+      to   { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+    }
+
+    @keyframes phoneHintPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: .5;
+      }
+      50% {
+        transform: scale(1.08);
+        opacity: .95;
+      }
+    }
+
+    @keyframes phoneHintGlint {
+      0%, 100% {
+        transform: translateY(0) scale(.96);
+        opacity: .28;
+      }
+      45% {
+        transform: translateY(-6%) scale(1.04);
+        opacity: .78;
+      }
+    }
+
+    @keyframes phoneOpenPop {
+      0% {
+        transform: scale(1);
+        opacity: .9;
+      }
+      68% {
+        transform: scale(1.5);
+        opacity: .7;
+      }
+      100% {
+        transform: scale(1.85);
+        opacity: 0;
+      }
+    }
+
+    .cup.drop-target {
+      filter: drop-shadow(0 0 1.8vmin rgba(128, 190, 94, .75)) drop-shadow(0 0 .6vmin rgba(128, 190, 94, .4));
+      transform: translate(-50%, -48%) scale(1.06);
+      transition: filter .15s ease, transform .15s ease;
+    }
+
+    .drink-workspace.drop-highlight {
+      outline: .28vmin dashed rgba(128, 190, 94, .7);
+      outline-offset: -.28vmin;
+      border-radius: 1.2vmin;
+      background: rgba(128, 190, 94, .06);
+    }
+
     @keyframes walkIn {
       from {
         transform: translateX(-42vw);
@@ -1028,10 +1654,30 @@
           <button class="secondary" id="listenButton" type="button">네...?</button>
         </div>
 
+        <button class="phone-hotspot" id="phoneButton" type="button" aria-label="핸드폰 열기"></button>
+
       </section>
 
       <section class="screen" id="prepScreen" aria-label="제조 화면">
+        <div class="prep-bg-drag" aria-hidden="true">
+          <div class="prep-bg-strip" id="prepBgStrip">
+            <div class="prep-bg-page prep-bg-one"></div>
+            <div class="prep-bg-page prep-bg-two"></div>
+          </div>
+        </div>
+
         <div class="prep-overlay">
+          <div class="ingredient-shelf" id="ingredientShelf" data-page="0">
+            <div class="ingredient-strip" id="ingredientStrip">
+              <div class="ingredient-page ingredient-page-one" data-page="0"></div>
+              <div class="ingredient-page ingredient-page-two" data-page="1"></div>
+            </div>
+            <div class="ingredient-pager">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
           <button class="machine-button hot-zone" id="hotButton" type="button" aria-label="HOT 선택">HOT</button>
           <button class="machine-button ice-zone" id="iceButton" type="button" aria-label="ICE 선택">ICE</button>
           <button class="machine-button shot-zone" id="shotButton" type="button" aria-label="샷 추가">SHOT</button>
@@ -1080,6 +1726,42 @@
         </div>
       </div>
 
+      <div class="phone-preview" id="phonePreview" aria-hidden="true">
+        <div class="phone-preview-panel" role="dialog" aria-modal="true" aria-label="핸드폰">
+          <button class="phone-close-button" id="phoneCloseButton" type="button" aria-label="핸드폰 닫기">×</button>
+          <div class="phone-clock">
+            <span class="phone-meridiem" id="phoneMeridiem">오후</span>
+            <strong class="phone-time" id="phoneTime">3:00</strong>
+          </div>
+          <div class="phone-app-grid" aria-label="핸드폰 앱">
+            <button class="phone-app-button" type="button" data-app="쇼핑" style="--app-a:#ff8b86;--app-b:#ff7276">
+              <span class="phone-app-icon">S</span>
+              <span class="phone-app-name">쇼핑</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="E-class" style="--app-a:#75adff;--app-b:#548eff">
+              <span class="phone-app-icon">E</span>
+              <span class="phone-app-name">E-class</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="캘린더" style="--app-a:#ffc56f;--app-b:#ffaf5d">
+              <span class="phone-app-icon">C</span>
+              <span class="phone-app-name">캘린더</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="앨범" style="--app-a:#6ad8c3;--app-b:#48c1b0">
+              <span class="phone-app-icon">A</span>
+              <span class="phone-app-name">앨범</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="메신저" style="--app-a:#a590ff;--app-b:#8b76f6">
+              <span class="phone-app-icon">M</span>
+              <span class="phone-app-name">메신저</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="오늘의 운세" style="--app-a:#ff95c3;--app-b:#ff79b0">
+              <span class="phone-app-icon">F</span>
+              <span class="phone-app-name">오늘의 운세</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="toast" id="toast">알림</div>
       <div class="portrait-hint">가로 화면에 맞춰 만든 미니게임입니다</div>
     </section>
@@ -1108,6 +1790,29 @@
     ];
 
     const ingredientByName = Object.fromEntries(INGREDIENTS.map((item) => [item.name, item]));
+
+    const SHELF_HOTSPOTS = [
+      /* Page 0 (2-1): 2×4 grid */
+      { name: "물", page: 0, x: 2.35, y: 3.15, w: 22.7, h: 44.8 },
+      { name: "우유", page: 0, x: 26.2, y: 3.15, w: 22.7, h: 44.8 },
+      { name: "두유", page: 0, x: 50.05, y: 3.15, w: 22.85, h: 44.8 },
+      { name: "초콜릿", page: 0, x: 74.2, y: 3.15, w: 22.8, h: 44.8 },
+      { name: "춘장", page: 0, x: 2.35, y: 51.1, w: 22.7, h: 45.6 },
+      { name: "레몬", page: 0, x: 26.2, y: 51.1, w: 22.7, h: 45.6 },
+      { name: "카라멜", page: 0, x: 50.05, y: 51.1, w: 22.85, h: 45.6 },
+      { name: "피스타치오", page: 0, x: 74.2, y: 51.1, w: 22.8, h: 45.6 },
+      /* Page 1 (2-2): 2×5 grid */
+      { name: "딸기", page: 1, x: 2.45, y: .8, w: 18.6, h: 45.6 },
+      { name: "수박", page: 1, x: 21.85, y: .8, w: 18.6, h: 45.6 },
+      { name: "녹차", page: 1, x: 41.15, y: .8, w: 18.7, h: 45.6, label: "녹차파우더" },
+      { name: "시금치", page: 1, x: 60.5, y: .8, w: 18.7, h: 45.6 },
+      { name: "꿀", page: 1, x: 79.85, y: .8, w: 18.6, h: 45.6 },
+      { name: "연유", page: 1, x: 2.45, y: 49, w: 18.6, h: 45.9 },
+      { name: "펄", page: 1, x: 21.85, y: 49, w: 18.6, h: 45.9 },
+      { name: "휘핑크림", page: 1, x: 41.15, y: 49, w: 18.7, h: 45.9 },
+      { name: "홍차", page: 1, x: 60.5, y: 49, w: 18.7, h: 45.9 },
+      { name: "탄산수", page: 1, x: 79.85, y: 49, w: 18.6, h: 45.9 }
+    ];
 
     const CUSTOMERS = [
       {
@@ -1247,6 +1952,9 @@
         latteArt: false
       },
       drag: null,
+      shelfPage: 0,
+      shelfDrag: null,
+      suppressIngredientClick: false,
       latteDrawing: false
     };
 
@@ -1260,10 +1968,25 @@
       statusLoaded: false
     };
 
+    const PHONE_APP_TITLES = {
+      "쇼핑": "쇼핑",
+      "E-class": "E-class",
+      "캘린더": "캘린더",
+      "앨범": "앨범",
+      "메신저": "메신저",
+      "오늘의 운세": "오늘의 운세"
+    };
+
+    let phoneClockTimer = 0;
+
     const els = {
       stage: document.getElementById("stage"),
       cafeScreen: document.getElementById("cafeScreen"),
       prepScreen: document.getElementById("prepScreen"),
+      prepOverlay: document.querySelector(".prep-overlay"),
+      prepBgStrip: document.getElementById("prepBgStrip"),
+      ingredientShelf: document.getElementById("ingredientShelf"),
+      ingredientStrip: document.getElementById("ingredientStrip"),
       cafeCustomer: document.getElementById("cafeCustomer"),
       customerImage: document.getElementById("customerImage"),
       customerName: document.getElementById("customerName"),
@@ -1271,6 +1994,12 @@
       orderType: document.getElementById("orderType"),
       makeButton: document.getElementById("makeButton"),
       listenButton: document.getElementById("listenButton"),
+      phoneButton: document.getElementById("phoneButton"),
+      phonePreview: document.getElementById("phonePreview"),
+      phoneCloseButton: document.getElementById("phoneCloseButton"),
+      phoneMeridiem: document.getElementById("phoneMeridiem"),
+      phoneTime: document.getElementById("phoneTime"),
+      phoneAppButtons: Array.from(document.querySelectorAll(".phone-app-button")),
       hotButton: document.getElementById("hotButton"),
       iceButton: document.getElementById("iceButton"),
       hotCupButton: document.getElementById("hotCupButton"),
@@ -1341,7 +2070,9 @@
           loadBridgeStatus();
         },
         setState: applyHostState,
-        refresh: loadBridgeStatus
+        refresh: loadBridgeStatus,
+        openPhone: openPhonePreview,
+        closePhone: closePhonePreview
       };
     }
 
@@ -1362,15 +2093,34 @@
 
     function notifyHost(type, payload = {}) {
       const message = { source: "kotori-cafe-minigame", type, payload };
-      if (window.parent && window.parent !== window) {
-        window.parent.postMessage(message, "*");
-      }
-      if (window.KotoriCafeBridge && typeof window.KotoriCafeBridge.postMessage === "function") {
-        window.KotoriCafeBridge.postMessage(JSON.stringify(message));
-      }
-      if (window.chrome?.webview?.postMessage) {
-        window.chrome.webview.postMessage(message);
-      }
+      let delivered = false;
+
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage(message, "*");
+          delivered = true;
+        }
+      } catch (_) {}
+
+      try {
+        if (window.KotoriCafeBridge && typeof window.KotoriCafeBridge.postMessage === "function") {
+          window.KotoriCafeBridge.postMessage(JSON.stringify(message));
+          delivered = true;
+        }
+      } catch (_) {}
+
+      try {
+        if (window.chrome?.webview?.postMessage) {
+          window.chrome.webview.postMessage(message);
+          delivered = true;
+        }
+      } catch (_) {}
+
+      try {
+        window.dispatchEvent(new CustomEvent("kotori-cafe-host-message", { detail: message }));
+      } catch (_) {}
+
+      return delivered;
     }
 
     async function bridgeFetch(path, options = {}) {
@@ -1453,13 +2203,25 @@
       nextCustomer();
       updateHud();
       resizeLatteCanvas();
-      window.addEventListener("resize", resizeLatteCanvas);
+      updateShelfPosition();
+      window.addEventListener("resize", () => {
+        resizeLatteCanvas();
+        updateShelfPosition();
+      });
       loadBridgeStatus();
     }
 
     function bindEvents() {
       els.makeButton.addEventListener("click", startMaking);
       els.listenButton.addEventListener("click", startMaking);
+      els.phoneButton?.addEventListener("click", requestPhoneOpen);
+      els.phoneCloseButton?.addEventListener("click", closePhonePreview);
+      els.phonePreview?.addEventListener("click", (event) => {
+        if (event.target === els.phonePreview) closePhonePreview();
+      });
+      els.phoneAppButtons.forEach((button) => {
+        button.addEventListener("click", () => requestPhoneApp(button.dataset.app));
+      });
       els.hotButton.addEventListener("click", () => selectTemp("HOT"));
       els.iceButton.addEventListener("click", () => selectTemp("ICE"));
       els.hotCupButton.addEventListener("click", () => selectTemp("HOT"));
@@ -1478,23 +2240,197 @@
       els.latteCanvas.addEventListener("pointermove", moveLatteDraw);
       els.latteCanvas.addEventListener("pointerup", stopLatteDraw);
       els.latteCanvas.addEventListener("pointercancel", stopLatteDraw);
+      els.ingredientShelf.addEventListener("pointerdown", startShelfDrag);
+      window.addEventListener("pointermove", moveShelfDrag, { passive: false });
+      window.addEventListener("pointerup", endShelfDrag);
+      window.addEventListener("pointercancel", endShelfDrag);
+      window.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        closePhonePreview();
+      });
     }
 
     function createIngredientHotspots() {
-      const overlay = document.querySelector(".prep-overlay");
-      INGREDIENTS.forEach((ingredient) => {
+      const pages = Array.from(document.querySelectorAll(".ingredient-page"));
+      SHELF_HOTSPOTS.forEach((hotspot) => {
+        const ingredient = ingredientByName[hotspot.name];
+        const page = pages[hotspot.page];
+        if (!ingredient || !page) return;
         const button = document.createElement("button");
         button.type = "button";
         button.className = "ingredient-hotspot";
+        const displayName = hotspot.label || ingredient.name;
         button.dataset.name = ingredient.name;
-        button.setAttribute("aria-label", ingredient.name + " 넣기");
-        button.style.left = ingredient.x + "%";
-        button.style.top = ingredient.y + "%";
-        button.style.width = ingredient.w + "%";
-        button.style.height = ingredient.h + "%";
-        button.addEventListener("click", () => addIngredient(ingredient, button));
-        overlay.appendChild(button);
+        button.setAttribute("aria-label", displayName + " 넣기");
+        button.style.left = hotspot.x + "%";
+        button.style.top = hotspot.y + "%";
+        button.style.width = hotspot.w + "%";
+        button.style.height = hotspot.h + "%";
+        page.appendChild(button);
       });
+    }
+
+    function shelfOffsetForPage(page) {
+      const width = els.ingredientShelf.getBoundingClientRect().width;
+      return -page * width;
+    }
+
+    function setShelfOffset(offset) {
+      els.ingredientStrip.style.transform = `translate3d(${offset}px, 0, 0)`;
+    }
+
+    function updateShelfPosition() {
+      if (!els.ingredientShelf || !els.ingredientStrip) return;
+      els.ingredientShelf.dataset.page = String(state.shelfPage);
+      setShelfOffset(shelfOffsetForPage(state.shelfPage));
+    }
+
+    function shelfOffsetWithResistance(offset, width) {
+      const minOffset = -width;
+      const maxOffset = 0;
+      const resistance = .28;
+
+      if (offset < minOffset) return minOffset + (offset - minOffset) * resistance;
+      if (offset > maxOffset) return maxOffset + (offset - maxOffset) * resistance;
+      return offset;
+    }
+
+    function isShelfPoint(event) {
+      const rect = els.ingredientShelf.getBoundingClientRect();
+      return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+    }
+
+    function startShelfDrag(event) {
+      if (state.screen !== "prep" || state.drag || state.latteDrawing || !isShelfPoint(event)) return;
+      if (event.button !== undefined && event.button !== 0) return;
+
+      const ingredientEl = event.target.closest(".ingredient-hotspot");
+      const ingredient = ingredientEl ? ingredientByName[ingredientEl.dataset.name] : null;
+
+      const rect = els.ingredientShelf.getBoundingClientRect();
+      state.shelfDrag = {
+        id: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        width: rect.width,
+        page: state.shelfPage,
+        moved: false,
+        mode: null,
+        ingredient: ingredient,
+        ingredientEl: ingredientEl,
+        ghost: null
+      };
+      els.ingredientStrip.classList.add("dragging");
+      els.ingredientShelf.setPointerCapture?.(event.pointerId);
+    }
+
+    function moveShelfDrag(event) {
+      const drag = state.shelfDrag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      const dx = event.clientX - drag.startX;
+      const dy = event.clientY - drag.startY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (!drag.mode && dist > 10) {
+        if (drag.ingredient && dy < -6 && Math.abs(dy) > Math.abs(dx) * 0.65) {
+          drag.mode = "ingredient";
+          drag.moved = true;
+          state.suppressIngredientClick = true;
+          createIngredientGhost(drag);
+          try { els.ingredientShelf.releasePointerCapture(event.pointerId); } catch (e) {}
+        } else if (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy) * 0.75) {
+          drag.mode = "swipe";
+        } else {
+          return;
+        }
+      }
+
+      if (!drag.mode) return;
+
+      if (drag.mode === "ingredient" && drag.ghost) {
+        const stageRect = els.stage.getBoundingClientRect();
+        drag.ghost.style.left = (event.clientX - stageRect.left) + "px";
+        drag.ghost.style.top = (event.clientY - stageRect.top) + "px";
+        const ghostRect = drag.ghost.getBoundingClientRect();
+        const wsRect = els.drinkWorkspace.getBoundingClientRect();
+        const over = ghostRect.left < wsRect.right && ghostRect.right > wsRect.left &&
+                     ghostRect.top < wsRect.bottom && ghostRect.bottom > wsRect.top;
+        els.cup.classList.toggle("drop-target", over);
+        els.drinkWorkspace.classList.toggle("drop-highlight", over);
+        event.preventDefault();
+        return;
+      }
+
+      if (drag.mode !== "swipe") return;
+
+      const rawDelta = dx;
+      const nextOffset = shelfOffsetWithResistance(-drag.page * drag.width + rawDelta, drag.width);
+
+      if (Math.abs(rawDelta) > 5) {
+        drag.moved = true;
+        state.suppressIngredientClick = true;
+      }
+
+      event.preventDefault();
+      setShelfOffset(nextOffset);
+    }
+
+    function endShelfDrag(event) {
+      const drag = state.shelfDrag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      if (drag.mode === "ingredient") {
+        if (drag.ghost) {
+          const ghostRect = drag.ghost.getBoundingClientRect();
+          const wsRect = els.drinkWorkspace.getBoundingClientRect();
+          const over = ghostRect.left < wsRect.right && ghostRect.right > wsRect.left &&
+                       ghostRect.top < wsRect.bottom && ghostRect.bottom > wsRect.top;
+          if (over && drag.ingredient) {
+            addIngredient(drag.ingredient, drag.ingredientEl);
+          }
+          drag.ghost.remove();
+        }
+        els.cup.classList.remove("drop-target");
+        els.drinkWorkspace.classList.remove("drop-highlight");
+      } else {
+        if (!drag.mode && !drag.moved && drag.ingredient) {
+          addIngredient(drag.ingredient, drag.ingredientEl);
+        }
+
+        const delta = event.clientX - drag.startX;
+        const threshold = Math.min(90, drag.width * .18);
+        let nextPage = drag.page;
+
+        if (delta < -threshold && drag.page < 1) nextPage = drag.page + 1;
+        if (delta > threshold && drag.page > 0) nextPage = drag.page - 1;
+
+        state.shelfPage = nextPage;
+      }
+
+      state.shelfDrag = null;
+      els.ingredientStrip.classList.remove("dragging");
+      updateShelfPosition();
+
+      if (drag.moved) {
+        window.setTimeout(() => {
+          state.suppressIngredientClick = false;
+        }, 90);
+      } else {
+        state.suppressIngredientClick = false;
+      }
+    }
+
+    function createIngredientGhost(drag) {
+      const ghost = document.createElement("div");
+      ghost.className = "ingredient-ghost";
+      ghost.textContent = drag.ingredient.icon || drag.ingredient.name[0];
+      ghost.style.setProperty("--ig-color", drag.ingredient.color);
+      const stageRect = els.stage.getBoundingClientRect();
+      ghost.style.left = (drag.startX - stageRect.left) + "px";
+      ghost.style.top = (drag.startY - stageRect.top) + "px";
+      els.stage.appendChild(ghost);
+      drag.ghost = ghost;
     }
 
     function tickClock() {
@@ -1578,15 +2514,70 @@
       updateHud();
       resetCup();
       switchScreen("prep");
-      showToast("재료를 터치해서 컵에 넣고, 완성되면 컵을 오른쪽 전달 칸으로 드래그하세요.");
+      showToast("재료를 터치해서 컵에 넣고, 완성되면 컵을 전달 칸으로 드래그하세요.");
     }
+
+    function requestPhoneOpen(event) {
+      event?.preventDefault();
+      if (state.screen !== "cafe" || !els.phoneButton) return;
+
+      els.phoneButton.classList.remove("opening");
+      els.phoneButton.offsetHeight;
+      els.phoneButton.classList.add("opening");
+      window.setTimeout(() => {
+        els.phoneButton.classList.remove("opening");
+      }, 440);
+
+      const delivered = notifyHost("phone_requested", { from: "cafe_main" });
+      if (!delivered) openPhonePreview();
+    }
+
+    function updatePhoneClock() {
+      if (!els.phoneMeridiem || !els.phoneTime) return;
+      const now = new Date();
+      const hour = now.getHours();
+      const displayHour = hour % 12 || 12;
+      const minute = String(now.getMinutes()).padStart(2, "0");
+      els.phoneMeridiem.textContent = hour < 12 ? "오전" : "오후";
+      els.phoneTime.textContent = `${displayHour}:${minute}`;
+    }
+
+    function openPhonePreview() {
+      if (!els.phonePreview) return;
+      updatePhoneClock();
+      window.clearInterval(phoneClockTimer);
+      phoneClockTimer = window.setInterval(updatePhoneClock, 1000);
+      els.phonePreview.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(() => {
+        els.phonePreview.classList.add("open");
+      });
+    }
+
+    function closePhonePreview() {
+      if (!els.phonePreview || !els.phonePreview.classList.contains("open")) return;
+      els.phonePreview.classList.remove("open");
+      els.phonePreview.setAttribute("aria-hidden", "true");
+      window.clearInterval(phoneClockTimer);
+      phoneClockTimer = 0;
+    }
+
+    function requestPhoneApp(name) {
+      if (!name || !PHONE_APP_TITLES[name]) return;
+      notifyHost("phone_app_requested", { app: name, from: "phone_preview" });
+    }
+
 
     function switchScreen(name) {
       state.screen = name;
+      if (name !== "cafe") closePhonePreview();
+      els.stage.classList.toggle("prep-mode", name === "prep");
       els.cafeScreen.classList.toggle("active", name === "cafe");
       els.prepScreen.classList.toggle("active", name === "prep");
       if (name === "prep") {
-        requestAnimationFrame(resizeLatteCanvas);
+        requestAnimationFrame(() => {
+          resizeLatteCanvas();
+          updateShelfPosition();
+        });
       }
     }
 

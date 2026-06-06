@@ -66,12 +66,6 @@ List<PhoneApp> buildDefaultApps({Map<String, VoidCallback?> callbacks = const {}
       gradientColors: const [Color(0xFFA590FF), Color(0xFF8B76F6)],
       onTap: callbacks['메신저'],
     ),
-    PhoneApp(
-      name: '오늘의 운세',
-      icon: Icons.star_rounded,
-      gradientColors: const [Color(0xFFFF95C3), Color(0xFFFF79B0)],
-      onTap: callbacks['오늘의 운세'],
-    ),
   ];
 }
 
