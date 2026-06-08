@@ -44,7 +44,7 @@
     },
     {
         "text":  "해가 기울기 전, 악기 거리 근처",
-        "bg_image":  "assets/images/bg/cafe_street.jpg",
+        "bg_image":  "assets/images/bg/카페앞_밤.png",
         "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
@@ -289,7 +289,7 @@
     },
     {
         "text":  "돌아오는 길",
-        "bg_image":  "assets/images/bg/cafe_street.jpg",
+        "bg_image":  "assets/images/bg/카페앞_밤.png",
         "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {

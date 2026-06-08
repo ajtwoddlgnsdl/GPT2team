@@ -24,7 +24,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
-    "text": "앉아요, 어서요! 혼자 먹으려고 했는데 {N}씨 보이니까 나눠 먹고 싶어졌어요."
+    "text": "앉아요, 어서요! 혼자 먹으려고 했는데 {name}씨 보이니까 나눠 먹고 싶어졌어요."
   },
   {
     "speaker": "{name}",
