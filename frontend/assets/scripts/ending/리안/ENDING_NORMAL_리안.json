@@ -1,0 +1,115 @@
+[
+  {
+    "text": "공모전 당일 밤, 행사장 앞",
+    "bg_image": "assets/images/bg/night_alley.png",
+    "character_image": null
+  },
+  {
+    "text": "행사가 끝난 뒤 리안은 한참 만에 밖으로 나왔다.",
+    "character_image": "assets/images/character/리안/리안_실외_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "수고했어."
+  },
+  {
+    "speaker": "리안",
+    "text": "어땠어."
+  },
+  {
+    "speaker": "{name}",
+    "text": "좋았어. 네 곡 같았어."
+  },
+  {
+    "speaker": "리안",
+    "text": "그게 무슨 평가야."
+  },
+  {
+    "speaker": "{name}",
+    "text": "내가 할 수 있는 제일 정확한 평가."
+  },
+  {
+    "text": "리안이 작게 웃었다.",
+    "character_image": "assets/images/character/리안/리안_실외_미소.png"
+  },
+  {
+    "speaker": "리안",
+    "text": "결과는 나중에 나온대."
+  },
+  {
+    "speaker": "{name}",
+    "text": "기다려야겠네."
+  },
+  {
+    "speaker": "리안",
+    "text": "응."
+  },
+  {
+    "text": "둘은 행사장 앞을 벗어나 천천히 걸었다."
+  },
+  {
+    "speaker": "리안",
+    "text": "어제 내가 끝나고 얘기하자고 했잖아."
+  },
+  {
+    "speaker": "{name}",
+    "text": "응."
+  },
+  {
+    "speaker": "리안",
+    "text": "근데 아직도 잘 모르겠어."
+  },
+  {
+    "text": "리안은 숨기지 않고 말했다."
+  },
+  {
+    "speaker": "리안",
+    "text": "곡도, 집도, 앞으로 뭘 할지도."
+  },
+  {
+    "speaker": "{name}",
+    "text": "모르면 같이 생각하면 되지."
+  },
+  {
+    "speaker": "리안",
+    "text": "또 쉽게 말한다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "이번엔 옆에서 어렵게 생각할게."
+  },
+  {
+    "text": "리안이 잠깐 걸음을 멈췄다."
+  },
+  {
+    "speaker": "리안",
+    "text": "……그럼."
+  },
+  {
+    "speaker": "리안",
+    "text": "당분간 계속 와."
+  },
+  {
+    "speaker": "{name}",
+    "text": "작업실에?"
+  },
+  {
+    "speaker": "리안",
+    "text": "어디든."
+  },
+  {
+    "text": "그 말 뒤에 둘은 다시 걸었다."
+  },
+  {
+    "text": "고백도 약속도 완성된 형태는 아니었다."
+  },
+  {
+    "text": "그래도 리안은 먼저 걷지 않았고, 주인공도 뒤처지지 않았다."
+  },
+  {
+    "text": "나란히 걷는 속도를 찾는 데는 조금 더 시간이 필요했다."
+  },
+  {
+    "text": "그 시간을 함께 보내기로 했다."
+  }
+]

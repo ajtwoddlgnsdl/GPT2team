@@ -1,7 +1,7 @@
 [
   {
     "text": "알바 퇴근길",
-    "bg_image": "assets/images/bg/밤골목.png",
+    "bg_image": "assets/images/bg/night_alley.png",
     "character_image": null
   },
   {
@@ -46,7 +46,7 @@
   },
   {
     "text": "근데 막상 건물 앞까지 오니 발이 안 떨어진다.",
-    "bg_image": "assets/images/bg/리안집1층.png"
+    "bg_image": "assets/images/bg/rian_home_ground_floor.png"
   },
   {
     "speaker": "{name}",
@@ -112,8 +112,7 @@
   },
   {
     "speaker": "리안",
-    "text": "작업하던 거 날아갔어.",
-    "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
+    "text": "작업하던 거 날아갔어."
   },
   {
     "speaker": "{name}",
@@ -147,7 +146,8 @@
   },
   {
     "speaker": "리안",
-    "text": "됐다 접자."
+    "text": "됐다 접자.",
+    "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
   },
   {
     "text": "조금 걸어나와 계단 구석에 주저앉더니 무릎에 얼굴을 파묻었다."
@@ -326,12 +326,13 @@
       }
     ]
   },
-  {
+  { "character_image": "null",
+    "bg_image" : "assets/images/bg/rian_cafe_street_night.png",
     "text": "*잠시 후*"
   },
   {
     "text": "편의점을 나와 건물 앞 평상에 나란히 앉았다.",
-    "character_image": null
+    "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
   },
   {
     "text": "리안이 캔을 따더니 한 모금 크게 마셨다."

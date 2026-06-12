@@ -124,7 +124,7 @@
   },
   {
     "text": "해가 진 후, 리안의 집 앞",
-    "bg_image": "assets/images/bg/리안집1층.png"
+    "bg_image": "assets/images/bg/rian_home_ground_floor.png"
   },
   {
     "text": "문을 두드렸다."
@@ -143,7 +143,7 @@
   },
   {
     "text": "문이 열렸다. 리안은 이미 모니터를 보고 있다.",
-    "bg_image": "assets/images/bg/리안집.png"
+    "bg_image": "assets/images/bg/rian_home.png"
   },
   {
     "speaker": "리안",

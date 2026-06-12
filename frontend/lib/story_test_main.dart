@@ -23,18 +23,34 @@ class StoryTestApp extends StatelessWidget {
           brightness: Brightness.dark,
         ),
         scaffoldBackgroundColor: const Color(0xff0b0b10),
-        fontFamily: 'YChoiAe',
       ),
       home: const StoryTestScreen(),
     );
   }
 }
 
+enum StorySection {
+  intro1('intro1', 'INTRO 1'),
+  intro2('intro2', 'INTRO 2'),
+  main('main', 'MAIN'),
+  ending('ending', 'ENDING');
+
+  const StorySection(this.folder, this.label);
+
+  final String folder;
+  final String label;
+}
+
 class StoryOption {
-  const StoryOption(this.label, this.path);
+  const StoryOption({
+    required this.label,
+    required this.path,
+    required this.section,
+  });
 
   final String label;
   final String path;
+  final StorySection section;
 }
 
 class StoryTestScreen extends StatefulWidget {
@@ -49,6 +65,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
   final _jumpController = TextEditingController();
 
   List<StoryOption> _stories = [];
+  StorySection _selectedSection = StorySection.intro1;
   StoryOption? _selectedStory;
   List<Map<String, dynamic>> _lines = [];
   int _index = 0;
@@ -85,7 +102,8 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
                     path.endsWith('.json') &&
                     (path.startsWith('assets/scripts/intro1/') ||
                         path.startsWith('assets/scripts/intro2/') ||
-                        path.startsWith('assets/scripts/main/')),
+                        path.startsWith('assets/scripts/main/') ||
+                        path.startsWith('assets/scripts/ending/')),
               )
               .toList()
             ..sort((a, b) => _storySortKey(a).compareTo(_storySortKey(b)));
@@ -94,9 +112,13 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
         throw const FormatException('테스트할 스토리 JSON을 찾지 못했습니다.');
       }
 
-      final stories = paths
-          .map((path) => StoryOption(_storyLabel(path), path))
-          .toList();
+      final stories = paths.map((path) {
+        return StoryOption(
+          label: _storyLabel(path),
+          path: path,
+          section: _storySection(path),
+        );
+      }).toList();
       final initialStory = stories.firstWhere(
         (story) => story.path.endsWith('intro_3_prologue.json'),
         orElse: () => stories.first,
@@ -104,6 +126,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
 
       setState(() {
         _stories = stories;
+        _selectedSection = initialStory.section;
         _selectedStory = initialStory;
       });
       await _loadStory();
@@ -125,12 +148,20 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
     return '$section · ${parts[3]} · $fileName';
   }
 
+  StorySection _storySection(String path) {
+    final folder = path.split('/')[2];
+    return StorySection.values.firstWhere(
+      (section) => section.folder == folder,
+    );
+  }
+
   String _storySortKey(String path) {
     final parts = path.split('/');
     final sectionOrder = switch (parts[2]) {
       'intro1' => 0,
       'intro2' => 1,
       'main' => 2,
+      'ending' => 3,
       _ => 9,
     };
     final heroine = parts.length > 4 ? parts[3] : '';
@@ -155,7 +186,13 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
     });
 
     try {
-      final jsonString = await rootBundle.loadString(selectedStory.path);
+      final data = await rootBundle.load(selectedStory.path);
+      final jsonString = utf8
+          .decode(
+            data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+            allowMalformed: false,
+          )
+          .replaceFirst('\ufeff', '');
       final decoded = jsonDecode(jsonString);
       if (decoded is! List) {
         throw const FormatException('JSON 최상위 값이 배열이 아닙니다.');
@@ -374,6 +411,9 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
   }
 
   Widget _buildControls(bool compact) {
+    final sectionStories = _stories
+        .where((story) => story.section == _selectedSection)
+        .toList();
     final content = Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -394,16 +434,47 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
             style: TextStyle(color: Colors.white.withValues(alpha: 0.6)),
           ),
           const SizedBox(height: 24),
+          DropdownButtonFormField<StorySection>(
+            initialValue: _selectedSection,
+            decoration: const InputDecoration(
+              labelText: '스토리 폴더',
+              border: OutlineInputBorder(),
+            ),
+            items: StorySection.values
+                .map(
+                  (section) => DropdownMenuItem(
+                    value: section,
+                    child: Text(section.label),
+                  ),
+                )
+                .toList(),
+            onChanged: (section) {
+              if (section == null || section == _selectedSection) return;
+              final stories = _stories
+                  .where((story) => story.section == section)
+                  .toList();
+              if (stories.isEmpty) return;
+              setState(() {
+                _selectedSection = section;
+                _selectedStory = stories.first;
+              });
+              _loadStory();
+            },
+          ),
+          const SizedBox(height: 14),
           DropdownButtonFormField<StoryOption>(
+            key: ValueKey(_selectedSection),
             initialValue: _selectedStory,
             decoration: const InputDecoration(
               labelText: '스토리',
               border: OutlineInputBorder(),
             ),
-            items: _stories
+            items: sectionStories
                 .map(
-                  (story) =>
-                      DropdownMenuItem(value: story, child: Text(story.label)),
+                  (story) => DropdownMenuItem(
+                    value: story,
+                    child: Text(story.label, overflow: TextOverflow.ellipsis),
+                  ),
                 )
                 .toList(),
             onChanged: (story) {
@@ -626,6 +697,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
                           right: 20,
                           bottom: 24,
                           child: Container(
+                            constraints: const BoxConstraints(maxHeight: 300),
                             padding: const EdgeInsets.fromLTRB(24, 18, 24, 20),
                             decoration: BoxDecoration(
                               color: const Color(0xee111119),
@@ -641,30 +713,34 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
                                 ),
                               ],
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (speaker.isNotEmpty) ...[
+                            child: SingleChildScrollView(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (speaker.isNotEmpty) ...[
+                                    Text(
+                                      speaker,
+                                      style: const TextStyle(
+                                        color: Color(0xffa78bfa),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                  ],
                                   Text(
-                                    speaker,
+                                    text,
+                                    softWrap: true,
                                     style: const TextStyle(
-                                      color: Color(0xffa78bfa),
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w800,
+                                      color: Colors.white,
+                                      fontSize: 19,
+                                      height: 1.5,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
                                 ],
-                                Text(
-                                  text,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 19,
-                                    height: 1.5,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
@@ -689,45 +765,48 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
           constraints: const BoxConstraints(maxWidth: 680),
           child: Padding(
             padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  '선택지를 고르세요',
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(height: 18),
-                ..._choices.map(
-                  (choice) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                        style: FilledButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          foregroundColor: const Color(0xff17131f),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 22,
-                            vertical: 18,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    '선택지를 고르세요',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(height: 18),
+                  ..._choices.map(
+                    (choice) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          style: FilledButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: const Color(0xff17131f),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 22,
+                              vertical: 18,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        onPressed: () => _selectChoice(choice),
-                        child: Text(
-                          _replaceName(choice['text']),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w800,
+                          onPressed: () => _selectChoice(choice),
+                          child: Text(
+                            _replaceName(choice['text']),
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
