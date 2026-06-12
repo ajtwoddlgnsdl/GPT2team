@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import '../../core/api_client.dart';
-import '../../core/constants.dart';
 import '../lobby/lobby_screen.dart';
-import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+
 
 class StoryScreen extends StatefulWidget {
   final String storyId;
@@ -176,17 +175,10 @@ class _StoryScreenState extends State<StoryScreen> {
       _isLoading = true;
     });
 
-    final requestData = {"story_ticket": widget.storyTicket};
-
-    // 💡 획득한 호감도 점수가 있다면 프론트엔드에서 직접 JWT로 말아서 전송!
-    if (_earnedBonusScore != 0) {
-      final jwt = JWT({'bonus': _earnedBonusScore});
-      final token = jwt.sign(
-        SecretKey(ApiConstants.jwtSecretKey),
-        // 💡 기기 시간 오차 문제를 방지하고, story_ticket의 만료 시간에 의존하기 위해 제거
-      );
-      requestData["bonus_token"] = token;
-    }
+    final requestData = {
+      "story_ticket": widget.storyTicket,
+      "bonus_score": _earnedBonusScore,
+    };
 
     try {
       final response = await ApiClient().dio.post(

@@ -9,6 +9,7 @@ from app import models
 from app.config import GameConfig, HEROINE_INFO, STORY_CONFIG, JWT_SECRET_KEY, ALGORITHM, ADMIN_SECRET_KEY, GameState, TimeZone
 from app.dependencies import get_db, get_current_user
 from app.services import GameLogicService
+from app.chat_service import ChatService
 
 router = APIRouter()
 
@@ -233,7 +234,12 @@ def check_story(user_id: str = Depends(get_current_user), db: Session = Depends(
     return {"status": "success", "current_zone": current_zone, "auto_play_story": auto_play}
 
 @router.post("/complete-story")
-def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = Body(None), user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+def complete_story(
+    story_ticket: str = Body(...),
+    bonus_score: int = Body(0),
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
     user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
     if not user:
         return {"status": "error"}
@@ -290,15 +296,11 @@ def complete_story(story_ticket: str = Body(...), bonus_token: Optional[str] = B
         if viewed_zone and viewed_zone in viewed_zone_names:
             return {"status": "error", "error_code": "ALREADY_CLEARED_ZONE"}
 
-    bonus_affection = 0
-    if bonus_token:
-        try:
-            b_payload = jwt.decode(bonus_token, JWT_SECRET_KEY, algorithms=[ALGORITHM], options={"verify_iat": False})
-            bonus_affection = b_payload.get("bonus", 0)
-        except jwt.PyJWTError as e:
-            print(f"🚨 보너스 토큰 디코딩 에러: {e}")
-            return {"status": "error", "error_code": "INVALID_BONUS_TOKEN"}
+    # 💡 보안 검증: 클라이언트 조작 방지를 위해 보너스 호감도 점수의 최대/최소 범위를 서버에서 직접 검증
+    if not (0 <= bonus_score <= GameConfig.MAX_BONUS_SCORE):
+        return {"status": "error", "error_code": "INVALID_BONUS_SCORE"}
 
+    bonus_affection = bonus_score
     heroine.affection += (GameConfig.BASE_STORY_SCORE + bonus_affection)
 
     if heroine.heroine_name == KOTORI_NAME and viewed_zone == TimeZone.AFTERNOON.value:
@@ -548,3 +550,46 @@ def admin_check_story(cheat_hour: int, admin_key: str = Header(...), user_id: st
         auto_play["story_ticket"] = jwt.encode(ticket_payload, JWT_SECRET_KEY, algorithm=ALGORITHM)
 
     return {"status": "success", "current_zone": current_zone, "auto_play_story": auto_play}
+
+@router.post("/chat/send")
+def send_chat_message(
+    heroine_name: str = Body(..., embed=True),
+    message: str = Body(..., embed=True),
+    chat_history: list = Body(..., embed=True),
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return {"status": "error", "error_code": "USER_NOT_FOUND"}
+    
+    # Get heroine progress for system prompt context
+    heroine_progress = db.query(models.HeroineProgress).filter(
+        models.HeroineProgress.user_id == user_id,
+        models.HeroineProgress.heroine_name == heroine_name
+    ).first()
+    
+    if not heroine_progress:
+        return {"status": "error", "error_code": "HEROINE_NOT_FOUND"}
+        
+    # Generate dynamic prompt
+    system_prompt = ChatService.generate_system_prompt(
+        heroine_name=heroine_name,
+        player_name=user.username,
+        affection=heroine_progress.affection,
+        current_day=heroine_progress.current_day,
+        game_state=user.game_state
+    )
+    
+    # Call LLM
+    reply = ChatService.get_llm_response(
+        system_prompt=system_prompt,
+        chat_history=chat_history,
+        user_message=message
+    )
+    
+    return {
+        "status": "success",
+        "reply": reply
+    }
+
