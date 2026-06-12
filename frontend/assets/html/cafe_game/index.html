@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <title>코토리 카페 미니게임 세로 미리보기</title>
+  <title>카페 미니게임</title>
   <style>
     @font-face {
       font-family: "YOnepick";
@@ -90,6 +90,22 @@
 
     .screen.active {
       display: block;
+      animation: screenFadeIn .28s ease;
+    }
+
+    .screen.leaving {
+      display: block;
+      animation: screenFadeOut .28s ease forwards;
+    }
+
+    @keyframes screenFadeIn {
+      from { opacity: 0; transform: scale(1.015); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes screenFadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(.985); }
     }
 
     .screen::before {
@@ -107,11 +123,14 @@
     }
 
     #cafeScreen::after {
-      content: "";
+      display: none;
+    }
+
+    .counter-overlay {
       position: absolute;
       inset: 0;
       background: url("cafe_main.png") center / cover no-repeat;
-      clip-path: inset(70.6% 0 0 0);
+      clip-path: inset(68% 0 0 0);
       pointer-events: none;
       z-index: 6;
     }
@@ -1130,9 +1149,9 @@
       background-image: url("cafe_main.png");
     }
 
-    #cafeScreen::after {
+    .counter-overlay {
       background: url("cafe_main.png") center / 100% 100% no-repeat;
-      clip-path: inset(68.8% 0 0 0);
+      clip-path: inset(67% 0 0 0);
     }
 
     #prepScreen::before {
@@ -1179,7 +1198,7 @@
 
     .cafe-customer {
       left: 24%;
-      bottom: 18.2%;
+      bottom: 17%;
       width: min(55%, 48vmin);
       height: 60%;
       z-index: 5;
@@ -1187,7 +1206,7 @@
 
     .speech {
       left: 7%;
-      top: 8.4%;
+      top: 16%;
       width: 86%;
       min-height: 13.7%;
       padding: 2vmin 2.35vmin 1.8vmin;
@@ -1218,7 +1237,7 @@
 
     .counter-actions {
       left: 7%;
-      top: 24.7%;
+      top: 32%;
       transform: translateY(1vmin);
       justify-content: center;
       width: 86%;
@@ -1559,6 +1578,28 @@
       }
     }
 
+    @keyframes walkOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(42vw);
+        opacity: 0;
+      }
+    }
+
+    @keyframes bubbleOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(.85);
+      }
+    }
+
     @keyframes idleBob {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-.55vmin); }
@@ -1636,7 +1677,7 @@
   </style>
 </head>
 <body>
-  <main class="shell" aria-label="코토리 카페 미니게임">
+  <main class="shell" aria-label="카페 미니게임">
     <section class="stage" id="stage">
       <div class="hud" aria-live="polite">
         <div class="hud-left">
@@ -1667,6 +1708,7 @@
 
         <button class="phone-hotspot" id="phoneButton" type="button" aria-label="핸드폰 열기"></button>
 
+        <div class="counter-overlay" id="counterOverlay"></div>
       </section>
 
       <section class="screen" id="prepScreen" aria-label="제조 화면">
@@ -1732,7 +1774,7 @@
           <div class="reward-line" id="rewardLine"></div>
           <div class="result-actions">
             <button class="primary" id="nextButton" type="button">다음 손님</button>
-            <button class="secondary" id="storyButton" type="button">코토리 스토리 보기 (행동력 +1)</button>
+            <button class="secondary" id="storyButton" type="button">스토리 보기 (행동력 +1)</button>
           </div>
         </div>
       </div>
@@ -1838,6 +1880,17 @@
         fail: "잠 깨랬지 기절시키랬냐고요."
       },
       {
+        name: "흑염룡 손님",
+        img: "customers/dark-flame.png",
+        type: "TROUBLEMAKER",
+        order: "차갑지만 따뜻한 어둠... 내 안의 용이 마실 검은 달을 줘.",
+        hint: "아이스 홍차에 초콜릿을 섞고 샷 하나.",
+        recipe: { temp: "ICE", shots: 1, ingredients: ["홍차", "초콜릿"], allowExtra: ["카라멜"] },
+        success: "크큭... 어둠이 달콤하군. 마음에 들었다.",
+        normal: "어둠은 있는데 용이 아직 알바 첫날 같군.",
+        fail: "이건 흑염룡이 아니라 춘장룡인데?"
+      },
+      {
         name: "방과 후 학생",
         img: "customers/student.png",
         type: "ABSTRACT",
@@ -1858,17 +1911,6 @@
         success: "여친분이 박수치고 남친분은 영수증을 못 봅니다.",
         normal: "맛있는데 휘핑이 조금 수줍어요.",
         fail: "남친분 표정이 결제 오류처럼 멈췄어요."
-      },
-      {
-        name: "흑염룡 손님",
-        img: "customers/dark-flame.png",
-        type: "TROUBLEMAKER",
-        order: "차갑지만 따뜻한 어둠... 내 안의 용이 마실 검은 달을 줘.",
-        hint: "아이스 홍차에 초콜릿을 섞고 샷 하나.",
-        recipe: { temp: "ICE", shots: 1, ingredients: ["홍차", "초콜릿"], allowExtra: ["카라멜"] },
-        success: "크큭... 어둠이 달콤하군. 마음에 들었다.",
-        normal: "어둠은 있는데 용이 아직 알바 첫날 같군.",
-        fail: "이건 흑염룡이 아니라 춘장룡인데?"
       },
       {
         name: "운동 끝난 헬창",
@@ -1979,6 +2021,9 @@
       statusLoaded: false
     };
 
+    const pendingRequests = {};
+    let requestId = 0;
+
     const PHONE_APP_TITLES = {
       "쇼핑": "쇼핑",
       "E-class": "E-class",
@@ -2077,13 +2122,37 @@
         configure: (config = {}) => {
           window.GPT2TEAM_CAFE_CONFIG = { ...(window.GPT2TEAM_CAFE_CONFIG || {}), ...config, enabled: true };
           configureBridge();
-          loadBridgeStatus();
         },
         setState: applyHostState,
-        refresh: loadBridgeStatus,
         openPhone: openPhonePreview,
-        closePhone: closePhonePreview
+        closePhone: closePhonePreview,
+        resolveRequest: (id, data) => {
+          if (pendingRequests[id]) {
+            pendingRequests[id].resolve(data);
+            delete pendingRequests[id];
+          }
+        },
+        rejectRequest: (id, msg) => {
+          if (pendingRequests[id]) {
+            pendingRequests[id].reject(new Error(msg));
+            delete pendingRequests[id];
+          }
+        }
       };
+    }
+
+    function bridgeRequest(type, payload) {
+      return new Promise((resolve, reject) => {
+        const id = ++requestId;
+        pendingRequests[id] = { resolve, reject };
+        notifyHost(type, { ...payload, _requestId: id });
+        window.setTimeout(() => {
+          if (pendingRequests[id]) {
+            delete pendingRequests[id];
+            reject(new Error("요청 시간 초과"));
+          }
+        }, 15000);
+      });
     }
 
     function applyHostState(data = {}) {
@@ -2102,7 +2171,7 @@
     }
 
     function notifyHost(type, payload = {}) {
-      const message = { source: "kotori-cafe-minigame", type, payload };
+      const message = { source: "cafe-minigame", type, payload };
       let delivered = false;
 
       try {
@@ -2127,40 +2196,16 @@
       } catch (_) {}
 
       try {
-        window.dispatchEvent(new CustomEvent("kotori-cafe-host-message", { detail: message }));
+        window.dispatchEvent(new CustomEvent("cafe-host-message", { detail: message }));
       } catch (_) {}
 
       return delivered;
     }
 
-    async function bridgeFetch(path, options = {}) {
-      if (!bridge.apiBase) return null;
-      const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
-      if (bridge.token) headers.Authorization = `Bearer ${bridge.token}`;
-      const response = await fetch(`${bridge.apiBase}${path}`, { ...options, headers });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error_code || data.detail || response.statusText);
-      }
-      return data;
-    }
-
-    async function loadBridgeStatus() {
-      if (!bridge.enabled || !bridge.apiBase) return;
-      try {
-        const data = await bridgeFetch(`/minigame/status?game_type=${encodeURIComponent(bridge.gameType)}`);
-        bridge.statusLoaded = true;
-        applyHostState(data);
-        notifyHost("status", data);
-      } catch (error) {
-        notifyHost("status_error", { message: error.message });
-      }
-    }
-
     function canStartCafeGame() {
       if (state.energy <= 0) return false;
       if (!bridge.enabled) return true;
-      return bridge.canPlay && bridge.storyCompleted;
+      return bridge.canPlay;
     }
 
     async function requestBridgeStart() {
@@ -2170,38 +2215,33 @@
       }
 
       try {
-        const data = await bridgeFetch("/minigame/start", {
-          method: "POST",
-          body: JSON.stringify({ game_type: bridge.gameType })
-        });
+        const data = await bridgeRequest("start_requested", { game_type: bridge.gameType });
         if (data?.status !== "success") {
           showToast(data?.error_code || "카페 미니게임을 시작할 수 없습니다.");
           return false;
         }
         applyHostState(data);
-        notifyHost("started", data);
         return true;
       } catch (error) {
-        notifyHost("start_error", { message: error.message });
         showToast(error.message || "카페 미니게임을 시작할 수 없습니다.");
-        await loadBridgeStatus();
         return false;
       }
     }
 
     async function submitBridgeReward(result, latteArt) {
       if (!bridge.enabled) return null;
-      const data = await bridgeFetch("/minigame/reward", {
-        method: "POST",
-        body: JSON.stringify({
+      try {
+        const data = await bridgeRequest("reward_requested", {
           game_type: bridge.gameType,
           result,
           latte_art: Boolean(latteArt)
-        })
-      });
-      applyHostState(data);
-      notifyHost("reward", data);
-      return data;
+        });
+        applyHostState(data);
+        return data;
+      } catch (error) {
+        notifyHost("reward_error", { message: error.message, result });
+        return null;
+      }
     }
 
     function init() {
@@ -2453,7 +2493,6 @@
     function updateHud() {
       els.energyText.textContent = `${state.energy}`;
       els.moneyText.textContent = formatWon(state.money);
-      els.storyButton.style.display = "";
       els.makeButton.disabled = !canStartCafeGame();
       if (!canStartCafeGame()) {
         if (state.energy <= 0) {
@@ -2512,7 +2551,7 @@
     async function startMaking() {
       if (!canStartCafeGame()) {
         if (bridge.enabled && !bridge.storyCompleted) {
-          showToast("코토리 스토리를 먼저 완료해주세요.");
+          showToast("스토리를 먼저 완료해주세요.");
         } else {
           showToast("행동력이 부족합니다. 스토리를 보면 행동력이 1 회복돼요.");
         }
@@ -2577,11 +2616,24 @@
 
 
     function switchScreen(name) {
+      const prev = state.screen;
       state.screen = name;
       if (name !== "cafe") closePhonePreview();
       els.stage.classList.toggle("prep-mode", name === "prep");
-      els.cafeScreen.classList.toggle("active", name === "cafe");
-      els.prepScreen.classList.toggle("active", name === "prep");
+
+      const toScreen = name === "cafe" ? els.cafeScreen : els.prepScreen;
+      const fromScreen = prev === "cafe" ? els.cafeScreen : els.prepScreen;
+
+      if (fromScreen !== toScreen) {
+        toScreen.classList.add("active");
+        fromScreen.classList.add("leaving");
+        window.setTimeout(() => {
+          fromScreen.classList.remove("active", "leaving");
+        }, 300);
+      } else {
+        toScreen.classList.add("active");
+      }
+
       if (name === "prep") {
         requestAnimationFrame(() => {
           resizeLatteCanvas();
@@ -2633,7 +2685,7 @@
           "탄산수": "기포가 톡톡 올라옵니다.",
           "펄": "펄이 컵 아래로 떨어졌어요.",
           "휘핑크림": "휘핑이 폭신하게 올라갔어요.",
-          "춘장": "코토리가 조용히 눈을 크게 떴습니다.",
+          "춘장": "점장이 조용히 눈을 크게 떴습니다.",
           "시금치": "건강한 기운이 너무 앞서갑니다."
         };
         showToast(messages[ingredient.name] || `${ingredient.name} 추가`);
@@ -2965,12 +3017,6 @@
       }
       updateHud();
 
-      const titles = {
-        success: "대만족",
-        normal: "괜찮은 반응",
-        fail: "실패",
-        funny: "웃긴 실패"
-      };
       let line = customer[result] || customer.fail;
       if (result === "funny") {
         line = danger === "춘장" ? "춘장 왜 넣었어요ㅋㅋ 이건 음료가 아니라 사건인데요?" : "건강해지긴 했는데, 제가 원한 건 카페였어요.";
@@ -2982,13 +3028,32 @@
         line += made.temp ? ` 온도가 반대였어요.` : " 컵 온도부터 골라야 했어요.";
       }
 
-      els.reactionTitle.textContent = titles[result];
-      els.reactionLine.textContent = line;
-      els.rewardLine.textContent = tip > 0 ? `매출 +${formatWon(reward)}, 팁 +${formatWon(tip)}` : `매출 +${formatWon(reward)}`;
-      els.resultImage.src = customer.img;
-      els.resultLayer.classList.add("show");
-      els.nextButton.disabled = false;
-      els.nextButton.textContent = "다음 손님";
+      const rewardText = tip > 0 ? `매출 +${formatWon(reward)}, 팁 +${formatWon(tip)}` : `매출 +${formatWon(reward)}`;
+
+      resetCup();
+      switchScreen("cafe");
+
+      els.customerName.textContent = customer.name;
+      els.orderText.textContent = line;
+      showToast(rewardText);
+
+      els.makeButton.style.display = "none";
+      els.listenButton.style.display = "none";
+
+      const exitDuration = 2600;
+      const animDuration = 550;
+
+      window.setTimeout(() => {
+        els.cafeCustomer.style.animation = `walkOut ${animDuration}ms ease-in forwards`;
+        const bubble = document.getElementById("speechBubble");
+        bubble.style.animation = `bubbleOut ${animDuration}ms ease-in forwards`;
+      }, exitDuration - animDuration);
+
+      window.setTimeout(() => {
+        els.makeButton.style.display = "";
+        els.listenButton.style.display = "";
+        nextCustomer();
+      }, exitDuration);
     }
 
     function closeResult() {
@@ -2999,19 +3064,14 @@
 
     function watchStory() {
       if (bridge.enabled) {
-        notifyHost("story_requested", { heroine_name: "코토리" });
-        showToast("코토리 스토리로 돌아간 뒤, 다시 미니게임에 와주세요.");
+        notifyHost("story_requested", {});
+        showToast("스토리로 돌아간 뒤, 다시 미니게임에 와주세요.");
         return;
       }
       state.energy = state.energy + 1;
-      state.money += 0;
       updateHud();
-      showToast("짧은 코토리 스토리를 보고 행동력이 1 회복됐어요.");
-      if (els.resultLayer.classList.contains("show")) {
-        queueNextCustomer(true);
-      } else {
-        switchScreen("cafe");
-      }
+      showToast("짧은 스토리를 보고 행동력이 1 회복됐어요.");
+      switchScreen("cafe");
     }
 
     function showToast(message) {

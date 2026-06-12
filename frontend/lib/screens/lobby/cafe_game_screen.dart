@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import '../../core/api_client.dart';
 
 class CafeGameScreen extends StatefulWidget {
   final int actionPoints;
@@ -29,6 +30,7 @@ class CafeGameScreen extends StatefulWidget {
 
 class _CafeGameScreenState extends State<CafeGameScreen> {
   final WebViewController _controller = WebViewController();
+  final ApiClient _api = ApiClient();
   bool _isLoading = true;
 
   @override
@@ -52,7 +54,7 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
     try {
       _setupWebView();
     } catch (e) {
-      debugPrint('🚨 카페 미니게임 로드 실패: $e');
+      debugPrint('카페 미니게임 로드 실패: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -71,20 +73,19 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
       ..setNavigationDelegate(NavigationDelegate(
         onPageFinished: (_) {
           _controller.runJavaScript('''
-            if (typeof GPT2TeamCafeGame !== 'undefined' && GPT2TeamCafeGame.setState) {
-              GPT2TeamCafeGame.setState({
+            if (typeof GPT2TeamCafeGame !== 'undefined' && GPT2TeamCafeGame.configure) {
+              GPT2TeamCafeGame.configure({
                 day: ${widget.day},
                 ap: ${widget.actionPoints},
                 money: ${widget.money},
-                storyCompleted: true,
-                canPlay: true
+                canPlay: ${widget.actionPoints > 0}
               });
             }
           ''');
           if (mounted) setState(() => _isLoading = false);
         },
         onWebResourceError: (error) {
-          debugPrint('🚨 WebView 리소스 에러: ${error.description}');
+          debugPrint('WebView 리소스 에러: ${error.description}');
         },
       ))
       ..addJavaScriptChannel(
@@ -103,14 +104,13 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
       final payload = data['payload'] as Map<String, dynamic>? ?? {};
 
       switch (type) {
-        case 'reward':
-          final earned = payload['earned_money'] as int? ?? 0;
-          widget.onRewardEarned?.call(earned);
+        case 'start_requested':
+          final requestId = payload['_requestId'] as int?;
+          if (requestId != null) _handleStartRequest(requestId);
           break;
-        case 'status':
-          if (payload.containsKey('current_ap')) {
-            widget.onAPChanged?.call(payload['current_ap'] as int);
-          }
+        case 'reward_requested':
+          final requestId = payload['_requestId'] as int?;
+          if (requestId != null) _handleRewardRequest(requestId, payload);
           break;
         case 'story_requested':
           _closeCafeGame();
@@ -123,6 +123,57 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
           break;
       }
     } catch (_) {}
+  }
+
+  Future<void> _handleStartRequest(int requestId) async {
+    try {
+      final res = await _api.dio.post(
+        '/minigame/start',
+        data: {'game_type': 'cafe_kotori'},
+      );
+      final data = res.data as Map<String, dynamic>;
+      final jsonStr = jsonEncode(data).replaceAll('\\', '\\\\').replaceAll("'", "\\'");
+      _controller.runJavaScript(
+        "GPT2TeamCafeGame.resolveRequest($requestId, JSON.parse('$jsonStr'));",
+      );
+      if (data['status'] == 'success' && data.containsKey('current_ap')) {
+        widget.onAPChanged?.call(data['current_ap'] as int);
+      }
+    } catch (e) {
+      _controller.runJavaScript(
+        "GPT2TeamCafeGame.rejectRequest($requestId, '행동력을 차감할 수 없습니다.');",
+      );
+      debugPrint('minigame/start 에러: $e');
+    }
+  }
+
+  Future<void> _handleRewardRequest(int requestId, Map<String, dynamic> payload) async {
+    try {
+      final res = await _api.dio.post(
+        '/minigame/reward',
+        data: {
+          'game_type': 'cafe_kotori',
+          'result': payload['result'],
+          'latte_art': payload['latte_art'] ?? false,
+        },
+      );
+      final data = res.data as Map<String, dynamic>;
+      final jsonStr = jsonEncode(data).replaceAll('\\', '\\\\').replaceAll("'", "\\'");
+      _controller.runJavaScript(
+        "GPT2TeamCafeGame.resolveRequest($requestId, JSON.parse('$jsonStr'));",
+      );
+      if (data.containsKey('earned_money')) {
+        widget.onRewardEarned?.call(data['earned_money'] as int);
+      }
+      if (data.containsKey('current_ap')) {
+        widget.onAPChanged?.call(data['current_ap'] as int);
+      }
+    } catch (e) {
+      _controller.runJavaScript(
+        "GPT2TeamCafeGame.rejectRequest($requestId, '보상 동기화 실패');",
+      );
+      debugPrint('minigame/reward 에러: $e');
+    }
   }
 
   void _openPhoneFromCafe() {
