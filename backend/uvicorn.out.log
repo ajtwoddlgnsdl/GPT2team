@@ -1,0 +1,31 @@
+INFO:     127.0.0.1:60837 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58882 - "POST /auth/guest-login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58886 - "POST /auth/guest-login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:58904 - "POST /auth/guest-login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61875 - "POST /auth/guest-login HTTP/1.1" 500 Internal Server Error
+INFO:     127.0.0.1:61876 - "GET /check-story HTTP/1.1" 401 Unauthorized
+ INFO:     127.0.0.1:57665 - "GET /docs HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57680 - "POST /auth/guest-login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57680 - "GET /check-story HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57689 - "POST /auth/guest-login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57689 - "GET /check-story HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57689 - "POST /complete-story HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61074 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61107 - "GET /check-story HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61167 - "POST /complete-story HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61167 - "GET /server-time HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61167 - "GET /user/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61175 - "GET /album/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61189 - "GET /album/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56402 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56402 - "GET /check-story HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56402 - "GET /server-time HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56402 - "GET /user/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62853 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62934 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61538 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62363 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56858 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53554 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58750 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53332 - "POST /login?user_id=55d40e7f-3208-4fac-a523-51d03887ee68 HTTP/1.1" 200 OK

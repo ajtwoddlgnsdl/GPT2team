@@ -243,11 +243,12 @@
     "text": "아이, 이 정도 소리가 뭐…"
   },
   {
-    "text": "캐릭터_리안_실외_화남"
+    
   },
   {
     "speaker": "리안",
-    "text": "'이 정도'요?"
+    "text": "'이 정도'요?",
+    "character_image": "assets/images/character/리안/리안_실외_화남.png"
   },
   {
     "text": "리안의 목소리가 한 톤 뚝 떨어졌다."

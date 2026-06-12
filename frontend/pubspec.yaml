@@ -40,6 +40,8 @@ dependencies:
   dart_jsonwebtoken: ^2.14.0
   flutter_dotenv: ^6.0.0
   webview_flutter: ^4.13.1
+  sqflite: ^2.4.2+1
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:
@@ -70,8 +72,13 @@ flutter:
     - assets/scripts/intro2/이서연/
     - assets/scripts/intro2/리안/
     - assets/scripts/main/코토리/
+    - assets/scripts/main/리안/
     - assets/scripts/ending/코토리/
+    - assets/scripts/chat_script/코토리/
+    - assets/scripts/chat_script/이서연/
+    - assets/scripts/chat_script/리안/
     - assets/images/bg/
+
     - assets/images/character/코토리/
     - assets/images/character/이서연/
     - assets/images/character/리안/

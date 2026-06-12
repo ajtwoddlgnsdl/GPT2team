@@ -13,7 +13,11 @@ ADMIN_SECRET_KEY = os.getenv("ADMIN_SECRET_KEY")
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = "HS256"
 
+LLM_API_URL = os.getenv("LLM_API_URL", "http://localhost:11434/v1/chat/completions")
+LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "qwen2.5:3b")
+
 if not JWT_SECRET_KEY or not ADMIN_SECRET_KEY:
+
     logger.error("🚨 환경변수에 시크릿 키가 설정되지 않았습니다! .env 파일을 확인하세요.")
 
 class GameState(str, Enum):
