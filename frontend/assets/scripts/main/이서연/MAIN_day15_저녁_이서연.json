@@ -1,0 +1,299 @@
+[
+  {
+    "speaker": "",
+    "text": "마감 한 시간 전. 손님이 뜸해진 틈을 타 매장을 정리하면서도, 나도 모르게 자꾸만 유리창 너머를 힐끔거렸다."
+  },
+  {
+    "speaker": "",
+    "text": "어제 아침, 현관문 앞에서 입술만 달싹이다 돌아선 서연 씨 때문이었다. '내일도 마감까지 하세요?' 그 한마디가 하루 종일 귓가를 맴돌았다. 오늘 카페에 오겠다는 뜻이었을까, 아니면 그저 지나가듯 해본 말이었을까."
+  },
+  {
+    "speaker": "",
+    "text": "딸랑— 맑은 종소리와 함께 유리문이 열렸다. 서연 씨였다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "따뜻한 아메리카노 한 잔 주세요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "늘 앉으시던 자리, 비어 있어요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "그녀는 말없이 작게 고개를 끄덕이고는 창가 자리로 걸음을 옮겼다. 평소와 달리 오늘은 노트북을 꺼내지 않았다. 그저 두 손으로 머그잔을 감싸 쥔 채, 어두워진 창밖만 우두커니 바라볼 뿐이었다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "마감 정리를 마치고 밖으로 나오자 제법 선선한 밤공기가 뺨을 스쳤다. 집을 향해 나란히 몇 걸음 걷던 그녀가 문득 자리에 멈춰 섰다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "{name} 씨.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "네?",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……조금만, 돌아서 가도 돼요? 강변 쪽으로요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "뜻밖의 제안이었다. 하지만 가로등 불빛 아래 비친 그녀의 표정을 본 순간, 나는 아무것도 묻지 않고 고개를 끄덕였다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "밤의 강변은 낮과는 전혀 다른 얼굴을 하고 있었다. 규칙적으로 늘어선 가로등 불빛이 검은 수면 위로 길게 일렁였다. 지난 공휴일에 함께 걸었던 그 산책로를 우리는 천천히 걷기 시작했다. 그녀의 걸음은 그날처럼 느릿했다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "한참을 말없이 걷기만 하던 그녀가 마침내 입을 열었다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "어제 아침에, 하려다 만 말이 있었어요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "알고 있었어요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……티가 났나요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "엘리베이터 안에서 입이 세 번쯤 열렸다 닫혔거든요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "그녀는 한숨인지 웃음인지 모를 소리를 작게 내쉬더니, 늘 들고 다니던 텀블러 대신 빈 두 손을 코트 주머니에 넣었다 빼기를 반복했다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "며칠 전에 카페에서, 예전에 같이 일했던 사람 얘기 했었잖아요. 뭘 해도 한 번에 통과시키던 분이요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "기억나요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "그날 집에 돌아가서…… 통 잠을 못 잤어요. 어디까지 솔직하게 말해야 할까, 밤새 생각했거든요. 어제 아침엔 결국 입이 안 떨어지더라고요. 빵을 사면서 혼자 했던 결심이 무색하게도요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "그녀는 다시 손을 주머니에 찔러 넣었다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "그래서 오늘은…… 그냥 남김없이 말하려고요. 또 하루 미루면, 영영 입 밖으로 못 꺼낼 것 같아서요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "검은 강물로 시선을 던진 채, 그녀의 목소리가 조심스레 이어졌다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "전 직장에서 팀 프로젝트를 하나 맡았어요. 그런데 제가 맡은 파트에서…… 치명적인 수치 오류가 났어요. 검토를 세 번이나 거쳤는데도 잡아내질 못했죠. 그게 보고서에 그대로 실렸고, 결국 클라이언트 앞에서 터져버렸어요. 팀 전체가 고스란히 피해를 떠안았고, 팀장님이 저 대신 고개를 숙이셨어요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "근데 있잖아요. 그때 제가 제일 무서웠던 건, 혼나는 게 아니었어요. 팀원들 모두가 저한테 '괜찮아, 그럴 수 있지'라고 했거든요. ……저는 그 말이 제일 무서웠어요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "괜찮다는 다정한 말 뒤에서, 사람들이 속으로 저를 어떻게 생각하고 있을지 도무지 알 수가 없었으니까요. 차라리 누군가 화를 냈다면 딱 거기까지였을 텐데. 그 일 이후로는 누가 웃으며 말을 걸어와도 머릿속으로 계속 따지게 되더라고요. 저게 진심일까. 아닐까. 혹시 내가 또 뭔가를 놓친 건 아닐까.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "주머니 속에 있던 그녀의 손이 밖으로 나와, 또다시 습관처럼 손톱 주변으로 향했다. 그러다 흠칫 멈춰 섰다. 서연 씨는 허공에 멈춘 자신의 손을 가만히 내려다보더니, 아주 천천히 다시 주머니 속으로 밀어 넣었다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "결국 회사를 옮겼어요. 이 동네로 이사 온 것도 그때쯤이고요. ……솔직히 말하면 도망친 거예요. 새로 시작하려던 게 아니라. 그래서 처음 이곳에 왔을 땐, 옆집에 누가 사는지조차 알고 싶지 않았어요. 다시 사람과 엮이는 게…… 너무 무서워서요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "처음 엘리베이터 앞에서 그녀와 마주쳤던 날이 뇌리를 스쳤다. 굳게 다물려 있던 입술, 오직 닫힌 문만 뚫어져라 응시하던 시선. 그건 나를 향한 차가운 경계가 아니라, 웅크린 채 떠는 두려움이었다.",
+    "character_image": "assets/images/character/이서연_기본.png",
+    "choices": [
+      {
+        "text": "실수 한 번으로 그 사람의 전부가 결정되는 건 아니에요.",
+        "bonus_score": 3,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "실수 한 번으로 그 사람의 전부가 결정되는 건 아니에요.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          },
+          {
+            "speaker": "",
+            "text": "느릿하던 그녀의 걸음이 우뚝 멈췄다. 가로등 불빛 아래서 천천히 나를 돌아보는 그녀의 눈가가 옅게 붉어져 있었다.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          },
+          {
+            "speaker": "이서연",
+            "text": "그렇게 말해주는 사람, 처음이에요.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          }
+        ]
+      },
+      {
+        "text": "도망친 거라도 괜찮아요. 무서우면 도망치는 게 정상이에요.",
+        "bonus_score": 2,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "도망친 거라도 괜찮아요. 무서운 곳에서 도망치는 건 잘못이 아니라, 지극히 정상적인 거니까요.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          },
+          {
+            "speaker": "이서연",
+            "text": "정상… 전 제가 어딘가 단단히 고장 났다고만 생각했는데.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          },
+          {
+            "speaker": "",
+            "text": "그녀는 그 단어를 입안에서 작게 굴려보았다.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          }
+        ]
+      },
+      {
+        "text": "그래서 매일 그렇게 불안해 보였던 거군요.",
+        "bonus_score": 1,
+        "next_lines": [
+          {
+            "speaker": "{name}",
+            "text": "그래서…… 매일 아침마다 그렇게 불안해 보이셨던 거군요.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          },
+          {
+            "speaker": "이서연",
+            "text": "……티가 많이 났었나 보네요. 나름대로는 숨긴다고 숨긴 건데.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          },
+          {
+            "speaker": "",
+            "text": "그녀는 자조하듯 쓰게 웃었다.",
+            "character_image": "assets/images/character/이서연_기본.png"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "speaker": "",
+    "text": "우리는 다시 묵묵히 걸음을 옮겼다. 한동안 잔잔한 강물 소리만이 두 사람 사이의 공백을 채웠다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "이런 얘기, 다른 사람한테 꺼내본 거 처음이에요. 이사 와서 처음 마주쳤을 때만 해도, 옆집 사람이랑 강변을 걸으며 이런 대화를 나누고 있을 줄은 정말 꿈에도 몰랐는데.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "저도 마찬가지예요. 솔직히 처음엔 서연 씨가 좀 무서웠거든요. 표정이 너무 없으셔서.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……제가 무서웠어요?",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "네. 먼저 인사했다가 차갑게 무시당하면 어쩌나 하고 눈치 엄청 봤죠.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "그쪽도 그런 생각을 다 하네요?",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "그럼요. 사람 사는 거 다 똑같죠.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "그녀는 내 말을 가만히 곱씹듯 잠시 입을 다물었다가, 아주 작게 중얼거렸다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……다들, 하는구나.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "어느덧 익숙한 오피스텔 복도에 다다랐다. 각자의 현관문 앞, 도어록에 손을 올리려던 그녀가 천천히 나를 돌아보았다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "오늘…… 무거운 얘기 묵묵히 들어줘서.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "말끝을 흐린 그녀가 잠시 숨을 골랐다. 으레 튀어나오려던 습관적인 사과의 말을 삼켜내고, 다른 모양으로 입술을 달싹였다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "……고마워요. 죄송한 게 아니라, 고마워요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "{name}",
+    "text": "사과 대신 고맙다는 말, 아주 잘하셨어요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "이서연",
+    "text": "열심히 연습 중이에요.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "그녀는 오늘 본 중 가장 편안하고 옅은 미소를 지어 보이고는, 조심스레 문 안으로 사라졌다.",
+    "character_image": "assets/images/character/이서연_기본.png"
+  },
+  {
+    "speaker": "",
+    "text": "굳게 닫힌 문을 한참 동안 바라보았다. 첫날 아침, 나를 마주치자마자 도망치듯 로비를 빠져나가던 사람이 오늘은 제 발로 다가와 가장 깊고 무서운 이야기를 꺼내놓았다. 그간 그녀가 건너온 마음의 거리가 얼마나 멀고 험했을지, 나는 어렴풋이나마 짐작할 수 있을 것 같았다."
+  }
+]

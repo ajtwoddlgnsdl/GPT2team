@@ -27,7 +27,7 @@
   {
     "speaker": "",
     "text": "문을 열고 나서자, 익숙한 실루엣이 먼저 눈에 들어왔다.",
-    "character_image": "assets/images/character/이서연_기본.jpg",
+    "character_image": "assets/images/character/이서연_기본.png",
     "bg_image":"assets/images/bg/Elevator1.jpg"
   },
   {
@@ -49,7 +49,7 @@
   {
     "speaker": "이서연",
     "text": "앗…….",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -66,7 +66,7 @@
           {
             "speaker": "이서연",
             "text": "아……",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연_기본.png"
           },
           {
             "speaker": "{name}",
@@ -79,7 +79,7 @@
           {
             "speaker": "이서연",
             "text": "감사합니다...",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -98,7 +98,7 @@
           {
             "speaker": "이서연",
             "text": "아, 먼저 내려가셔도 괜찮아요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연_기본.png"
           },
           {
             "speaker": "{name}",
@@ -107,7 +107,7 @@
           {
             "speaker": "이서연",
             "text": "아…",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -116,7 +116,7 @@
           {
             "speaker": "이서연",
             "text": "감사합니다...",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연_기본.png"
           }
         ]
       }
@@ -125,12 +125,12 @@
   {
     "speaker": "",
     "text": "가방을 겨우 정리한 그녀는 습관처럼 텀블러를 가볍게 쥐었다 폈다를 반복했다.",
-    "bg_image":"assets/images/bg/Elevator2.jpg"
+    "bg_image":"assets/images/bg/Elevator2.png"
   },
   {
     "speaker": "이서연",
     "text": "저기…",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -143,7 +143,7 @@
   {
     "speaker": "이서연",
     "text": "원래 이렇게 덤벙대는 성격이 아닌데… 아침이라 제가 조금 정신이 없었나 봐요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -156,7 +156,7 @@
   {
     "speaker": "이서연",
     "text": "네… 감사합니다....",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -165,12 +165,12 @@
   {
     "speaker": "",
     "text": "엘리베이터 문이 열렸다. 이서연은 한 발짝 먼저 나서다가, 잠깐 멈춰 서서 고개를 살짝 돌렸다.",
-    "bg_image":"assets/images/bg/morninglobby.jpg"
+    "bg_image":"assets/images/bg/morninglobby.png"
   },
   {
     "speaker": "이서연",
     "text": "먼저 가보겠습니다. 좋은 하루 되세요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연_기본.png"
   },
   {
     "speaker": "{name}",
