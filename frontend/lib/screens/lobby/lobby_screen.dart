@@ -732,6 +732,7 @@ class _LobbyScreenState extends State<LobbyScreen>
                                     builder: (_) => MinigameScreen(
                                       actionPoints: _studyAp,
                                       currentDay: _serverDay,
+                                      playerName: _playerName,
                                       onClose: () =>
                                           Navigator.of(context).pop(),
                                       onRewardEarned: (earned) {

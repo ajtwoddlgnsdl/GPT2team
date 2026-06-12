@@ -413,6 +413,12 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
                       color: _getTextColor(sender),
                       fontSize: 14.5,
                       height: 1.35,
+                      fontFamilyFallback: const [
+                        'Apple Color Emoji',
+                        'Noto Color Emoji',
+                        'Segoe UI Emoji',
+                        'EmojiOne Color',
+                      ],
                     ),
                   ),
                 ),
@@ -527,6 +533,9 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
       isEnabled = false;
     } else if (isLimitReached) {
       hintText = "오늘의 대화 가능 횟수를 소진했습니다.";
+      isEnabled = false;
+    } else if (roomState.isTyping) {
+      hintText = "${widget.heroineName}님이 입력 중입니다...";
       isEnabled = false;
     }
 
