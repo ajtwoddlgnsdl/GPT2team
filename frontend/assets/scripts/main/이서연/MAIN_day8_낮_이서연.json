@@ -7,12 +7,12 @@
   {
     "speaker": "",
     "text": "이서연 씨는 이미 로비에 나와 있었다. 부드러운 감촉의 니트에 깔끔한 코트 차림이었다. 평소 항상 분신처럼 쥐고 다니던 서류 가방 대신, 가벼운 작은 에코백을 어깨에 메고 있었다. 늘 입던 각 잡힌 정장이 아니라서 그런지, 풍기는 분위기가 한결 부드럽고 화사해 보였다.",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "이서연",
     "text": "안녕하세요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -21,7 +21,7 @@
   {
     "speaker": "이서연",
     "text": "어때요…?",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -34,7 +34,7 @@
   {
     "speaker": "이서연",
     "text": "그런가요…",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -44,7 +44,7 @@
     "speaker": "",
     "text": "우리는 강변까지 걸어서 이동했다. 강변에 도착해서는 강변을 따라 걸었다. 바람이 조금 찼지만 기분은 상쾌했다. 그런데 걷다 보니 이서연 씨의 걸음걸이가 꽤 빨랐다. 평일 아침 출근할 때의 강박적인 습관이 몸에 배어 있는 것처럼, 그녀는 무의식적으로 나보다 반 발짝씩 앞서서 걷고 있었다.",
     "bg_image":"assets/images/bg/park.jpg",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -53,7 +53,7 @@
   {
     "speaker": "이서연",
     "text": "네?",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -62,12 +62,12 @@
   {
     "speaker": "이서연",
     "text": "…….",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "이서연",
     "text": "아, 저도 모르게 습관적으로….",
-    "character_image": "assets/images/character/이서연_기본.jpg",
+    "character_image": "assets/images/character/이서연/이서연_기본.png",
     "choices": [
       {
         "text": "오늘은 천천히 걷는 거 어때요?",
@@ -80,7 +80,7 @@
           {
             "speaker": "이서연",
             "text": "천천히요?",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "{name}",
@@ -89,7 +89,7 @@
           {
             "speaker": "이서연",
             "text": "……느리네요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "{name}",
@@ -98,7 +98,7 @@
           {
             "speaker": "이서연",
             "text": "산책이니까…….",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           }
         ]
       },
@@ -109,7 +109,7 @@
           {
             "speaker": "이서연",
             "text": "진심이에요?",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -130,7 +130,7 @@
   {
     "speaker": "이서연",
     "text": "차 좀 드실래요?",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -139,7 +139,7 @@
   {
     "speaker": "이서연",
     "text": "아, 네…… 그냥 빈손으로 나오면 왠지 모르게 불안해서요. 뭐라도 가방에 챙겨야 마음이 놓이는 성격이라...",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -156,7 +156,7 @@
   {
     "speaker": "이서연",
     "text": "캐모마일이요. 단 건 별로 안 좋아해서... 아, 잠이 안 올 때 마시기에도 좋아요..",
-    "character_image": "assets/images/character/이서연_기본.jpg",
+    "character_image": "assets/images/character/이서연/이서연_기본.png",
     "choices": [
       {
         "text": "저도 가끔 잠이 안 올 때가 있더라고요. 서연 씨는 그럴 때 뭐 해요?",
@@ -169,7 +169,7 @@
           {
             "speaker": "이서연",
             "text": "……일해요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "{name}",
@@ -178,7 +178,7 @@
           {
             "speaker": "이서연",
             "text": "네…… 이상한 거 아는데, 그냥 가만히 누워서 뒤척이는 것보다는 차라리 뭐라도 붙잡고 있는 게 마음이 편해서요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           }
         ]
       },
@@ -193,12 +193,12 @@
           {
             "speaker": "이서연",
             "text": "있는 것 같기도 하고, 없는 것 같기도 해요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "이서연",
             "text": "그냥 마시는 행위 자체가 일종의 루틴이에요. 그렇게 하면 마음속 불안함이 조금은 덜해지니까요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           }
         ]
       }
@@ -216,7 +216,7 @@
   {
     "speaker": "이서연",
     "text": "오늘 같이 시간 보내주셔서 감사해요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -229,11 +229,11 @@
   {
     "speaker": "이서연",
     "text": "……다음에도.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "이서연",
     "text": "네. 다음에도 같이 가요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   }
 ]

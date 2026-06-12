@@ -2,7 +2,7 @@
   {
     "speaker": "",
     "text": "삐삐삐삐—",
-    "bg_image": "assets/images/bg/morningroom.jpg"
+    "bg_image": "assets/images/bg/morningroom..jpg"
   },
   {
     "speaker": "",
@@ -28,7 +28,7 @@
   {
     "speaker": "",
     "text": "한참을 고민하다 결국 옷을 갈아 입고 문을 열고 복도로 나섰다. 8시가 조금 넘은 시간이라 그런지 엘리베이터 앞은 비어 있었다.",
-    "bg_image": "assets/images/bg/Elevator1.png.jpg"
+    "bg_image": "assets/images/bg/Elevator1.jpg"
   },
   {
     "speaker": "{name}",
@@ -45,7 +45,7 @@
   {
     "speaker": "",
     "text": "문이 열리는 소리에, 반사적으로 고개가 돌아갔다. 옆집 문에서 이서연이 튀어나왔다. 매일 손에 들려 있던 텀블러가 보이지 않는다. 대신 한 손에는 가방을, 다른 한 손에는 노트북을 위태롭게 들고 있었다. 눈 밑의 그림자가 어제보다 훨씬 짙다.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "이서연",
@@ -66,7 +66,7 @@
   {
     "speaker": "이서연",
     "text": "안녕하세요…",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -92,7 +92,7 @@
   {
     "speaker": "이서연",
     "text": "……저기, 실례지만.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -101,7 +101,7 @@
   {
     "speaker": "이서연",
     "text": "혹시 오늘 오전에 시간 되시나요?",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -114,7 +114,7 @@
   {
     "speaker": "이서연",
     "text": "오늘 오전 중으로 택배가 하나 오거든요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -123,17 +123,17 @@
   {
     "speaker": "이서연",
     "text": "그 택배가 냉동 식품인데… 제가 지금 상황이…… 택배를 받을 수가 없는 상황이라서요…",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "이서연",
     "text": "이런 부탁 드려서 정말 죄송한데……",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "이서연",
     "text": "혹시, 대신 좀 받아서 잠시만 냉동고에 넣어주실 수 있으시나요...?",
-    "character_image": "assets/images/character/이서연_기본.jpg",
+    "character_image": "assets/images/character/이서연/이서연_기본.png",
     "choices": [
       {
         "text": "네, 받아놓을게요.",
@@ -146,7 +146,7 @@
           {
             "speaker": "이서연",
             "text": "이거 제 연락처예요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -155,7 +155,7 @@
           {
             "speaker": "이서연",
             "text": "혹시 문제 생기시면 여기로 연락 하시면 되요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           }
         ]
       },
@@ -166,7 +166,7 @@
           {
             "speaker": "이서연",
             "text": "오전 9시에서 10시 사이라고 했어요… ",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "{name}",
@@ -179,7 +179,7 @@
           {
             "speaker": "이서연",
             "text": "바쁘실 텐데 무리한 부탁 드려서 정말 죄송합니다.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -188,7 +188,7 @@
           {
             "speaker": "이서연",
             "text": "이거 제 연락처인데, 혹시 문제 생기시면 여기로 연락 주세요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           }
         ]
       }
@@ -210,7 +210,7 @@
   {
     "speaker": "",
     "text": "집에 들어와 도서관에서 하려던 과제를 하기 위해 노트북을 켰다. 레포트 문서를 열었지만, 화면에서는 빈 커서만 깜빡일 뿐이었다.",
-    "bg_image": "assets/images/bg/morningroom.png.jpg"
+    "bg_image": "assets/images/bg/morningroom..jpg"
   },
   {
     "speaker": "",

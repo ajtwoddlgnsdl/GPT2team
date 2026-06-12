@@ -2,7 +2,7 @@
   {
     "speaker": "",
     "text": "삐삐삐삐—",
-    "bg_image": "assets/images/bg/morningroom.jpg"
+    "bg_image": "assets/images/bg/morningroom..jpg"
   },
   {
     "speaker": "",
@@ -24,7 +24,7 @@
     "speaker": "",
     "text": "복도로 나서자, 엘리베이터 앞에 이서연 씨가 서 있었다.",
     "bg_image":"assets/images/bg/Elevator1.jpg",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -41,7 +41,7 @@
   {
     "speaker": "이서연",
     "text": "아, 네. 안녕하세요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -71,7 +71,7 @@
   {
     "speaker": "이서연",
     "text": "네. 좀...",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",

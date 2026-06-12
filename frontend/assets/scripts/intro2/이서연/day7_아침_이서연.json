@@ -2,7 +2,7 @@
   {
     "speaker": "",
     "text": "일요일이라 오랜만에 늦잠을 잤다. 핸드폰을 들어 시간을 확인하니 벌써 11시다.",
-    "bg_image": "assets/images/bg/morningroom.jpg"
+    "bg_image": "assets/images/bg/morningroom..jpg"
   },
   {
     "speaker": "{name}",
@@ -11,7 +11,7 @@
   {
     "speaker": "",
     "text": "간단히 먹을 걸 사러 대충 옷을 주워 입고 슬리퍼를 꿰어 신었다. 뻗친 머리는 손으로 대충 눌러 정리한 채 집을 나섰다. 주말 낮의 편의점은 한산했다. 점심을 대충 때우기 위해 도시락 코너 앞에서 서성이고 있는데, 옆쪽 진열대에서 눈에 익은 옆모습이 보였다.",
-    "character_image": "assets/images/character/이서연_기본.jpg",
+    "character_image": "assets/images/character/이서연/이서연_기본.png",
     "bg_image":"assets/images/bg/conveniencestore.jpg"
   },
   {
@@ -25,7 +25,7 @@
   {
     "speaker": "이서연",
     "text": "어?",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -34,7 +34,7 @@
   {
     "speaker": "이서연",
     "text": "아, 안녕하세요.",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -43,7 +43,7 @@
   {
     "speaker": "이서연",
     "text": "식사 하셨나요?",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -52,7 +52,7 @@
   {
     "speaker": "이서연",
     "text": "저도 아직 못 먹었어요.",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -61,7 +61,7 @@
   {
     "speaker": "이서연",
     "text": "여기서요…?",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -74,7 +74,7 @@
   {
     "speaker": "이서연",
     "text": "그래요. 같이 먹어요.",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -83,7 +83,7 @@
   {
     "speaker": "이서연",
     "text": "주말엔 거의 집 밖에 안 나와서 옷차림을 신경 쓸 일이 없거든요. 설마 여기서 아는 사람을 마주칠 줄은 몰랐네요…….",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -100,7 +100,7 @@
           {
             "speaker": "이서연",
             "text": "…….",
-            "character_image": "assets/images/character/이서연_기본.png"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -109,7 +109,7 @@
           {
             "speaker": "이서연",
             "text": "감사합니다...",
-            "character_image": "assets/images/character/이서연_기본.png"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           }
         ]
       },
@@ -124,7 +124,7 @@
           {
             "speaker": "이서연",
             "text": "역시 좀 그런가요...",
-            "character_image": "assets/images/character/이서연_기본.png"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -149,7 +149,7 @@
   {
     "speaker": "이서연",
     "text": "저기, {name} 씨. 혹시 내일…….",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -158,7 +158,7 @@
   {
     "speaker": "이서연",
     "text": "……아니에요. 아무것도.",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -167,7 +167,7 @@
   {
     "speaker": "이서연",
     "text": "별거 아니에요. 신경 쓰지 마세요.",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -180,7 +180,7 @@
   {
     "speaker": "이서연",
     "text": "오늘…… 같이 먹어서 좋았어요.",
-    "character_image": "assets/images/character/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",

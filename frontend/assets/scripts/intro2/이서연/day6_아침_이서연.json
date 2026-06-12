@@ -2,7 +2,7 @@
   {
     "speaker": "{name}",
     "text": "'오늘이구나.'",
-    "bg_image": "assets/images/bg/morningroom.jpg"
+    "bg_image": "assets/images/bg/morningroom..jpg"
   },
   {
     "speaker": "",
@@ -28,12 +28,12 @@
   {
     "speaker": "",
     "text": "이서연 씨는 이미 도착해 있었다. 평일의 딱딱한 정장과는 달리, 오늘은 한결 편안해 보이는 니트 차림이라 풍기는 분위기가 사뭇 달라 보였다.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "이서연",
     "text": "안녕하세요. 일찍 오셨네요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -42,7 +42,7 @@
   {
     "speaker": "이서연",
     "text": "다행이에요. 마음에 안 드실까 봐 걱정했거든요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -55,7 +55,7 @@
   {
     "speaker": "이서연",
     "text": "{name} 씨는…… 평일 낮에는 보통 뭐 하세요?",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -64,7 +64,7 @@
   {
     "speaker": "이서연",
     "text": "아…… 학업이랑 병행하기 힘드실 텐데.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -73,7 +73,7 @@
   {
     "speaker": "이서연",
     "text": "쉬려고 노력은 하는데, 그게 마음처럼 잘 안 되네요. 회사 일이 머릿속에서 잘 안 떠나서요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -82,7 +82,7 @@
   {
     "speaker": "이서연",
     "text": "아…… 죄송해요. 잠깐 확인해도 될까요?",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -111,7 +111,7 @@
           {
             "speaker": "이서연",
             "text": "아…….",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -124,7 +124,7 @@
           {
             "speaker": "이서연",
             "text": "…….",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -143,7 +143,7 @@
           {
             "speaker": "이서연",
             "text": "아, 아니에요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -160,7 +160,7 @@
   {
     "speaker": "이서연",
     "text": "오늘, 나와주셔서 감사해요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -169,7 +169,7 @@
   {
     "speaker": "이서연",
     "text": "저 혼자 먹는 것보다 훨씬…….",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -178,7 +178,7 @@
   {
     "speaker": "이서연",
     "text": "맛있었어요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -187,7 +187,7 @@
   {
     "speaker": "이서연",
     "text": "{name} 씨.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
@@ -200,7 +200,7 @@
   {
     "speaker": "이서연",
     "text": "월요일 아침에 봬요.",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "{name}",
