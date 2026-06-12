@@ -61,8 +61,8 @@
       height: 100vh;
       height: 100dvh;
       display: grid;
-      place-items: center;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      place-items: start stretch;
+      padding: 0;
       background:
         radial-gradient(circle at 24% 12%, rgba(255, 232, 178, .3), transparent 32%),
         linear-gradient(135deg, #5c4736, #282018 65%, #201914);
@@ -75,9 +75,9 @@
       max-width: 100vw;
       max-height: 100dvh;
       overflow: hidden;
-      border-radius: min(1.25vmin, 8px);
+      border-radius: 0;
       background: #f6d8a8;
-      box-shadow: 0 1.4vmin 4vmin rgba(0, 0, 0, .42);
+      box-shadow: none;
       isolation: isolate;
     }
 
@@ -278,6 +278,11 @@
       line-height: 1.36;
       word-break: keep-all;
       overflow-wrap: anywhere;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .order-type {
@@ -626,6 +631,7 @@
       text-align: center;
       z-index: 6;
       pointer-events: none;
+      overflow: hidden;
     }
 
     .order-card .small-title {
@@ -634,9 +640,9 @@
 
     .order-card p {
       margin: 0;
-      max-height: 100%;
       display: -webkit-box;
-      -webkit-line-clamp: 6;
+      -webkit-line-clamp: 5;
+      line-clamp: 5;
       -webkit-box-orient: vertical;
       overflow: hidden;
       text-align: center;
@@ -1091,28 +1097,28 @@
       }
     }
 
-    /* Portrait preview overrides */
+    /* Portrait: fill entire screen like lobby */
     :root {
-      --stage-w: min(100vw, calc(100vh * 941 / 1672));
-      --stage-h: min(100vh, calc(100vw * 1672 / 941));
+      --stage-w: 100vw;
+      --stage-h: 100vh;
     }
 
     @supports (height: 100dvh) {
       :root {
-        --stage-w: min(100vw, calc(100dvh * 941 / 1672));
-        --stage-h: min(100dvh, calc(100vw * 1672 / 941));
+        --stage-w: 100vw;
+        --stage-h: 100dvh;
       }
     }
 
     .stage.prep-mode {
-      --stage-w: min(100vw, calc(100vh * 864 / 1821));
-      --stage-h: min(100vh, calc(100vw * 1821 / 864));
+      --stage-w: 100vw;
+      --stage-h: 100vh;
     }
 
     @supports (height: 100dvh) {
       .stage.prep-mode {
-        --stage-w: min(100vw, calc(100dvh * 864 / 1821));
-        --stage-h: min(100dvh, calc(100vw * 1821 / 864));
+        --stage-w: 100vw;
+        --stage-h: 100dvh;
       }
     }
 
@@ -1172,10 +1178,10 @@
     }
 
     .cafe-customer {
-      left: 29%;
+      left: 24%;
       bottom: 18.2%;
-      width: min(47%, 38vmin);
-      height: 54%;
+      width: min(55%, 48vmin);
+      height: 60%;
       z-index: 5;
     }
 
@@ -1203,6 +1209,11 @@
     .order-text {
       font-size: clamp(13px, 2.05vmin, 19px);
       line-height: 1.34;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .counter-actions {
@@ -1343,8 +1354,8 @@
     }
 
     .cup {
-      width: 9.8vmin;
-      height: 13.5vmin;
+      width: 22vmin;
+      height: 29vmin;
     }
 
     .cup-label {
@@ -1356,11 +1367,11 @@
 
     .order-card {
       left: 60.05%;
-      top: 19%;
+      top: 26%;
       width: 34.05%;
-      height: 17.5%;
-      padding: 4.8vmin 1.6vmin 1vmin;
-      z-index: 6;
+      height: 11%;
+      padding: 1.2vmin 1.6vmin 1vmin;
+      overflow: hidden;
     }
 
     .order-card .small-title {
@@ -1372,8 +1383,9 @@
     }
 
     .order-card p {
-      font-size: clamp(8px, 1.15vmin, 12px);
-      -webkit-line-clamp: 5;
+      font-size: clamp(9px, 1.3vmin, 13px);
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
       line-height: 1.3;
     }
 
@@ -1628,12 +1640,11 @@
     <section class="stage" id="stage">
       <div class="hud" aria-live="polite">
         <div class="hud-left">
-          <span class="badge compact" id="dayBadge">Day 5</span>
           <span class="badge time" id="timeBadge">--:--</span>
           <span class="badge" id="dateBadge">--</span>
         </div>
         <div class="hud-right">
-          <span class="badge energy"><span class="icon energy-icon">⚡</span><span id="energyText">5/10</span></span>
+          <span class="badge energy"><span class="icon energy-icon">⚡</span><span id="energyText">5</span></span>
           <span class="badge money"><span class="icon money-icon">₩</span><span id="moneyText">12,000원</span></span>
         </div>
       </div>
@@ -2025,7 +2036,6 @@
       nextButton: document.getElementById("nextButton"),
       storyButton: document.getElementById("storyButton"),
       toast: document.getElementById("toast"),
-      dayBadge: document.getElementById("dayBadge"),
       timeBadge: document.getElementById("timeBadge"),
       dateBadge: document.getElementById("dateBadge"),
       energyText: document.getElementById("energyText"),
@@ -2438,13 +2448,12 @@
       const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
       els.timeBadge.textContent = now.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
       els.dateBadge.textContent = `${now.getMonth() + 1}/${now.getDate()} ${weekdays[now.getDay()]}요일`;
-      els.dayBadge.textContent = `Day ${state.day}`;
     }
 
     function updateHud() {
-      els.energyText.textContent = `${state.energy}/10`;
+      els.energyText.textContent = `${state.energy}`;
       els.moneyText.textContent = formatWon(state.money);
-      els.storyButton.style.display = state.energy >= 10 ? "none" : "";
+      els.storyButton.style.display = "";
       els.makeButton.disabled = !canStartCafeGame();
       if (!canStartCafeGame()) {
         if (state.energy <= 0) {
@@ -2994,7 +3003,7 @@
         showToast("코토리 스토리로 돌아간 뒤, 다시 미니게임에 와주세요.");
         return;
       }
-      state.energy = Math.min(10, state.energy + 1);
+      state.energy = state.energy + 1;
       state.money += 0;
       updateHud();
       showToast("짧은 코토리 스토리를 보고 행동력이 1 회복됐어요.");
