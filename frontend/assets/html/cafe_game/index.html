@@ -129,10 +129,25 @@
     .counter-overlay {
       position: absolute;
       inset: 0;
-      background: url("cafe_main.png") center / cover no-repeat;
-      clip-path: inset(68% 0 0 0);
       pointer-events: none;
       z-index: 6;
+    }
+
+    .counter-overlay::before,
+    .counter-overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("cafe_main.png") center / cover no-repeat;
+      pointer-events: none;
+    }
+
+    .counter-overlay::before {
+      clip-path: inset(66.4% 0 0 0);
+    }
+
+    .counter-overlay::after {
+      clip-path: polygon(0 53.6%, 36% 53.6%, 36% 64.3%, 0 64.3%);
     }
 
     #prepScreen::before {
@@ -218,7 +233,7 @@
     .cafe-customer {
       position: absolute;
       left: 22.8%;
-      bottom: 6.2%;
+      bottom: 5.2%;
       width: min(30%, 40vmin);
       height: 66%;
       display: grid;
@@ -226,16 +241,22 @@
       transform: translateX(-42vw);
       opacity: 0;
       z-index: 5;
-      animation: walkIn .62s cubic-bezier(.2, .88, .24, 1.1) forwards;
+      animation: walkIn .72s cubic-bezier(.18, .78, .24, 1) forwards;
     }
 
     .cafe-customer img {
+      --customer-x: 0%;
+      --customer-y: 0%;
+      --customer-scale: 1;
+      width: 100%;
+      height: auto;
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
       filter: drop-shadow(0 .7vmin 1vmin rgba(55, 33, 18, .28));
       transform-origin: 50% 100%;
-      animation: idleBob 2.4s ease-in-out infinite;
+      will-change: transform;
+      animation: customerIdle 5.2s cubic-bezier(.45, 0, .55, 1) infinite;
     }
 
     .speech {
@@ -876,25 +897,6 @@
       animation: whipPop .25s ease-out;
     }
 
-    .latte-canvas {
-      position: absolute;
-      left: 23%;
-      top: 21%;
-      width: 54%;
-      height: 37%;
-      z-index: 7;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .18s ease;
-    }
-
-    .latte-canvas.enabled {
-      opacity: .78;
-      pointer-events: auto;
-      cursor: crosshair;
-      touch-action: none;
-    }
-
     .cup-label {
       position: absolute;
       left: 50%;
@@ -1150,8 +1152,20 @@
     }
 
     .counter-overlay {
+      background: none;
+    }
+
+    .counter-overlay::before,
+    .counter-overlay::after {
       background: url("cafe_main.png") center / 100% 100% no-repeat;
-      clip-path: inset(67% 0 0 0);
+    }
+
+    .counter-overlay::before {
+      clip-path: inset(66.4% 0 0 0);
+    }
+
+    .counter-overlay::after {
+      clip-path: polygon(0 53.6%, 36% 53.6%, 36% 64.3%, 0 64.3%);
     }
 
     #prepScreen::before {
@@ -1197,8 +1211,8 @@
     }
 
     .cafe-customer {
-      left: 24%;
-      bottom: 17%;
+      left: 28.5%;
+      bottom: 17.8%;
       width: min(55%, 48vmin);
       height: 60%;
       z-index: 5;
@@ -1568,12 +1582,16 @@
     }
 
     @keyframes walkIn {
-      from {
-        transform: translateX(-42vw);
+      0% {
+        transform: translateX(-42vw) translateY(.7vmin) scale(.98);
         opacity: 0;
       }
-      to {
-        transform: translateX(0);
+      72% {
+        transform: translateX(.8vmin) translateY(.05vmin) scale(1.004);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(0) translateY(0) scale(1);
         opacity: 1;
       }
     }
@@ -1600,9 +1618,16 @@
       }
     }
 
-    @keyframes idleBob {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-.55vmin); }
+    @keyframes customerIdle {
+      0%, 100% {
+        transform: translate(var(--customer-x), var(--customer-y)) rotate(0deg) scale(var(--customer-scale));
+      }
+      34% {
+        transform: translate(var(--customer-x), var(--customer-y)) translateY(.12vmin) rotate(-.18deg) scale(var(--customer-scale)) scale(1.002, .998);
+      }
+      68% {
+        transform: translate(var(--customer-x), var(--customer-y)) translateY(-.16vmin) rotate(.2deg) scale(var(--customer-scale)) scale(.998, 1.003);
+      }
     }
 
     @keyframes bubbleIn {
@@ -1745,7 +1770,6 @@
             <div class="cup pop" id="cup" role="button" aria-label="완성 음료를 손님에게 드래그해서 전달">
               <div class="cup-body" id="cupBody">
                 <div class="liquid" id="liquid"></div>
-                <canvas class="latte-canvas" id="latteCanvas"></canvas>
               </div>
               <div class="cup-outline"></div>
               <div class="cup-label" id="cupLabel">빈 컵</div>
@@ -1759,7 +1783,6 @@
 
           <div class="prep-actions">
             <button class="mini-btn" id="backButton" type="button">카운터로</button>
-            <button class="mini-btn" id="latteButton" type="button" disabled>라떼아트</button>
           </div>
         </div>
       </section>
@@ -1991,6 +2014,20 @@
       }
     ];
 
+    const CUSTOMER_IMAGE_LAYOUT = {
+      "customers/office-worker.png": { scale: 1, x: "0%", y: "0%" },
+      "customers/dark-flame.png": { scale: .997, x: "25.53%", y: "0%" },
+      "customers/student.png": { scale: 1.019, x: "13.21%", y: "0%" },
+      "customers/couple.png": { scale: .997, x: "16.57%", y: "0%" },
+      "customers/gym-bro.png": { scale: .987, x: "18.97%", y: "0%" },
+      "customers/poet.png": { scale: .983, x: "26.10%", y: "0%" },
+      "customers/child.png": { scale: 1.168, x: "10.52%", y: "10.27%" },
+      "customers/sns-girl.png": { scale: 1.057, x: "-2.24%", y: "5.95%" },
+      "customers/grandma.png": { scale: 1.079, x: "23.08%", y: "6.97%" },
+      "customers/beanie-boy.png": { scale: .775, x: "13.14%", y: "4.57%" },
+      "customers/complainer.png": { scale: .922, x: "12.28%", y: "5.20%" }
+    };
+
     const state = {
       energy: 5,
       money: 12000,
@@ -2001,14 +2038,12 @@
       cup: {
         temp: null,
         shots: 0,
-        ingredients: [],
-        latteArt: false
+        ingredients: []
       },
       drag: null,
       shelfPage: 0,
       shelfDrag: null,
-      suppressIngredientClick: false,
-      latteDrawing: false
+      suppressIngredientClick: false
     };
 
     const bridge = {
@@ -2071,8 +2106,6 @@
       orderMemo: document.getElementById("orderMemo"),
       trashButton: document.getElementById("trashButton"),
       backButton: document.getElementById("backButton"),
-      latteButton: document.getElementById("latteButton"),
-      latteCanvas: document.getElementById("latteCanvas"),
       resultLayer: document.getElementById("resultLayer"),
       resultImage: document.getElementById("resultImage"),
       reactionTitle: document.getElementById("reactionTitle"),
@@ -2228,13 +2261,12 @@
       }
     }
 
-    async function submitBridgeReward(result, latteArt) {
+    async function submitBridgeReward(result) {
       if (!bridge.enabled) return null;
       try {
         const data = await bridgeRequest("reward_requested", {
           game_type: bridge.gameType,
-          result,
-          latte_art: Boolean(latteArt)
+          result
         });
         applyHostState(data);
         return data;
@@ -2252,10 +2284,8 @@
       setInterval(tickClock, 1000 * 20);
       nextCustomer();
       updateHud();
-      resizeLatteCanvas();
       updateShelfPosition();
       window.addEventListener("resize", () => {
-        resizeLatteCanvas();
         updateShelfPosition();
       });
       loadBridgeStatus();
@@ -2279,17 +2309,12 @@
       els.shotButton.addEventListener("click", addShot);
       els.trashButton.addEventListener("click", resetCup);
       els.backButton.addEventListener("click", () => switchScreen("cafe"));
-      els.latteButton.addEventListener("click", toggleLatteArt);
       els.nextButton.addEventListener("click", queueNextCustomer);
       els.storyButton.addEventListener("click", watchStory);
       els.cup.addEventListener("pointerdown", startCupDrag);
       window.addEventListener("pointermove", moveCupDrag);
       window.addEventListener("pointerup", endCupDrag);
       window.addEventListener("pointercancel", endCupDrag);
-      els.latteCanvas.addEventListener("pointerdown", startLatteDraw);
-      els.latteCanvas.addEventListener("pointermove", moveLatteDraw);
-      els.latteCanvas.addEventListener("pointerup", stopLatteDraw);
-      els.latteCanvas.addEventListener("pointercancel", stopLatteDraw);
       els.ingredientShelf.addEventListener("pointerdown", startShelfDrag);
       window.addEventListener("pointermove", moveShelfDrag, { passive: false });
       window.addEventListener("pointerup", endShelfDrag);
@@ -2351,7 +2376,7 @@
     }
 
     function startShelfDrag(event) {
-      if (state.screen !== "prep" || state.drag || state.latteDrawing || !isShelfPoint(event)) return;
+      if (state.screen !== "prep" || state.drag || !isShelfPoint(event)) return;
       if (event.button !== undefined && event.button !== 0) return;
 
       const ingredientEl = event.target.closest(".ingredient-hotspot");
@@ -2535,6 +2560,7 @@
       const customer = state.currentCustomer;
       els.customerImage.src = customer.img;
       els.customerImage.alt = customer.name;
+      applyCustomerImageLayout(customer.img);
       els.resultImage.src = customer.img;
       els.customerName.textContent = customer.name;
       els.orderText.textContent = customer.order;
@@ -2546,6 +2572,13 @@
       document.getElementById("speechBubble").style.animation = "none";
       document.getElementById("speechBubble").offsetHeight;
       document.getElementById("speechBubble").style.animation = "";
+    }
+
+    function applyCustomerImageLayout(imgPath) {
+      const layout = CUSTOMER_IMAGE_LAYOUT[imgPath] || CUSTOMER_IMAGE_LAYOUT["customers/office-worker.png"];
+      els.customerImage.style.setProperty("--customer-scale", layout.scale);
+      els.customerImage.style.setProperty("--customer-x", layout.x);
+      els.customerImage.style.setProperty("--customer-y", layout.y);
     }
 
     async function startMaking() {
@@ -2636,7 +2669,6 @@
 
       if (name === "prep") {
         requestAnimationFrame(() => {
-          resizeLatteCanvas();
           updateShelfPosition();
         });
       }
@@ -2717,8 +2749,7 @@
       state.cup = {
         temp: null,
         shots: 0,
-        ingredients: [],
-        latteArt: false
+        ingredients: []
       };
       els.hotButton.classList.remove("selected");
       els.iceButton.classList.remove("selected");
@@ -2729,7 +2760,6 @@
       els.cup.style.left = "";
       els.cup.style.top = "";
       els.cup.style.transform = "";
-      clearLatteCanvas();
       renderCup();
       els.cup.classList.remove("shake", "dragging");
       els.cup.classList.add("pop");
@@ -2775,11 +2805,6 @@
         els.cupBody.appendChild(whip);
       }
 
-      const canLatte = state.day >= 5 && hasMilkBase() && fill > 20;
-      els.latteButton.disabled = !canLatte;
-      if (!canLatte) {
-        els.latteCanvas.classList.remove("enabled");
-      }
       els.deliveryZone.classList.toggle("ready", cup.temp && visibleItems.length > 0);
       els.cupLabel.textContent = labelCup();
     }
@@ -2789,10 +2814,6 @@
       const count = state.cup.ingredients.length + state.cup.shots;
       if (count === 0) return `${state.cup.temp} 컵`;
       return `${state.cup.temp} · ${count}개`;
-    }
-
-    function hasMilkBase() {
-      return state.cup.ingredients.includes("우유") || state.cup.ingredients.includes("두유") || state.cup.ingredients.includes("연유");
     }
 
     function addIceCubes(count) {
@@ -2913,67 +2934,6 @@
       return ax > b.left && ax < b.right && ay > b.top && ay < b.bottom;
     }
 
-    function toggleLatteArt() {
-      if (els.latteButton.disabled) return;
-      state.cup.latteArt = !state.cup.latteArt;
-      resizeLatteCanvas();
-      els.latteCanvas.classList.toggle("enabled", state.cup.latteArt);
-      showToast(state.cup.latteArt ? "컵 위에 손가락으로 라떼아트를 그려보세요." : "라떼아트 모드를 껐어요.");
-    }
-
-    function resizeLatteCanvas() {
-      const rect = els.latteCanvas.getBoundingClientRect();
-      const ratio = window.devicePixelRatio || 1;
-      els.latteCanvas.width = Math.max(1, Math.floor(rect.width * ratio));
-      els.latteCanvas.height = Math.max(1, Math.floor(rect.height * ratio));
-      const ctx = els.latteCanvas.getContext("2d");
-      ctx.scale(ratio, ratio);
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.strokeStyle = "rgba(255,255,255,.9)";
-      ctx.lineWidth = Math.max(3, rect.width * .035);
-    }
-
-    function clearLatteCanvas() {
-      const canvas = els.latteCanvas;
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      canvas.classList.remove("enabled");
-    }
-
-    function getCanvasPoint(event) {
-      const rect = els.latteCanvas.getBoundingClientRect();
-      return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
-      };
-    }
-
-    function startLatteDraw(event) {
-      if (!state.cup.latteArt) return;
-      event.preventDefault();
-      state.latteDrawing = true;
-      const ctx = els.latteCanvas.getContext("2d");
-      const point = getCanvasPoint(event);
-      ctx.beginPath();
-      ctx.moveTo(point.x, point.y);
-    }
-
-    function moveLatteDraw(event) {
-      if (!state.latteDrawing || !state.cup.latteArt) return;
-      event.preventDefault();
-      const ctx = els.latteCanvas.getContext("2d");
-      const point = getCanvasPoint(event);
-      ctx.lineTo(point.x, point.y);
-      ctx.stroke();
-    }
-
-    function stopLatteDraw() {
-      if (!state.latteDrawing) return;
-      state.latteDrawing = false;
-      showToast("라떼아트가 컵 위에 번졌어요.");
-    }
-
     async function evaluateDrink() {
       const customer = state.currentCustomer;
       const recipe = customer.recipe;
@@ -2998,12 +2958,12 @@
         result = "normal";
       }
 
-      let reward = result === "success" ? 2500 + (made.latteArt ? 500 : 0) : result === "normal" ? 1800 : result === "funny" ? 700 : 900;
-      let tip = result === "success" ? 700 + (made.latteArt ? 300 : 0) : 0;
+      let reward = result === "success" ? 2500 : result === "normal" ? 1800 : result === "funny" ? 700 : 900;
+      let tip = result === "success" ? 700 : 0;
 
       if (bridge.enabled) {
         try {
-          const rewardData = await submitBridgeReward(result, made.latteArt);
+          const rewardData = await submitBridgeReward(result);
           if (rewardData) {
             reward = Number(rewardData.earned_money ?? reward);
             tip = Number(rewardData.tip ?? 0);
