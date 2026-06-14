@@ -230,7 +230,7 @@
     },
     {
         "text":  "잠깐 이쪽을 보더니 크림 찹쌀떡 세트를 들었다.",
-        "character_image":  "assets/images/character/리안/리안_실내_헤드폰_미소.png"
+        "character_image":  "assets/images/character/리안/리안_실내_미소.png"
     },
     {
         "text":  "리안의 집으로 돌아왔다.",
@@ -336,7 +336,7 @@
                                                {
                                                    "speaker":  "리안",
                                                    "text":  "이상한 소리.",
-                                                   "character_image":  "assets/images/character/리안/리안_실내_헤드폰_미소.png"
+                                                   "character_image":  "assets/images/character/리안/리안_실내_미소.png"
                                                },
                                                {
                                                    "text":  "이상하다고 하는데 기분 나빠 보이지 않는다."
@@ -452,7 +452,7 @@
     {
         "speaker":  "리안",
         "text":  "갈 수도 있고.",
-        "character_image":  "assets/images/character/리안/리안_실내_헤드폰_미소.png"
+        "character_image":  "assets/images/character/리안/리안_실내_미소.png"
     },
     {
         "text":  "창밖을 보면서 말한다. 이쪽을 안 본다."
@@ -472,7 +472,7 @@
     },
     {
         "text":  "신발을 신고 나왔다.",
-        "bg_image":  "assets/images/bg/rian_home_ground_floor.png",
+        "bg_image":  "assets/images/bg/cafe_street.jpg",
         "character_image":  null
     },
     {

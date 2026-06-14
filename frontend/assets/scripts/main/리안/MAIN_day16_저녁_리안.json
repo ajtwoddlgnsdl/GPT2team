@@ -135,7 +135,7 @@
           },
           {
             "text": "커서를 움직였지만 바로 지우지는 않았다.",
-            "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
+            "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png.png"
           }
         ]
       }
@@ -297,7 +297,7 @@
   },
   {
     "text": "리안은 결국 소파에 기대 앉았다.",
-    "character_image": "assets/images/character/리안/리안_실내_기본.png"
+    "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png.png"
   },
   {
     "speaker": "리안",

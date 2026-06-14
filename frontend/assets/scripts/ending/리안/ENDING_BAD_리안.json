@@ -26,15 +26,15 @@
     "text": "먼저 가."
   },
   {
-    "text": "행사장 옆 골목 끝에서 익숙한 뒷모습이 보였다.",
-    "character_image": "assets/images/character/리안/리안_실외_기본.png"
+    "text": "행사장 옆 골목 끝에서 익숙한 뒷모습이 보였다."
   },
   {
     "speaker": "{name}",
     "text": "리안."
   },
   {
-    "text": "리안이 멈췄지만 돌아보지는 않았다."
+    "text": "리안이 돌아봤다.",
+    "bg_image": "assets/images/bg/ENDING_BAD_rian.png"
   },
   {
     "speaker": "리안",
@@ -104,7 +104,7 @@
   },
   {
     "text": "며칠 뒤 리안의 건물 앞을 지났을 때 창문은 어두웠다.",
-    "bg_image": "assets/images/bg/rian_home_ground_floor.png"
+    "bg_image": "assets/images/bg/rian_cafe_street_night.png"
   },
   {
     "text": "가방에는 피크 모양 키링이 그대로 달려 있었다."

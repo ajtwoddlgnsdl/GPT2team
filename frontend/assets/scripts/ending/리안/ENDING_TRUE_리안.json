@@ -74,7 +74,8 @@
   },
   {
     "text": "리안이 시선을 피했다가 다시 마주쳤다.",
-    "character_image": "assets/images/character/리안/리안_실외_미소.png"
+    "bg_image": "assets/images/bg/ENDING_TRUE_rian.png",
+    "character_image": "null"
   },
   {
     "speaker": "리안",

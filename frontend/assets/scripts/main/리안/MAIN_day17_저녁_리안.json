@@ -1,26 +1,8 @@
 [
   {
-    "text": "해가 진 후, 연달아 도착한 메시지",
+    "text": "리안의 문자가 아무래도 심상치 않다.",
     "bg_image": "assets/images/bg/lobby_night.jpg",
     "character_image": null
-  },
-  {
-    "speaker": "리안",
-    "text": "혹시 지금 올 수 있어?"
-  },
-  {
-    "speaker": "리안",
-    "text": "아니 됐다."
-  },
-  {
-    "speaker": "리안",
-    "text": "오지 마."
-  },
-  {
-    "text": "세 메시지가 거의 동시에 도착했다."
-  },
-  {
-    "text": "어제의 기침 소리가 떠올랐다."
   },
   {
     "text": "리안의 집으로 가기 전, 필요한 것을 챙기기로 했다."

@@ -79,7 +79,10 @@
     "text": "이번엔 옆에서 어렵게 생각할게."
   },
   {
-    "text": "리안이 잠깐 걸음을 멈췄다."
+    "text": "리안이 잠깐 걸음을 멈췄다.",
+    "bg_image": "assets/images/bg/ENDING_NORMAL_rian.png",
+    "character_image": null
+
   },
   {
     "speaker": "리안",

@@ -1,0 +1,50 @@
+[
+  {
+    "speaker": "리안",
+    "text": "오늘 저녁 시간 돼?"
+  },
+  {
+    "speaker": "리안",
+    "text": "꽃집 앞으로 나와."
+  },
+  {
+    "action": "choice",
+    "choices": [
+      {
+        "text": "알겠어. 이따 갈게.",
+        "next_lines": [
+          {
+            "speaker": "리안",
+            "text": "늦지 말고."
+          }
+        ]
+      },
+      {
+        "text": "무슨 일인데?",
+        "next_lines": [
+          {
+            "speaker": "리안",
+            "text": "소리 좀 녹음하려고."
+          },
+          {
+            "speaker": "리안",
+            "text": "같이 걸어."
+          }
+        ]
+      },
+      {
+        "text": "나 보고 싶어서?",
+        "next_lines": [
+          {
+            "speaker": "리안",
+            "text": "아니거든."
+          },
+          {
+            "speaker": "리안",
+            "text": "아무튼 나와."
+          }
+        ]
+      }
+    ]
+  }
+]

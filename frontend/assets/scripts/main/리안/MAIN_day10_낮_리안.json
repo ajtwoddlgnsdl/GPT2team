@@ -99,7 +99,8 @@
     },
     {
         "speaker":  "???",
-        "text":  "여기 블루베리 스무디 하나, 바닐라라떼 하나 마시고 갈게요"
+        "text":  "여기 블루베리 스무디 하나, 바닐라라떼 하나 마시고 갈게요",
+        "character_image": null
     },
     {
         "speaker":  "{name}",
@@ -131,11 +132,13 @@
         "text":  "이런 작은 화면으로도 작업하는 구나."
     },
     {
-        "text":  "한참 후, 리안이 카운터로 왔다."
+        "text":  "한참 후, 리안이 카운터로 왔다.",
+        "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
         "speaker":  "리안",
         "text":  "야."
+
     },
     {
         "speaker":  "{name}",
