@@ -1,8 +1,7 @@
 [
   {
     "text": "해가 진 후, 리안의 집",
-    "bg_image": "assets/images/bg/rian_home.png",
-    "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png"
+    "bg_image": "assets/images/bg/rian_home.png"
   },
   {
     "text": "공모전은 내일이었다."
@@ -33,7 +32,8 @@
   },
   {
     "speaker": "리안",
-    "text": "어."
+    "text": "어.",
+    "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png"
   },
   {
     "text": "리안이 소파 쪽으로 손짓했다."

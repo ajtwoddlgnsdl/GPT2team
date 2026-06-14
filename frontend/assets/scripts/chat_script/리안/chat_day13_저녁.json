@@ -1,0 +1,34 @@
+[
+  {
+    "speaker": "리안",
+    "text": "오늘 시간 돼?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "어, 왜?"
+  },
+  {
+    "speaker": "리안",
+    "text": "장비 사러 가야 하는데."
+  },
+  {
+    "speaker": "리안",
+    "text": "같이 가."
+  },
+  {
+    "speaker": "{name}",
+    "text": "내가 가면 뭐가 달라?"
+  },
+  {
+    "speaker": "리안",
+    "text": "짐 들어줄 수 있잖아."
+  },
+  {
+    "speaker": "{name}",
+    "text": "……짐꾼."
+  },
+  {
+    "speaker": "리안",
+    "text": "어울려"
+  }
+]

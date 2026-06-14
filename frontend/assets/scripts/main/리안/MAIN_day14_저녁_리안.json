@@ -12,7 +12,7 @@
   },
   {
     "text": "리안이 들어왔다.",
-    "character_image": "assets/images/character/리안/리안_실외_기본.png"
+    "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png"
   },
   {
     "speaker": "{name}",
@@ -175,15 +175,16 @@
     ]
   },
   {
-    "text": "잠시 뒤 리안이 헤드폰 한쪽을 내밀었다.",
-    "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png"
+    "text": "잠시 뒤 리안이 헤드폰을 내렸다.",
+            "bg_image": "assets/images/bg/rian_day14_event.png",
+            "character_image": null
   },
   {
     "speaker": "리안",
     "text": "들어봐."
   },
   {
-    "text": "한쪽을 받아 귀에 댔다."
+    "text": "노트북에서 나오는 소리에 집중한다."
   },
   {
     "text": "방금 전까지 평범했던 카페 소리가 잘게 잘려 박자 사이에 놓여 있었다."
@@ -249,7 +250,7 @@
           },
           {
             "text": "대수롭지 않게 말했지만 입가가 아주 조금 풀렸다.",
-            "character_image": "assets/images/character/리안/리안_실내_헤드폰_미소.png"
+            "character_image": "assets/images/character/리안/리안_실외_미소.png"
           }
         ]
       },
@@ -291,8 +292,7 @@
             "text": "됐어. 못 알아들었으면."
           },
           {
-            "text": "리안이 재생을 멈췄다.",
-            "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
+            "text": "리안이 재생을 멈췄다."
           }
         ]
       }
@@ -302,8 +302,7 @@
     "text": "마감 시간이 가까워졌다."
   },
   {
-    "text": "리안은 녹음기를 챙기면서 테이블 위를 한 번 둘러봤다.",
-    "character_image": "assets/images/character/리안/리안_실외_기본.png"
+    "text": "리안은 녹음기를 챙기면서 테이블 위를 한 번 둘러봤다."
   },
   {
     "speaker": "리안",
@@ -349,8 +348,7 @@
     "text": "……알아들었으면 됐어."
   },
   {
-    "text": "리안이 카페를 나갔다.",
-    "character_image": null
+    "text": "리안이 카페를 나갔다."
   },
   {
     "text": "테이블 위에는 헤드폰이 눌렀던 자국이 희미하게 남아 있었다."
