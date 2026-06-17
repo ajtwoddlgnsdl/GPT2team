@@ -1,10 +1,6 @@
 [
   {
     "bg_image": "assets/images/bg/cafe_street.jpg",
-    "speaker": "{name}",
-    "text": ""
-  },
-  {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "유이짱한테 연락했어요. 어제."
@@ -42,7 +38,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
-    "text": "(도시락을 건네며) 이건… 유이짱을 위한 요리가 아니에요."
+    "text": "이건… 유이짱을 위한 요리가 아니에요."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
@@ -93,7 +89,7 @@
         "bonus_score": 0,
         "next_lines": [
           {
-            "character_image": "assets/images/character/코토리/코토리_슬픔.png",
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
             "text": "…진짜요?"
           },
@@ -119,7 +115,7 @@
           {
             "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
-            "text": "제가 내리는 커피도 연습해두면 되겠다!"
+            "text": "내리는 커피도 연습해두면 되겠다!"
           }
         ]
       }

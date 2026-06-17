@@ -1,10 +1,6 @@
 [
   {
     "bg_image": "assets/images/bg/cafe_street.jpg",
-    "speaker": "{name}",
-    "text": ""
-  },
-  {
     "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
     "text": "…{name}씨."

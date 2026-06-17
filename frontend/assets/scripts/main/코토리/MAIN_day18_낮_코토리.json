@@ -72,7 +72,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기쁨.png",
     "speaker": "코토리",
-    "text": "왔어요! 오늘은 제가 커피 내려볼게요. {N}씨가 가르쳐주면 돼요."
+    "text": "왔어요! 오늘은 제가 커피 내려볼게요. {name}씨가 가르쳐주면 돼요."
   },
   {
     "speaker": "{name}",
@@ -167,7 +167,7 @@
   },
   {
     "action": "choice",
-    "text": "[선택지] 코토리가 마음의 준비를 하고 있다.",
+    "text": "{name}씨가 있어서 그런가봐요.",
     "choices": [
       {
         "text": "내일 들을게. 기다릴게.",

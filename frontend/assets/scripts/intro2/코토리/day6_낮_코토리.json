@@ -1,6 +1,6 @@
 [
   {
-    "bg_image": "assets/images/bg/cafe.jpg",
+    "bg_image": "assets/images/bg/cafe_rain.png",
     "speaker": "{name}",
     "text": "오전부터 비가 내렸다. 일기예보에서 비 얘기가 없었던 것 같은데, 갑자기 쏟아졌다."
   },
@@ -68,12 +68,8 @@
     "text": "아— 살 것 같다."
   },
   {
-    "speaker": "{name}",
-    "text": "감기 걸리면 어떡하려고."
-  },
-  {
     "action": "choice",
-    "text": "[선택지] 비 맞은 코토리가 커피를 마시고 있다.",
+    "text": "코토리가 걱정된다. 어떻게 말할까?",
     "choices": [
       {
         "text": "감기 걸리면 어떡해. 조심해.",
@@ -103,7 +99,7 @@
           {
             "character_image": "assets/images/character/코토리/코토리_기본.png",
             "speaker": "코토리",
-            "text": "앞치마만 입고 뛰어와서 그래요. 본래 코트도 있는데."
+            "text": "앞치마만 입고 뛰어와서 그래요. 원래 코트도 있는데."
           },
           {
             "character_image": "assets/images/character/코토리/코토리_슬픔.png",
@@ -139,7 +135,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "아이유 노래요. '비와 당신'이라고, 비 오는 날마다 생각나는 노래."
+    "text": "요네즈켄시요. 레몬이라는 노래요!"
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -152,7 +148,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "네 시쯤 비가 조금 약해졌다. 코토리가 시계를 보더니 일어났다."
+    "text": "비가 조금 약해졌다. 코토리가 시계를 보더니 일어났다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -165,7 +161,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "가게 뒷방에서 접이식 우산을 꺼내왔다. 점장이 두고 다니는 여분 우산이었다."
+    "text": "가게 뒷방에서 우산을 꺼내왔다. 점장이 두고 다니는 여분 우산이었다."
   },
   {
     "speaker": "{name}",
@@ -174,7 +170,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
-    "text": "정말요? 고마워요—!! 내일 꼭 돌려드릴게요! 깨끗하게 닦아서!"
+    "text": "정말요? 고마워요—!! 내일 꼭 돌려드릴게요!"
   },
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
@@ -188,26 +184,21 @@
   },
   {
     "speaker": "{name}",
-    "text": "코토리가 우산을 펴고 꽃집 쪽으로 달려갔다."
+    "text": "코토리가 우산을 펴고 달려갔다."
   },
   {
-    "speaker": "{name}",
-    "text": "우산이 좀 크다. 코토리가 들기엔 확실히 좀 컸다."
-  },
-  {
+    "bg_image": "assets/images/bg/kotori_day6.png",
+    "character_image": null,
     "speaker": "{name}",
     "text": "…귀여운데."
   },
   {
+    "bg_image": "assets/images/bg/cafe_rain.png",
     "speaker": "{name}",
     "text": "지금 내가 무슨 생각을 한 거지."
   },
   {
     "speaker": "{name}",
     "text": "가게를 정리하면서 문득 생각했다. 코토리가 우산을 들고 뛰어가던 뒷모습이 자꾸 눈에 밟혔다."
-  },
-  {
-    "speaker": "{name}",
-    "text": "그거, 솔직히 좀 기대된다."
   }
 ]

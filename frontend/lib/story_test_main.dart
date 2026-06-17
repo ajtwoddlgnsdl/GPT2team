@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'screens/lobby/album_constants.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,11 +73,17 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
   int _score = 0;
   String? _backgroundImage;
   String? _characterImage;
+  String? _centerImage;
   bool _loading = true;
   String? _error;
   bool _showChoices = false;
   List<Map<String, dynamic>> _choices = [];
   final List<_StorySnapshot> _history = [];
+
+  static final Set<String> _albumImagePaths = {
+    for (final items in kHeroineAlbumMetadata.values)
+      for (final item in items) item.imagePath,
+  };
 
   @override
   void initState() {
@@ -208,6 +215,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
         _score = 0;
         _backgroundImage = null;
         _characterImage = null;
+        _centerImage = null;
         _loading = false;
         if (_lines.isNotEmpty) {
           _applyVisuals(_lines.first);
@@ -229,6 +237,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
     if (line.containsKey('character_image')) {
       _characterImage = line['character_image'] as String?;
     }
+    _centerImage = line['center_image'] as String?;
   }
 
   void _saveSnapshot() {
@@ -239,6 +248,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
         score: _score,
         backgroundImage: _backgroundImage,
         characterImage: _characterImage,
+        centerImage: _centerImage,
         showChoices: _showChoices,
         choices: _choices
             .map((choice) => Map<String, dynamic>.from(choice))
@@ -285,6 +295,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
       _score = snapshot.score;
       _backgroundImage = snapshot.backgroundImage;
       _characterImage = snapshot.characterImage;
+      _centerImage = snapshot.centerImage;
       _showChoices = snapshot.showChoices;
       _choices = snapshot.choices;
     });
@@ -328,6 +339,7 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
     _saveSnapshot();
     String? background;
     String? character;
+    String? center;
     for (var i = 0; i < target; i++) {
       final line = _lines[i];
       if (line.containsKey('bg_image')) {
@@ -336,12 +348,14 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
       if (line.containsKey('character_image')) {
         character = line['character_image'] as String?;
       }
+      center = line['center_image'] as String?;
     }
 
     setState(() {
       _index = target - 1;
       _backgroundImage = background;
       _characterImage = character;
+      _centerImage = center;
       _showChoices = false;
       _choices = [];
     });
@@ -633,14 +647,27 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
-                        if (_backgroundImage != null)
-                          Image.asset(
-                            _backgroundImage!,
-                            fit: BoxFit.cover,
-                            gaplessPlayback: true,
-                            errorBuilder: (_, _, _) =>
-                                const ColoredBox(color: Colors.black),
-                          ),
+                        AnimatedSwitcher(
+                          duration: _albumImagePaths.contains(_backgroundImage)
+                              ? const Duration(milliseconds: 400)
+                              : Duration.zero,
+                          switchInCurve: Curves.easeIn,
+                          layoutBuilder: (currentChild, previousChildren) =>
+                              currentChild ?? const SizedBox.shrink(),
+                          child: _backgroundImage != null
+                              ? Image.asset(
+                                  _backgroundImage!,
+                                  key: ValueKey(_backgroundImage),
+                                  fit: BoxFit.cover,
+                                  gaplessPlayback: true,
+                                  errorBuilder: (_, _, _) =>
+                                      const ColoredBox(color: Colors.black),
+                                )
+                              : const ColoredBox(
+                                  key: ValueKey('no_bg'),
+                                  color: Colors.black,
+                                ),
+                        ),
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -670,6 +697,49 @@ class _StoryTestScreenState extends State<StoryTestScreen> {
                               ),
                             ),
                           ),
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 160,
+                          child: Center(
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 400),
+                              switchInCurve: Curves.easeOut,
+                              switchOutCurve: Curves.easeIn,
+                              child: _centerImage != null
+                                  ? Container(
+                                      key: ValueKey(_centerImage),
+                                      constraints: BoxConstraints(
+                                        maxWidth: MediaQuery.of(context).size.width * 0.55,
+                                        maxHeight: MediaQuery.of(context).size.height * 0.35,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black.withValues(alpha: 0.5),
+                                            blurRadius: 20,
+                                            spreadRadius: 2,
+                                          ),
+                                        ],
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.asset(
+                                          _centerImage!,
+                                          fit: BoxFit.contain,
+                                          errorBuilder: (_, _, _) =>
+                                              const SizedBox.shrink(),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(
+                                      key: ValueKey('no_center'),
+                                    ),
+                            ),
+                          ),
+                        ),
                         Positioned(
                           top: 16,
                           right: 16,
@@ -822,6 +892,7 @@ class _StorySnapshot {
     required this.score,
     required this.backgroundImage,
     required this.characterImage,
+    required this.centerImage,
     required this.showChoices,
     required this.choices,
   });
@@ -831,6 +902,7 @@ class _StorySnapshot {
   final int score;
   final String? backgroundImage;
   final String? characterImage;
+  final String? centerImage;
   final bool showChoices;
   final List<Map<String, dynamic>> choices;
 }

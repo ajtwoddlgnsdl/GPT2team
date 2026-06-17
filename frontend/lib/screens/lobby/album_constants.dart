@@ -88,12 +88,21 @@ const Map<String, List<AlbumItem>> kHeroineAlbumMetadata = {
   ],
   "코토리": [
     AlbumItem(
-      id: "kotori_cafe",
-      title: "카페 알바",
-      description: "서툴지만 최선을 다하는 귀여운 모습.",
-      imagePath: "assets/images/bg/cafe.jpg",
-      hint: "Day 9 낮 스토리 감상 후 해금",
-      unlockDay: 9,
+      id: "kotori_intro1",
+      title: "첫 만남",
+      description: "카페에서 처음 마주한 코토리의 미소.",
+      imagePath: "assets/images/bg/kotori_intro1.png",
+      hint: "intro_2_prologue.json 감상 후 해금",
+      unlockDay: 0,
+      unlockZone: "낮",
+    ),
+    AlbumItem(
+      id: "kotori_day6",
+      title: "비 오는 날 카페",
+      description: "갑작스러운 비를 피해 카페로 뛰어온 코토리.",
+      imagePath: "assets/images/bg/kotori_day6.png",
+      hint: "Day 6 낮 스토리 감상 후 해금",
+      unlockDay: 6,
       unlockZone: "낮",
     ),
   ]

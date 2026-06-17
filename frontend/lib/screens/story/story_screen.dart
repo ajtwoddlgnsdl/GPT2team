@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import '../../core/api_client.dart';
+import '../lobby/album_constants.dart';
 import '../lobby/cafe_game_screen.dart';
 import '../lobby/lobby_screen.dart';
 
@@ -23,7 +24,8 @@ class StoryScreen extends StatefulWidget {
   State<StoryScreen> createState() => _StoryScreenState();
 }
 
-class _StoryScreenState extends State<StoryScreen> {
+class _StoryScreenState extends State<StoryScreen>
+    with SingleTickerProviderStateMixin {
   List<dynamic> _scriptLines = [];
   int _currentIndex = 0;
   bool _isLoading = true;
@@ -34,10 +36,16 @@ class _StoryScreenState extends State<StoryScreen> {
   // 💡 비주얼 및 선택지 관련 상태 변수 추가
   String? _currentBgImage;
   String? _currentCharacterImage;
+  String? _currentCenterImage;
   int _earnedBonusScore = 0;
   bool _isChoiceMode = false;
   List<dynamic> _currentChoices = [];
   bool _isLaunchingCafeTutorial = false;
+
+  static final Set<String> _albumImagePaths = {
+    for (final items in kHeroineAlbumMetadata.values)
+      for (final item in items) item.imagePath,
+  };
 
   @override
   void initState() {
@@ -102,6 +110,7 @@ class _StoryScreenState extends State<StoryScreen> {
       if (line is Map<String, dynamic>) {
         if (line.containsKey('bg_image')) paths.add(line['bg_image']);
         if (line['character_image'] != null) paths.add(line['character_image']);
+        if (line['center_image'] != null) paths.add(line['center_image']);
       }
     }
     for (final path in paths) {
@@ -117,6 +126,7 @@ class _StoryScreenState extends State<StoryScreen> {
     if (line.containsKey('character_image')) {
       _currentCharacterImage = line['character_image'] as String?;
     }
+    _currentCenterImage = line['center_image'] as String?;
   }
 
   // 💡 화면을 터치했을 때 다음 스토리로 넘어가는 핵심 로직!
@@ -512,22 +522,30 @@ class _StoryScreenState extends State<StoryScreen> {
         child: Stack(
           children: [
             // 1. 🌅 배경 이미지 렌더링
-            if (_currentBgImage != null)
-              Positioned.fill(
-                child: Image.asset(
-                  _currentBgImage!,
-                  fit: BoxFit.cover,
-                  gaplessPlayback: true,
-                  errorBuilder: (context, error, stackTrace) {
-                    debugPrint("🚨 배경 이미지 로드 실패: $_currentBgImage");
-                    return Container(color: Colors.black);
-                  },
-                ),
-              )
-            else
-              Container(color: Colors.black),
+            Positioned.fill(
+              child: AnimatedSwitcher(
+                duration: _albumImagePaths.contains(_currentBgImage)
+                    ? const Duration(milliseconds: 400)
+                    : Duration.zero,
+                switchInCurve: Curves.easeIn,
+                layoutBuilder: (currentChild, previousChildren) =>
+                    currentChild ?? const SizedBox.shrink(),
+                child: _currentBgImage != null
+                    ? Image.asset(
+                        _currentBgImage!,
+                        key: ValueKey(_currentBgImage),
+                        fit: BoxFit.cover,
+                        gaplessPlayback: true,
+                        errorBuilder: (context, error, stackTrace) {
+                          debugPrint("🚨 배경 이미지 로드 실패: $_currentBgImage");
+                          return Container(color: Colors.black);
+                        },
+                      )
+                    : Container(key: const ValueKey('no_bg'), color: Colors.black),
+              ),
+            ),
 
-            // 2. 🧍‍♀️ 캐릭터 스탠딩 이미지 렌더링 (character_image 있는 라인에서만 표시)
+            // 2. 🧍‍♀️ 캐릭터 스탠딩 이미지 렌더링
             if (_currentCharacterImage != null)
               Positioned(
                 bottom: 0,
@@ -548,7 +566,52 @@ class _StoryScreenState extends State<StoryScreen> {
                 ),
               ),
 
-            // 3. 💬 대화창 렌더링
+            // 3. 🖼️ 센터 이미지 (도시락 등) 렌더링
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 160,
+              child: Center(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 400),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeIn,
+                  child: _currentCenterImage != null
+                      ? Container(
+                          key: ValueKey(_currentCenterImage),
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.75,
+                            maxHeight: MediaQuery.of(context).size.height * 0.45,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                blurRadius: 20,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              _currentCenterImage!,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) {
+                                debugPrint("🚨 센터 이미지 로드 실패: $_currentCenterImage");
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(key: ValueKey('no_center')),
+                ),
+              ),
+            ),
+
+            // 4. 💬 대화창 렌더링
             Positioned(
               bottom: 50,
               left: 20,
@@ -589,7 +652,7 @@ class _StoryScreenState extends State<StoryScreen> {
               ),
             ),
 
-            // 4. 🎯 선택지 오버레이 렌더링
+            // 5. 🎯 선택지 오버레이 렌더링
             if (_isChoiceMode)
               Positioned.fill(
                 child: Container(

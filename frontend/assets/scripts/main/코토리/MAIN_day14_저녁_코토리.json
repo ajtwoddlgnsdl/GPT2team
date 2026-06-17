@@ -2,7 +2,11 @@
   {
     "bg_image": "assets/images/bg/lobby_night.jpg",
     "speaker": "{name}",
-    "text": "오늘 코토리는 왠지 조금 긴장한 것 같았다. 주방에 들어와서도 평소처럼 재잘거리지 않고, 장바구니에서 재료를 꺼내면서 조용히 손을 움직였다."
+    "text": "오늘 코토리는 왠지 조금 긴장한 것 같았다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "주방에 들어와서도 평소처럼 재잘거리지 않고, 장바구니에서 재료를 꺼내면서 조용히 손을 움직였다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -31,14 +35,14 @@
   {
     "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
-    "text": "레몬즙이 있어야 이게 유이짱 카라아게인데…"
+    "text": "레몬즙이 있어야 이게 유이짱 가라아게인데…"
   },
   {
     "action": "choice",
-    "text": "[선택지 ⑫] ★ 화해/독립 분기",
+    "text": "레몬즙이 있어야 이게 유이짱 가라아게인데…",
     "choices": [
       {
-        "text": "없이 가보자. 코토리 카라아게잖아.",
+        "text": "없이 가보자. 코토리 가라아게잖아.",
         "bonus_score": 5,
         "next_lines": [
           {
@@ -102,7 +106,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "카라아게가 완성됐다. 기름 소리, 좋은 냄새."
+    "text": "가라아게가 완성됐다. 기름 소리, 좋은 냄새."
   },
   {
     "speaker": "{name}",
@@ -129,7 +133,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "이 카라아게가 코토리한테는 그냥 요리가 아니구나."
+    "text": "이 가라아게가 코토리한테는 그냥 요리가 아니구나."
   },
   {
     "speaker": "{name}",

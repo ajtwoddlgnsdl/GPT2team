@@ -1,10 +1,6 @@
 [
   {
     "bg_image": "assets/images/bg/cafe_street.jpg",
-    "speaker": "{name}",
-    "text": ""
-  },
-  {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "유이짱 일은… 아직 잘 모르겠어요."

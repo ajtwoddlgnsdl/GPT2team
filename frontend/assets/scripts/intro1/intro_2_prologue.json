@@ -138,11 +138,13 @@
     "text": "아메리카노를 건네자 그녀가 두 손으로 컵을 받았다. 한 모금 마시더니 눈을 동그랗게 떴다."
   },
   {
-    "character_image": "assets/images/character/코토리/코토리_반짝.png",
+    "bg_image": "assets/images/bg/kotori_intro1.png",
+    "character_image": null,
     "speaker": "코토리",
     "text": "맛있다!"
   },
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "옆에서 이사 준비하다 왔는데, 딱 필요했던 거예요."
@@ -156,6 +158,7 @@
     "text": "딸랑—"
   },
   {
+    "character_image": null,
     "speaker": "{name}",
     "text": "...꽃집 사람이었구나."
   }
