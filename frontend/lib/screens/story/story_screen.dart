@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import '../../core/api_client.dart';
+import '../lobby/cafe_game_screen.dart';
 import '../lobby/lobby_screen.dart';
 
 
@@ -36,6 +37,7 @@ class _StoryScreenState extends State<StoryScreen> {
   int _earnedBonusScore = 0;
   bool _isChoiceMode = false;
   List<dynamic> _currentChoices = [];
+  bool _isLaunchingCafeTutorial = false;
 
   @override
   void initState() {
@@ -82,6 +84,7 @@ class _StoryScreenState extends State<StoryScreen> {
         _isLoading = false;
       });
       _precacheScriptImages();
+      _runCurrentLineAutoAction();
     } catch (e) {
       debugPrint("🚨 대본 로드 실패 ($filePath): $e");
       if (mounted) {
@@ -123,6 +126,11 @@ class _StoryScreenState extends State<StoryScreen> {
     final currentLine = _scriptLines[_currentIndex] as Map<String, dynamic>;
 
     // 1. 현재 대본에 '닉네임 입력' 액션이 있다면? -> 대사 진행을 멈추고 팝업 띄움!
+    if (_isCafeTutorialLine(currentLine)) {
+      _playCafeTutorial();
+      return;
+    }
+
     if (currentLine.containsKey('action')) {
       if (currentLine['action'] == 'input_nickname') {
         _showNameInputDialog();
@@ -141,12 +149,69 @@ class _StoryScreenState extends State<StoryScreen> {
     _advanceLine();
   }
 
+  bool _isCafeTutorialLine(Map<String, dynamic> line) {
+    return line['action'] == 'cafe_tutorial' ||
+        line['text'] == '(카페 미니게임 튜토리얼 진행)';
+  }
+
+  void _runCurrentLineAutoAction() {
+    if (_isLoading || _isChoiceMode || _scriptLines.isEmpty) return;
+
+    final currentLine = _scriptLines[_currentIndex] as Map<String, dynamic>;
+    if (!_isCafeTutorialLine(currentLine)) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _isLaunchingCafeTutorial) return;
+      _playCafeTutorial();
+    });
+  }
+
+  Future<void> _playCafeTutorial() async {
+    if (_isLaunchingCafeTutorial) return;
+    _isLaunchingCafeTutorial = true;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    final completed = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (routeContext) => CafeGameScreen(
+          actionPoints: 1,
+          money: 12000,
+          day: 1,
+          assetPath: 'assets/html/cafe_game/tutorial.html',
+          isTutorial: true,
+          onClose: () => Navigator.of(routeContext).pop(false),
+          onTutorialCompleted: () => Navigator.of(routeContext).pop(true),
+          onPhoneRequested: () {
+            Navigator.of(routeContext).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const LobbyScreen()),
+              (_) => false,
+            );
+          },
+        ),
+      ),
+    );
+
+    if (!mounted) return;
+    _isLaunchingCafeTutorial = false;
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (completed == true) {
+      _advanceLine();
+    }
+  }
+
   void _advanceLine() {
     if (_currentIndex < _scriptLines.length - 1) {
       setState(() {
         _currentIndex++;
         _updateVisuals(_scriptLines[_currentIndex]);
       });
+      _runCurrentLineAutoAction();
     } else {
       // 3. 파일 전체를 다 읽었다면 클리어 API 쏘기!
       _completeStory();

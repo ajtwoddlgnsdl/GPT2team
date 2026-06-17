@@ -10,8 +10,11 @@ class CafeGameScreen extends StatefulWidget {
   final int day;
   final VoidCallback onClose;
   final VoidCallback? onPhoneRequested;
+  final VoidCallback? onTutorialCompleted;
   final Function(int earnedMoney)? onRewardEarned;
   final Function(int newAP)? onAPChanged;
+  final String assetPath;
+  final bool isTutorial;
 
   const CafeGameScreen({
     super.key,
@@ -20,8 +23,11 @@ class CafeGameScreen extends StatefulWidget {
     required this.day,
     required this.onClose,
     this.onPhoneRequested,
+    this.onTutorialCompleted,
     this.onRewardEarned,
     this.onAPChanged,
+    this.assetPath = 'assets/html/cafe_game/index.html',
+    this.isTutorial = false,
   });
 
   @override
@@ -78,7 +84,7 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
                 day: ${widget.day},
                 ap: ${widget.actionPoints},
                 money: ${widget.money},
-                canPlay: ${widget.actionPoints > 0}
+                canPlay: ${widget.isTutorial || widget.actionPoints > 0}
               });
             }
           ''');
@@ -94,7 +100,7 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
           _handleBridgeMessage(message.message);
         },
       )
-      ..loadFlutterAsset('assets/html/cafe_game/index.html');
+      ..loadFlutterAsset(widget.assetPath);
   }
 
   void _handleBridgeMessage(String rawMessage) {
@@ -116,10 +122,24 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
           _closeCafeGame();
           break;
         case 'phone_requested':
+          if (widget.isTutorial) {
+            _returnToLobbyFromTutorial();
+            break;
+          }
           _openPhoneFromCafe();
           break;
         case 'phone_app_requested':
+          if (widget.isTutorial) {
+            _returnToLobbyFromTutorial();
+            break;
+          }
           _openPhoneFromCafe();
+          break;
+        case 'tutorial_completed':
+          _completeCafeTutorial();
+          break;
+        case 'tutorial_exit_to_lobby':
+          _returnToLobbyFromTutorial();
           break;
       }
     } catch (_) {}
@@ -193,6 +213,30 @@ class _CafeGameScreenState extends State<CafeGameScreen> {
       DeviceOrientation.portraitUp,
     ]).then((_) {
       widget.onClose();
+    });
+  }
+
+  void _completeCafeTutorial() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]).then((_) {
+      if (widget.onTutorialCompleted != null) {
+        widget.onTutorialCompleted!.call();
+      } else {
+        widget.onClose();
+      }
+    });
+  }
+
+  void _returnToLobbyFromTutorial() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]).then((_) {
+      if (widget.onPhoneRequested != null) {
+        widget.onPhoneRequested!.call();
+      } else {
+        widget.onClose();
+      }
     });
   }
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <title>카페 미니게임</title>
+  <title>카페 미니게임 튜토리얼</title>
   <style>
     @font-face {
       font-family: "YOnepick";
@@ -1704,6 +1704,201 @@
       from { transform: translateY(.9vmin) scale(.78); opacity: 0; }
       to { transform: translateY(0) scale(1); opacity: 1; }
     }
+
+    .tutorial-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 160;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .32s ease;
+    }
+
+    .tutorial-layer.show {
+      opacity: 1;
+    }
+
+    .tutorial-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(33, 22, 14, .36);
+      transition: opacity .25s ease;
+    }
+
+    .tutorial-spotlight {
+      position: absolute;
+      left: var(--tx, 50%);
+      top: var(--ty, 50%);
+      width: var(--tw, 20%);
+      height: var(--th, 12%);
+      border: .35vmin solid rgba(255, 245, 181, .96);
+      border-radius: 1.2vmin;
+      box-shadow:
+        0 0 0 .28vmin rgba(103, 69, 35, .52),
+        0 0 2.2vmin rgba(255, 239, 161, .76),
+        inset 0 0 1.1vmin rgba(255, 246, 191, .38);
+      transform: translateZ(0);
+      transition: left .32s cubic-bezier(.2,.8,.3,1), top .32s cubic-bezier(.2,.8,.3,1), width .32s cubic-bezier(.2,.8,.3,1), height .32s cubic-bezier(.2,.8,.3,1), opacity .28s ease;
+    }
+
+    .tutorial-card {
+      position: absolute;
+      left: var(--card-x, 50%);
+      top: var(--card-y, 50%);
+      width: min(42vmin, calc(100% - 4vmin));
+      max-width: calc(100% - 4vmin);
+      padding: 2.2vmin;
+      border: .3vmin solid rgba(112, 74, 39, .86);
+      border-radius: 1.2vmin;
+      background: rgba(255, 248, 224, .98);
+      box-shadow: 0 .7vmin 0 rgba(89, 55, 26, .32), 0 1.4vmin 3vmin rgba(50, 28, 14, .28);
+      pointer-events: auto;
+      transform: translate(-50%, -50%);
+    }
+
+    .tutorial-kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.35vmin;
+      padding: .25vmin .8vmin;
+      border-radius: 999px;
+      background: #7fa361;
+      color: #fff8df;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(10px, 1.18vmin, 14px);
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tutorial-card h2 {
+      margin: 1vmin 0 .75vmin;
+      color: #3c271c;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(17px, 2.15vmin, 25px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .tutorial-card p {
+      margin: 0;
+      color: #5f4632;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(13px, 1.6vmin, 18px);
+      font-weight: 400;
+      line-height: 1.5;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .tutorial-recipe {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55vmin;
+      margin-top: 1.15vmin;
+    }
+
+    .tutorial-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.15vmin;
+      padding: .25vmin .75vmin;
+      border: .16vmin solid rgba(110, 76, 42, .5);
+      border-radius: 999px;
+      background: #fff0c9;
+      color: #68482c;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(10px, 1.18vmin, 14px);
+      font-weight: 500;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tutorial-actions {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: .75vmin;
+      align-items: center;
+      margin-top: 1.6vmin;
+    }
+
+    .tutorial-actions button {
+      min-height: 3.45vmin;
+      padding: 0 1.15vmin;
+      border: .2vmin solid rgba(94, 62, 34, .66);
+      border-radius: .72vmin;
+      background: #fff6da;
+      color: #5b3b22;
+      box-shadow: 0 .26vmin 0 rgba(96, 61, 31, .22);
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(11px, 1.35vmin, 16px);
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .tutorial-actions button:disabled {
+      opacity: .42;
+      cursor: default;
+    }
+
+    .tutorial-actions .tutorial-next {
+      background: #e76f51;
+      color: #fff9e8;
+      border-color: rgba(126, 58, 38, .82);
+      min-width: 8.6vmin;
+    }
+
+    .tutorial-actions .tutorial-try {
+      grid-column: 1 / -1;
+      background: linear-gradient(180deg, #91bd70, #628f4b);
+      color: #fff9e8;
+      border-color: rgba(72, 106, 42, .82);
+      min-height: 4vmin;
+      font-size: clamp(12px, 1.5vmin, 17px);
+      font-weight: 700;
+    }
+
+    .tutorial-target {
+      position: relative;
+      z-index: 151;
+      filter: drop-shadow(0 0 .8vmin rgba(255, 236, 147, .72));
+    }
+
+    .tutorial-card {
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .tutorial-card.step-out {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.92);
+    }
+
+    .tutorial-card.step-in {
+      animation: tutorialStepIn .28s ease-out;
+    }
+
+    @keyframes tutorialStepIn {
+      from { opacity: 0; transform: translate(-50%, -50%) translateY(1.5vmin) scale(.95); }
+      to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @media (orientation: portrait) {
+      .tutorial-card {
+        width: min(86vw, 370px);
+        padding: 16px;
+      }
+
+      .tutorial-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .tutorial-actions .tutorial-skip {
+        grid-column: 1 / -1;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1845,6 +2040,22 @@
 
       <div class="toast" id="toast">알림</div>
       <div class="portrait-hint">가로 화면에 맞춰 만든 미니게임입니다</div>
+
+      <div class="tutorial-layer" id="tutorialLayer" aria-live="polite">
+        <div class="tutorial-dim" aria-hidden="true"></div>
+        <div class="tutorial-spotlight" id="tutorialSpotlight" aria-hidden="true"></div>
+        <aside class="tutorial-card" id="tutorialCard" role="dialog" aria-labelledby="tutorialTitle">
+          <div class="tutorial-kicker" id="tutorialProgress">튜토리얼</div>
+          <h2 id="tutorialTitle">주문 읽기</h2>
+          <p id="tutorialText">손님의 말을 보고 필요한 컵, 재료, 샷을 추리합니다.</p>
+          <div class="tutorial-recipe" id="tutorialRecipe" aria-label="이번 튜토리얼 레시피"></div>
+          <div class="tutorial-actions">
+            <button class="tutorial-skip" id="tutorialSkip" type="button">건너뛰기</button>
+            <button id="tutorialPrev" type="button">이전</button>
+            <button class="tutorial-next" id="tutorialNext" type="button">다음</button>
+          </div>
+        </aside>
+      </div>
     </section>
   </main>
 
@@ -1896,6 +2107,17 @@
     ];
 
     const CUSTOMERS = [
+      {
+        name: "졸린 직장인",
+        img: "customers/office-worker.png",
+        type: "ABSTRACT",
+        order: "잠 좀 깨게 해주세요. 얼음이 저를 때려도 괜찮아요.",
+        hint: "차갑게, 물 베이스, 샷을 넉넉히.",
+        recipe: { temp: "ICE", minShots: 2, ingredients: ["물"], allowExtra: ["꿀"] },
+        success: "와... 방금 제 영혼이 출근 도장을 찍었어요.",
+        normal: "오, 잠은 깼어요. 퇴근하고 싶다는 마음도 같이 깼네요.",
+        fail: "잠 깨랬지 기절시키랬냐고요."
+      },
       {
         name: "흑염룡 손님",
         img: "customers/dark-flame.png",
@@ -2111,8 +2333,99 @@
       timeBadge: document.getElementById("timeBadge"),
       dateBadge: document.getElementById("dateBadge"),
       energyText: document.getElementById("energyText"),
-      moneyText: document.getElementById("moneyText")
+      moneyText: document.getElementById("moneyText"),
+      tutorialLayer: document.getElementById("tutorialLayer"),
+      tutorialSpotlight: document.getElementById("tutorialSpotlight"),
+      tutorialCard: document.getElementById("tutorialCard"),
+      tutorialProgress: document.getElementById("tutorialProgress"),
+      tutorialTitle: document.getElementById("tutorialTitle"),
+      tutorialText: document.getElementById("tutorialText"),
+      tutorialRecipe: document.getElementById("tutorialRecipe"),
+      tutorialSkip: document.getElementById("tutorialSkip"),
+      tutorialPrev: document.getElementById("tutorialPrev"),
+      tutorialNext: document.getElementById("tutorialNext")
     };
+
+    const tutorialState = {
+      active: false,
+      step: 0,
+      listening: false,
+      waitingForAction: false
+    };
+
+    const TUTORIAL_STEPS = [
+      {
+        target: () => els.stage,
+        title: "카페 미니게임",
+        text: "낮 시간대에는 카페 게임을 진행할 수 있습니다!\n손님의 주문을 듣고 음료를 만들어 보세요.",
+        center: true,
+        next: "다음"
+      },
+      {
+        target: () => document.getElementById("speechBubble"),
+        title: "주문 읽기",
+        text: "말풍선에 손님의 주문이 표시됩니다.\n이번 손님은 잠을 깨고 싶어 하니\nICE 컵, 물, 샷 2번이 핵심입니다.",
+        next: "다음"
+      },
+      {
+        target: () => els.phoneButton,
+        title: "휴대폰",
+        text: "핸드폰을 누르면\n미니게임에서 나갈 수 있습니다.",
+        next: "다음"
+      },
+      {
+        target: () => els.makeButton,
+        title: "제조 시작",
+        text: "'네, 만들어볼게요' 버튼을 누르면\n제조대로 이동합니다.",
+        gate: "make"
+      },
+      {
+        target: () => els.iceCupButton,
+        title: "컵 선택",
+        text: "ICE 컵을 누르면 차가운 컵이 준비됩니다.\n이번 주문은 차갑게 만드는 음료입니다.",
+        gate: "temp"
+      },
+      {
+        target: () => queryIngredientButton("물") || els.ingredientShelf,
+        title: "재료 넣기",
+        text: "재료 선반에서 '물'을 눌러\n컵에 넣어보세요.",
+        gate: "water"
+      },
+      {
+        target: () => els.shotButton,
+        title: "샷 추가",
+        text: "SHOT 버튼을 눌러 샷을 추가합니다.\n이 주문은 잠을 깨야 하므로 2번 눌러주세요.",
+        gate: "shots"
+      },
+      {
+        target: () => els.ingredientShelf,
+        title: "선반 넘기기",
+        text: "재료 선반을 좌우로 밀면\n더 많은 재료를 찾을 수 있습니다.",
+        next: "다음",
+        action: async () => {
+          state.shelfPage = 1;
+          updateShelfPosition();
+          await tutorialDelay(820);
+          state.shelfPage = 0;
+          updateShelfPosition();
+          await tutorialDelay(220);
+        }
+      },
+      {
+        target: () => els.deliveryZone,
+        title: "전달하기",
+        text: "완성된 컵을 위쪽 전달 영역으로\n드래그하면 손님에게 전달됩니다.",
+        gate: "deliver"
+      },
+      {
+        target: () => els.stage,
+        title: "튜토리얼 완료",
+        text: "낮 시간대에 카페 미니게임을 즐겨보세요!",
+        center: true,
+        next: "닫기",
+        done: true
+      }
+    ];
 
     function parseBool(value) {
       if (typeof value === "boolean") return value;
@@ -2268,6 +2581,12 @@
         notifyHost("reward_error", { message: error.message, result });
         return null;
       }
+    }
+
+    async function loadBridgeStatus() {
+      bridge.statusLoaded = true;
+      if (!bridge.enabled) return;
+      notifyHost("status_requested", { game_type: bridge.gameType });
     }
 
     function init() {
@@ -2512,18 +2831,8 @@
     function updateHud() {
       els.energyText.textContent = `${state.energy}`;
       els.moneyText.textContent = formatWon(state.money);
-      els.makeButton.disabled = !canStartCafeGame();
-      if (!canStartCafeGame()) {
-        if (state.energy <= 0) {
-          els.makeButton.textContent = "행동력 부족";
-        } else if (bridge.enabled && !bridge.storyCompleted) {
-          els.makeButton.textContent = "스토리 먼저 완료";
-        } else {
-          els.makeButton.textContent = "잠김";
-        }
-      } else {
-        els.makeButton.textContent = "네, 만들어볼게요";
-      }
+      els.makeButton.disabled = false;
+      els.makeButton.textContent = "네, 만들어볼게요";
     }
 
     function formatWon(value) {
@@ -2576,17 +2885,6 @@
     }
 
     async function startMaking() {
-      if (!canStartCafeGame()) {
-        if (bridge.enabled && !bridge.storyCompleted) {
-          showToast("스토리를 먼저 완료해주세요.");
-        } else {
-          showToast("행동력이 부족합니다. 스토리를 보면 행동력이 1 회복돼요.");
-        }
-        return;
-      }
-      const started = await requestBridgeStart();
-      if (!started) return;
-      updateHud();
       resetCup();
       switchScreen("prep");
       showToast("재료를 터치해서 컵에 넣고, 완성되면 컵을 전달 칸으로 드래그하세요.");
@@ -2603,8 +2901,8 @@
         els.phoneButton.classList.remove("opening");
       }, 440);
 
-      const delivered = notifyHost("phone_requested", { from: "cafe_main" });
-      if (!delivered) openPhonePreview();
+      showToast("로비로 돌아갑니다.");
+      notifyHost("tutorial_exit_to_lobby", { from: "tutorial_phone" });
     }
 
     function updatePhoneClock() {
@@ -2955,20 +3253,7 @@
       let reward = result === "success" ? 2500 : result === "normal" ? 1800 : result === "funny" ? 700 : 900;
       let tip = result === "success" ? 700 : 0;
 
-      if (bridge.enabled) {
-        try {
-          const rewardData = await submitBridgeReward(result);
-          if (rewardData) {
-            reward = Number(rewardData.earned_money ?? reward);
-            tip = Number(rewardData.tip ?? 0);
-          }
-        } catch (error) {
-          notifyHost("reward_error", { message: error.message, result });
-          showToast(error.message || "보상 동기화에 실패했어요.");
-        }
-      } else {
-        state.money += reward + tip;
-      }
+      state.money += reward + tip;
       updateHud();
 
       let line = customer[result] || customer.fail;
@@ -3006,7 +3291,6 @@
       window.setTimeout(() => {
         els.makeButton.style.display = "";
         els.listenButton.style.display = "";
-        nextCustomer();
       }, exitDuration);
     }
 
@@ -3037,7 +3321,224 @@
       }, 1900);
     }
 
+    function tutorialDelay(ms) {
+      return new Promise((resolve) => window.setTimeout(resolve, ms));
+    }
+
+    function queryIngredientButton(name) {
+      return document.querySelector(`.ingredient-hotspot[data-name="${name}"]`);
+    }
+
+    function startTutorial() {
+      if (!els.tutorialLayer) return;
+      tutorialState.active = true;
+      tutorialState.step = 0;
+      bindTutorialEvents();
+      renderTutorialStep();
+      window.requestAnimationFrame(() => {
+        els.tutorialLayer.classList.add("show");
+      });
+    }
+
+    function dismissTutorialCard() {
+      if (!tutorialState.active) return;
+      tutorialState.waitingForAction = true;
+      els.tutorialCard.classList.add("step-out");
+      els.tutorialCard.style.pointerEvents = "none";
+      els.tutorialSpotlight.style.opacity = "0";
+      els.tutorialLayer.querySelector(".tutorial-dim").style.opacity = "0";
+    }
+
+    function bindTutorialEvents() {
+      if (tutorialState.listening) return;
+      tutorialState.listening = true;
+
+      els.tutorialNext.addEventListener("click", advanceTutorialStep);
+      els.tutorialPrev.addEventListener("click", () => {
+        if (tutorialState.step > 0) {
+          tutorialState.step -= 1;
+          renderTutorialStep();
+        }
+      });
+      els.tutorialSkip.addEventListener("click", () => {
+        const step = TUTORIAL_STEPS[tutorialState.step];
+        if (step?.gate) {
+          dismissTutorialCard();
+        }
+      });
+      window.addEventListener("resize", positionTutorial);
+
+      els.makeButton.addEventListener("click", () => {
+        tutorialAdvanceAfter("make", () => state.screen === "prep", 620);
+      });
+      [els.iceButton, els.iceCupButton].forEach((button) => {
+        button.addEventListener("click", () => {
+          tutorialAdvanceAfter("temp", () => state.cup.temp === "ICE", 120);
+        });
+      });
+      els.ingredientShelf.addEventListener("pointerup", () => {
+        tutorialAdvanceAfter("water", () => state.cup.ingredients.includes("물"), 180);
+      });
+      els.shotButton.addEventListener("click", () => {
+        tutorialAdvanceAfter("shots", () => state.cup.shots >= 2, 120);
+      });
+      els.cup.addEventListener("pointerup", () => {
+        tutorialAdvanceAfter("deliver", () => state.screen === "cafe", 700);
+      });
+    }
+
+    async function advanceTutorialStep() {
+      if (!tutorialState.active) return;
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      if (step?.done) {
+        completeTutorial();
+        return;
+      }
+
+      els.tutorialNext.disabled = true;
+      try {
+        if (typeof step.action === "function") {
+          await step.action();
+        }
+        tutorialState.step = Math.min(tutorialState.step + 1, TUTORIAL_STEPS.length - 1);
+        renderTutorialStep();
+      } finally {
+        els.tutorialNext.disabled = false;
+      }
+    }
+
+    function tutorialAdvanceAfter(gate, predicate, delay) {
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      if (!tutorialState.active || step?.gate !== gate) return;
+      window.setTimeout(() => {
+        const current = TUTORIAL_STEPS[tutorialState.step];
+        if (!tutorialState.active || current?.gate !== gate) return;
+        if (!predicate || predicate()) {
+          tutorialState.step = Math.min(tutorialState.step + 1, TUTORIAL_STEPS.length - 1);
+          renderTutorialStep();
+        }
+      }, delay);
+    }
+
+    function renderTutorialStep() {
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      if (!step) return;
+
+      tutorialState.waitingForAction = false;
+      els.tutorialCard.style.pointerEvents = "";
+      els.tutorialLayer.querySelector(".tutorial-dim").style.opacity = "";
+
+      document.querySelectorAll(".tutorial-target").forEach((node) => {
+        node.classList.remove("tutorial-target");
+      });
+
+      const target = getTutorialTarget(step);
+      target?.classList?.add("tutorial-target");
+
+      els.tutorialCard.classList.remove("step-in");
+      els.tutorialCard.classList.add("step-out");
+
+      window.setTimeout(() => {
+        els.tutorialProgress.textContent = `튜토리얼 ${tutorialState.step + 1}/${TUTORIAL_STEPS.length}`;
+        els.tutorialTitle.textContent = step.title;
+        els.tutorialText.textContent = step.text;
+        els.tutorialRecipe.innerHTML = "";
+
+        const hasGate = Boolean(step.gate);
+        if (hasGate) {
+          els.tutorialNext.style.display = "none";
+          els.tutorialPrev.style.display = "none";
+          els.tutorialSkip.style.display = "";
+          els.tutorialSkip.style.visibility = "visible";
+          els.tutorialSkip.textContent = "해볼게요!";
+          els.tutorialSkip.className = "tutorial-skip tutorial-try";
+        } else {
+          els.tutorialNext.style.display = "";
+          els.tutorialNext.textContent = step.next || "다음";
+          els.tutorialPrev.style.display = "";
+          els.tutorialPrev.disabled = tutorialState.step === 0;
+          els.tutorialSkip.style.display = "none";
+          els.tutorialSkip.className = "tutorial-skip";
+        }
+
+        els.tutorialCard.classList.remove("step-out");
+        els.tutorialCard.classList.add("step-in");
+        window.requestAnimationFrame(positionTutorial);
+      }, 180);
+    }
+
+    function getTutorialTarget(step) {
+      if (!step) return els.stage;
+      const target = typeof step.target === "function" ? step.target() : document.querySelector(step.target);
+      if (!target || !target.getBoundingClientRect) return els.stage;
+      const rect = target.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return els.stage;
+      return target;
+    }
+
+    function positionTutorial() {
+      if (!tutorialState.active) return;
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      const stageRect = els.stage.getBoundingClientRect();
+      const cardRect = els.tutorialCard.getBoundingClientRect();
+      const margin = Math.max(10, stageRect.width * .018);
+
+      if (step.center) {
+        els.tutorialSpotlight.style.opacity = "0";
+
+        const cardX = stageRect.width / 2;
+        const cardY = stageRect.height / 2;
+        els.tutorialCard.style.setProperty("--card-x", `${cardX}px`);
+        els.tutorialCard.style.setProperty("--card-y", `${cardY}px`);
+        return;
+      }
+      els.tutorialSpotlight.style.opacity = "";
+
+      const target = getTutorialTarget(step);
+      const targetRect = target.getBoundingClientRect();
+      const pad = Math.max(6, stageRect.width * .012);
+
+      const x = Math.max(0, targetRect.left - stageRect.left - pad);
+      const y = Math.max(0, targetRect.top - stageRect.top - pad);
+      const w = Math.min(stageRect.width - x, targetRect.width + pad * 2);
+      const h = Math.min(stageRect.height - y, targetRect.height + pad * 2);
+
+      els.tutorialSpotlight.style.setProperty("--tx", `${x}px`);
+      els.tutorialSpotlight.style.setProperty("--ty", `${y}px`);
+      els.tutorialSpotlight.style.setProperty("--tw", `${w}px`);
+      els.tutorialSpotlight.style.setProperty("--th", `${h}px`);
+
+      const targetCenterX = x + w / 2;
+      const targetCenterY = y + h / 2;
+      let cardX = targetCenterX < stageRect.width / 2 ? stageRect.width * .73 : stageRect.width * .27;
+      let cardY = targetCenterY;
+
+      if (targetCenterY < stageRect.height * .55) {
+        cardY = Math.min(stageRect.height - cardRect.height / 2 - margin, y + h + cardRect.height / 2 + margin);
+      } else {
+        cardY = Math.max(cardRect.height / 2 + margin, y - cardRect.height / 2 - margin);
+      }
+
+      cardX = Math.max(cardRect.width / 2 + margin, Math.min(stageRect.width - cardRect.width / 2 - margin, cardX));
+      cardY = Math.max(cardRect.height / 2 + margin, Math.min(stageRect.height - cardRect.height / 2 - margin, cardY));
+
+      els.tutorialCard.style.setProperty("--card-x", `${cardX}px`);
+      els.tutorialCard.style.setProperty("--card-y", `${cardY}px`);
+    }
+
+    function completeTutorial() {
+      tutorialState.active = false;
+      els.tutorialCard.classList.add("step-out");
+      els.tutorialSpotlight.style.opacity = "0";
+      els.tutorialLayer.querySelector(".tutorial-dim").style.opacity = "0";
+      window.setTimeout(() => {
+        els.tutorialLayer.classList.remove("show");
+        notifyHost("tutorial_completed", {});
+      }, 300);
+    }
+
     init();
+    startTutorial();
   </script>
 </body>
 </html>
