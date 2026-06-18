@@ -79,6 +79,7 @@ const List<Map<String, dynamic>> _iconPool = [
 class MinigameScreen extends StatefulWidget {
   final int actionPoints;
   final int currentDay;
+  final String? playerName;
   final VoidCallback onClose;
   final Function(int earnedMoney)? onRewardEarned;
   final Function(int newAP)? onAPChanged;
@@ -91,6 +92,7 @@ class MinigameScreen extends StatefulWidget {
     super.key,
     required this.actionPoints,
     required this.currentDay,
+    this.playerName,
     required this.onClose,
     this.onRewardEarned,
     this.onAPChanged,
@@ -106,6 +108,7 @@ class _MinigameScreenState extends State<MinigameScreen>
 
   // 게임 상태
   int _currentAP = 0;
+  String _playerName = "주인공";
   int _currentLevel = 0; // 0 = 메인 화면, 1~5 = 게임 진행 중
   bool _isPreviewing = false;
   bool _isProcessing = false; // 카드 비교 중 입력 잠금
@@ -126,6 +129,8 @@ class _MinigameScreenState extends State<MinigameScreen>
   void initState() {
     super.initState();
     _currentAP = widget.actionPoints;
+    _playerName = widget.playerName ?? "주인공";
+    _loadPlayerName();
 
     // 날짜가 바뀐 경우 당일 과제 이수 내역 초기화
     if (MinigameScreen.lastOpenedDay != widget.currentDay) {
@@ -144,6 +149,19 @@ class _MinigameScreenState extends State<MinigameScreen>
       vsync: this,
       duration: const Duration(seconds: 3),
     );
+  }
+
+  Future<void> _loadPlayerName() async {
+    try {
+      final name = await _api.storage.read(key: 'username');
+      if (name != null && mounted) {
+        setState(() {
+          _playerName = name;
+        });
+      }
+    } catch (e) {
+      debugPrint('🚨 플레이어 닉네임 로드 에러: $e');
+    }
   }
 
   @override
@@ -833,11 +851,11 @@ class _MinigameScreenState extends State<MinigameScreen>
                 ),
                 const SizedBox(width: 16),
                 // 학적 정보 상세
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'E-class 학사 정보 포털',
                         style: TextStyle(
                           fontSize: 11,
@@ -846,17 +864,17 @@ class _MinigameScreenState extends State<MinigameScreen>
                           letterSpacing: 0.5,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
-                        '이름: 주인공 (3학년)',
+                        '이름: $_playerName (3학년)',
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF2C3E50),
+                          color: const Color(0xFF2C3E50),
                         ),
                       ),
-                      SizedBox(height: 2),
-                      Text(
+                      const SizedBox(height: 2),
+                      const Text(
                         '학부: 소프트웨어학과 / 학번: 202610427',
                         style: TextStyle(
                           fontSize: 11,

@@ -1,0 +1,3544 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>카페 미니게임 튜토리얼</title>
+  <style>
+    @font-face {
+      font-family: "YOnepick";
+      src: url("YOnepick-Bold.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --stage-w: min(100vw, calc(100vh * 16 / 9));
+      --stage-h: min(100vh, calc(100vw * 9 / 16));
+      --ink: #3c271c;
+      --paper: #fff6dc;
+      --line: #9d744b;
+      --green: #7fa361;
+      --red: #e76f51;
+      --blue: #398fbc;
+      --brown: #8b5a3c;
+      --shadow: 0 .55vmin 0 rgba(92, 54, 24, .28), 0 1.2vmin 2.2vmin rgba(66, 36, 12, .22);
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --stage-w: min(100vw, calc(100dvh * 16 / 9));
+        --stage-h: min(100dvh, calc(100vw * 9 / 16));
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #2f271f;
+      color: var(--ink);
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-weight: 400;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    .shell {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      display: grid;
+      place-items: start stretch;
+      padding: 0;
+      background:
+        radial-gradient(circle at 24% 12%, rgba(255, 232, 178, .3), transparent 32%),
+        linear-gradient(135deg, #5c4736, #282018 65%, #201914);
+    }
+
+    .stage {
+      position: relative;
+      width: var(--stage-w);
+      height: var(--stage-h);
+      max-width: 100vw;
+      max-height: 100dvh;
+      overflow: hidden;
+      border-radius: 0;
+      background: #f6d8a8;
+      box-shadow: none;
+      isolation: isolate;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      display: none;
+      overflow: hidden;
+    }
+
+    .screen.active {
+      display: block;
+      animation: screenFadeIn .28s ease;
+    }
+
+    .screen.leaving {
+      display: block;
+      animation: screenFadeOut .28s ease forwards;
+    }
+
+    @keyframes screenFadeIn {
+      from { opacity: 0; transform: scale(1.015); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes screenFadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(.985); }
+    }
+
+    .screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      z-index: -2;
+    }
+
+    #cafeScreen::before {
+      background-image: url("cafe_main.png");
+    }
+
+    #cafeScreen::after {
+      display: none;
+    }
+
+    .counter-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .counter-overlay::before,
+    .counter-overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url("cafe_main.png") center / cover no-repeat;
+      pointer-events: none;
+    }
+
+    .counter-overlay::before {
+      clip-path: inset(66.4% 0 0 0);
+    }
+
+    .counter-overlay::after {
+      clip-path: polygon(0 53.6%, 36% 53.6%, 36% 64.3%, 0 64.3%);
+    }
+
+    #prepScreen::before {
+      background-image: url("cafe_prep1.png");
+    }
+
+    .hud {
+      position: absolute;
+      top: 1.7%;
+      left: 1.4%;
+      right: 1.4%;
+      height: 7.1%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1vmin;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .hud-left,
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: .8vmin;
+      min-width: 0;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 8.8vmin;
+      height: 4.3vmin;
+      padding: 0 1.35vmin;
+      border: .24vmin solid rgba(129, 91, 53, .82);
+      border-radius: .75vmin;
+      background: rgba(255, 247, 222, .9);
+      box-shadow: 0 .35vmin 0 rgba(111, 72, 41, .28);
+      font-size: clamp(11px, 1.65vmin, 18px);
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+      backdrop-filter: blur(.25vmin);
+    }
+
+    .badge.compact {
+      min-width: 6.4vmin;
+    }
+
+    .badge.energy {
+      color: #81521d;
+    }
+
+    .badge.money {
+      color: #267341;
+    }
+
+    .badge.time {
+      color: #5f4632;
+    }
+
+    .icon {
+      display: inline-grid;
+      place-items: center;
+      width: 2.45vmin;
+      height: 2.45vmin;
+      margin-right: .45vmin;
+      border-radius: 50%;
+      color: #fff7df;
+      font-size: 1.55vmin;
+      line-height: 1;
+      text-shadow: 0 .1vmin rgba(0, 0, 0, .15);
+    }
+
+    .icon.energy-icon {
+      background: #efb72e;
+    }
+
+    .icon.money-icon {
+      background: #4ca764;
+    }
+
+    .cafe-customer {
+      position: absolute;
+      left: 22.8%;
+      bottom: 5.2%;
+      width: min(30%, 40vmin);
+      height: 66%;
+      display: grid;
+      place-items: end center;
+      transform: translateX(-42vw);
+      opacity: 0;
+      z-index: 5;
+      animation: walkIn .72s cubic-bezier(.18, .78, .24, 1) forwards;
+    }
+
+    .cafe-customer img {
+      --customer-x: 0%;
+      --customer-y: 0%;
+      --customer-scale: 1;
+      width: 100%;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 .7vmin 1vmin rgba(55, 33, 18, .28));
+      transform-origin: 50% 100%;
+      will-change: transform;
+      animation: customerIdle 5.2s cubic-bezier(.45, 0, .55, 1) infinite;
+    }
+
+    .speech {
+      position: absolute;
+      left: 40%;
+      top: 31%;
+      width: 42%;
+      padding: 2.3vmin 2.7vmin;
+      border: .32vmin solid #ad7b48;
+      border-radius: 2.2vmin;
+      background: linear-gradient(180deg, rgba(255, 253, 236, .97), rgba(255, 243, 209, .97));
+      box-shadow: var(--shadow);
+      text-align: center;
+      transform: scale(.88);
+      opacity: 0;
+      transform-origin: 15% 100%;
+      animation: bubbleIn .28s .48s cubic-bezier(.18, .88, .28, 1.25) forwards;
+      z-index: 8;
+      isolation: isolate;
+    }
+
+    .speech::before {
+      content: "";
+      position: absolute;
+      left: -1.6vmin;
+      bottom: -2.2vmin;
+      width: 5.1vmin;
+      height: 5vmin;
+      background: linear-gradient(180deg, rgba(255, 253, 236, .97), rgba(255, 243, 209, .97));
+      clip-path: polygon(100% 0, 8% 100%, 68% 18%);
+      filter:
+        drop-shadow(-.18vmin 0 0 #ad7b48)
+        drop-shadow(0 .18vmin 0 #ad7b48);
+      z-index: -1;
+    }
+
+    .customer-name {
+      display: inline-flex;
+      align-items: center;
+      max-width: 100%;
+      min-height: 3.1vmin;
+      padding: .45vmin 1.2vmin .35vmin;
+      margin-bottom: 1vmin;
+      border-radius: 999px;
+      background: #8cb66a;
+      color: #fff9e8;
+      font-size: clamp(11px, 1.55vmin, 17px);
+      font-weight: 600;
+      line-height: 1.15;
+      box-shadow: inset 0 -.2vmin rgba(67, 95, 43, .2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-text {
+      margin: 0;
+      color: #4b3327;
+      font-size: clamp(15px, 2.34vmin, 28px);
+      font-weight: 600;
+      line-height: 1.36;
+      text-align: center;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .order-type {
+      display: none;
+    }
+
+    .counter-actions {
+      position: absolute;
+      left: 40%;
+      top: 44%;
+      display: flex;
+      align-items: center;
+      gap: 1.1vmin;
+      z-index: 9;
+      opacity: 0;
+      transform: translateY(1vmin);
+      animation: fadeUp .26s .72s ease-out forwards;
+    }
+
+    .primary,
+    .secondary,
+    .icon-btn {
+      min-width: 12vmin;
+      min-height: 4.9vmin;
+      border: .24vmin solid rgba(104, 64, 32, .66);
+      border-radius: .9vmin;
+      background: #f9e4b5;
+      box-shadow: 0 .42vmin 0 rgba(114, 71, 33, .34);
+      cursor: pointer;
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
+      font-size: clamp(12px, 1.65vmin, 18px);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .primary {
+      color: #fffaf0;
+      background: linear-gradient(180deg, #91bd70, #628f4b);
+    }
+
+    .secondary {
+      color: #5f3d25;
+      background: linear-gradient(180deg, #fff3d1, #eec786);
+    }
+
+    .primary:active,
+    .secondary:active,
+    .icon-btn:active,
+    .machine-button:active,
+    .customer-choice:active {
+      transform: translateY(.35vmin) scale(.97);
+      box-shadow: 0 .12vmin 0 rgba(114, 71, 33, .28);
+    }
+
+
+    .prep-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    .machine-button,
+    .customer-choice,
+    .ingredient-hotspot,
+    .phone-hotspot,
+    .trash-button {
+      position: absolute;
+      border: 0;
+      border-radius: 1vmin;
+      background: rgba(255, 255, 255, .02);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .machine-button {
+      display: grid;
+      place-items: center;
+      color: transparent;
+      outline: .2vmin solid transparent;
+      transition: outline-color .14s ease, background .14s ease, transform .12s ease;
+    }
+
+    .machine-button.selected {
+      outline-color: rgba(255, 249, 214, .95);
+      background: rgba(255, 251, 218, .18);
+      box-shadow: 0 0 1.2vmin rgba(255, 241, 168, .95);
+      animation: buttonPop .26s ease;
+    }
+
+    .hot-zone,
+    .ice-zone { display: none; }
+    .shot-zone { left: 1.2%; top: 44.2%; width: 7.9%; height: 17.2%; }
+    .hot-cup-zone { left: 87.3%; top: 44.1%; width: 10.7%; height: 22.3%; }
+    .ice-cup-zone { left: 87.3%; top: 66.5%; width: 10.7%; height: 23.2%; }
+
+    .shot-count {
+      position: absolute;
+      left: 2.2%;
+      top: 61.3%;
+      min-width: 4.2vmin;
+      height: 2.4vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #fff4d4;
+      border: .18vmin solid rgba(121, 78, 43, .45);
+      color: #775034;
+      font-size: clamp(10px, 1.22vmin, 13px);
+      z-index: 7;
+      opacity: .92;
+    }
+
+    .ingredient-hotspot {
+      display: grid;
+      place-items: center;
+      outline: .18vmin solid transparent;
+      transition: outline-color .12s ease, background .12s ease, transform .12s ease;
+    }
+
+    .ingredient-hotspot::after {
+      content: "";
+      display: none;
+      position: absolute;
+      left: 50%;
+      bottom: .45vmin;
+      transform: translateX(-50%);
+      max-width: 92%;
+      padding: .2vmin .45vmin;
+      border-radius: .42vmin;
+      background: rgba(255, 249, 227, .72);
+      color: rgba(69, 43, 25, .76);
+      font-size: clamp(8px, 1vmin, 12px);
+      line-height: 1;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .12s ease;
+      pointer-events: none;
+    }
+
+    .ingredient-hotspot:hover,
+    .ingredient-hotspot:focus-visible {
+      outline-color: rgba(255, 252, 226, .92);
+      background: rgba(255, 255, 255, .13);
+    }
+
+    .ingredient-hotspot:hover::after,
+    .ingredient-hotspot:focus-visible::after {
+      opacity: 0;
+    }
+
+    .ingredient-hotspot:active {
+      transform: scale(.94);
+      background: rgba(255, 255, 255, .2);
+    }
+
+    .phone-hotspot {
+      display: none;
+      padding: 0;
+      background: transparent;
+      color: transparent;
+      z-index: 12;
+      touch-action: manipulation;
+    }
+
+    .phone-hotspot::before,
+    .phone-hotspot::after {
+      content: "";
+      position: absolute;
+      inset: -9%;
+      border-radius: 18%;
+      pointer-events: none;
+    }
+
+    .phone-hotspot::before {
+      border: .22vmin solid rgba(255, 246, 196, .88);
+      box-shadow:
+        0 0 .85vmin rgba(255, 239, 156, .75),
+        inset 0 0 .5vmin rgba(255, 255, 255, .35);
+      animation: phoneHintPulse 1.9s ease-in-out infinite;
+    }
+
+    .phone-hotspot::after {
+      inset: -18%;
+      background:
+        radial-gradient(circle at 24% 18%, rgba(255, 255, 255, .78) 0 7%, transparent 8%),
+        radial-gradient(circle at 73% 79%, rgba(124, 214, 255, .34) 0 11%, transparent 12%);
+      opacity: .76;
+      animation: phoneHintGlint 2.6s ease-in-out infinite;
+    }
+
+    .phone-hotspot:hover::before,
+    .phone-hotspot:focus-visible::before {
+      border-color: rgba(255, 255, 230, .98);
+      box-shadow:
+        0 0 1.4vmin rgba(255, 241, 165, .9),
+        inset 0 0 .55vmin rgba(255, 255, 255, .45);
+    }
+
+    .phone-hotspot:active {
+      transform: scale(.96) rotate(-1.5deg);
+    }
+
+    .phone-hotspot.opening::before {
+      animation: phoneOpenPop .42s cubic-bezier(.2, .88, .28, 1.25);
+    }
+
+    .phone-preview {
+      position: absolute;
+      inset: 0;
+      z-index: 80;
+      overflow: hidden;
+      background: rgba(42, 31, 24, .26);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease;
+    }
+
+    .phone-preview.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .phone-preview-panel {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255, 235, 229, .82), transparent 28%),
+        radial-gradient(circle at 88% 28%, rgba(225, 239, 255, .9), transparent 31%),
+        #fffaf6;
+      color: #5f4a41;
+      transform: translateY(18%) scale(.86);
+      transform-origin: 50% 100%;
+      transition: transform .34s cubic-bezier(.2, .86, .24, 1);
+    }
+
+    .phone-preview.open .phone-preview-panel {
+      transform: translateY(0) scale(1);
+    }
+
+    .phone-close-button {
+      position: absolute;
+      top: max(2.6vmin, env(safe-area-inset-top));
+      right: 3vmin;
+      width: 5.8vmin;
+      height: 5.8vmin;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .74);
+      color: rgba(109, 87, 74, .78);
+      box-shadow: 0 1.1vmin 2.4vmin rgba(206, 180, 172, .24);
+      font-size: clamp(20px, 4.1vmin, 34px);
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .phone-clock {
+      margin-top: 12.5vmin;
+      display: grid;
+      justify-items: center;
+      gap: 1.1vmin;
+    }
+
+    .phone-meridiem {
+      color: rgba(95, 74, 65, .72);
+      font-size: clamp(13px, 2.4vmin, 18px);
+      line-height: 1;
+    }
+
+    .phone-time {
+      color: #5f4a41;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(52px, 13.2vmin, 90px);
+      font-weight: 500;
+      line-height: .95;
+      letter-spacing: 0;
+    }
+
+    .phone-app-grid {
+      width: min(88%, 58vmin);
+      margin: auto auto 10vmin;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.8vmin;
+    }
+
+    .phone-app-button {
+      min-width: 0;
+      min-height: 9.2vmin;
+      display: flex;
+      align-items: center;
+      gap: 1.5vmin;
+      padding: 1.4vmin 1.6vmin;
+      border: 0;
+      border-radius: 1.4vmin;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 .8vmin 2vmin rgba(222, 199, 196, .22);
+      color: #5f4a41;
+      cursor: pointer;
+    }
+
+    .phone-app-icon {
+      flex: 0 0 5.8vmin;
+      width: 5.8vmin;
+      height: 5.8vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 1.25vmin;
+      background: linear-gradient(135deg, var(--app-a), var(--app-b));
+      color: #fff;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(13px, 2.1vmin, 18px);
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 .55vmin 1.3vmin rgba(120, 95, 105, .24);
+    }
+
+    .phone-app-name {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: #5f4a41;
+      font-size: clamp(12px, 2vmin, 16px);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .trash-button {
+      left: 1.2%;
+      top: 75.6%;
+      width: 7.1%;
+      height: 19%;
+    }
+
+    .order-card {
+      position: absolute;
+      left: 78.8%;
+      top: 5.8%;
+      width: 19.1%;
+      height: 33.8%;
+      padding: 10.1vmin 1.7vmin 1.5vmin;
+      color: #5d3d29;
+      text-align: center;
+      z-index: 6;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .order-card .small-title {
+      display: none;
+    }
+
+    .order-card p {
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      line-clamp: 5;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-align: center;
+      font-size: clamp(9px, 1.12vmin, 13px);
+      line-height: 1.34;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .delivery-zone {
+      position: absolute;
+      left: 58.6%;
+      top: 5.6%;
+      width: 18.3%;
+      height: 34.2%;
+      border: .28vmin dashed transparent;
+      border-radius: 1.2vmin;
+      z-index: 5;
+      pointer-events: none;
+      transition: border-color .15s ease, background .15s ease;
+    }
+
+    .delivery-zone.ready {
+      border-color: rgba(255, 247, 212, .8);
+      background: rgba(255, 248, 218, .08);
+      animation: deliveryPulse 1.15s ease-in-out infinite;
+    }
+
+    .delivery-zone.hot {
+      border-color: rgba(128, 190, 94, .85);
+      background: rgba(255, 250, 216, .19);
+    }
+
+    .drink-workspace {
+      position: absolute;
+      left: 9.9%;
+      top: 5.7%;
+      width: 47.3%;
+      height: 34.1%;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .drink-workspace::before {
+      content: "";
+      position: absolute;
+      display: none;
+      left: 50%;
+      top: 50%;
+      width: 23vmin;
+      height: 27vmin;
+      transform: translate(-50%, -50%);
+      border-radius: 1.8vmin;
+      background:
+        radial-gradient(ellipse at 50% 44%, rgba(255, 236, 199, .95), rgba(239, 195, 139, .94) 58%, rgba(226, 174, 110, .88)),
+        linear-gradient(180deg, rgba(246, 211, 166, .92), rgba(224, 170, 105, .9));
+      box-shadow:
+        inset 0 0 1.2vmin rgba(255, 251, 232, .42),
+        0 .4vmin 1.2vmin rgba(123, 79, 42, .1);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .cup {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 17.2vmin;
+      height: 23.1vmin;
+      transform: translate(-50%, -48%);
+      transform-origin: 50% 90%;
+      pointer-events: auto;
+      touch-action: none;
+      cursor: grab;
+      filter: drop-shadow(0 .55vmin .75vmin rgba(81, 48, 23, .24));
+      transition: filter .15s ease;
+      z-index: 12;
+    }
+
+    .cup.dragging {
+      cursor: grabbing;
+      filter: drop-shadow(0 1.1vmin 1.35vmin rgba(68, 38, 18, .34));
+      transition: none;
+      z-index: 30;
+    }
+
+    .cup.shake {
+      animation: cupShake .24s ease;
+    }
+
+    .cup.pop {
+      animation: cupPop .32s cubic-bezier(.2, .88, .24, 1.2);
+    }
+
+    .cup-body {
+      position: absolute;
+      left: 14%;
+      top: 7%;
+      width: 72%;
+      height: 85%;
+      overflow: hidden;
+      clip-path: polygon(8% 1%, 92% 1%, 79% 99%, 21% 99%);
+      border-radius: 1.8vmin 1.8vmin 3.4vmin 3.4vmin;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .36), transparent 24%, rgba(255, 255, 255, .2) 74%, rgba(255, 255, 255, .54)),
+        rgba(255, 255, 255, .18);
+    }
+
+    .cup-outline {
+      position: absolute;
+      inset: 0;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 220'%3E%3Cellipse cx='80' cy='21' rx='67' ry='18' fill='none' stroke='rgba(255,255,255,.92)' stroke-width='5'/%3E%3Cpath d='M19 25 L45 207 Q80 222 115 207 L141 25' fill='none' stroke='rgba(255,255,255,.88)' stroke-width='5' stroke-linejoin='round'/%3E%3Cellipse cx='80' cy='198' rx='35' ry='12' fill='none' stroke='rgba(255,255,255,.58)' stroke-width='4'/%3E%3C/svg%3E")
+        center / contain no-repeat;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .liquid {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: 0;
+      height: 0%;
+      background: rgba(160, 109, 61, .78);
+      transition: height .22s ease, background-color .22s ease;
+      overflow: hidden;
+    }
+
+    .liquid::before {
+      content: "";
+      position: absolute;
+      left: -12%;
+      top: -1.2vmin;
+      width: 124%;
+      height: 2.4vmin;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .24);
+      transform: rotate(-2deg);
+      animation: slosh 1.8s ease-in-out infinite;
+    }
+
+    .liquid-layer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: var(--h, 12%);
+      bottom: var(--b, 0%);
+      background: var(--c, rgba(160, 109, 61, .8));
+      opacity: .9;
+      transition: bottom .2s ease;
+    }
+
+    .ice-cube,
+    .pearl-dot,
+    .bubble-dot,
+    .spark-dot,
+    .whip {
+      position: absolute;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .ice-cube {
+      width: 2.1vmin;
+      height: 1.7vmin;
+      border: .18vmin solid rgba(255, 255, 255, .78);
+      border-radius: .35vmin;
+      background: rgba(205, 240, 255, .45);
+      transform: rotate(var(--r, -12deg));
+      animation: iceFloat 2.3s ease-in-out infinite;
+    }
+
+    .pearl-dot {
+      width: 1.25vmin;
+      height: 1.25vmin;
+      border-radius: 50%;
+      background: #252019;
+      box-shadow: inset -.18vmin -.18vmin rgba(255, 255, 255, .12);
+    }
+
+    .bubble-dot {
+      width: .75vmin;
+      height: .75vmin;
+      border: .14vmin solid rgba(255, 255, 255, .78);
+      border-radius: 50%;
+      opacity: .78;
+      animation: bubbleRise 1.35s ease-in infinite;
+    }
+
+    .spark-dot {
+      width: .72vmin;
+      height: .72vmin;
+      border-radius: 50%;
+      background: #ffe66d;
+      box-shadow: 0 0 .8vmin #fff2a2;
+      animation: sparkle .7s ease-out forwards;
+    }
+
+    .whip {
+      left: 24%;
+      top: 18%;
+      width: 52%;
+      height: 24%;
+      background:
+        radial-gradient(circle at 47% 28%, #fff 0 18%, transparent 19%),
+        radial-gradient(circle at 35% 51%, #fffdfa 0 26%, transparent 27%),
+        radial-gradient(circle at 62% 55%, #fff7ee 0 27%, transparent 28%),
+        radial-gradient(circle at 50% 78%, #fffaf3 0 34%, transparent 35%);
+      filter: drop-shadow(0 .2vmin .18vmin rgba(135, 94, 61, .18));
+      animation: whipPop .25s ease-out;
+    }
+
+    .cup-label {
+      position: absolute;
+      left: 50%;
+      bottom: -2.4vmin;
+      transform: translateX(-50%);
+      min-width: 9vmin;
+      padding: .35vmin .65vmin;
+      border-radius: 999px;
+      background: rgba(255, 245, 219, .88);
+      border: .16vmin solid rgba(121, 78, 43, .38);
+      color: #795034;
+      text-align: center;
+      font-size: clamp(9px, 1.08vmin, 12px);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .float-particle {
+      position: absolute;
+      width: 2.7vmin;
+      height: 2.7vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(255, 248, 220, .96);
+      border: .2vmin solid rgba(133, 88, 45, .35);
+      box-shadow: 0 .35vmin .7vmin rgba(88, 52, 22, .2);
+      font-size: 1.55vmin;
+      z-index: 40;
+      pointer-events: none;
+      animation: flyToCup .36s cubic-bezier(.17, .84, .38, 1) forwards;
+    }
+
+    .prep-actions {
+      position: absolute;
+      left: 23.4%;
+      bottom: 5.8%;
+      width: 62%;
+      height: 7%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1vmin;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .prep-actions button {
+      pointer-events: auto;
+    }
+
+    .mini-btn {
+      min-width: 10.5vmin;
+      min-height: 4.2vmin;
+      border: .22vmin solid rgba(84, 54, 31, .58);
+      border-radius: .78vmin;
+      background: rgba(255, 242, 209, .94);
+      color: #6a452c;
+      box-shadow: 0 .34vmin 0 rgba(97, 58, 30, .24);
+      cursor: pointer;
+      font-size: clamp(10px, 1.34vmin, 15px);
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .mini-btn:disabled {
+      opacity: .5;
+      cursor: default;
+    }
+
+    .toast {
+      position: absolute;
+      left: 50%;
+      top: 10%;
+      box-sizing: border-box;
+      width: max-content;
+      max-width: 52%;
+      padding: .9vmin 1.4vmin;
+      border-radius: 999px;
+      background: rgba(68, 45, 29, .88);
+      color: #fff6dc;
+      font-size: clamp(10px, 1.45vmin, 16px);
+      line-height: 1.35;
+      transform: translate(-50%, -1vmin);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 60;
+      transition: opacity .18s ease, transform .18s ease;
+      text-align: center;
+      white-space: normal;
+      overflow-wrap: keep-word;
+      word-break: keep-all;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .result {
+      position: absolute;
+      inset: 0;
+      display: none;
+      place-items: center;
+      background: rgba(42, 29, 20, .42);
+      z-index: 80;
+    }
+
+    .result.show {
+      display: grid;
+    }
+
+    .result-panel {
+      position: relative;
+      width: min(76vmin, 74%);
+      max-height: 82%;
+      padding: 2.4vmin 2.8vmin;
+      border: .32vmin solid #a97948;
+      border-radius: 1.4vmin;
+      background: linear-gradient(180deg, #fff8e7, #f6dcab);
+      box-shadow: 0 1.1vmin 2.8vmin rgba(35, 21, 11, .38);
+      display: grid;
+      grid-template-columns: 15vmin minmax(0, 1fr);
+      grid-template-areas:
+        "face title"
+        "face line"
+        "face reward"
+        "face actions";
+      column-gap: 2vmin;
+      align-items: center;
+      text-align: left;
+      overflow: auto;
+      animation: bubbleIn .22s ease-out;
+    }
+
+    .result-face {
+      grid-area: face;
+      height: 16vmin;
+      display: grid;
+      place-items: center;
+      margin: 0;
+      align-self: center;
+    }
+
+    .result-face img {
+      max-height: 100%;
+      max-width: 14vmin;
+      object-fit: contain;
+      filter: drop-shadow(0 .5vmin .7vmin rgba(70, 42, 20, .24));
+    }
+
+    .reaction-title {
+      grid-area: title;
+      margin: 0 0 .75vmin;
+      color: #69432b;
+      font-size: clamp(16px, 2.3vmin, 26px);
+      line-height: 1.1;
+    }
+
+    .reaction-line {
+      grid-area: line;
+      margin: 0 0 1vmin;
+      max-width: none;
+      color: #4b3327;
+      font-size: clamp(13px, 1.75vmin, 20px);
+      line-height: 1.38;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+    }
+
+    .reward-line {
+      grid-area: reward;
+      min-height: 2.6vmin;
+      color: #2e7340;
+      font-size: clamp(11px, 1.48vmin, 16px);
+      line-height: 1.2;
+      margin-bottom: 1.3vmin;
+    }
+
+    .result-actions {
+      grid-area: actions;
+      display: flex;
+      justify-content: flex-start;
+      gap: 1vmin;
+      flex-wrap: wrap;
+    }
+
+    .portrait-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 1.2%;
+      transform: translateX(-50%);
+      padding: .55vmin 1vmin;
+      border-radius: 999px;
+      background: rgba(61, 42, 29, .74);
+      color: rgba(255, 247, 225, .95);
+      font-size: clamp(9px, 1.15vmin, 12px);
+      line-height: 1;
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @media (orientation: portrait) {
+      .portrait-hint {
+        opacity: 1;
+      }
+    }
+
+    @media (max-aspect-ratio: 13/9) {
+      .speech {
+        left: 35%;
+        width: 52%;
+      }
+
+.badge {
+        min-width: 7.5vmin;
+        padding: 0 .9vmin;
+      }
+    }
+
+    /* Portrait: fill entire screen like lobby */
+    :root {
+      --stage-w: 100vw;
+      --stage-h: 100vh;
+    }
+
+    @supports (height: 100dvh) {
+      :root {
+        --stage-w: 100vw;
+        --stage-h: 100dvh;
+      }
+    }
+
+    .stage.prep-mode {
+      --stage-w: 100vw;
+      --stage-h: 100vh;
+    }
+
+    @supports (height: 100dvh) {
+      .stage.prep-mode {
+        --stage-w: 100vw;
+        --stage-h: 100dvh;
+      }
+    }
+
+    .screen::before {
+      background-size: 100% 100%;
+    }
+
+    #cafeScreen::before {
+      background-image: url("cafe_main.png");
+    }
+
+    .counter-overlay {
+      background: none;
+    }
+
+    .counter-overlay::before,
+    .counter-overlay::after {
+      background: url("cafe_main.png") center / 100% 100% no-repeat;
+    }
+
+    .counter-overlay::before {
+      clip-path: inset(66.4% 0 0 0);
+    }
+
+    .counter-overlay::after {
+      clip-path: polygon(0 53.6%, 36% 53.6%, 36% 64.3%, 0 64.3%);
+    }
+
+    #prepScreen::before {
+      background: url("cafe_prep1.png") center / 100% 100% no-repeat;
+    }
+
+    #prepScreen::after {
+      display: none;
+    }
+
+    .prep-bg-drag {
+      display: none;
+    }
+
+    .hud {
+      top: 1%;
+      left: 2.2%;
+      right: 2.2%;
+      height: 4.6%;
+      gap: .65vmin;
+    }
+
+    .hud-left,
+    .hud-right {
+      gap: .45vmin;
+    }
+
+    .badge {
+      min-width: 6.8vmin;
+      height: 3.6vmin;
+      padding: 0 .75vmin;
+      font-size: clamp(9px, 1.45vmin, 14px);
+    }
+
+    .badge.compact {
+      min-width: 5.2vmin;
+    }
+
+    .icon {
+      width: 2vmin;
+      height: 2vmin;
+      font-size: 1.25vmin;
+    }
+
+    .cafe-customer {
+      left: 28.5%;
+      bottom: 17.8%;
+      width: min(55%, 48vmin);
+      height: 60%;
+      z-index: 5;
+    }
+
+    .speech {
+      left: 7%;
+      top: 31%;
+      width: 86%;
+      padding: 2vmin 2.35vmin;
+      border-radius: 1.7vmin;
+    }
+
+    .speech::before {
+      left: 50%;
+      bottom: -1.9vmin;
+      transform: translateX(-50%) rotate(18deg);
+    }
+
+    .customer-name {
+      min-height: 2.8vmin;
+      margin-bottom: .75vmin;
+      font-size: clamp(10px, 1.5vmin, 15px);
+    }
+
+    .order-text {
+      font-size: clamp(13px, 2.05vmin, 19px);
+      line-height: 1.34;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .counter-actions {
+      left: 7%;
+      top: 40%;
+      transform: translateY(1vmin);
+      justify-content: center;
+      width: 86%;
+    }
+
+    .counter-actions .primary,
+    .counter-actions .secondary {
+      min-width: 24vmin;
+      min-height: 5.2vmin;
+    }
+
+    .prep-overlay {
+      touch-action: none;
+    }
+
+    .ingredient-shelf {
+      position: absolute;
+      left: 5.32%;
+      top: 37.56%;
+      width: 88.77%;
+      height: 27.95%;
+      overflow: hidden;
+      z-index: 2;
+      touch-action: none;
+    }
+
+    .ingredient-strip {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      width: 200%;
+      height: 100%;
+      transform: translate3d(0, 0, 0);
+      transition: transform .36s cubic-bezier(.2, .82, .2, 1);
+      will-change: transform;
+    }
+
+    .ingredient-strip.dragging {
+      transition: none;
+    }
+
+    .ingredient-page {
+      position: relative;
+      flex: 0 0 50%;
+      height: 100%;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .ingredient-page::before {
+      display: block;
+      content: "";
+      position: absolute;
+      left: -6.01%;
+      top: -132.92%;
+      width: 112.3%;
+      height: 353.98%;
+      z-index: 0;
+      pointer-events: none;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: center;
+    }
+
+    .ingredient-page-one::before {
+      background-image: url("cafe_prep1.png");
+    }
+
+    .ingredient-page-two::before {
+      background-image: url("cafe_prep2.png");
+    }
+
+    .ingredient-pager {
+      position: absolute;
+      right: 3.2%;
+      bottom: 3.6%;
+      display: flex;
+      gap: .8vmin;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .ingredient-pager span {
+      width: 1.15vmin;
+      height: 1.15vmin;
+      border-radius: 50%;
+      background: rgba(255, 245, 221, .72);
+      box-shadow: 0 .15vmin .35vmin rgba(80, 43, 15, .28);
+      opacity: .7;
+    }
+
+    .ingredient-shelf[data-page="0"] .ingredient-pager span:first-child,
+    .ingredient-shelf[data-page="1"] .ingredient-pager span:last-child {
+      background: #7fa361;
+      opacity: 1;
+    }
+
+    .ingredient-hotspot {
+      z-index: 3;
+      border-radius: .8vmin;
+      touch-action: none;
+    }
+
+    .ingredient-hotspot::after {
+      bottom: .35vmin;
+      font-size: clamp(8px, 1.15vmin, 12px);
+    }
+
+    .phone-hotspot {
+      display: block;
+      --phone-hit-shape: polygon(13% 0, 92% 4%, 100% 86%, 88% 100%, 0 91%, 5% 12%);
+      left: 47.85%;
+      top: 75.66%;
+      width: 10.65%;
+      height: 6.65%;
+      clip-path: var(--phone-hit-shape);
+    }
+
+    .delivery-zone {
+      left: 60.05%;
+      top: 1.65%;
+      width: 34.05%;
+      height: 16.45%;
+      z-index: 5;
+    }
+
+    .drink-workspace {
+      left: 5.35%;
+      top: 1.65%;
+      width: 52.7%;
+      height: 34.65%;
+      z-index: 8;
+    }
+
+    .cup {
+      width: 22vmin;
+      height: 29vmin;
+    }
+
+    .cup-label {
+      bottom: -1.85vmin;
+      min-width: 7.2vmin;
+      padding: .25vmin .45vmin;
+      font-size: clamp(8px, .92vmin, 10px);
+    }
+
+    .order-card {
+      left: 60.05%;
+      top: 26%;
+      width: 34.05%;
+      height: 11%;
+      padding: 1.2vmin 1.6vmin 1vmin;
+      overflow: hidden;
+    }
+
+    .order-card .small-title {
+      display: block;
+      margin: 0 0 .4vmin;
+      font-size: clamp(8px, 1.05vmin, 11px);
+      color: #9b7348;
+      text-align: center;
+    }
+
+    .order-card p {
+      font-size: clamp(9px, 1.3vmin, 13px);
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
+      line-height: 1.3;
+    }
+
+    .hot-cup-zone {
+      left: 20.15%;
+      top: 70.85%;
+      width: 21.5%;
+      height: 11.95%;
+      z-index: 5;
+    }
+
+    .ice-cup-zone {
+      left: 56.85%;
+      top: 70.85%;
+      width: 21.5%;
+      height: 11.95%;
+      z-index: 5;
+    }
+
+    .trash-button {
+      left: 1.75%;
+      top: 85.3%;
+      width: 14%;
+      height: 9.65%;
+      z-index: 6;
+    }
+
+    .shot-zone {
+      left: 82.65%;
+      top: 85.3%;
+      width: 15.55%;
+      height: 9.65%;
+      z-index: 6;
+    }
+
+    .shot-count {
+      left: 82.65%;
+      right: auto;
+      top: 83.75%;
+      width: 15.55%;
+      min-width: 0;
+      height: 2.45vmin;
+      font-size: clamp(8px, 1.2vmin, 11px);
+      z-index: 8;
+    }
+
+    .prep-actions {
+      left: 18%;
+      bottom: 1%;
+      width: 64%;
+      height: 4.5%;
+      gap: .8vmin;
+      z-index: 16;
+    }
+
+    .mini-btn {
+      min-width: 18vmin;
+      min-height: 4.4vmin;
+      font-size: clamp(9px, 1.35vmin, 13px);
+    }
+
+    .toast {
+      top: 6.2%;
+      max-width: 88%;
+      font-size: clamp(10px, 1.55vmin, 14px);
+    }
+
+    .result-panel {
+      width: min(88%, 82vmin);
+      grid-template-columns: 12vmin minmax(0, 1fr);
+      column-gap: 1.6vmin;
+    }
+
+    .result-face {
+      height: 13vmin;
+    }
+
+    .result-face img {
+      max-width: 11vmin;
+    }
+
+    .portrait-hint {
+      display: none;
+    }
+
+    .ingredient-ghost {
+      position: absolute;
+      width: 6.5vmin;
+      height: 6.5vmin;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--ig-color, #f6d8a8);
+      border: .28vmin solid rgba(133, 88, 45, .55);
+      box-shadow: 0 .7vmin 1.6vmin rgba(88, 52, 22, .35);
+      font-size: 2.2vmin;
+      font-weight: 700;
+      color: #fff;
+      text-shadow:
+        0 .12vmin .25vmin rgba(0, 0, 0, .4),
+        0 0 .6vmin rgba(0, 0, 0, .15);
+      z-index: 50;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(1.08);
+      animation: ghostAppear .18s ease-out;
+    }
+
+    @keyframes ghostAppear {
+      from { transform: translate(-50%, -50%) scale(.5); opacity: 0; }
+      to   { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+    }
+
+    @keyframes phoneHintPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: .5;
+      }
+      50% {
+        transform: scale(1.08);
+        opacity: .95;
+      }
+    }
+
+    @keyframes phoneHintGlint {
+      0%, 100% {
+        transform: translateY(0) scale(.96);
+        opacity: .28;
+      }
+      45% {
+        transform: translateY(-6%) scale(1.04);
+        opacity: .78;
+      }
+    }
+
+    @keyframes phoneOpenPop {
+      0% {
+        transform: scale(1);
+        opacity: .9;
+      }
+      68% {
+        transform: scale(1.5);
+        opacity: .7;
+      }
+      100% {
+        transform: scale(1.85);
+        opacity: 0;
+      }
+    }
+
+    .cup.drop-target {
+      filter: drop-shadow(0 0 1.8vmin rgba(128, 190, 94, .75)) drop-shadow(0 0 .6vmin rgba(128, 190, 94, .4));
+      transform: translate(-50%, -48%) scale(1.06);
+      transition: filter .15s ease, transform .15s ease;
+    }
+
+    .drink-workspace.drop-highlight {
+      outline: .28vmin dashed rgba(128, 190, 94, .7);
+      outline-offset: -.28vmin;
+      border-radius: 1.2vmin;
+      background: rgba(128, 190, 94, .06);
+    }
+
+    @keyframes walkIn {
+      0% {
+        transform: translateX(-42vw) translateY(.7vmin) scale(.98);
+        opacity: 0;
+      }
+      72% {
+        transform: translateX(.8vmin) translateY(.05vmin) scale(1.004);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes walkOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(42vw);
+        opacity: 0;
+      }
+    }
+
+    @keyframes bubbleOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(.85);
+      }
+    }
+
+    @keyframes customerIdle {
+      0%, 100% {
+        transform: translate(var(--customer-x), var(--customer-y)) rotate(0deg) scale(var(--customer-scale));
+      }
+      34% {
+        transform: translate(var(--customer-x), var(--customer-y)) translateY(.12vmin) rotate(-.18deg) scale(var(--customer-scale)) scale(1.002, .998);
+      }
+      68% {
+        transform: translate(var(--customer-x), var(--customer-y)) translateY(-.16vmin) rotate(.2deg) scale(var(--customer-scale)) scale(.998, 1.003);
+      }
+    }
+
+    @keyframes bubbleIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes buttonPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes cupPop {
+      0% { transform: translate(-50%, -48%) scale(.92); }
+      55% { transform: translate(-50%, -48%) scale(1.08); }
+      100% { transform: translate(-50%, -48%) scale(1); }
+    }
+
+    @keyframes cupShake {
+      0%, 100% { transform: translate(-50%, -48%) rotate(0deg); }
+      25% { transform: translate(-51%, -48%) rotate(-2deg); }
+      75% { transform: translate(-49%, -48%) rotate(2deg); }
+    }
+
+    @keyframes slosh {
+      0%, 100% { transform: translateX(-2%) rotate(-2deg); }
+      50% { transform: translateX(2%) rotate(2deg); }
+    }
+
+    @keyframes flyToCup {
+      to {
+        transform: translate(var(--tx), var(--ty)) scale(.25);
+        opacity: .15;
+      }
+    }
+
+    @keyframes deliveryPulse {
+      0%, 100% { box-shadow: inset 0 0 0 rgba(255, 247, 212, .3); }
+      50% { box-shadow: inset 0 0 2vmin rgba(255, 247, 212, .45); }
+    }
+
+    @keyframes iceFloat {
+      0%, 100% { transform: translateY(0) rotate(var(--r)); }
+      50% { transform: translateY(-.5vmin) rotate(calc(var(--r) + 4deg)); }
+    }
+
+    @keyframes bubbleRise {
+      from { transform: translateY(1.2vmin); opacity: 0; }
+      35% { opacity: .78; }
+      to { transform: translateY(-6.8vmin); opacity: 0; }
+    }
+
+    @keyframes sparkle {
+      from { transform: scale(.4); opacity: 1; }
+      to { transform: translateY(-3vmin) scale(1.3); opacity: 0; }
+    }
+
+    @keyframes whipPop {
+      from { transform: translateY(.9vmin) scale(.78); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .tutorial-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 160;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .32s ease;
+    }
+
+    .tutorial-layer.show {
+      opacity: 1;
+    }
+
+    .tutorial-dim {
+      position: absolute;
+      inset: 0;
+      background: rgba(33, 22, 14, .36);
+      transition: opacity .25s ease;
+    }
+
+    .tutorial-spotlight {
+      position: absolute;
+      left: var(--tx, 50%);
+      top: var(--ty, 50%);
+      width: var(--tw, 20%);
+      height: var(--th, 12%);
+      border: .35vmin solid rgba(255, 245, 181, .96);
+      border-radius: 1.2vmin;
+      box-shadow:
+        0 0 0 .28vmin rgba(103, 69, 35, .52),
+        0 0 2.2vmin rgba(255, 239, 161, .76),
+        inset 0 0 1.1vmin rgba(255, 246, 191, .38);
+      transform: translateZ(0);
+      transition: left .32s cubic-bezier(.2,.8,.3,1), top .32s cubic-bezier(.2,.8,.3,1), width .32s cubic-bezier(.2,.8,.3,1), height .32s cubic-bezier(.2,.8,.3,1), opacity .28s ease;
+    }
+
+    .tutorial-card {
+      position: absolute;
+      left: var(--card-x, 50%);
+      top: var(--card-y, 50%);
+      width: min(42vmin, calc(100% - 4vmin));
+      max-width: calc(100% - 4vmin);
+      padding: 2.2vmin;
+      border: .3vmin solid rgba(112, 74, 39, .86);
+      border-radius: 1.2vmin;
+      background: rgba(255, 248, 224, .98);
+      box-shadow: 0 .7vmin 0 rgba(89, 55, 26, .32), 0 1.4vmin 3vmin rgba(50, 28, 14, .28);
+      pointer-events: auto;
+      transform: translate(-50%, -50%);
+    }
+
+    .tutorial-kicker {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.35vmin;
+      padding: .25vmin .8vmin;
+      border-radius: 999px;
+      background: #7fa361;
+      color: #fff8df;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(10px, 1.18vmin, 14px);
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tutorial-card h2 {
+      margin: 1vmin 0 .75vmin;
+      color: #3c271c;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(17px, 2.15vmin, 25px);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .tutorial-card p {
+      margin: 0;
+      color: #5f4632;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(13px, 1.6vmin, 18px);
+      font-weight: 400;
+      line-height: 1.5;
+      white-space: pre-line;
+      word-break: keep-all;
+    }
+
+    .tutorial-recipe {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55vmin;
+      margin-top: 1.15vmin;
+    }
+
+    .tutorial-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.15vmin;
+      padding: .25vmin .75vmin;
+      border: .16vmin solid rgba(110, 76, 42, .5);
+      border-radius: 999px;
+      background: #fff0c9;
+      color: #68482c;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(10px, 1.18vmin, 14px);
+      font-weight: 500;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .tutorial-actions {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: .75vmin;
+      align-items: center;
+      margin-top: 1.6vmin;
+    }
+
+    .tutorial-actions button {
+      min-height: 3.45vmin;
+      padding: 0 1.15vmin;
+      border: .2vmin solid rgba(94, 62, 34, .66);
+      border-radius: .72vmin;
+      background: #fff6da;
+      color: #5b3b22;
+      box-shadow: 0 .26vmin 0 rgba(96, 61, 31, .22);
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-size: clamp(11px, 1.35vmin, 16px);
+      font-weight: 600;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .tutorial-actions button:disabled {
+      opacity: .42;
+      cursor: default;
+    }
+
+    .tutorial-actions .tutorial-next {
+      background: #e76f51;
+      color: #fff9e8;
+      border-color: rgba(126, 58, 38, .82);
+      min-width: 8.6vmin;
+    }
+
+    .tutorial-actions .tutorial-try {
+      grid-column: 1 / -1;
+      background: linear-gradient(180deg, #91bd70, #628f4b);
+      color: #fff9e8;
+      border-color: rgba(72, 106, 42, .82);
+      min-height: 4vmin;
+      font-size: clamp(12px, 1.5vmin, 17px);
+      font-weight: 700;
+    }
+
+    .tutorial-target {
+      position: relative;
+      z-index: 151;
+      filter: drop-shadow(0 0 .8vmin rgba(255, 236, 147, .72));
+    }
+
+    .tutorial-card {
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .tutorial-card.step-out {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.92);
+    }
+
+    .tutorial-card.step-in {
+      animation: tutorialStepIn .28s ease-out;
+    }
+
+    @keyframes tutorialStepIn {
+      from { opacity: 0; transform: translate(-50%, -50%) translateY(1.5vmin) scale(.95); }
+      to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @media (orientation: portrait) {
+      .tutorial-card {
+        width: min(86vw, 370px);
+        padding: 16px;
+      }
+
+      .tutorial-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .tutorial-actions .tutorial-skip {
+        grid-column: 1 / -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell" aria-label="카페 미니게임">
+    <section class="stage" id="stage">
+      <div class="hud" aria-live="polite">
+        <div class="hud-left">
+          <span class="badge time" id="timeBadge">--:--</span>
+          <span class="badge" id="dateBadge">--</span>
+        </div>
+        <div class="hud-right">
+          <span class="badge energy"><span class="icon energy-icon">⚡</span><span id="energyText">5</span></span>
+          <span class="badge money"><span class="icon money-icon">₩</span><span id="moneyText">12,000원</span></span>
+        </div>
+      </div>
+
+      <section class="screen active" id="cafeScreen" aria-label="카페 화면">
+        <div class="cafe-customer" id="cafeCustomer">
+          <img id="customerImage" src="customers/student.png" alt="">
+        </div>
+
+        <div class="speech" id="speechBubble">
+          <span class="customer-name" id="customerName">손님</span>
+          <p class="order-text" id="orderText">주문을 기다리는 중...</p>
+          <div class="order-type" id="orderType">NORMAL</div>
+        </div>
+
+        <div class="counter-actions">
+          <button class="primary" id="makeButton" type="button">네, 만들어볼게요</button>
+          <button class="secondary" id="listenButton" type="button">네...?</button>
+        </div>
+
+        <button class="phone-hotspot" id="phoneButton" type="button" aria-label="핸드폰 열기"></button>
+
+        <div class="counter-overlay" id="counterOverlay"></div>
+      </section>
+
+      <section class="screen" id="prepScreen" aria-label="제조 화면">
+        <div class="prep-bg-drag" aria-hidden="true">
+          <div class="prep-bg-strip" id="prepBgStrip">
+            <div class="prep-bg-page prep-bg-one"></div>
+            <div class="prep-bg-page prep-bg-two"></div>
+          </div>
+        </div>
+
+        <div class="prep-overlay">
+          <div class="ingredient-shelf" id="ingredientShelf" data-page="0">
+            <div class="ingredient-strip" id="ingredientStrip">
+              <div class="ingredient-page ingredient-page-one" data-page="0"></div>
+              <div class="ingredient-page ingredient-page-two" data-page="1"></div>
+            </div>
+            <div class="ingredient-pager">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <button class="machine-button hot-zone" id="hotButton" type="button" aria-label="HOT 선택">HOT</button>
+          <button class="machine-button ice-zone" id="iceButton" type="button" aria-label="ICE 선택">ICE</button>
+          <button class="machine-button shot-zone" id="shotButton" type="button" aria-label="샷 추가">SHOT</button>
+          <button class="machine-button hot-cup-zone" id="hotCupButton" type="button" aria-label="HOT 컵 선택">HOT 컵</button>
+          <button class="machine-button ice-cup-zone" id="iceCupButton" type="button" aria-label="ICE 컵 선택">ICE 컵</button>
+          <button class="trash-button" id="trashButton" type="button" aria-label="버리기"></button>
+
+          <div class="shot-count" id="shotCount">SHOT 0</div>
+          <div class="delivery-zone" id="deliveryZone" aria-hidden="true"></div>
+
+          <div class="drink-workspace" id="drinkWorkspace">
+            <div class="cup pop" id="cup" role="button" aria-label="완성 음료를 손님에게 드래그해서 전달">
+              <div class="cup-body" id="cupBody">
+                <div class="liquid" id="liquid"></div>
+              </div>
+              <div class="cup-outline"></div>
+              <div class="cup-label" id="cupLabel">빈 컵</div>
+            </div>
+          </div>
+
+          <div class="order-card">
+            <h2 class="small-title">주문 메모</h2>
+            <p id="orderMemo">손님 말을 잘 떠올려보자.</p>
+          </div>
+
+          <div class="prep-actions">
+            <button class="mini-btn" id="backButton" type="button">카운터로</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="result" id="resultLayer" aria-live="assertive">
+        <div class="result-panel">
+          <div class="result-face">
+            <img id="resultImage" src="customers/student.png" alt="">
+          </div>
+          <h2 class="reaction-title" id="reactionTitle">반응</h2>
+          <p class="reaction-line" id="reactionLine">...</p>
+          <div class="reward-line" id="rewardLine"></div>
+          <div class="result-actions">
+            <button class="primary" id="nextButton" type="button">다음 손님</button>
+            <button class="secondary" id="storyButton" type="button">스토리 보기 (행동력 +1)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="phone-preview" id="phonePreview" aria-hidden="true">
+        <div class="phone-preview-panel" role="dialog" aria-modal="true" aria-label="핸드폰">
+          <button class="phone-close-button" id="phoneCloseButton" type="button" aria-label="핸드폰 닫기">×</button>
+          <div class="phone-clock">
+            <span class="phone-meridiem" id="phoneMeridiem">오후</span>
+            <strong class="phone-time" id="phoneTime">3:00</strong>
+          </div>
+          <div class="phone-app-grid" aria-label="핸드폰 앱">
+            <button class="phone-app-button" type="button" data-app="선물샵" style="--app-a:#ff8b86;--app-b:#ff7276">
+              <span class="phone-app-icon">S</span>
+              <span class="phone-app-name">선물샵</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="E-class" style="--app-a:#75adff;--app-b:#548eff">
+              <span class="phone-app-icon">E</span>
+              <span class="phone-app-name">E-class</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="캘린더" style="--app-a:#ffc56f;--app-b:#ffaf5d">
+              <span class="phone-app-icon">C</span>
+              <span class="phone-app-name">캘린더</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="앨범" style="--app-a:#6ad8c3;--app-b:#48c1b0">
+              <span class="phone-app-icon">A</span>
+              <span class="phone-app-name">앨범</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="메신저" style="--app-a:#a590ff;--app-b:#8b76f6">
+              <span class="phone-app-icon">M</span>
+              <span class="phone-app-name">메신저</span>
+            </button>
+            <button class="phone-app-button" type="button" data-app="오늘의 운세" style="--app-a:#ff95c3;--app-b:#ff79b0">
+              <span class="phone-app-icon">F</span>
+              <span class="phone-app-name">오늘의 운세</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast">알림</div>
+      <div class="portrait-hint">가로 화면에 맞춰 만든 미니게임입니다</div>
+
+      <div class="tutorial-layer" id="tutorialLayer" aria-live="polite">
+        <div class="tutorial-dim" aria-hidden="true"></div>
+        <div class="tutorial-spotlight" id="tutorialSpotlight" aria-hidden="true"></div>
+        <aside class="tutorial-card" id="tutorialCard" role="dialog" aria-labelledby="tutorialTitle">
+          <div class="tutorial-kicker" id="tutorialProgress">튜토리얼</div>
+          <h2 id="tutorialTitle">주문 읽기</h2>
+          <p id="tutorialText">손님의 말을 보고 필요한 컵, 재료, 샷을 추리합니다.</p>
+          <div class="tutorial-recipe" id="tutorialRecipe" aria-label="이번 튜토리얼 레시피"></div>
+          <div class="tutorial-actions">
+            <button class="tutorial-skip" id="tutorialSkip" type="button">건너뛰기</button>
+            <button id="tutorialPrev" type="button">이전</button>
+            <button class="tutorial-next" id="tutorialNext" type="button">다음</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const INGREDIENTS = [
+      { name: "물", color: "#d5eff8", icon: "물", x: 10.9, y: 43.6, w: 7.4, h: 16.8, flavor: "clean" },
+      { name: "우유", color: "#fff1d2", icon: "우", x: 18.3, y: 43.6, w: 7.4, h: 16.8, flavor: "milk" },
+      { name: "두유", color: "#ead4a3", icon: "두", x: 25.7, y: 43.6, w: 7.4, h: 16.8, flavor: "milk" },
+      { name: "초콜릿", color: "#6b3e2d", icon: "초", x: 33.2, y: 43.6, w: 7.4, h: 16.8, flavor: "sweet" },
+      { name: "춘장", color: "#2d211b", icon: "춘", x: 40.9, y: 43.6, w: 7.25, h: 16.8, flavor: "danger" },
+      { name: "레몬", color: "#ffe15d", icon: "레", x: 48.35, y: 43.6, w: 7.25, h: 16.8, flavor: "sour" },
+      { name: "카라멜", color: "#c67a29", icon: "카", x: 55.8, y: 43.6, w: 7.25, h: 16.8, flavor: "sweet" },
+      { name: "피스타치오", color: "#9dbf63", icon: "피", x: 63.25, y: 43.6, w: 7.25, h: 16.8, flavor: "nut" },
+      { name: "딸기", color: "#e85c68", icon: "딸", x: 70.7, y: 43.6, w: 7.25, h: 16.8, flavor: "fruit" },
+      { name: "수박", color: "#e84f4d", icon: "수", x: 78.1, y: 43.6, w: 7.25, h: 16.8, flavor: "fruit" },
+      { name: "녹차", color: "#5f9c4b", icon: "녹", x: 11.7, y: 61.7, w: 8.25, h: 17.1, flavor: "tea" },
+      { name: "시금치", color: "#3f7e36", icon: "시", x: 20.1, y: 61.7, w: 8.1, h: 17.1, flavor: "danger" },
+      { name: "꿀", color: "#f2b829", icon: "꿀", x: 28.3, y: 61.7, w: 8.1, h: 17.1, flavor: "sweet" },
+      { name: "연유", color: "#f7e3b7", icon: "연", x: 36.4, y: 61.7, w: 8.1, h: 17.1, flavor: "sweet" },
+      { name: "펄", color: "#252019", icon: "펄", x: 44.5, y: 61.7, w: 8.1, h: 17.1, flavor: "topping" },
+      { name: "휘핑크림", color: "#fff9ef", icon: "휘", x: 52.5, y: 61.7, w: 8.1, h: 17.1, flavor: "topping" },
+      { name: "홍차", color: "#a45e36", icon: "홍", x: 60.6, y: 61.7, w: 8.1, h: 17.1, flavor: "tea" },
+      { name: "탄산수", color: "#bdeeff", icon: "탄", x: 68.6, y: 61.7, w: 8.1, h: 17.1, flavor: "sparkle" }
+    ];
+
+    const ingredientByName = Object.fromEntries(INGREDIENTS.map((item) => [item.name, item]));
+
+    const SHELF_HOTSPOTS = [
+      /* Page 0 (2-1): 2×4 grid */
+      { name: "물", page: 0, x: 2.35, y: 3.15, w: 22.7, h: 44.8 },
+      { name: "우유", page: 0, x: 26.2, y: 3.15, w: 22.7, h: 44.8 },
+      { name: "두유", page: 0, x: 50.05, y: 3.15, w: 22.85, h: 44.8 },
+      { name: "초콜릿", page: 0, x: 74.2, y: 3.15, w: 22.8, h: 44.8 },
+      { name: "춘장", page: 0, x: 2.35, y: 51.1, w: 22.7, h: 45.6 },
+      { name: "레몬", page: 0, x: 26.2, y: 51.1, w: 22.7, h: 45.6 },
+      { name: "카라멜", page: 0, x: 50.05, y: 51.1, w: 22.85, h: 45.6 },
+      { name: "피스타치오", page: 0, x: 74.2, y: 51.1, w: 22.8, h: 45.6 },
+      /* Page 1 (2-2): 2×5 grid */
+      { name: "딸기", page: 1, x: 2.45, y: .8, w: 18.6, h: 45.6 },
+      { name: "수박", page: 1, x: 21.85, y: .8, w: 18.6, h: 45.6 },
+      { name: "녹차", page: 1, x: 41.15, y: .8, w: 18.7, h: 45.6, label: "녹차파우더" },
+      { name: "시금치", page: 1, x: 60.5, y: .8, w: 18.7, h: 45.6 },
+      { name: "꿀", page: 1, x: 79.85, y: .8, w: 18.6, h: 45.6 },
+      { name: "연유", page: 1, x: 2.45, y: 49, w: 18.6, h: 45.9 },
+      { name: "펄", page: 1, x: 21.85, y: 49, w: 18.6, h: 45.9 },
+      { name: "휘핑크림", page: 1, x: 41.15, y: 49, w: 18.7, h: 45.9 },
+      { name: "홍차", page: 1, x: 60.5, y: 49, w: 18.7, h: 45.9 },
+      { name: "탄산수", page: 1, x: 79.85, y: 49, w: 18.6, h: 45.9 }
+    ];
+
+    const CUSTOMERS = [
+      {
+        name: "졸린 직장인",
+        img: "customers/office-worker.png",
+        type: "ABSTRACT",
+        order: "잠 좀 깨게 해주세요. 얼음이 저를 때려도 괜찮아요.",
+        hint: "차갑게, 물 베이스, 샷을 넉넉히.",
+        recipe: { temp: "ICE", minShots: 2, ingredients: ["물"], allowExtra: ["꿀"] },
+        success: "와... 방금 제 영혼이 출근 도장을 찍었어요.",
+        normal: "오, 잠은 깼어요. 퇴근하고 싶다는 마음도 같이 깼네요.",
+        fail: "잠 깨랬지 기절시키랬냐고요."
+      },
+      {
+        name: "흑염룡 손님",
+        img: "customers/dark-flame.png",
+        type: "TROUBLEMAKER",
+        order: "차갑지만 따뜻한 어둠... 내 안의 용이 마실 검은 달을 줘.",
+        hint: "아이스 홍차에 초콜릿을 섞고 샷 하나.",
+        recipe: { temp: "ICE", shots: 1, ingredients: ["홍차", "초콜릿"], allowExtra: ["카라멜"] },
+        success: "크큭... 어둠이 달콤하군. 마음에 들었다.",
+        normal: "어둠은 있는데 용이 아직 알바 첫날 같군.",
+        fail: "이건 흑염룡이 아니라 춘장룡인데?"
+      },
+      {
+        name: "방과 후 학생",
+        img: "customers/student.png",
+        type: "ABSTRACT",
+        order: "달달한 초록색 느낌으로요. 근데 너무 어른 맛은 싫어요.",
+        hint: "녹차에 우유와 꿀을 더하면 부드럽다.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["우유", "녹차", "꿀"], allowExtra: ["연유", "휘핑크림"] },
+        success: "이거 마시면 숙제도 귀여워 보일 것 같아요!",
+        normal: "초록색은 맞는데... 살짝 동아리 벌칙 맛이에요.",
+        fail: "이거 왜 시금치 맛 남?"
+      },
+      {
+        name: "휘핑크림 커플",
+        img: "customers/couple.png",
+        type: "MEME",
+        order: "오빠 나 휘핑크림도~ 딸기맛이면 더 좋구...",
+        hint: "아이스, 우유, 딸기, 휘핑크림.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["우유", "딸기", "휘핑크림"], allowExtra: ["연유", "펄"] },
+        success: "여친분이 박수치고 남친분은 영수증을 못 봅니다.",
+        normal: "맛있는데 휘핑이 조금 수줍어요.",
+        fail: "남친분 표정이 결제 오류처럼 멈췄어요."
+      },
+      {
+        name: "운동 끝난 헬창",
+        img: "customers/gym-bro.png",
+        type: "CUSTOM",
+        order: "두유 베이스로 고소하게요. 단백질은 없지만 근성은 넣어주세요.",
+        hint: "두유, 피스타치오, 꿀. 커피 샷은 빼는 편이 좋다.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["두유", "피스타치오", "꿀"], allowExtra: ["펄"] },
+        success: "오, 오늘 등 운동보다 이게 더 안정적입니다.",
+        normal: "괜찮아요. 근데 근성은 반 스쿱만 들어간 듯해요.",
+        fail: "이 맛은 벌크업이 아니라 벌칙업입니다."
+      },
+      {
+        name: "창가의 시인",
+        img: "customers/poet.png",
+        type: "ABSTRACT",
+        order: "비 오는 오후처럼 따뜻하고, 끝맛은 노란 문장처럼 남게 해주세요.",
+        hint: "HOT 홍차에 레몬과 꿀.",
+        recipe: { temp: "HOT", shots: 0, ingredients: ["홍차", "레몬", "꿀"], allowExtra: [] },
+        success: "잔 안에서 오후가 천천히 걸어가네요.",
+        normal: "운율은 괜찮은데 마지막 행이 조금 삐끗했어요.",
+        fail: "이건 시가 아니라 회의록입니다."
+      },
+      {
+        name: "방학 중 어린이",
+        img: "customers/child.png",
+        type: "CUSTOM",
+        order: "톡톡 터지는 빨간 거요! 밑에 동그란 것도 넣어주세요!",
+        hint: "ICE, 수박, 탄산수, 펄.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["수박", "탄산수", "펄"], allowExtra: ["꿀"] },
+        success: "우와! 컵 안에 여름 방학이 들어있어!",
+        normal: "맛있는데 톡톡이 조금만 더 있으면 좋겠어요.",
+        fail: "엄마가 이 색깔 보고 놀랄 것 같아요."
+      },
+      {
+        name: "SNS 감성 손님",
+        img: "customers/sns-girl.png",
+        type: "CUSTOM",
+        order: "사진 잘 나오는 핑크 음료요. 위에는 구름처럼, 아래는 동글동글.",
+        hint: "딸기, 우유, 휘핑크림, 펄.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["딸기", "우유", "휘핑크림", "펄"], allowExtra: ["연유"] },
+        success: "필터 안 씌웠는데 이미 좋아요 300개 느낌이에요.",
+        normal: "사진은 예쁜데 맛 해시태그가 조금 고민돼요.",
+        fail: "스토리에 올리면 친구들이 걱정할 색이에요."
+      },
+      {
+        name: "동네 할머니",
+        img: "customers/grandma.png",
+        type: "NORMAL",
+        order: "따뜻한 홍차에 연유 조금만. 오늘은 손이 차네.",
+        hint: "HOT 홍차와 연유. 자극적인 재료는 피하자.",
+        recipe: { temp: "HOT", shots: 0, ingredients: ["홍차", "연유"], allowExtra: ["꿀"] },
+        success: "아이고, 마음까지 데워지네. 고마워요.",
+        normal: "괜찮네. 다음엔 조금만 더 부드럽게 부탁해요.",
+        fail: "이건 내 손보다 컵이 더 놀란 맛이야."
+      },
+      {
+        name: "비니 쓴 단골",
+        img: "customers/beanie-boy.png",
+        type: "CUSTOM",
+        order: "쓴데 달고, 달지만 멋은 있어야 해요. 너무 평범하면 안 됩니다.",
+        hint: "ICE, 샷 하나, 초콜릿, 카라멜.",
+        recipe: { temp: "ICE", shots: 1, ingredients: ["초콜릿", "카라멜"], allowExtra: ["우유"] },
+        success: "오... 오늘 제 플레이리스트랑 같은 톤이에요.",
+        normal: "나쁘지 않은데 아직 인디 감성이 덜 우러났어요.",
+        fail: "이건 멋이 아니라 미스터리입니다."
+      },
+      {
+        name: "까다로운 진상",
+        img: "customers/complainer.png",
+        type: "TROUBLEMAKER",
+        order: "커피는 싫은데 커피 같고, 달면 싫은데 안 달면 서운해요.",
+        hint: "녹차와 우유, 꿀 조금. 샷은 넣지 않는 게 안전하다.",
+        recipe: { temp: "ICE", shots: 0, ingredients: ["녹차", "우유", "꿀"], allowExtra: ["연유"] },
+        success: "흠... 불평하려고 했는데 맛있어서 짜증나네요.",
+        normal: "나쁘진 않은데 제 불평 포인트가 아직 살아있어요.",
+        fail: "역시 메뉴판에 없는 건 시키면 안 되네요."
+      }
+    ];
+
+    const CUSTOMER_IMAGE_LAYOUT = {
+      "customers/office-worker.png": { scale: 1, x: "0%", y: "0%" },
+      "customers/dark-flame.png": { scale: .997, x: "25.53%", y: "0%" },
+      "customers/student.png": { scale: 1.019, x: "13.21%", y: "0%" },
+      "customers/couple.png": { scale: .997, x: "16.57%", y: "0%" },
+      "customers/gym-bro.png": { scale: .987, x: "18.97%", y: "0%" },
+      "customers/poet.png": { scale: .983, x: "26.10%", y: "0%" },
+      "customers/child.png": { scale: 1.168, x: "10.52%", y: "10.27%" },
+      "customers/sns-girl.png": { scale: 1.057, x: "-2.24%", y: "5.95%" },
+      "customers/grandma.png": { scale: 1.079, x: "23.08%", y: "6.97%" },
+      "customers/beanie-boy.png": { scale: .775, x: "13.14%", y: "4.57%" },
+      "customers/complainer.png": { scale: .922, x: "12.28%", y: "5.20%" }
+    };
+
+    const state = {
+      energy: 5,
+      money: 12000,
+      day: 5,
+      customerIndex: -1,
+      currentCustomer: null,
+      screen: "cafe",
+      cup: {
+        temp: null,
+        shots: 0,
+        ingredients: []
+      },
+      drag: null,
+      shelfPage: 0,
+      shelfDrag: null,
+      suppressIngredientClick: false
+    };
+
+    const bridge = {
+      enabled: false,
+      apiBase: "",
+      token: "",
+      gameType: "cafe_kotori",
+      storyCompleted: false,
+      canPlay: true,
+      statusLoaded: false
+    };
+
+    const pendingRequests = {};
+    let requestId = 0;
+
+    const PHONE_APP_TITLES = {
+      "선물샵": "선물샵",
+      "E-class": "E-class",
+      "캘린더": "캘린더",
+      "앨범": "앨범",
+      "메신저": "메신저",
+      "오늘의 운세": "오늘의 운세"
+    };
+
+    let phoneClockTimer = 0;
+
+    const els = {
+      stage: document.getElementById("stage"),
+      cafeScreen: document.getElementById("cafeScreen"),
+      prepScreen: document.getElementById("prepScreen"),
+      prepOverlay: document.querySelector(".prep-overlay"),
+      prepBgStrip: document.getElementById("prepBgStrip"),
+      ingredientShelf: document.getElementById("ingredientShelf"),
+      ingredientStrip: document.getElementById("ingredientStrip"),
+      cafeCustomer: document.getElementById("cafeCustomer"),
+      customerImage: document.getElementById("customerImage"),
+      customerName: document.getElementById("customerName"),
+      orderText: document.getElementById("orderText"),
+      orderType: document.getElementById("orderType"),
+      makeButton: document.getElementById("makeButton"),
+      listenButton: document.getElementById("listenButton"),
+      phoneButton: document.getElementById("phoneButton"),
+      phonePreview: document.getElementById("phonePreview"),
+      phoneCloseButton: document.getElementById("phoneCloseButton"),
+      phoneMeridiem: document.getElementById("phoneMeridiem"),
+      phoneTime: document.getElementById("phoneTime"),
+      phoneAppButtons: Array.from(document.querySelectorAll(".phone-app-button")),
+      hotButton: document.getElementById("hotButton"),
+      iceButton: document.getElementById("iceButton"),
+      hotCupButton: document.getElementById("hotCupButton"),
+      iceCupButton: document.getElementById("iceCupButton"),
+      shotButton: document.getElementById("shotButton"),
+      shotCount: document.getElementById("shotCount"),
+      drinkWorkspace: document.getElementById("drinkWorkspace"),
+      cup: document.getElementById("cup"),
+      cupBody: document.getElementById("cupBody"),
+      liquid: document.getElementById("liquid"),
+      cupLabel: document.getElementById("cupLabel"),
+      deliveryZone: document.getElementById("deliveryZone"),
+      orderMemo: document.getElementById("orderMemo"),
+      trashButton: document.getElementById("trashButton"),
+      backButton: document.getElementById("backButton"),
+      resultLayer: document.getElementById("resultLayer"),
+      resultImage: document.getElementById("resultImage"),
+      reactionTitle: document.getElementById("reactionTitle"),
+      reactionLine: document.getElementById("reactionLine"),
+      rewardLine: document.getElementById("rewardLine"),
+      nextButton: document.getElementById("nextButton"),
+      storyButton: document.getElementById("storyButton"),
+      toast: document.getElementById("toast"),
+      timeBadge: document.getElementById("timeBadge"),
+      dateBadge: document.getElementById("dateBadge"),
+      energyText: document.getElementById("energyText"),
+      moneyText: document.getElementById("moneyText"),
+      tutorialLayer: document.getElementById("tutorialLayer"),
+      tutorialSpotlight: document.getElementById("tutorialSpotlight"),
+      tutorialCard: document.getElementById("tutorialCard"),
+      tutorialProgress: document.getElementById("tutorialProgress"),
+      tutorialTitle: document.getElementById("tutorialTitle"),
+      tutorialText: document.getElementById("tutorialText"),
+      tutorialRecipe: document.getElementById("tutorialRecipe"),
+      tutorialSkip: document.getElementById("tutorialSkip"),
+      tutorialPrev: document.getElementById("tutorialPrev"),
+      tutorialNext: document.getElementById("tutorialNext")
+    };
+
+    const tutorialState = {
+      active: false,
+      step: 0,
+      listening: false,
+      waitingForAction: false
+    };
+
+    const TUTORIAL_STEPS = [
+      {
+        target: () => els.stage,
+        title: "카페 미니게임",
+        text: "낮 시간대에는 카페 게임을 진행할 수 있습니다!\n손님의 주문을 듣고 음료를 만들어 보세요.",
+        center: true,
+        next: "다음"
+      },
+      {
+        target: () => document.getElementById("speechBubble"),
+        title: "주문 읽기",
+        text: "말풍선에 손님의 주문이 표시됩니다.\n이번 손님은 잠을 깨고 싶어 하니\nICE 컵, 물, 샷 2번이 핵심입니다.",
+        next: "다음"
+      },
+      {
+        target: () => els.phoneButton,
+        title: "휴대폰",
+        text: "핸드폰을 누르면\n미니게임에서 나갈 수 있습니다.",
+        next: "다음"
+      },
+      {
+        target: () => els.makeButton,
+        title: "제조 시작",
+        text: "'네, 만들어볼게요' 버튼을 누르면\n제조대로 이동합니다.",
+        gate: "make"
+      },
+      {
+        target: () => els.iceCupButton,
+        title: "컵 선택",
+        text: "ICE 컵을 누르면 차가운 컵이 준비됩니다.\n이번 주문은 차갑게 만드는 음료입니다.",
+        gate: "temp"
+      },
+      {
+        target: () => queryIngredientButton("물") || els.ingredientShelf,
+        title: "재료 넣기",
+        text: "재료 선반에서 '물'을 눌러\n컵에 넣어보세요.",
+        gate: "water"
+      },
+      {
+        target: () => els.shotButton,
+        title: "샷 추가",
+        text: "SHOT 버튼을 눌러 샷을 추가합니다.\n이 주문은 잠을 깨야 하므로 2번 눌러주세요.",
+        gate: "shots"
+      },
+      {
+        target: () => els.ingredientShelf,
+        title: "선반 넘기기",
+        text: "재료 선반을 좌우로 밀면\n더 많은 재료를 찾을 수 있습니다.",
+        next: "다음",
+        action: async () => {
+          state.shelfPage = 1;
+          updateShelfPosition();
+          await tutorialDelay(820);
+          state.shelfPage = 0;
+          updateShelfPosition();
+          await tutorialDelay(220);
+        }
+      },
+      {
+        target: () => els.deliveryZone,
+        title: "전달하기",
+        text: "완성된 컵을 위쪽 전달 영역으로\n드래그하면 손님에게 전달됩니다.",
+        gate: "deliver"
+      },
+      {
+        target: () => els.stage,
+        title: "튜토리얼 완료",
+        text: "낮 시간대에 카페 미니게임을 즐겨보세요!",
+        center: true,
+        next: "닫기",
+        done: true
+      }
+    ];
+
+    function parseBool(value) {
+      if (typeof value === "boolean") return value;
+      if (typeof value !== "string") return false;
+      return ["1", "true", "yes", "y"].includes(value.toLowerCase());
+    }
+
+    function parseNumber(value, fallback) {
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    function configureBridge() {
+      const params = new URLSearchParams(window.location.search);
+      const hostConfig = window.GPT2TEAM_CAFE_CONFIG || {};
+      const apiBase = params.get("apiBase") || params.get("api_base") || hostConfig.apiBase || "";
+      const token = params.get("token") || params.get("access_token") || hostConfig.token || "";
+
+      bridge.enabled = parseBool(params.get("gpt2team")) || Boolean(hostConfig.enabled) || Boolean(apiBase);
+      bridge.apiBase = String(apiBase).replace(/\/+$/, "");
+      bridge.token = token || "";
+      bridge.gameType = params.get("game_type") || hostConfig.gameType || bridge.gameType;
+      bridge.storyCompleted = parseBool(params.get("storyCompleted") || params.get("story_completed_today")) || Boolean(hostConfig.storyCompleted);
+
+      applyHostState({
+        day: params.get("day") || hostConfig.day,
+        ap: params.get("ap") || params.get("energy") || hostConfig.ap,
+        money: params.get("money") || hostConfig.money,
+        story_completed_today: bridge.storyCompleted,
+        can_play: hostConfig.canPlay
+      });
+
+      window.GPT2TeamCafeGame = {
+        configure: (config = {}) => {
+          window.GPT2TEAM_CAFE_CONFIG = { ...(window.GPT2TEAM_CAFE_CONFIG || {}), ...config, enabled: true };
+          configureBridge();
+        },
+        setState: applyHostState,
+        openPhone: openPhonePreview,
+        closePhone: closePhonePreview,
+        resolveRequest: (id, data) => {
+          if (pendingRequests[id]) {
+            pendingRequests[id].resolve(data);
+            delete pendingRequests[id];
+          }
+        },
+        rejectRequest: (id, msg) => {
+          if (pendingRequests[id]) {
+            pendingRequests[id].reject(new Error(msg));
+            delete pendingRequests[id];
+          }
+        }
+      };
+    }
+
+    function bridgeRequest(type, payload) {
+      return new Promise((resolve, reject) => {
+        const id = ++requestId;
+        pendingRequests[id] = { resolve, reject };
+        notifyHost(type, { ...payload, _requestId: id });
+        window.setTimeout(() => {
+          if (pendingRequests[id]) {
+            delete pendingRequests[id];
+            reject(new Error("요청 시간 초과"));
+          }
+        }, 15000);
+      });
+    }
+
+    function applyHostState(data = {}) {
+      if (data.day !== undefined && data.day !== null) state.day = parseNumber(data.day, state.day);
+      if (data.current_day !== undefined && data.current_day !== null) state.day = parseNumber(data.current_day, state.day);
+      if (data.ap !== undefined && data.ap !== null) state.energy = parseNumber(data.ap, state.energy);
+      if (data.current_ap !== undefined && data.current_ap !== null) state.energy = parseNumber(data.current_ap, state.energy);
+      if (data.money !== undefined && data.money !== null) state.money = parseNumber(data.money, state.money);
+      if (data.total_money !== undefined && data.total_money !== null) state.money = parseNumber(data.total_money, state.money);
+      if (data.story_completed_today !== undefined) bridge.storyCompleted = Boolean(data.story_completed_today);
+      if (data.storyCompleted !== undefined) bridge.storyCompleted = Boolean(data.storyCompleted);
+      if (data.can_play !== undefined) bridge.canPlay = Boolean(data.can_play);
+      if (data.canPlay !== undefined) bridge.canPlay = Boolean(data.canPlay);
+      updateHud();
+      tickClock();
+    }
+
+    function notifyHost(type, payload = {}) {
+      const message = { source: "cafe-minigame", type, payload };
+      let delivered = false;
+
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage(message, "*");
+          delivered = true;
+        }
+      } catch (_) {}
+
+      try {
+        if (window.KotoriCafeBridge && typeof window.KotoriCafeBridge.postMessage === "function") {
+          window.KotoriCafeBridge.postMessage(JSON.stringify(message));
+          delivered = true;
+        }
+      } catch (_) {}
+
+      try {
+        if (window.chrome?.webview?.postMessage) {
+          window.chrome.webview.postMessage(message);
+          delivered = true;
+        }
+      } catch (_) {}
+
+      try {
+        window.dispatchEvent(new CustomEvent("cafe-host-message", { detail: message }));
+      } catch (_) {}
+
+      return delivered;
+    }
+
+    function canStartCafeGame() {
+      if (state.energy <= 0) return false;
+      if (!bridge.enabled) return true;
+      return bridge.canPlay;
+    }
+
+    async function requestBridgeStart() {
+      if (!bridge.enabled) {
+        state.energy = Math.max(0, state.energy - 1);
+        return true;
+      }
+
+      try {
+        const data = await bridgeRequest("start_requested", { game_type: bridge.gameType });
+        if (data?.status !== "success") {
+          showToast(data?.error_code || "카페 미니게임을 시작할 수 없습니다.");
+          return false;
+        }
+        applyHostState(data);
+        return true;
+      } catch (error) {
+        showToast(error.message || "카페 미니게임을 시작할 수 없습니다.");
+        return false;
+      }
+    }
+
+    async function submitBridgeReward(result) {
+      if (!bridge.enabled) return null;
+      try {
+        const data = await bridgeRequest("reward_requested", {
+          game_type: bridge.gameType,
+          result
+        });
+        applyHostState(data);
+        return data;
+      } catch (error) {
+        notifyHost("reward_error", { message: error.message, result });
+        return null;
+      }
+    }
+
+    async function loadBridgeStatus() {
+      bridge.statusLoaded = true;
+      if (!bridge.enabled) return;
+      notifyHost("status_requested", { game_type: bridge.gameType });
+    }
+
+    function init() {
+      configureBridge();
+      createIngredientHotspots();
+      bindEvents();
+      tickClock();
+      setInterval(tickClock, 1000 * 20);
+      nextCustomer();
+      updateHud();
+      updateShelfPosition();
+      window.addEventListener("resize", () => {
+        updateShelfPosition();
+      });
+      loadBridgeStatus();
+    }
+
+    function bindEvents() {
+      els.makeButton.addEventListener("click", startMaking);
+      els.listenButton.addEventListener("click", startMaking);
+      els.phoneButton?.addEventListener("click", requestPhoneOpen);
+      els.phoneCloseButton?.addEventListener("click", closePhonePreview);
+      els.phonePreview?.addEventListener("click", (event) => {
+        if (event.target === els.phonePreview) closePhonePreview();
+      });
+      els.phoneAppButtons.forEach((button) => {
+        button.addEventListener("click", () => requestPhoneApp(button.dataset.app));
+      });
+      els.hotButton.addEventListener("click", () => selectTemp("HOT"));
+      els.iceButton.addEventListener("click", () => selectTemp("ICE"));
+      els.hotCupButton.addEventListener("click", () => selectTemp("HOT"));
+      els.iceCupButton.addEventListener("click", () => selectTemp("ICE"));
+      els.shotButton.addEventListener("click", addShot);
+      els.trashButton.addEventListener("click", resetCup);
+      els.backButton.addEventListener("click", () => switchScreen("cafe"));
+      els.nextButton.addEventListener("click", queueNextCustomer);
+      els.storyButton.addEventListener("click", watchStory);
+      els.cup.addEventListener("pointerdown", startCupDrag);
+      window.addEventListener("pointermove", moveCupDrag);
+      window.addEventListener("pointerup", endCupDrag);
+      window.addEventListener("pointercancel", endCupDrag);
+      els.ingredientShelf.addEventListener("pointerdown", startShelfDrag);
+      window.addEventListener("pointermove", moveShelfDrag, { passive: false });
+      window.addEventListener("pointerup", endShelfDrag);
+      window.addEventListener("pointercancel", endShelfDrag);
+      window.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        closePhonePreview();
+      });
+    }
+
+    function createIngredientHotspots() {
+      const pages = Array.from(document.querySelectorAll(".ingredient-page"));
+      SHELF_HOTSPOTS.forEach((hotspot) => {
+        const ingredient = ingredientByName[hotspot.name];
+        const page = pages[hotspot.page];
+        if (!ingredient || !page) return;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "ingredient-hotspot";
+        const displayName = hotspot.label || ingredient.name;
+        button.dataset.name = ingredient.name;
+        button.setAttribute("aria-label", displayName + " 넣기");
+        button.style.left = hotspot.x + "%";
+        button.style.top = hotspot.y + "%";
+        button.style.width = hotspot.w + "%";
+        button.style.height = hotspot.h + "%";
+        page.appendChild(button);
+      });
+    }
+
+    function shelfOffsetForPage(page) {
+      const width = els.ingredientShelf.getBoundingClientRect().width;
+      return -page * width;
+    }
+
+    function setShelfOffset(offset) {
+      els.ingredientStrip.style.transform = `translate3d(${offset}px, 0, 0)`;
+    }
+
+    function updateShelfPosition() {
+      if (!els.ingredientShelf || !els.ingredientStrip) return;
+      els.ingredientShelf.dataset.page = String(state.shelfPage);
+      setShelfOffset(shelfOffsetForPage(state.shelfPage));
+    }
+
+    function shelfOffsetWithResistance(offset, width) {
+      const minOffset = -width;
+      const maxOffset = 0;
+      const resistance = .28;
+
+      if (offset < minOffset) return minOffset + (offset - minOffset) * resistance;
+      if (offset > maxOffset) return maxOffset + (offset - maxOffset) * resistance;
+      return offset;
+    }
+
+    function isShelfPoint(event) {
+      const rect = els.ingredientShelf.getBoundingClientRect();
+      return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+    }
+
+    function startShelfDrag(event) {
+      if (state.screen !== "prep" || state.drag || !isShelfPoint(event)) return;
+      if (event.button !== undefined && event.button !== 0) return;
+
+      const ingredientEl = event.target.closest(".ingredient-hotspot");
+      const ingredient = ingredientEl ? ingredientByName[ingredientEl.dataset.name] : null;
+
+      const rect = els.ingredientShelf.getBoundingClientRect();
+      state.shelfDrag = {
+        id: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        width: rect.width,
+        page: state.shelfPage,
+        moved: false,
+        mode: null,
+        ingredient: ingredient,
+        ingredientEl: ingredientEl,
+        ghost: null
+      };
+      els.ingredientStrip.classList.add("dragging");
+      els.ingredientShelf.setPointerCapture?.(event.pointerId);
+    }
+
+    function moveShelfDrag(event) {
+      const drag = state.shelfDrag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      const dx = event.clientX - drag.startX;
+      const dy = event.clientY - drag.startY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (!drag.mode && dist > 10) {
+        if (drag.ingredient && dy < -6 && Math.abs(dy) > Math.abs(dx) * 0.65) {
+          drag.mode = "ingredient";
+          drag.moved = true;
+          state.suppressIngredientClick = true;
+          createIngredientGhost(drag);
+          try { els.ingredientShelf.releasePointerCapture(event.pointerId); } catch (e) {}
+        } else if (Math.abs(dx) > 6 && Math.abs(dx) > Math.abs(dy) * 0.75) {
+          drag.mode = "swipe";
+        } else {
+          return;
+        }
+      }
+
+      if (!drag.mode) return;
+
+      if (drag.mode === "ingredient" && drag.ghost) {
+        const stageRect = els.stage.getBoundingClientRect();
+        drag.ghost.style.left = (event.clientX - stageRect.left) + "px";
+        drag.ghost.style.top = (event.clientY - stageRect.top) + "px";
+        const ghostRect = drag.ghost.getBoundingClientRect();
+        const wsRect = els.drinkWorkspace.getBoundingClientRect();
+        const over = ghostRect.left < wsRect.right && ghostRect.right > wsRect.left &&
+                     ghostRect.top < wsRect.bottom && ghostRect.bottom > wsRect.top;
+        els.cup.classList.toggle("drop-target", over);
+        els.drinkWorkspace.classList.toggle("drop-highlight", over);
+        event.preventDefault();
+        return;
+      }
+
+      if (drag.mode !== "swipe") return;
+
+      const rawDelta = dx;
+      const nextOffset = shelfOffsetWithResistance(-drag.page * drag.width + rawDelta, drag.width);
+
+      if (Math.abs(rawDelta) > 5) {
+        drag.moved = true;
+        state.suppressIngredientClick = true;
+      }
+
+      event.preventDefault();
+      setShelfOffset(nextOffset);
+    }
+
+    function endShelfDrag(event) {
+      const drag = state.shelfDrag;
+      if (!drag || event.pointerId !== drag.id) return;
+
+      if (drag.mode === "ingredient") {
+        if (drag.ghost) {
+          const ghostRect = drag.ghost.getBoundingClientRect();
+          const wsRect = els.drinkWorkspace.getBoundingClientRect();
+          const over = ghostRect.left < wsRect.right && ghostRect.right > wsRect.left &&
+                       ghostRect.top < wsRect.bottom && ghostRect.bottom > wsRect.top;
+          if (over && drag.ingredient) {
+            addIngredient(drag.ingredient, drag.ingredientEl);
+          }
+          drag.ghost.remove();
+        }
+        els.cup.classList.remove("drop-target");
+        els.drinkWorkspace.classList.remove("drop-highlight");
+      } else {
+        if (!drag.mode && !drag.moved && drag.ingredient) {
+          addIngredient(drag.ingredient, drag.ingredientEl);
+        }
+
+        const delta = event.clientX - drag.startX;
+        const threshold = Math.min(90, drag.width * .18);
+        let nextPage = drag.page;
+
+        if (delta < -threshold && drag.page < 1) nextPage = drag.page + 1;
+        if (delta > threshold && drag.page > 0) nextPage = drag.page - 1;
+
+        state.shelfPage = nextPage;
+      }
+
+      state.shelfDrag = null;
+      els.ingredientStrip.classList.remove("dragging");
+      updateShelfPosition();
+
+      if (drag.moved) {
+        window.setTimeout(() => {
+          state.suppressIngredientClick = false;
+        }, 90);
+      } else {
+        state.suppressIngredientClick = false;
+      }
+    }
+
+    function createIngredientGhost(drag) {
+      const ghost = document.createElement("div");
+      ghost.className = "ingredient-ghost";
+      ghost.textContent = drag.ingredient.icon || drag.ingredient.name[0];
+      ghost.style.setProperty("--ig-color", drag.ingredient.color);
+      const stageRect = els.stage.getBoundingClientRect();
+      ghost.style.left = (drag.startX - stageRect.left) + "px";
+      ghost.style.top = (drag.startY - stageRect.top) + "px";
+      els.stage.appendChild(ghost);
+      drag.ghost = ghost;
+    }
+
+    function tickClock() {
+      const now = new Date();
+      const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+      els.timeBadge.textContent = now.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" });
+      els.dateBadge.textContent = `${now.getMonth() + 1}/${now.getDate()} ${weekdays[now.getDay()]}요일`;
+    }
+
+    function updateHud() {
+      els.energyText.textContent = `${state.energy}`;
+      els.moneyText.textContent = formatWon(state.money);
+      els.makeButton.disabled = false;
+      els.makeButton.textContent = "네, 만들어볼게요";
+    }
+
+    function formatWon(value) {
+      return `${value.toLocaleString("ko-KR")}원`;
+    }
+
+    function nextCustomer() {
+      state.customerIndex = (state.customerIndex + 1) % CUSTOMERS.length;
+      state.currentCustomer = CUSTOMERS[state.customerIndex];
+      resetCup();
+      closeResult();
+      renderCustomer();
+      switchScreen("cafe");
+    }
+
+    function queueNextCustomer(force = false) {
+      if (els.nextButton.disabled && !force) return;
+      els.nextButton.disabled = true;
+      els.storyButton.disabled = true;
+      els.nextButton.textContent = "다음 손님 입장중...";
+      window.setTimeout(() => {
+        els.storyButton.disabled = false;
+        nextCustomer();
+      }, 720);
+    }
+
+    function renderCustomer() {
+      const customer = state.currentCustomer;
+      els.customerImage.src = customer.img;
+      els.customerImage.alt = customer.name;
+      applyCustomerImageLayout(customer.img);
+      els.resultImage.src = customer.img;
+      els.customerName.textContent = customer.name;
+      els.orderText.textContent = customer.order;
+      els.orderType.textContent = customer.type;
+      els.orderMemo.textContent = customer.order;
+      els.cafeCustomer.style.animation = "none";
+      els.cafeCustomer.offsetHeight;
+      els.cafeCustomer.style.animation = "";
+      document.getElementById("speechBubble").style.animation = "none";
+      document.getElementById("speechBubble").offsetHeight;
+      document.getElementById("speechBubble").style.animation = "";
+    }
+
+    function applyCustomerImageLayout(imgPath) {
+      const layout = CUSTOMER_IMAGE_LAYOUT[imgPath] || CUSTOMER_IMAGE_LAYOUT["customers/office-worker.png"];
+      els.customerImage.style.setProperty("--customer-scale", layout.scale);
+      els.customerImage.style.setProperty("--customer-x", layout.x);
+      els.customerImage.style.setProperty("--customer-y", layout.y);
+    }
+
+    async function startMaking() {
+      resetCup();
+      switchScreen("prep");
+      showToast("재료를 터치해서 컵에 넣고, 완성되면 컵을 전달 칸으로 드래그하세요.");
+    }
+
+    function requestPhoneOpen(event) {
+      event?.preventDefault();
+      if (state.screen !== "cafe" || !els.phoneButton) return;
+
+      els.phoneButton.classList.remove("opening");
+      els.phoneButton.offsetHeight;
+      els.phoneButton.classList.add("opening");
+      window.setTimeout(() => {
+        els.phoneButton.classList.remove("opening");
+      }, 440);
+
+      showToast("로비로 돌아갑니다.");
+      notifyHost("tutorial_exit_to_lobby", { from: "tutorial_phone" });
+    }
+
+    function updatePhoneClock() {
+      if (!els.phoneMeridiem || !els.phoneTime) return;
+      const now = new Date();
+      const hour = now.getHours();
+      const displayHour = hour % 12 || 12;
+      const minute = String(now.getMinutes()).padStart(2, "0");
+      els.phoneMeridiem.textContent = hour < 12 ? "오전" : "오후";
+      els.phoneTime.textContent = `${displayHour}:${minute}`;
+    }
+
+    function openPhonePreview() {
+      if (!els.phonePreview) return;
+      updatePhoneClock();
+      window.clearInterval(phoneClockTimer);
+      phoneClockTimer = window.setInterval(updatePhoneClock, 1000);
+      els.phonePreview.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(() => {
+        els.phonePreview.classList.add("open");
+      });
+    }
+
+    function closePhonePreview() {
+      if (!els.phonePreview || !els.phonePreview.classList.contains("open")) return;
+      els.phonePreview.classList.remove("open");
+      els.phonePreview.setAttribute("aria-hidden", "true");
+      window.clearInterval(phoneClockTimer);
+      phoneClockTimer = 0;
+    }
+
+    function requestPhoneApp(name) {
+      if (!name || !PHONE_APP_TITLES[name]) return;
+      notifyHost("phone_app_requested", { app: name, from: "phone_preview" });
+    }
+
+
+    function switchScreen(name) {
+      const prev = state.screen;
+      state.screen = name;
+      if (name !== "cafe") closePhonePreview();
+      els.stage.classList.toggle("prep-mode", name === "prep");
+
+      const toScreen = name === "cafe" ? els.cafeScreen : els.prepScreen;
+      const fromScreen = prev === "cafe" ? els.cafeScreen : els.prepScreen;
+
+      if (fromScreen !== toScreen) {
+        toScreen.classList.add("active");
+        fromScreen.classList.add("leaving");
+        window.setTimeout(() => {
+          fromScreen.classList.remove("active", "leaving");
+        }, 300);
+      } else {
+        toScreen.classList.add("active");
+      }
+
+      if (name === "prep") {
+        requestAnimationFrame(() => {
+          updateShelfPosition();
+        });
+      }
+    }
+
+    function selectTemp(temp) {
+      state.cup.temp = temp;
+      els.hotButton.classList.toggle("selected", temp === "HOT");
+      els.iceButton.classList.toggle("selected", temp === "ICE");
+      els.hotCupButton.classList.toggle("selected", temp === "HOT");
+      els.iceCupButton.classList.toggle("selected", temp === "ICE");
+      pulseCup();
+      renderCup();
+      showToast(temp === "HOT" ? "따뜻한 컵을 준비했어요." : "얼음 컵을 준비했어요.");
+    }
+
+    function addShot() {
+      if (!state.cup.temp) {
+        showToast("먼저 HOT 또는 ICE 컵을 골라주세요.");
+        return;
+      }
+      if (state.cup.shots >= 3) {
+        showToast("샷은 3번까지 넣을 수 있어요.");
+        return;
+      }
+      state.cup.shots = Math.min(3, state.cup.shots + 1);
+      els.shotCount.textContent = `SHOT ${state.cup.shots}`;
+      addIngredient({ name: "샷", color: "#4b2c1d", icon: "샷", flavor: "coffee" }, els.shotButton, true);
+      showToast(`샷 ${state.cup.shots}번`);
+    }
+
+    function addIngredient(ingredient, sourceButton, silent) {
+      if (!state.cup.temp) {
+        showToast("먼저 HOT 또는 ICE 컵을 골라주세요.");
+        return;
+      }
+      if (ingredient.name !== "샷") {
+        state.cup.ingredients.push(ingredient.name);
+      }
+      flyParticle(ingredient, sourceButton);
+      pulseCup();
+      renderCup();
+      if (!silent) {
+        const messages = {
+          "꿀": "꿀이 반짝 하고 들어갔어요.",
+          "탄산수": "기포가 톡톡 올라옵니다.",
+          "펄": "펄이 컵 아래로 떨어졌어요.",
+          "휘핑크림": "휘핑이 폭신하게 올라갔어요.",
+          "춘장": "점장이 조용히 눈을 크게 떴습니다.",
+          "시금치": "건강한 기운이 너무 앞서갑니다."
+        };
+        showToast(messages[ingredient.name] || `${ingredient.name} 추가`);
+      }
+    }
+
+    function flyParticle(ingredient, sourceButton) {
+      const stageRect = els.stage.getBoundingClientRect();
+      const from = sourceButton.getBoundingClientRect();
+      const to = els.cup.getBoundingClientRect();
+      const particle = document.createElement("div");
+      particle.className = "float-particle";
+      particle.textContent = ingredient.icon || ingredient.name[0];
+      particle.style.left = from.left - stageRect.left + from.width / 2 - 12 + "px";
+      particle.style.top = from.top - stageRect.top + from.height / 2 - 12 + "px";
+      particle.style.setProperty("--tx", `${to.left + to.width / 2 - from.left - from.width / 2}px`);
+      particle.style.setProperty("--ty", `${to.top + to.height / 2 - from.top - from.height / 2}px`);
+      els.stage.appendChild(particle);
+      particle.addEventListener("animationend", () => particle.remove(), { once: true });
+    }
+
+    function pulseCup() {
+      els.cup.classList.remove("shake", "pop");
+      els.cup.offsetHeight;
+      els.cup.classList.add("shake");
+    }
+
+    function resetCup() {
+      state.cup = {
+        temp: null,
+        shots: 0,
+        ingredients: []
+      };
+      els.hotButton.classList.remove("selected");
+      els.iceButton.classList.remove("selected");
+      els.hotCupButton.classList.remove("selected");
+      els.iceCupButton.classList.remove("selected");
+      els.shotCount.textContent = "SHOT 0";
+      els.deliveryZone.classList.remove("ready", "hot");
+      els.cup.style.left = "";
+      els.cup.style.top = "";
+      els.cup.style.transform = "";
+      renderCup();
+      els.cup.classList.remove("shake", "dragging");
+      els.cup.classList.add("pop");
+    }
+
+    function renderCup() {
+      const cup = state.cup;
+      const ingredients = cup.ingredients.map((name) => ingredientByName[name]).filter(Boolean);
+      const visibleItems = ingredients.concat(Array.from({ length: cup.shots }, () => ({ name: "샷", color: "#4b2c1d", flavor: "coffee" })));
+      const fill = Math.min(82, visibleItems.length * 12 + (cup.temp ? 8 : 0));
+      const color = blendColors(visibleItems.map((item) => item.color), cup.temp === "ICE" ? "#dff4ff" : "#f4d3a2");
+      els.liquid.style.height = `${fill}%`;
+      els.liquid.style.backgroundColor = color;
+      els.cupBody.querySelectorAll(".liquid-layer, .ice-cube, .pearl-dot, .bubble-dot, .spark-dot, .whip").forEach((node) => node.remove());
+
+      let bottom = 0;
+      visibleItems.slice(-6).forEach((item, index) => {
+        const layer = document.createElement("div");
+        layer.className = "liquid-layer";
+        layer.style.setProperty("--b", `${bottom}%`);
+        layer.style.setProperty("--h", `${Math.max(9, Math.min(16, fill / Math.max(1, visibleItems.length)))}%`);
+        layer.style.setProperty("--c", item.color);
+        layer.style.opacity = 0.26 + Math.min(.38, index * .05);
+        els.liquid.appendChild(layer);
+        bottom += Math.max(8, Math.min(14, fill / Math.max(1, visibleItems.length)));
+      });
+
+      if (cup.temp === "ICE") {
+        addIceCubes(Math.max(3, Math.min(6, visibleItems.length + 2)));
+      }
+      if (cup.ingredients.includes("펄")) {
+        addPearls();
+      }
+      if (cup.ingredients.includes("탄산수")) {
+        addBubbles();
+      }
+      if (cup.ingredients.includes("꿀")) {
+        addSparkles();
+      }
+      if (cup.ingredients.includes("휘핑크림")) {
+        const whip = document.createElement("div");
+        whip.className = "whip";
+        els.cupBody.appendChild(whip);
+      }
+
+      els.deliveryZone.classList.toggle("ready", cup.temp && visibleItems.length > 0);
+      els.cupLabel.textContent = labelCup();
+    }
+
+    function labelCup() {
+      if (!state.cup.temp) return "빈 컵";
+      const count = state.cup.ingredients.length + state.cup.shots;
+      if (count === 0) return `${state.cup.temp} 컵`;
+      return `${state.cup.temp} · ${count}개`;
+    }
+
+    function addIceCubes(count) {
+      for (let i = 0; i < count; i++) {
+        const cube = document.createElement("span");
+        cube.className = "ice-cube";
+        cube.style.left = 25 + Math.random() * 48 + "%";
+        cube.style.top = 28 + Math.random() * 28 + "%";
+        cube.style.setProperty("--r", `${-18 + Math.random() * 36}deg`);
+        cube.style.animationDelay = `${Math.random() * .7}s`;
+        els.cupBody.appendChild(cube);
+      }
+    }
+
+    function addPearls() {
+      for (let i = 0; i < 9; i++) {
+        const pearl = document.createElement("span");
+        pearl.className = "pearl-dot";
+        pearl.style.left = 28 + (i % 5) * 9 + Math.random() * 2 + "%";
+        pearl.style.bottom = 5 + Math.floor(i / 5) * 5 + Math.random() * 2 + "%";
+        els.cupBody.appendChild(pearl);
+      }
+    }
+
+    function addBubbles() {
+      for (let i = 0; i < 13; i++) {
+        const bubble = document.createElement("span");
+        bubble.className = "bubble-dot";
+        bubble.style.left = 25 + Math.random() * 50 + "%";
+        bubble.style.bottom = 15 + Math.random() * 48 + "%";
+        bubble.style.animationDelay = `${Math.random() * 1.1}s`;
+        els.cupBody.appendChild(bubble);
+      }
+    }
+
+    function addSparkles() {
+      for (let i = 0; i < 7; i++) {
+        const spark = document.createElement("span");
+        spark.className = "spark-dot";
+        spark.style.left = 28 + Math.random() * 48 + "%";
+        spark.style.bottom = 20 + Math.random() * 46 + "%";
+        spark.style.animationDelay = `${Math.random() * .3}s`;
+        els.cupBody.appendChild(spark);
+      }
+    }
+
+    function blendColors(colors, fallback) {
+      if (!colors.length) return fallback;
+      const rgb = colors.reduce((acc, color) => {
+        const clean = color.replace("#", "");
+        acc[0] += parseInt(clean.slice(0, 2), 16);
+        acc[1] += parseInt(clean.slice(2, 4), 16);
+        acc[2] += parseInt(clean.slice(4, 6), 16);
+        return acc;
+      }, [0, 0, 0]).map((value) => Math.round(value / colors.length));
+      return `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+    }
+
+    function startCupDrag(event) {
+      if (state.screen !== "prep") return;
+      if (!state.cup.temp || state.cup.ingredients.length + state.cup.shots === 0) {
+        showToast("아직 전달할 음료가 없어요.");
+        return;
+      }
+      event.preventDefault();
+      els.cup.setPointerCapture?.(event.pointerId);
+      const stageRect = els.stage.getBoundingClientRect();
+      const parentRect = els.drinkWorkspace.getBoundingClientRect();
+      const cupRect = els.cup.getBoundingClientRect();
+      state.drag = {
+        id: event.pointerId,
+        offsetX: event.clientX - cupRect.left,
+        offsetY: event.clientY - cupRect.top,
+        stageLeft: stageRect.left,
+        stageTop: stageRect.top,
+        stageW: stageRect.width,
+        stageH: stageRect.height,
+        parentLeft: parentRect.left - stageRect.left,
+        parentTop: parentRect.top - stageRect.top
+      };
+      els.cup.classList.add("dragging");
+      els.deliveryZone.classList.add("ready");
+    }
+
+    function moveCupDrag(event) {
+      if (!state.drag || event.pointerId !== state.drag.id) return;
+      const x = event.clientX - state.drag.stageLeft - state.drag.offsetX;
+      const y = event.clientY - state.drag.stageTop - state.drag.offsetY;
+      const w = els.cup.offsetWidth;
+      const h = els.cup.offsetHeight;
+      const clampedX = Math.max(0, Math.min(state.drag.stageW - w, x));
+      const clampedY = Math.max(0, Math.min(state.drag.stageH - h, y));
+      els.cup.style.left = clampedX - state.drag.parentLeft + w / 2 + "px";
+      els.cup.style.top = clampedY - state.drag.parentTop + h / 2 + "px";
+      els.cup.style.transform = "translate(-50%, -50%)";
+      const over = overlaps(els.cup.getBoundingClientRect(), els.deliveryZone.getBoundingClientRect());
+      els.deliveryZone.classList.toggle("hot", over);
+    }
+
+    function endCupDrag(event) {
+      if (!state.drag || event.pointerId !== state.drag.id) return;
+      const delivered = overlaps(els.cup.getBoundingClientRect(), els.deliveryZone.getBoundingClientRect());
+      els.cup.classList.remove("dragging");
+      els.deliveryZone.classList.remove("hot");
+      state.drag = null;
+      if (delivered) {
+        evaluateDrink();
+      } else {
+        els.cup.style.left = "";
+        els.cup.style.top = "";
+        els.cup.style.transform = "";
+      }
+    }
+
+    function overlaps(a, b) {
+      const ax = a.left + a.width / 2;
+      const ay = a.top + a.height / 2;
+      return ax > b.left && ax < b.right && ay > b.top && ay < b.bottom;
+    }
+
+    async function evaluateDrink() {
+      const customer = state.currentCustomer;
+      const recipe = customer.recipe;
+      const made = state.cup;
+      const ingredients = made.ingredients;
+      const required = recipe.ingredients || [];
+      const allowExtra = new Set(recipe.allowExtra || []);
+      const requiredSet = new Set(required);
+      const missing = required.filter((name) => !ingredients.includes(name));
+      const extra = ingredients.filter((name) => !requiredSet.has(name) && !allowExtra.has(name));
+      const tempOk = made.temp === recipe.temp;
+      const shotsOk = typeof recipe.minShots === "number" ? made.shots >= recipe.minShots : made.shots === (recipe.shots || 0);
+      const danger = ingredients.find((name) => ingredientByName[name]?.flavor === "danger");
+      const tooMany = ingredients.length > required.length + allowExtra.size + 2;
+
+      let result = "fail";
+      if (danger) {
+        result = "funny";
+      } else if (tempOk && shotsOk && missing.length === 0 && extra.length === 0) {
+        result = "success";
+      } else if (tempOk && missing.length <= 1 && extra.length <= 2 && !tooMany) {
+        result = "normal";
+      }
+
+      let reward = result === "success" ? 2500 : result === "normal" ? 1800 : result === "funny" ? 700 : 900;
+      let tip = result === "success" ? 700 : 0;
+
+      state.money += reward + tip;
+      updateHud();
+
+      let line = customer[result] || customer.fail;
+      if (result === "funny") {
+        line = danger === "춘장" ? "춘장 왜 넣었어요ㅋㅋ 이건 음료가 아니라 사건인데요?" : "건강해지긴 했는데, 제가 원한 건 카페였어요.";
+      }
+      if (result === "normal" && missing.length) {
+        line += ` 빠진 느낌: ${missing.join(", ")}.`;
+      }
+      if (result === "fail" && !tempOk) {
+        line += made.temp ? ` 온도가 반대였어요.` : " 컵 온도부터 골라야 했어요.";
+      }
+
+      const rewardText = tip > 0 ? `매출 +${formatWon(reward)}, 팁 +${formatWon(tip)}` : `매출 +${formatWon(reward)}`;
+
+      resetCup();
+      switchScreen("cafe");
+
+      els.customerName.textContent = customer.name;
+      els.orderText.textContent = line;
+      showToast(rewardText);
+
+      els.makeButton.style.display = "none";
+      els.listenButton.style.display = "none";
+
+      const exitDuration = 2600;
+      const animDuration = 550;
+
+      window.setTimeout(() => {
+        els.cafeCustomer.style.animation = `walkOut ${animDuration}ms ease-in forwards`;
+        const bubble = document.getElementById("speechBubble");
+        bubble.style.animation = `bubbleOut ${animDuration}ms ease-in forwards`;
+      }, exitDuration - animDuration);
+
+      window.setTimeout(() => {
+        els.makeButton.style.display = "";
+        els.listenButton.style.display = "";
+      }, exitDuration);
+    }
+
+    function closeResult() {
+      els.resultLayer.classList.remove("show");
+      els.nextButton.disabled = false;
+      els.nextButton.textContent = "다음 손님";
+    }
+
+    function watchStory() {
+      if (bridge.enabled) {
+        notifyHost("story_requested", {});
+        showToast("스토리로 돌아간 뒤, 다시 미니게임에 와주세요.");
+        return;
+      }
+      state.energy = state.energy + 1;
+      updateHud();
+      showToast("짧은 스토리를 보고 행동력이 1 회복됐어요.");
+      switchScreen("cafe");
+    }
+
+    function showToast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      window.clearTimeout(showToast.timer);
+      showToast.timer = window.setTimeout(() => {
+        els.toast.classList.remove("show");
+      }, 1900);
+    }
+
+    function tutorialDelay(ms) {
+      return new Promise((resolve) => window.setTimeout(resolve, ms));
+    }
+
+    function queryIngredientButton(name) {
+      return document.querySelector(`.ingredient-hotspot[data-name="${name}"]`);
+    }
+
+    function startTutorial() {
+      if (!els.tutorialLayer) return;
+      tutorialState.active = true;
+      tutorialState.step = 0;
+      bindTutorialEvents();
+      renderTutorialStep();
+      window.requestAnimationFrame(() => {
+        els.tutorialLayer.classList.add("show");
+      });
+    }
+
+    function dismissTutorialCard() {
+      if (!tutorialState.active) return;
+      tutorialState.waitingForAction = true;
+      els.tutorialCard.classList.add("step-out");
+      els.tutorialCard.style.pointerEvents = "none";
+      els.tutorialSpotlight.style.opacity = "0";
+      els.tutorialLayer.querySelector(".tutorial-dim").style.opacity = "0";
+    }
+
+    function bindTutorialEvents() {
+      if (tutorialState.listening) return;
+      tutorialState.listening = true;
+
+      els.tutorialNext.addEventListener("click", advanceTutorialStep);
+      els.tutorialPrev.addEventListener("click", () => {
+        if (tutorialState.step > 0) {
+          tutorialState.step -= 1;
+          renderTutorialStep();
+        }
+      });
+      els.tutorialSkip.addEventListener("click", () => {
+        const step = TUTORIAL_STEPS[tutorialState.step];
+        if (step?.gate) {
+          dismissTutorialCard();
+        }
+      });
+      window.addEventListener("resize", positionTutorial);
+
+      els.makeButton.addEventListener("click", () => {
+        tutorialAdvanceAfter("make", () => state.screen === "prep", 620);
+      });
+      [els.iceButton, els.iceCupButton].forEach((button) => {
+        button.addEventListener("click", () => {
+          tutorialAdvanceAfter("temp", () => state.cup.temp === "ICE", 120);
+        });
+      });
+      els.ingredientShelf.addEventListener("pointerup", () => {
+        tutorialAdvanceAfter("water", () => state.cup.ingredients.includes("물"), 180);
+      });
+      els.shotButton.addEventListener("click", () => {
+        tutorialAdvanceAfter("shots", () => state.cup.shots >= 2, 120);
+      });
+      els.cup.addEventListener("pointerup", () => {
+        tutorialAdvanceAfter("deliver", () => state.screen === "cafe", 700);
+      });
+    }
+
+    async function advanceTutorialStep() {
+      if (!tutorialState.active) return;
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      if (step?.done) {
+        completeTutorial();
+        return;
+      }
+
+      els.tutorialNext.disabled = true;
+      try {
+        if (typeof step.action === "function") {
+          await step.action();
+        }
+        tutorialState.step = Math.min(tutorialState.step + 1, TUTORIAL_STEPS.length - 1);
+        renderTutorialStep();
+      } finally {
+        els.tutorialNext.disabled = false;
+      }
+    }
+
+    function tutorialAdvanceAfter(gate, predicate, delay) {
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      if (!tutorialState.active || step?.gate !== gate) return;
+      window.setTimeout(() => {
+        const current = TUTORIAL_STEPS[tutorialState.step];
+        if (!tutorialState.active || current?.gate !== gate) return;
+        if (!predicate || predicate()) {
+          tutorialState.step = Math.min(tutorialState.step + 1, TUTORIAL_STEPS.length - 1);
+          renderTutorialStep();
+        }
+      }, delay);
+    }
+
+    function renderTutorialStep() {
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      if (!step) return;
+
+      tutorialState.waitingForAction = false;
+      els.tutorialCard.style.pointerEvents = "";
+      els.tutorialLayer.querySelector(".tutorial-dim").style.opacity = "";
+
+      document.querySelectorAll(".tutorial-target").forEach((node) => {
+        node.classList.remove("tutorial-target");
+      });
+
+      const target = getTutorialTarget(step);
+      target?.classList?.add("tutorial-target");
+
+      els.tutorialCard.classList.remove("step-in");
+      els.tutorialCard.classList.add("step-out");
+
+      window.setTimeout(() => {
+        els.tutorialProgress.textContent = `튜토리얼 ${tutorialState.step + 1}/${TUTORIAL_STEPS.length}`;
+        els.tutorialTitle.textContent = step.title;
+        els.tutorialText.textContent = step.text;
+        els.tutorialRecipe.innerHTML = "";
+
+        const hasGate = Boolean(step.gate);
+        if (hasGate) {
+          els.tutorialNext.style.display = "none";
+          els.tutorialPrev.style.display = "none";
+          els.tutorialSkip.style.display = "";
+          els.tutorialSkip.style.visibility = "visible";
+          els.tutorialSkip.textContent = "해볼게요!";
+          els.tutorialSkip.className = "tutorial-skip tutorial-try";
+        } else {
+          els.tutorialNext.style.display = "";
+          els.tutorialNext.textContent = step.next || "다음";
+          els.tutorialPrev.style.display = "";
+          els.tutorialPrev.disabled = tutorialState.step === 0;
+          els.tutorialSkip.style.display = "none";
+          els.tutorialSkip.className = "tutorial-skip";
+        }
+
+        els.tutorialCard.classList.remove("step-out");
+        els.tutorialCard.classList.add("step-in");
+        window.requestAnimationFrame(positionTutorial);
+      }, 180);
+    }
+
+    function getTutorialTarget(step) {
+      if (!step) return els.stage;
+      const target = typeof step.target === "function" ? step.target() : document.querySelector(step.target);
+      if (!target || !target.getBoundingClientRect) return els.stage;
+      const rect = target.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return els.stage;
+      return target;
+    }
+
+    function positionTutorial() {
+      if (!tutorialState.active) return;
+      const step = TUTORIAL_STEPS[tutorialState.step];
+      const stageRect = els.stage.getBoundingClientRect();
+      const cardRect = els.tutorialCard.getBoundingClientRect();
+      const margin = Math.max(10, stageRect.width * .018);
+
+      if (step.center) {
+        els.tutorialSpotlight.style.opacity = "0";
+
+        const cardX = stageRect.width / 2;
+        const cardY = stageRect.height / 2;
+        els.tutorialCard.style.setProperty("--card-x", `${cardX}px`);
+        els.tutorialCard.style.setProperty("--card-y", `${cardY}px`);
+        return;
+      }
+      els.tutorialSpotlight.style.opacity = "";
+
+      const target = getTutorialTarget(step);
+      const targetRect = target.getBoundingClientRect();
+      const pad = Math.max(6, stageRect.width * .012);
+
+      const x = Math.max(0, targetRect.left - stageRect.left - pad);
+      const y = Math.max(0, targetRect.top - stageRect.top - pad);
+      const w = Math.min(stageRect.width - x, targetRect.width + pad * 2);
+      const h = Math.min(stageRect.height - y, targetRect.height + pad * 2);
+
+      els.tutorialSpotlight.style.setProperty("--tx", `${x}px`);
+      els.tutorialSpotlight.style.setProperty("--ty", `${y}px`);
+      els.tutorialSpotlight.style.setProperty("--tw", `${w}px`);
+      els.tutorialSpotlight.style.setProperty("--th", `${h}px`);
+
+      const targetCenterX = x + w / 2;
+      const targetCenterY = y + h / 2;
+      let cardX = targetCenterX < stageRect.width / 2 ? stageRect.width * .73 : stageRect.width * .27;
+      let cardY = targetCenterY;
+
+      if (targetCenterY < stageRect.height * .55) {
+        cardY = Math.min(stageRect.height - cardRect.height / 2 - margin, y + h + cardRect.height / 2 + margin);
+      } else {
+        cardY = Math.max(cardRect.height / 2 + margin, y - cardRect.height / 2 - margin);
+      }
+
+      cardX = Math.max(cardRect.width / 2 + margin, Math.min(stageRect.width - cardRect.width / 2 - margin, cardX));
+      cardY = Math.max(cardRect.height / 2 + margin, Math.min(stageRect.height - cardRect.height / 2 - margin, cardY));
+
+      els.tutorialCard.style.setProperty("--card-x", `${cardX}px`);
+      els.tutorialCard.style.setProperty("--card-y", `${cardY}px`);
+    }
+
+    function completeTutorial() {
+      tutorialState.active = false;
+      els.tutorialCard.classList.add("step-out");
+      els.tutorialSpotlight.style.opacity = "0";
+      els.tutorialLayer.querySelector(".tutorial-dim").style.opacity = "0";
+      window.setTimeout(() => {
+        els.tutorialLayer.classList.remove("show");
+        notifyHost("tutorial_completed", {});
+      }, 300);
+    }
+
+    init();
+    startTutorial();
+  </script>
+</body>
+</html>

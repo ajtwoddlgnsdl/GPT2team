@@ -2,7 +2,7 @@
   {
     "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "Day 7. 벌써 일주일이 지났다. 돌아보면 코토리와 얘기하지 않은 날이 없었다."
+    "text": "벌써 일주일이 지났다. 돌아보면 코토리와 얘기하지 않은 날이 없었다."
   },
   {
     "speaker": "{name}",
@@ -55,7 +55,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "코토리가 잠깐 먼 곳을 바라봤다가 다시 {N}을 봤다."
+    "text": "코토리가 잠깐 먼 곳을 바라봤다가 다시 {name}을 봤다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -84,7 +84,11 @@
   {
     "bg_image": "assets/images/bg/cafe_street.jpg",
     "speaker": "{name}",
-    "text": "오늘은 코토리가 쉬는 시간에 커다란 도시락을 들고 나왔다. 평소보다 눈에 띄게 큰 사이즈. 보자기로 꽁꽁 싸 매어 있었다."
+    "text": "오늘은 코토리가 쉬는 시간에 커다란 도시락을 들고 나왔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "평소보다 눈에 띄게 큰 사이즈. 보자기로 꽁꽁 싸 매어 있었다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
@@ -102,11 +106,23 @@
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
-    "text": "두 명이서 먹을 거니까요! 근데 만들다 보니 점점 커졌어요. 어제 저녁부터 준비했어요. 카라아게는 오늘 아침에 튀겼고요."
+    "text": "두 명이서 먹을 거니까요! 근데 만들다 보니 점점 커졌어요."
+  },
+  {
+    "speaker": "코토리",
+    "text": "어제 저녁부터 준비했어요. 가라아게는 오늘 아침에 튀겼고요."
   },
   {
     "speaker": "{name}",
-    "text": "마감 전 잠깐의 여유. 코토리가 꽃집 정리를 마치고 카페 테라스 쪽으로 왔다. 다 먹고 나서 코토리가 차를 꺼냈다. 텀블러에 담아온 따뜻한 녹차."
+    "text": "마감 전 잠깐의 여유."
+  },
+  {
+    "speaker": "{name}",
+    "text": "코토리가 꽃집 정리를 마치고 카페 테라스 쪽으로 왔다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "다 먹고 나서 코토리가 텀블러에 담아온 따뜻한 녹차를 꺼냈다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -153,7 +169,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_슬픔.png",
     "speaker": "코토리",
-    "text": "한국어도 아직 어색하고, 친구도 없었고. 근데 {N}씨랑 얘기하면 그런 거 생각 안 나요. 그게 고마워요."
+    "text": "한국어도 아직 어색하고, 친구도 없었고. 근데 {name}씨랑 얘기하면 그런 거 생각 안 나요. 그게 고마워요."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기쁨.png",
@@ -177,7 +193,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기쁨.png",
     "speaker": "코토리",
-    "text": "잘 자요!"
+    "text": "고마워요!"
   },
   {
     "speaker": "{name}",

@@ -10,7 +10,11 @@
   },
   {
     "speaker": "",
-    "text": "지하철역에서 걸어서 10분. 큰 길에서 한 블록 들어오면 나타나는, 알 만한 사람만 아는 위치."
+    "text": "지하철역에서 걸어서 10분."
+  },
+  {
+    "speaker": "",
+    "text": "큰 길에서 한 블록 들어오면 나타나는, 알 만한 사람만 아는 위치."
   },
   {
     "speaker": "",
@@ -34,19 +38,7 @@
   },
   {
     "speaker": "",
-    "text": "그라인더 소리, 뜨거운 물이 원두를 적시는 소리."
-  },
-  {
-    "speaker": "",
-    "text": "향이 먼저 올라온다. 코끝이 찡해질 정도로 진한 향."
-  },
-  {
-    "speaker": "",
-    "text": "커피를 내리는 이 시간만큼은 머릿속이 잠깐 비워지는 기분이다."
-  },
-  {
-    "speaker": "",
-    "text": "(카페 미니게임 튜토리얼 진행)"
+    "action": "cafe_tutorial"
   },
   {
     "speaker": "점장",
@@ -78,7 +70,11 @@
   },
   {
     "speaker": "",
-    "text": "짐을 내리고 있는 건 — 생각보다 작은 여자였다. 큰 박스를 두 팔로 껴안고 뭔가 혼잣말을 하는 것 같기도 했다."
+    "text": "짐을 내리고 있는 건 생각보다 작은 여자였다."
+  },
+  {
+    "speaker": "",
+    "text": "큰 박스를 두 팔로 껴안고 뭔가 혼잣말을 하는 것 같기도 했다."
   },
   {
     "speaker": "{name}",
@@ -142,11 +138,13 @@
     "text": "아메리카노를 건네자 그녀가 두 손으로 컵을 받았다. 한 모금 마시더니 눈을 동그랗게 떴다."
   },
   {
-    "character_image": "assets/images/character/코토리/코토리_반짝.png",
+    "bg_image": "assets/images/bg/kotori_intro1.png",
+    "character_image": null,
     "speaker": "코토리",
     "text": "맛있다!"
   },
   {
+    "bg_image": "assets/images/bg/cafe.jpg",
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "옆에서 이사 준비하다 왔는데, 딱 필요했던 거예요."
@@ -160,6 +158,7 @@
     "text": "딸랑—"
   },
   {
+    "character_image": null,
     "speaker": "{name}",
     "text": "...꽃집 사람이었구나."
   }

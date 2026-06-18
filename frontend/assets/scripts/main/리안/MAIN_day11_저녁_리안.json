@@ -1,7 +1,7 @@
-﻿[
+[
     {
         "text":  "해가 진 후, 리안의 집 앞",
-        "bg_image":  "assets/images/bg/리안집1층.png",
+        "bg_image":  "assets/images/bg/rian_home_ground_floor.png",
         "character_image":  null
     },
     {
@@ -58,7 +58,7 @@
     },
     {
         "text":  "건물 앞에 오토바이가 세워져 있다. 크고 낮고, 검다.",
-        "bg_image":  "assets/images/bg/밤골목.png",
+        "bg_image":  "assets/images/bg/night_alley.png",
         "character_image":  "assets/images/character/리안/리안_실외_헬멧_기본.png"
     },
     {
@@ -112,7 +112,9 @@
         "text":  "\u0027……진짜 간다.\u0027"
     },
     {
-        "text":  "출발했다."
+        "text":  "출발했다.",
+        "bg_image":  "assets/images/bg/rian_drive.png",
+        "character_image":  null
     },
     {
         "text":  "처음엔 무서웠다. 바람이 생각보다 강하게 왔다. 몸이 자꾸 흔들리는 것 같았다."
@@ -126,19 +128,23 @@
     },
     {
         "speaker":  "{name}",
-        "text":  "왜!"
+        "text":  "왜!",
+        "character_image":  null
     },
     {
         "speaker":  "리안",
-        "text":  "그렇게 잡으면 떨어져."
+        "text":  "그렇게 잡으면 떨어져.",
+        "character_image":  null
     },
     {
         "speaker":  "{name}",
-        "text":  "그럼 어떻게 잡는데!"
+        "text":  "그럼 어떻게 잡는데!",
+        "character_image":  null
     },
     {
         "speaker":  "리안",
-        "text":  "……허리."
+        "text":  "……허리.",
+        "character_image":  null
     },
     {
         "speaker":  "{name}",
@@ -146,7 +152,8 @@
     },
     {
         "speaker":  "리안",
-        "text":  "허리..!!"
+        "text":  "허리..!!",
+        "character_image":  null
     },
     {
         "action":  "choice",
@@ -156,7 +163,8 @@
                             "bonus_score":  5,
                             "next_lines":  [
                                                {
-                                                   "text":  "등이 가까워졌다."
+                                                   "text":  "등이 가까워졌다.",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "text":  "리안이 아무 말도 안 했다. 그냥 앞을 봤다."
@@ -178,14 +186,17 @@
                             "bonus_score":  -5,
                             "next_lines":  [
                                                {
-                                                   "text":  "손을 옮기지 않았다. 그냥 옷자락을 더 단단히 쥐었다."
+                                                   "text":  "손을 옮기지 않았다. 그냥 옷자락을 더 단단히 쥐었다.",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "어우!! 그래 야 떨어져라 떨어져!!."
+                                                   "text":  "어우!! 그래 야 떨어져라 떨어져!!.",
+                                                   "character_image":  null
                                                },
                                                {
-                                                   "text":  "포기했다는 말투다. 속도도 줄이진 않았다."
+                                                   "text":  "포기했다는 말투다. 속도도 줄이진 않았다.",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "text":  "바람이 계속 왔다. 옷자락이 버티는 게 아슬아슬했다."
@@ -201,26 +212,32 @@
                             "bonus_score":  0,
                             "next_lines":  [
                                                {
-                                                   "text":  "그냥 꽉 끌어안았다."
+                                                   "text":  "그냥 꽉 끌어안았다.",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "야!!"
+                                                   "text":  "야!!",
+                                                   "character_image":  null
                                                },
                                                {
-                                                   "text":  "오토바이가 살짝 흔들렸다."
+                                                   "text":  "오토바이가 살짝 흔들렸다.",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "미쳤어?! 위험하다고!!"
+                                                   "text":  "미쳤어?! 위험하다고!!",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "speaker":  "{name}",
-                                                   "text":  "미안미안, 무서워서!"
+                                                   "text":  "미안미안, 무서워서!",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "으으으..."
+                                                   "text":  "으으으...",
+                                                   "character_image":  null
                                                },
                                                {
                                                    "text":  "목소리가 바람에 섞여서 날아갔다. 운전은 안정적이다."
@@ -231,7 +248,7 @@
     },
     {
         "text":  "한동안 달렸다.",
-        "bg_image":  "assets/images/bg/리안_day9.png",
+        "bg_image":  "assets/images/bg/rian_drive.png",
         "character_image":  null
     },
     {
@@ -248,7 +265,8 @@
         "text":  "리안이 속도를 줄이더니 강가 쪽으로 들어갔다."
     },
     {
-        "text":  "사람이 없는 곳이다. 강물이 낮게 흘렀다. 건너편 불빛이 물에 번졌다."
+        "text":  "사람이 없는 곳이다. 강물이 낮게 흘렀다. 건너편 불빛이 물에 번졌다.",
+        "bg_image":  "assets/images/bg/rian_riverview.png"
     },
     {
         "text":  "오토바이가 멈췄다."
@@ -428,18 +446,21 @@
                                                },
                                                {
                                                    "speaker":  "{name}",
-                                                   "text":  "위험하지!!"
+                                                   "text":  "위험하지!!",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_짜증.png"
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "나 운전 잘 하거든!!"
+                                                   "text":  "나 운전 잘 하거든!!",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_짜증.png"
                                                }
                                            ]
                         }
                     ]
     },
     {
-        "text":  "강가에 한동안 더 있었다."
+        "text":  "강가에 한동안 더 있었다.",
+        "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
         "text":  "리안이 먼저 움직이지 않아서, 그냥 옆에 있었다."
@@ -462,7 +483,9 @@
         "text":  "다시 헬멧을 쓰고 올라탔다."
     },
     {
-        "text":  "이번엔 덜 무서웠다. 어디에 손을 두면 되는지도 알았다."
+        "text":  "이번엔 덜 무서웠다. 어디에 손을 두면 되는지도 알았다.",
+        "bg_image":  "assets/images/bg/rian_drive.png",
+        "character_image":  null
     },
     {
         "text":  "리안이 시동을 걸었다."

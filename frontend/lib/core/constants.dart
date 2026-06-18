@@ -9,10 +9,9 @@ class ApiConstants {
     }
     // 💡 안드로이드 기기(에뮬레이터 포함)일 경우
     if (Platform.isAndroid) {
-      return 'http://10.30.81.20:8000'; // 안드로이드 에뮬레이터용 host loopback
+      return 'http://192.168.0.16:8000'; // 안드로이드 에뮬레이터용 host loopback
     }
     // 💡 iOS 시뮬레이터 및 윈도우/맥 데스크탑일 경우
     return 'http://127.0.0.1:8000';
   }
-
 }

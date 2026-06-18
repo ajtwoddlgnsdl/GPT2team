@@ -20,7 +20,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "사실 어제 옛날 사진 보다가… 생각이 많이 났거든요. {N}씨한테는 말해도 괜찮을 것 같아서."
+    "text": "사실 어제 옛날 사진 보다가… 생각이 많이 났거든요. {name}씨한테는 말해도 괜찮을 것 같아서."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -89,7 +89,7 @@
   },
   {
     "action": "choice",
-    "text": "[선택지 ⑪] 코토리가 유이짱 이야기를 하고 있다.",
+    "text": "처음 {name}씨한테 코스모스를 준 것도… 그 마음이랑 비슷한 것 같아서요.",
     "choices": [
       {
         "text": "억지로 웃지 않아도 돼. 듣고 있을게.",
@@ -108,7 +108,7 @@
           {
             "character_image": "assets/images/character/코토리/코토리_슬픔.png",
             "speaker": "코토리",
-            "text": "다른 사람들은 '이제 잊어'라고 하는데, {N}씨는 달라요."
+            "text": "다른 사람들은 '이제 잊어'라고 하는데, {name}씨는 달라요."
           }
         ]
       },
@@ -144,43 +144,15 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "{name}씨, 내일 같이 카라아게 만들어볼래요?"
+    "text": "{name}씨, 내일 같이 가라아게 만들어볼래요?"
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "저녁 7시 반에 시간 돼요? 제가 제일 자신 있는 요리예요. 어제 말했죠? 카라아게. 이번엔 진짜로 해요."
+    "text": "저녁 7시 반에 시간 돼요? 제가 제일 자신 있는 요리예요. 이번엔 진짜로 만들어요!"
   },
   {
     "action": "system",
-    "text": "📌 캘린더: Day 14 — 코토리와 카라아게 만들기 (19:30)"
-  },
-  {
-    "action": "unlock",
-    "text": "⏰ 01:00 새벽 과거 스토리 Ch.1 해금: '옥상의 두 사람'"
-  },
-  {
-    "speaker": "{name}",
-    "text": "(새벽) 중학교 옥상. 코스모스 꽃밭이 보이는 창 옆. 초여름의 바람이 창으로 들어온다."
-  },
-  {
-    "speaker": "{name}",
-    "text": "어린 코토리가 도시락 뚜껑을 열고, 말이 없는 소녀에게 내밀고 있다."
-  },
-  {
-    "speaker": "{name}",
-    "text": "오니기리 두 개. 하나에는 김으로 작은 얼굴이 그려져 있다."
-  },
-  {
-    "speaker": "코토리 (과거)",
-    "text": "맛있어요, 유이짱?"
-  },
-  {
-    "speaker": "유이 (과거)",
-    "text": "…응. 맛있어."
-  },
-  {
-    "speaker": "{name}",
-    "text": "그 미소가 전부였다. 그것으로 충분했다."
+    "text": "📌 캘린더: Day 14 — 코토리와 가라아게 만들기 (19:30)"
   }
 ]

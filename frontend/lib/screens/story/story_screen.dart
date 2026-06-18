@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import '../../core/api_client.dart';
+import '../lobby/album_constants.dart';
+import '../lobby/cafe_game_screen.dart';
 import '../lobby/lobby_screen.dart';
 
 
@@ -22,7 +24,8 @@ class StoryScreen extends StatefulWidget {
   State<StoryScreen> createState() => _StoryScreenState();
 }
 
-class _StoryScreenState extends State<StoryScreen> {
+class _StoryScreenState extends State<StoryScreen>
+    with SingleTickerProviderStateMixin {
   List<dynamic> _scriptLines = [];
   int _currentIndex = 0;
   bool _isLoading = true;
@@ -33,9 +36,16 @@ class _StoryScreenState extends State<StoryScreen> {
   // 💡 비주얼 및 선택지 관련 상태 변수 추가
   String? _currentBgImage;
   String? _currentCharacterImage;
+  String? _currentCenterImage;
   int _earnedBonusScore = 0;
   bool _isChoiceMode = false;
   List<dynamic> _currentChoices = [];
+  bool _isLaunchingCafeTutorial = false;
+
+  static final Set<String> _albumImagePaths = {
+    for (final items in kHeroineAlbumMetadata.values)
+      for (final item in items) item.imagePath,
+  };
 
   @override
   void initState() {
@@ -82,6 +92,7 @@ class _StoryScreenState extends State<StoryScreen> {
         _isLoading = false;
       });
       _precacheScriptImages();
+      _runCurrentLineAutoAction();
     } catch (e) {
       debugPrint("🚨 대본 로드 실패 ($filePath): $e");
       if (mounted) {
@@ -99,6 +110,7 @@ class _StoryScreenState extends State<StoryScreen> {
       if (line is Map<String, dynamic>) {
         if (line.containsKey('bg_image')) paths.add(line['bg_image']);
         if (line['character_image'] != null) paths.add(line['character_image']);
+        if (line['center_image'] != null) paths.add(line['center_image']);
       }
     }
     for (final path in paths) {
@@ -114,6 +126,7 @@ class _StoryScreenState extends State<StoryScreen> {
     if (line.containsKey('character_image')) {
       _currentCharacterImage = line['character_image'] as String?;
     }
+    _currentCenterImage = line['center_image'] as String?;
   }
 
   // 💡 화면을 터치했을 때 다음 스토리로 넘어가는 핵심 로직!
@@ -123,6 +136,11 @@ class _StoryScreenState extends State<StoryScreen> {
     final currentLine = _scriptLines[_currentIndex] as Map<String, dynamic>;
 
     // 1. 현재 대본에 '닉네임 입력' 액션이 있다면? -> 대사 진행을 멈추고 팝업 띄움!
+    if (_isCafeTutorialLine(currentLine)) {
+      _playCafeTutorial();
+      return;
+    }
+
     if (currentLine.containsKey('action')) {
       if (currentLine['action'] == 'input_nickname') {
         _showNameInputDialog();
@@ -141,12 +159,69 @@ class _StoryScreenState extends State<StoryScreen> {
     _advanceLine();
   }
 
+  bool _isCafeTutorialLine(Map<String, dynamic> line) {
+    return line['action'] == 'cafe_tutorial' ||
+        line['text'] == '(카페 미니게임 튜토리얼 진행)';
+  }
+
+  void _runCurrentLineAutoAction() {
+    if (_isLoading || _isChoiceMode || _scriptLines.isEmpty) return;
+
+    final currentLine = _scriptLines[_currentIndex] as Map<String, dynamic>;
+    if (!_isCafeTutorialLine(currentLine)) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _isLaunchingCafeTutorial) return;
+      _playCafeTutorial();
+    });
+  }
+
+  Future<void> _playCafeTutorial() async {
+    if (_isLaunchingCafeTutorial) return;
+    _isLaunchingCafeTutorial = true;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    final completed = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (routeContext) => CafeGameScreen(
+          actionPoints: 1,
+          money: 12000,
+          day: 1,
+          assetPath: 'assets/html/cafe_game/tutorial.html',
+          isTutorial: true,
+          onClose: () => Navigator.of(routeContext).pop(false),
+          onTutorialCompleted: () => Navigator.of(routeContext).pop(true),
+          onPhoneRequested: () {
+            Navigator.of(routeContext).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const LobbyScreen()),
+              (_) => false,
+            );
+          },
+        ),
+      ),
+    );
+
+    if (!mounted) return;
+    _isLaunchingCafeTutorial = false;
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (completed == true) {
+      _advanceLine();
+    }
+  }
+
   void _advanceLine() {
     if (_currentIndex < _scriptLines.length - 1) {
       setState(() {
         _currentIndex++;
         _updateVisuals(_scriptLines[_currentIndex]);
       });
+      _runCurrentLineAutoAction();
     } else {
       // 3. 파일 전체를 다 읽었다면 클리어 API 쏘기!
       _completeStory();
@@ -447,22 +522,30 @@ class _StoryScreenState extends State<StoryScreen> {
         child: Stack(
           children: [
             // 1. 🌅 배경 이미지 렌더링
-            if (_currentBgImage != null)
-              Positioned.fill(
-                child: Image.asset(
-                  _currentBgImage!,
-                  fit: BoxFit.cover,
-                  gaplessPlayback: true,
-                  errorBuilder: (context, error, stackTrace) {
-                    debugPrint("🚨 배경 이미지 로드 실패: $_currentBgImage");
-                    return Container(color: Colors.black);
-                  },
-                ),
-              )
-            else
-              Container(color: Colors.black),
+            Positioned.fill(
+              child: AnimatedSwitcher(
+                duration: _albumImagePaths.contains(_currentBgImage)
+                    ? const Duration(milliseconds: 400)
+                    : Duration.zero,
+                switchInCurve: Curves.easeIn,
+                layoutBuilder: (currentChild, previousChildren) =>
+                    currentChild ?? const SizedBox.shrink(),
+                child: _currentBgImage != null
+                    ? Image.asset(
+                        _currentBgImage!,
+                        key: ValueKey(_currentBgImage),
+                        fit: BoxFit.cover,
+                        gaplessPlayback: true,
+                        errorBuilder: (context, error, stackTrace) {
+                          debugPrint("🚨 배경 이미지 로드 실패: $_currentBgImage");
+                          return Container(color: Colors.black);
+                        },
+                      )
+                    : Container(key: const ValueKey('no_bg'), color: Colors.black),
+              ),
+            ),
 
-            // 2. 🧍‍♀️ 캐릭터 스탠딩 이미지 렌더링 (character_image 있는 라인에서만 표시)
+            // 2. 🧍‍♀️ 캐릭터 스탠딩 이미지 렌더링
             if (_currentCharacterImage != null)
               Positioned(
                 bottom: 0,
@@ -483,7 +566,52 @@ class _StoryScreenState extends State<StoryScreen> {
                 ),
               ),
 
-            // 3. 💬 대화창 렌더링
+            // 3. 🖼️ 센터 이미지 (도시락 등) 렌더링
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 160,
+              child: Center(
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 400),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeIn,
+                  child: _currentCenterImage != null
+                      ? Container(
+                          key: ValueKey(_currentCenterImage),
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.75,
+                            maxHeight: MediaQuery.of(context).size.height * 0.45,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                blurRadius: 20,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              _currentCenterImage!,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) {
+                                debugPrint("🚨 센터 이미지 로드 실패: $_currentCenterImage");
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(key: ValueKey('no_center')),
+                ),
+              ),
+            ),
+
+            // 4. 💬 대화창 렌더링
             Positioned(
               bottom: 50,
               left: 20,
@@ -524,7 +652,7 @@ class _StoryScreenState extends State<StoryScreen> {
               ),
             ),
 
-            // 4. 🎯 선택지 오버레이 렌더링
+            // 5. 🎯 선택지 오버레이 렌더링
             if (_isChoiceMode)
               Positioned.fill(
                 child: Container(

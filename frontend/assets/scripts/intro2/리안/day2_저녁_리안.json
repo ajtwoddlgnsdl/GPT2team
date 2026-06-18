@@ -1,7 +1,7 @@
 [
   {
     "text": "해가 진 후, 오토바이가 있던 건물 앞으로 향했다.",
-    "bg_image": "assets/images/bg/카페앞_밤.png",
+    "bg_image": "assets/images/bg/rian_cafe_street_night.png",
     "character_image": null
   },
   {
@@ -16,7 +16,7 @@
   },
   {
     "text": "건물 외벽 앞에 서서 귀를 기울였다.",
-    "bg_image": "assets/images/bg/리안집1층.png"
+    "bg_image": "assets/images/bg/rian_home_ground_floor.png"
   },
   {
     "text": "…어딘가에서 벽 너머로 번지는 것처럼 낮게 베이스 음이 들린다."
@@ -243,9 +243,6 @@
     "text": "아이, 이 정도 소리가 뭐…"
   },
   {
-    
-  },
-  {
     "speaker": "리안",
     "text": "'이 정도'요?",
     "character_image": "assets/images/character/리안/리안_실외_화남.png"
@@ -263,11 +260,9 @@
     "character_image": null
   },
   {
-    "text": "캐릭터_리안_실외_화남"
-  },
-  {
     "speaker": "리안",
-    "text": "늙은 그 쪽은 왜 진상이시지?"
+    "text": "늙은 그 쪽은 왜 진상이시지?",
+    "character_image": "assets/images/character/리안/리안_실외_화남.png"
   },
   {
     "text": "말이 빠르고 거침이 없다. 물러서는 기색이 전혀 없다."
@@ -278,11 +273,9 @@
     "character_image": null
   },
   {
-    "text": "캐릭터_리안_실외_화남"
-  },
-  {
     "speaker": "리안",
-    "text": "애들이요?"
+    "text": "애들이요?",
+    "character_image": "assets/images/character/리안/리안_실외_화남.png"
   },
   {
     "text": "눈썹이 올라갔다. 일촉즉발이다."
@@ -441,7 +434,7 @@
   },
   {
     "text": "건물 밖으로 나왔다. 리안이 입구 쪽에 서서 하늘을 올려다본다.",
-    "bg_image": "assets/images/bg/카페앞_밤.png",
+    "bg_image": "assets/images/bg/rian_cafe_street_night.png",
     "character_image": "assets/images/character/리안/리안_실외_기본.png"
   },
   {

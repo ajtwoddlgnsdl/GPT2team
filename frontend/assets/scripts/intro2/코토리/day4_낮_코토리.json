@@ -28,7 +28,13 @@
   },
   {
     "speaker": "{name}",
-    "text": "어쩌다 보니 코토리 옆에 앉아 있었다. 도시락 뚜껑을 여니 오니기리 두 개, 달걀말이, 소시지 볶음, 작은 샐러드."
+    "text": "어쩌다 보니 코토리 옆에 앉아 있었다."
+  },
+  {
+    "character_image": null,
+    "center_image": "assets/images/bg/lunch.png",
+    "speaker": "{name}",
+    "text": " 도시락 뚜껑을 여니 오니기리 두 개, 달걀말이, 소시지 볶음, 작은 샐러드."
   },
   {
     "speaker": "{name}",
@@ -69,7 +75,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "요리가 취미여서 매일 도시락 만들어 와요. {N}씨도 먹어볼래요?"
+    "text": "요리가 취미여서 매일 도시락 만들어 와요. {name}씨도 먹어볼래요?"
   },
   {
     "speaker": "{name}",
@@ -81,7 +87,7 @@
   },
   {
     "action": "choice",
-    "text": "[선택지 ④] 코토리가 반응을 기다리고 있다.",
+    "text": "코토리가 반응을 기다리고 있다.",
     "choices": [
       {
         "text": "취미 수준이 아닌데? 진짜 맛있다.",
@@ -155,7 +161,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "코토리가 말을 하다 말고 도시락 한쪽 구석을 쳐다봤다. 거기에 작은 매실 장아찌가 놓여 있었다. 코토리가 그걸 젓가락으로 집어 {N} 쪽으로 밀었다."
+    "text": "코토리가 말을 하다 말고 도시락 한쪽 구석을 쳐다봤다. 거기에 작은 매실 장아찌가 놓여 있었다. 코토리가 그걸 젓가락으로 집어 내쪽으로 밀었다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -212,7 +218,7 @@
     "text": "…카페 와."
   },
   {
-    "character_image": "assets/images/character/코토리/코토리_반짝.png",
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "카페 일 하러 오는 게 쉬는 시간이라고요?"
   },
@@ -221,12 +227,10 @@
     "text": "응. 뭔가 움직이게 되니까."
   },
   {
-    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "이해 돼요 그거. 머리 쓰는 일 말고 손 쓰는 일이 필요한 거죠."
   },
   {
-    "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
     "text": "그러면 {name}씨 카페 오면 제가 귀찮게 할 거예요. 손 쓰는 일 늘려드릴게요!"
   },

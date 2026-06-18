@@ -1,7 +1,7 @@
-﻿[
+[
     {
         "text":  "해가 진 후, 꽃집 앞 골목",
-        "bg_image":  "assets/images/bg/밤골목.png",
+        "bg_image":  "assets/images/bg/night_alley.png",
         "character_image":  null
     },
     {
@@ -66,7 +66,7 @@
     },
     {
         "text":  "리안의 집 안",
-        "bg_image":  "assets/images/bg/리안집.png",
+        "bg_image":  "assets/images/bg/rian_home.png",
         "character_image":  "assets/images/character/리안/리안_실내_기본.png"
     },
     {

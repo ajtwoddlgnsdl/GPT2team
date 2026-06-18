@@ -47,7 +47,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "저 가르쳐드릴게요! 천천히 하면 돼요."
+    "text": "제가 가르쳐드릴게요! 천천히 하면 돼요."
   },
   {
     "speaker": "{name}",
@@ -64,12 +64,8 @@
     "text": "달걀말이에 파가 있어야 하는데… 어떡하죠?!"
   },
   {
-    "speaker": "{name}",
-    "text": "코토리가 정말로 심각해 보여서 웃음이 나올 뻔했다."
-  },
-  {
     "action": "choice",
-    "text": "[선택지 ⑦] 파가 없어서 당황한 코토리.",
+    "text": "달걀말이에 파가 있어야 하는데… 어떡하죠?!",
     "choices": [
       {
         "text": "어쩔 수 없지, 다른 걸로 해보자.",
@@ -128,7 +124,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "코토리가 달걀을 풀고 간을 맞추는 동안, {N}은 옆에서 재료를 썰었다."
+    "text": "코토리가 달걀을 풀고 간을 맞추는 동안, {name}은 옆에서 재료를 썰었다."
   },
   {
     "speaker": "{name}",
@@ -196,7 +192,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "코토리가 마지막 한 조각을 젓가락으로 {N} 쪽에 밀었다."
+    "text": "코토리가 마지막 한 조각을 젓가락으로 {name} 쪽에 밀었다."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -227,7 +223,7 @@
   },
   {
     "speaker": "{name}",
-    "text": "좁은 싱크대 앞에서 어깨가 닿을 듯 말 듯. 코토리가 설거지하고 {N}이 받아 물기를 닦았다."
+    "text": "좁은 싱크대 앞에서 어깨가 닿을 듯 말 듯. 코토리가 설거지하고 {name}이 받아 물기를 닦았다."
   },
   {
     "speaker": "{name}",
@@ -249,7 +245,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
     "speaker": "코토리",
-    "text": "그럼 다음엔 카라아게! 진짜 자신 있거든요."
+    "text": "그럼 다음엔 가라아게! 진짜 자신 있거든요."
   },
   {
     "speaker": "{name}",
@@ -271,7 +267,7 @@
   {
     "character_image": "assets/images/character/코토리/코토리_기쁨.png",
     "speaker": "코토리",
-    "text": "다음엔 카라아게 도전해볼게요. 자신 있거든요! 잘 자요, {N}씨!"
+    "text": "다음엔 가라아게 도전해볼게요. 자신 있거든요! 잘 자요, {name}씨!"
   },
   {
     "speaker": "{name}",

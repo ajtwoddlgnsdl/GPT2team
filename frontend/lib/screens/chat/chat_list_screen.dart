@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/api_client.dart';
+import '../../providers/chat_provider.dart';
 import 'chat_room_screen.dart';
 
-class ChatListScreen extends StatefulWidget {
+class ChatListScreen extends ConsumerStatefulWidget {
   final int currentZoneCode; // 0=새벽, 1=아침, 2=낮, 3=밤
   const ChatListScreen({super.key, required this.currentZoneCode});
 
   @override
-  State<ChatListScreen> createState() => _ChatListScreenState();
+  ConsumerState<ChatListScreen> createState() => _ChatListScreenState();
 }
 
-class _ChatListScreenState extends State<ChatListScreen> {
+class _ChatListScreenState extends ConsumerState<ChatListScreen> {
   bool _isLoading = true;
   List<dynamic> _heroines = [];
   String _currentZoneName = "낮";
-
 
   @override
   void initState() {
@@ -27,16 +28,15 @@ class _ChatListScreenState extends State<ChatListScreen> {
       final response = await ApiClient().dio.get('/calendar/status');
       if (response.statusCode == 200 && response.data['status'] == 'success') {
         final rawHeroines = response.data['heroines'] as List<dynamic>;
-        final state = response.data['game_state'] as String;
+        final stateVal = response.data['game_state'] as String;
         final zoneName = response.data['current_zone'] as String;
 
         setState(() {
           _currentZoneName = zoneName;
 
-
           // 💡 필터링 정책 적용:
           // MAIN 이나 END 상태인 경우 메인 히로인(is_main = true)만 대화방에 남겨둠
-          if (state == "MAIN" || state == "END") {
+          if (stateVal == "MAIN" || stateVal == "END") {
             _heroines = rawHeroines.where((h) => h['is_main'] == true).toList();
           } else {
             // INTRO_2 등 공통 단계인 경우 전체 히로인 출력
@@ -44,6 +44,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
           }
           _isLoading = false;
         });
+
+        // 💡 각 히로인별 방 정보를 로드하여 Riverpod provider 상태를 갱신
+        for (var h in _heroines) {
+          final name = h['name'] as String;
+          final day = h['current_day'] as int;
+          ref.read(chatRoomProvider.notifier).loadRoom(name, day, zoneName);
+        }
       }
     } catch (e) {
       debugPrint("🚨 히로인 채팅 목록 조회 에러: $e");
@@ -95,6 +102,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // 💡 Riverpod 상태 감시
+    final chatStateMap = ref.watch(chatRoomProvider);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF9F7F5), // 따뜻한 미색 배경
       appBar: AppBar(
@@ -134,7 +144,14 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     final isMain = h['is_main'] as bool;
                     final avatarColor = _getHeroineColor(name);
                     final avatarImg = _getHeroineImage(name);
-                    final intro = _getHeroineIntro(name);
+                    final defaultIntro = _getHeroineIntro(name);
+
+                    // 💡 Riverpod 방 상태에서 마지막 메시지 및 안 읽은 개수 가져오기
+                    final roomState = chatStateMap[name];
+                    final String lastMessageText = (roomState != null && roomState.messages.isNotEmpty)
+                        ? roomState.messages.last.messageText
+                        : defaultIntro;
+                    final int unreadCount = roomState?.unreadCount ?? 0;
 
                     return GestureDetector(
                       onTap: () {
@@ -241,7 +258,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                   ),
                                   const SizedBox(height: 6),
                                   Text(
-                                    intro,
+                                    lastMessageText,
                                     style: const TextStyle(
                                       fontSize: 13,
                                       color: Color(0xFF8C7B75),
@@ -252,7 +269,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                 ],
                               ),
                             ),
-                            // 스토리 일차 배지
+                            const SizedBox(width: 8),
+                            // 스토리 일차 배지 & 안 읽은 메시지 배지
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -271,6 +289,24 @@ class _ChatListScreenState extends State<ChatListScreen> {
                                     ),
                                   ),
                                 ),
+                                if (unreadCount > 0) ...[
+                                  const SizedBox(height: 6),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFFE85D75),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Text(
+                                      '$unreadCount',
+                                      style: const TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w800,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ],
                             ),
                           ],

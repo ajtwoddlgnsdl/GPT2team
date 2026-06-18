@@ -1,7 +1,7 @@
 [
   {
     "text": "퇴근길 골목",
-    "bg_image": "assets/images/bg/밤골목.png",
+    "bg_image": "assets/images/bg/night_alley.png",
     "character_image": null
   },
   {
@@ -134,7 +134,8 @@
     "text": "따라와, 일단!"
   },
   {
-    "text": "뒤를 따라 건물 입구로 뛰어들었다."
+    "text": "뒤를 따라 건물 입구로 뛰어들었다.",
+    "bg_image": "assets/images/bg/rian_home_ground_floor.png"
   },
   {
     "text": "처마 아래. 비가 발 앞에서 떨어진다."
@@ -145,7 +146,7 @@
   {
     "speaker": "리안",
     "text": "하하하! 진짜 다 젖었다.",
-    "bg_image": "assets/images/bg/리안_day3.jpg",
+    "bg_image": "assets/images/bg/rian_day3.jpg",
     "character_image": null
   },
   {
@@ -165,7 +166,7 @@
   },
   {
     "text": "리안이 빠르게 뒤를 돌더니, 엘리베이터에 타버린다",
-    "bg_image": "assets/images/bg/리안집1층.png"
+    "bg_image": "assets/images/bg/rian_home_ground_floor.png"
   },
   {
     "speaker": "{name}",
@@ -291,7 +292,7 @@
   },
   {
     "text": "리안의 집에 들어섰다.",
-    "bg_image": "assets/images/bg/리안집.png"
+    "bg_image": "assets/images/bg/rian_home.png"
   },
   {
     "text": "탄성이 나올 뻔했다."

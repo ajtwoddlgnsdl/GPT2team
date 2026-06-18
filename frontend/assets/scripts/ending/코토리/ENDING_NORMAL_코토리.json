@@ -1,13 +1,19 @@
 [
   {
     "bg_image": "assets/images/bg/cafe_street.jpg",
-    "speaker": "{name}",
-    "text": ""
+    "character_image": "assets/images/character/코토리/코토리_기본.png",
+    "speaker": "코토리",
+    "text": "유이짱 일은… 아직 잘 모르겠어요."
+  },
+  {
+    "character_image": "assets/images/character/코토리/코토리_슬픔.png",
+    "speaker": "코토리",
+    "text": "연락하고 싶은데, 아직 용기가 안 나요."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
-    "text": "유이짱 일은… 아직 잘 모르겠어요. 근데 하나는 확실해요."
+    "text": "근데 하나는 확실해요."
   },
   {
     "character_image": "assets/images/character/코토리/코토리_반짝.png",
@@ -15,11 +21,16 @@
     "text": "{name}씨가 좋아요. 좋아해요, {name}씨."
   },
   {
+    "character_image": "assets/images/character/코토리/코토리_반짝.png",
+    "speaker": "코토리",
+    "text": "…히히. 드디어 말했다."
+  },
+  {
     "action": "choice",
-    "text": "나도 좋아해, 코토리.",
+    "text": "나도 코토리가 좋아.",
     "choices": [
       {
-        "text": "나도 좋아해, 코토리.",
+        "text": "나도 코토리가 좋아.",
         "bonus_score": 0,
         "next_lines": [
           {
@@ -33,9 +44,27 @@
             "text": "내일도 같이 밥 먹죠? 오니기리 만들어올게요."
           },
           {
+            "speaker": "{name}",
+            "text": "매일 만들어오는 거 힘들지 않아?"
+          },
+          {
             "character_image": "assets/images/character/코토리/코토리_기쁨.png",
             "speaker": "코토리",
-            "text": "이번엔 햄스터 아닌 거로 만들어줄게요 ㅎㅎ"
+            "text": "도시락은 계속 만들어올 거예요! 옆 가게니까 어쩔 수 없어요!"
+          },
+          {
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "…옆에 있는 건 괜찮죠?"
+          },
+          {
+            "speaker": "{name}",
+            "text": "물론이지."
+          },
+          {
+            "character_image": "assets/images/character/코토리/코토리_기쁨.png",
+            "speaker": "코토리",
+            "text": "그러면 됐어요. 내일도 올게요."
           }
         ]
       }

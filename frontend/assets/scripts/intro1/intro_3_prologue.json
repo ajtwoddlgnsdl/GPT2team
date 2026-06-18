@@ -1,6 +1,6 @@
 [
   {
-    "bg_image": "assets/images/bg/cafe_street.jpg",
+    "bg_image": "assets/images/bg/rian_cafe_street_night.png",
     "character_image": null,
     "speaker": "",
     "text": "저녁 6시. 카페 일을 마치고 집으로 돌아가는 길이었다."
@@ -218,7 +218,9 @@
     "speaker": "",
     "text": "여자는 길 쪽으로 튀어나와 있던 바로 그 오토바이를 가리켰다."
   },
-  {
+  { 
+    "bg_image": "assets/images/bg/night_alley.png",
+    "character_image": null,
     "speaker": "",
     "text": "대꾸할 틈도 없이 오토바이가 앞으로 튀어나갔다."
   },

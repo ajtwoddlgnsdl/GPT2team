@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <title>코토리 카페 미니게임 세로 미리보기</title>
+  <title>카페 미니게임</title>
   <style>
     @font-face {
       font-family: "YOnepick";
@@ -47,8 +47,8 @@
       overflow: hidden;
       background: #2f271f;
       color: var(--ink);
-      font-family: "YOnepick", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
-      font-weight: 700;
+      font-family: "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+      font-weight: 400;
     }
 
     button {
@@ -90,6 +90,22 @@
 
     .screen.active {
       display: block;
+      animation: screenFadeIn .28s ease;
+    }
+
+    .screen.leaving {
+      display: block;
+      animation: screenFadeOut .28s ease forwards;
+    }
+
+    @keyframes screenFadeIn {
+      from { opacity: 0; transform: scale(1.015); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes screenFadeOut {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(.985); }
     }
 
     .screen::before {
@@ -107,13 +123,31 @@
     }
 
     #cafeScreen::after {
+      display: none;
+    }
+
+    .counter-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .counter-overlay::before,
+    .counter-overlay::after {
       content: "";
       position: absolute;
       inset: 0;
       background: url("cafe_main.png") center / cover no-repeat;
-      clip-path: inset(70.6% 0 0 0);
       pointer-events: none;
-      z-index: 6;
+    }
+
+    .counter-overlay::before {
+      clip-path: inset(66.4% 0 0 0);
+    }
+
+    .counter-overlay::after {
+      clip-path: polygon(0 53.6%, 36% 53.6%, 36% 64.3%, 0 64.3%);
     }
 
     #prepScreen::before {
@@ -154,6 +188,7 @@
       background: rgba(255, 247, 222, .9);
       box-shadow: 0 .35vmin 0 rgba(111, 72, 41, .28);
       font-size: clamp(11px, 1.65vmin, 18px);
+      font-weight: 600;
       line-height: 1;
       white-space: nowrap;
       backdrop-filter: blur(.25vmin);
@@ -199,7 +234,7 @@
     .cafe-customer {
       position: absolute;
       left: 22.8%;
-      bottom: 6.2%;
+      bottom: 5.2%;
       width: min(30%, 40vmin);
       height: 66%;
       display: grid;
@@ -207,29 +242,35 @@
       transform: translateX(-42vw);
       opacity: 0;
       z-index: 5;
-      animation: walkIn .62s cubic-bezier(.2, .88, .24, 1.1) forwards;
+      animation: walkIn .72s cubic-bezier(.18, .78, .24, 1) forwards;
     }
 
     .cafe-customer img {
+      --customer-x: 0%;
+      --customer-y: 0%;
+      --customer-scale: 1;
+      width: 100%;
+      height: auto;
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
       filter: drop-shadow(0 .7vmin 1vmin rgba(55, 33, 18, .28));
       transform-origin: 50% 100%;
-      animation: idleBob 2.4s ease-in-out infinite;
+      will-change: transform;
+      animation: customerIdle 5.2s cubic-bezier(.45, 0, .55, 1) infinite;
     }
 
     .speech {
       position: absolute;
       left: 40%;
-      top: 14.5%;
+      top: 31%;
       width: 42%;
-      min-height: 25.5%;
-      padding: 2.3vmin 2.7vmin 2.1vmin 3.1vmin;
+      padding: 2.3vmin 2.7vmin;
       border: .32vmin solid #ad7b48;
       border-radius: 2.2vmin;
       background: linear-gradient(180deg, rgba(255, 253, 236, .97), rgba(255, 243, 209, .97));
       box-shadow: var(--shadow);
+      text-align: center;
       transform: scale(.88);
       opacity: 0;
       transform-origin: 15% 100%;
@@ -264,6 +305,7 @@
       background: #8cb66a;
       color: #fff9e8;
       font-size: clamp(11px, 1.55vmin, 17px);
+      font-weight: 600;
       line-height: 1.15;
       box-shadow: inset 0 -.2vmin rgba(67, 95, 43, .2);
       white-space: nowrap;
@@ -275,7 +317,9 @@
       margin: 0;
       color: #4b3327;
       font-size: clamp(15px, 2.34vmin, 28px);
+      font-weight: 600;
       line-height: 1.36;
+      text-align: center;
       word-break: keep-all;
       overflow-wrap: anywhere;
       display: -webkit-box;
@@ -292,7 +336,7 @@
     .counter-actions {
       position: absolute;
       left: 40%;
-      top: 44.2%;
+      top: 44%;
       display: flex;
       align-items: center;
       gap: 1.1vmin;
@@ -314,6 +358,7 @@
       cursor: pointer;
       transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
       font-size: clamp(12px, 1.65vmin, 18px);
+      font-weight: 700;
       line-height: 1;
     }
 
@@ -857,25 +902,6 @@
       animation: whipPop .25s ease-out;
     }
 
-    .latte-canvas {
-      position: absolute;
-      left: 23%;
-      top: 21%;
-      width: 54%;
-      height: 37%;
-      z-index: 7;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .18s ease;
-    }
-
-    .latte-canvas.enabled {
-      opacity: .78;
-      pointer-events: auto;
-      cursor: crosshair;
-      touch-action: none;
-    }
-
     .cup-label {
       position: absolute;
       left: 50%;
@@ -938,6 +964,7 @@
       box-shadow: 0 .34vmin 0 rgba(97, 58, 30, .24);
       cursor: pointer;
       font-size: clamp(10px, 1.34vmin, 15px);
+      font-weight: 600;
       line-height: 1;
     }
 
@@ -1130,9 +1157,21 @@
       background-image: url("cafe_main.png");
     }
 
-    #cafeScreen::after {
+    .counter-overlay {
+      background: none;
+    }
+
+    .counter-overlay::before,
+    .counter-overlay::after {
       background: url("cafe_main.png") center / 100% 100% no-repeat;
-      clip-path: inset(68.8% 0 0 0);
+    }
+
+    .counter-overlay::before {
+      clip-path: inset(66.4% 0 0 0);
+    }
+
+    .counter-overlay::after {
+      clip-path: polygon(0 53.6%, 36% 53.6%, 36% 64.3%, 0 64.3%);
     }
 
     #prepScreen::before {
@@ -1178,8 +1217,8 @@
     }
 
     .cafe-customer {
-      left: 24%;
-      bottom: 18.2%;
+      left: 28.5%;
+      bottom: 17.8%;
       width: min(55%, 48vmin);
       height: 60%;
       z-index: 5;
@@ -1187,17 +1226,16 @@
 
     .speech {
       left: 7%;
-      top: 8.4%;
+      top: 31%;
       width: 86%;
-      min-height: 13.7%;
-      padding: 2vmin 2.35vmin 1.8vmin;
+      padding: 2vmin 2.35vmin;
       border-radius: 1.7vmin;
     }
 
     .speech::before {
-      left: 43%;
+      left: 50%;
       bottom: -1.9vmin;
-      transform: rotate(18deg);
+      transform: translateX(-50%) rotate(18deg);
     }
 
     .customer-name {
@@ -1218,7 +1256,7 @@
 
     .counter-actions {
       left: 7%;
-      top: 24.7%;
+      top: 40%;
       transform: translateY(1vmin);
       justify-content: center;
       width: 86%;
@@ -1549,19 +1587,52 @@
     }
 
     @keyframes walkIn {
-      from {
-        transform: translateX(-42vw);
+      0% {
+        transform: translateX(-42vw) translateY(.7vmin) scale(.98);
         opacity: 0;
       }
-      to {
-        transform: translateX(0);
+      72% {
+        transform: translateX(.8vmin) translateY(.05vmin) scale(1.004);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(0) translateY(0) scale(1);
         opacity: 1;
       }
     }
 
-    @keyframes idleBob {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-.55vmin); }
+    @keyframes walkOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(42vw);
+        opacity: 0;
+      }
+    }
+
+    @keyframes bubbleOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(.85);
+      }
+    }
+
+    @keyframes customerIdle {
+      0%, 100% {
+        transform: translate(var(--customer-x), var(--customer-y)) rotate(0deg) scale(var(--customer-scale));
+      }
+      34% {
+        transform: translate(var(--customer-x), var(--customer-y)) translateY(.12vmin) rotate(-.18deg) scale(var(--customer-scale)) scale(1.002, .998);
+      }
+      68% {
+        transform: translate(var(--customer-x), var(--customer-y)) translateY(-.16vmin) rotate(.2deg) scale(var(--customer-scale)) scale(.998, 1.003);
+      }
     }
 
     @keyframes bubbleIn {
@@ -1636,7 +1707,7 @@
   </style>
 </head>
 <body>
-  <main class="shell" aria-label="코토리 카페 미니게임">
+  <main class="shell" aria-label="카페 미니게임">
     <section class="stage" id="stage">
       <div class="hud" aria-live="polite">
         <div class="hud-left">
@@ -1667,6 +1738,7 @@
 
         <button class="phone-hotspot" id="phoneButton" type="button" aria-label="핸드폰 열기"></button>
 
+        <div class="counter-overlay" id="counterOverlay"></div>
       </section>
 
       <section class="screen" id="prepScreen" aria-label="제조 화면">
@@ -1703,7 +1775,6 @@
             <div class="cup pop" id="cup" role="button" aria-label="완성 음료를 손님에게 드래그해서 전달">
               <div class="cup-body" id="cupBody">
                 <div class="liquid" id="liquid"></div>
-                <canvas class="latte-canvas" id="latteCanvas"></canvas>
               </div>
               <div class="cup-outline"></div>
               <div class="cup-label" id="cupLabel">빈 컵</div>
@@ -1717,7 +1788,6 @@
 
           <div class="prep-actions">
             <button class="mini-btn" id="backButton" type="button">카운터로</button>
-            <button class="mini-btn" id="latteButton" type="button" disabled>라떼아트</button>
           </div>
         </div>
       </section>
@@ -1732,7 +1802,7 @@
           <div class="reward-line" id="rewardLine"></div>
           <div class="result-actions">
             <button class="primary" id="nextButton" type="button">다음 손님</button>
-            <button class="secondary" id="storyButton" type="button">코토리 스토리 보기 (행동력 +1)</button>
+            <button class="secondary" id="storyButton" type="button">스토리 보기 (행동력 +1)</button>
           </div>
         </div>
       </div>
@@ -1745,9 +1815,9 @@
             <strong class="phone-time" id="phoneTime">3:00</strong>
           </div>
           <div class="phone-app-grid" aria-label="핸드폰 앱">
-            <button class="phone-app-button" type="button" data-app="쇼핑" style="--app-a:#ff8b86;--app-b:#ff7276">
+            <button class="phone-app-button" type="button" data-app="선물샵" style="--app-a:#ff8b86;--app-b:#ff7276">
               <span class="phone-app-icon">S</span>
-              <span class="phone-app-name">쇼핑</span>
+              <span class="phone-app-name">선물샵</span>
             </button>
             <button class="phone-app-button" type="button" data-app="E-class" style="--app-a:#75adff;--app-b:#548eff">
               <span class="phone-app-icon">E</span>
@@ -1827,15 +1897,15 @@
 
     const CUSTOMERS = [
       {
-        name: "졸린 직장인",
-        img: "customers/office-worker.png",
-        type: "ABSTRACT",
-        order: "잠 좀 깨게 해주세요. 얼음이 저를 때려도 괜찮아요.",
-        hint: "차갑게, 물 베이스, 샷을 넉넉히.",
-        recipe: { temp: "ICE", minShots: 2, ingredients: ["물"], allowExtra: ["꿀"] },
-        success: "와... 방금 제 영혼이 출근 도장을 찍었어요.",
-        normal: "오, 잠은 깼어요. 퇴근하고 싶다는 마음도 같이 깼네요.",
-        fail: "잠 깨랬지 기절시키랬냐고요."
+        name: "흑염룡 손님",
+        img: "customers/dark-flame.png",
+        type: "TROUBLEMAKER",
+        order: "차갑지만 따뜻한 어둠... 내 안의 용이 마실 검은 달을 줘.",
+        hint: "아이스 홍차에 초콜릿을 섞고 샷 하나.",
+        recipe: { temp: "ICE", shots: 1, ingredients: ["홍차", "초콜릿"], allowExtra: ["카라멜"] },
+        success: "크큭... 어둠이 달콤하군. 마음에 들었다.",
+        normal: "어둠은 있는데 용이 아직 알바 첫날 같군.",
+        fail: "이건 흑염룡이 아니라 춘장룡인데?"
       },
       {
         name: "방과 후 학생",
@@ -1858,17 +1928,6 @@
         success: "여친분이 박수치고 남친분은 영수증을 못 봅니다.",
         normal: "맛있는데 휘핑이 조금 수줍어요.",
         fail: "남친분 표정이 결제 오류처럼 멈췄어요."
-      },
-      {
-        name: "흑염룡 손님",
-        img: "customers/dark-flame.png",
-        type: "TROUBLEMAKER",
-        order: "차갑지만 따뜻한 어둠... 내 안의 용이 마실 검은 달을 줘.",
-        hint: "아이스 홍차에 초콜릿을 섞고 샷 하나.",
-        recipe: { temp: "ICE", shots: 1, ingredients: ["홍차", "초콜릿"], allowExtra: ["카라멜"] },
-        success: "크큭... 어둠이 달콤하군. 마음에 들었다.",
-        normal: "어둠은 있는데 용이 아직 알바 첫날 같군.",
-        fail: "이건 흑염룡이 아니라 춘장룡인데?"
       },
       {
         name: "운동 끝난 헬창",
@@ -1949,6 +2008,20 @@
       }
     ];
 
+    const CUSTOMER_IMAGE_LAYOUT = {
+      "customers/office-worker.png": { scale: 1, x: "0%", y: "0%" },
+      "customers/dark-flame.png": { scale: .997, x: "25.53%", y: "0%" },
+      "customers/student.png": { scale: 1.019, x: "13.21%", y: "0%" },
+      "customers/couple.png": { scale: .997, x: "16.57%", y: "0%" },
+      "customers/gym-bro.png": { scale: .987, x: "18.97%", y: "0%" },
+      "customers/poet.png": { scale: .983, x: "26.10%", y: "0%" },
+      "customers/child.png": { scale: 1.168, x: "10.52%", y: "10.27%" },
+      "customers/sns-girl.png": { scale: 1.057, x: "-2.24%", y: "5.95%" },
+      "customers/grandma.png": { scale: 1.079, x: "23.08%", y: "6.97%" },
+      "customers/beanie-boy.png": { scale: .775, x: "13.14%", y: "4.57%" },
+      "customers/complainer.png": { scale: .922, x: "12.28%", y: "5.20%" }
+    };
+
     const state = {
       energy: 5,
       money: 12000,
@@ -1959,14 +2032,12 @@
       cup: {
         temp: null,
         shots: 0,
-        ingredients: [],
-        latteArt: false
+        ingredients: []
       },
       drag: null,
       shelfPage: 0,
       shelfDrag: null,
-      suppressIngredientClick: false,
-      latteDrawing: false
+      suppressIngredientClick: false
     };
 
     const bridge = {
@@ -1979,8 +2050,11 @@
       statusLoaded: false
     };
 
+    const pendingRequests = {};
+    let requestId = 0;
+
     const PHONE_APP_TITLES = {
-      "쇼핑": "쇼핑",
+      "선물샵": "선물샵",
       "E-class": "E-class",
       "캘린더": "캘린더",
       "앨범": "앨범",
@@ -2026,8 +2100,6 @@
       orderMemo: document.getElementById("orderMemo"),
       trashButton: document.getElementById("trashButton"),
       backButton: document.getElementById("backButton"),
-      latteButton: document.getElementById("latteButton"),
-      latteCanvas: document.getElementById("latteCanvas"),
       resultLayer: document.getElementById("resultLayer"),
       resultImage: document.getElementById("resultImage"),
       reactionTitle: document.getElementById("reactionTitle"),
@@ -2077,13 +2149,37 @@
         configure: (config = {}) => {
           window.GPT2TEAM_CAFE_CONFIG = { ...(window.GPT2TEAM_CAFE_CONFIG || {}), ...config, enabled: true };
           configureBridge();
-          loadBridgeStatus();
         },
         setState: applyHostState,
-        refresh: loadBridgeStatus,
         openPhone: openPhonePreview,
-        closePhone: closePhonePreview
+        closePhone: closePhonePreview,
+        resolveRequest: (id, data) => {
+          if (pendingRequests[id]) {
+            pendingRequests[id].resolve(data);
+            delete pendingRequests[id];
+          }
+        },
+        rejectRequest: (id, msg) => {
+          if (pendingRequests[id]) {
+            pendingRequests[id].reject(new Error(msg));
+            delete pendingRequests[id];
+          }
+        }
       };
+    }
+
+    function bridgeRequest(type, payload) {
+      return new Promise((resolve, reject) => {
+        const id = ++requestId;
+        pendingRequests[id] = { resolve, reject };
+        notifyHost(type, { ...payload, _requestId: id });
+        window.setTimeout(() => {
+          if (pendingRequests[id]) {
+            delete pendingRequests[id];
+            reject(new Error("요청 시간 초과"));
+          }
+        }, 15000);
+      });
     }
 
     function applyHostState(data = {}) {
@@ -2102,7 +2198,7 @@
     }
 
     function notifyHost(type, payload = {}) {
-      const message = { source: "kotori-cafe-minigame", type, payload };
+      const message = { source: "cafe-minigame", type, payload };
       let delivered = false;
 
       try {
@@ -2127,40 +2223,16 @@
       } catch (_) {}
 
       try {
-        window.dispatchEvent(new CustomEvent("kotori-cafe-host-message", { detail: message }));
+        window.dispatchEvent(new CustomEvent("cafe-host-message", { detail: message }));
       } catch (_) {}
 
       return delivered;
     }
 
-    async function bridgeFetch(path, options = {}) {
-      if (!bridge.apiBase) return null;
-      const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
-      if (bridge.token) headers.Authorization = `Bearer ${bridge.token}`;
-      const response = await fetch(`${bridge.apiBase}${path}`, { ...options, headers });
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        throw new Error(data.error_code || data.detail || response.statusText);
-      }
-      return data;
-    }
-
-    async function loadBridgeStatus() {
-      if (!bridge.enabled || !bridge.apiBase) return;
-      try {
-        const data = await bridgeFetch(`/minigame/status?game_type=${encodeURIComponent(bridge.gameType)}`);
-        bridge.statusLoaded = true;
-        applyHostState(data);
-        notifyHost("status", data);
-      } catch (error) {
-        notifyHost("status_error", { message: error.message });
-      }
-    }
-
     function canStartCafeGame() {
       if (state.energy <= 0) return false;
       if (!bridge.enabled) return true;
-      return bridge.canPlay && bridge.storyCompleted;
+      return bridge.canPlay;
     }
 
     async function requestBridgeStart() {
@@ -2170,38 +2242,32 @@
       }
 
       try {
-        const data = await bridgeFetch("/minigame/start", {
-          method: "POST",
-          body: JSON.stringify({ game_type: bridge.gameType })
-        });
+        const data = await bridgeRequest("start_requested", { game_type: bridge.gameType });
         if (data?.status !== "success") {
           showToast(data?.error_code || "카페 미니게임을 시작할 수 없습니다.");
           return false;
         }
         applyHostState(data);
-        notifyHost("started", data);
         return true;
       } catch (error) {
-        notifyHost("start_error", { message: error.message });
         showToast(error.message || "카페 미니게임을 시작할 수 없습니다.");
-        await loadBridgeStatus();
         return false;
       }
     }
 
-    async function submitBridgeReward(result, latteArt) {
+    async function submitBridgeReward(result) {
       if (!bridge.enabled) return null;
-      const data = await bridgeFetch("/minigame/reward", {
-        method: "POST",
-        body: JSON.stringify({
+      try {
+        const data = await bridgeRequest("reward_requested", {
           game_type: bridge.gameType,
-          result,
-          latte_art: Boolean(latteArt)
-        })
-      });
-      applyHostState(data);
-      notifyHost("reward", data);
-      return data;
+          result
+        });
+        applyHostState(data);
+        return data;
+      } catch (error) {
+        notifyHost("reward_error", { message: error.message, result });
+        return null;
+      }
     }
 
     function init() {
@@ -2212,10 +2278,8 @@
       setInterval(tickClock, 1000 * 20);
       nextCustomer();
       updateHud();
-      resizeLatteCanvas();
       updateShelfPosition();
       window.addEventListener("resize", () => {
-        resizeLatteCanvas();
         updateShelfPosition();
       });
       loadBridgeStatus();
@@ -2239,17 +2303,12 @@
       els.shotButton.addEventListener("click", addShot);
       els.trashButton.addEventListener("click", resetCup);
       els.backButton.addEventListener("click", () => switchScreen("cafe"));
-      els.latteButton.addEventListener("click", toggleLatteArt);
       els.nextButton.addEventListener("click", queueNextCustomer);
       els.storyButton.addEventListener("click", watchStory);
       els.cup.addEventListener("pointerdown", startCupDrag);
       window.addEventListener("pointermove", moveCupDrag);
       window.addEventListener("pointerup", endCupDrag);
       window.addEventListener("pointercancel", endCupDrag);
-      els.latteCanvas.addEventListener("pointerdown", startLatteDraw);
-      els.latteCanvas.addEventListener("pointermove", moveLatteDraw);
-      els.latteCanvas.addEventListener("pointerup", stopLatteDraw);
-      els.latteCanvas.addEventListener("pointercancel", stopLatteDraw);
       els.ingredientShelf.addEventListener("pointerdown", startShelfDrag);
       window.addEventListener("pointermove", moveShelfDrag, { passive: false });
       window.addEventListener("pointerup", endShelfDrag);
@@ -2311,7 +2370,7 @@
     }
 
     function startShelfDrag(event) {
-      if (state.screen !== "prep" || state.drag || state.latteDrawing || !isShelfPoint(event)) return;
+      if (state.screen !== "prep" || state.drag || !isShelfPoint(event)) return;
       if (event.button !== undefined && event.button !== 0) return;
 
       const ingredientEl = event.target.closest(".ingredient-hotspot");
@@ -2453,7 +2512,6 @@
     function updateHud() {
       els.energyText.textContent = `${state.energy}`;
       els.moneyText.textContent = formatWon(state.money);
-      els.storyButton.style.display = "";
       els.makeButton.disabled = !canStartCafeGame();
       if (!canStartCafeGame()) {
         if (state.energy <= 0) {
@@ -2496,6 +2554,7 @@
       const customer = state.currentCustomer;
       els.customerImage.src = customer.img;
       els.customerImage.alt = customer.name;
+      applyCustomerImageLayout(customer.img);
       els.resultImage.src = customer.img;
       els.customerName.textContent = customer.name;
       els.orderText.textContent = customer.order;
@@ -2509,10 +2568,17 @@
       document.getElementById("speechBubble").style.animation = "";
     }
 
+    function applyCustomerImageLayout(imgPath) {
+      const layout = CUSTOMER_IMAGE_LAYOUT[imgPath] || CUSTOMER_IMAGE_LAYOUT["customers/office-worker.png"];
+      els.customerImage.style.setProperty("--customer-scale", layout.scale);
+      els.customerImage.style.setProperty("--customer-x", layout.x);
+      els.customerImage.style.setProperty("--customer-y", layout.y);
+    }
+
     async function startMaking() {
       if (!canStartCafeGame()) {
         if (bridge.enabled && !bridge.storyCompleted) {
-          showToast("코토리 스토리를 먼저 완료해주세요.");
+          showToast("스토리를 먼저 완료해주세요.");
         } else {
           showToast("행동력이 부족합니다. 스토리를 보면 행동력이 1 회복돼요.");
         }
@@ -2577,14 +2643,26 @@
 
 
     function switchScreen(name) {
+      const prev = state.screen;
       state.screen = name;
       if (name !== "cafe") closePhonePreview();
       els.stage.classList.toggle("prep-mode", name === "prep");
-      els.cafeScreen.classList.toggle("active", name === "cafe");
-      els.prepScreen.classList.toggle("active", name === "prep");
+
+      const toScreen = name === "cafe" ? els.cafeScreen : els.prepScreen;
+      const fromScreen = prev === "cafe" ? els.cafeScreen : els.prepScreen;
+
+      if (fromScreen !== toScreen) {
+        toScreen.classList.add("active");
+        fromScreen.classList.add("leaving");
+        window.setTimeout(() => {
+          fromScreen.classList.remove("active", "leaving");
+        }, 300);
+      } else {
+        toScreen.classList.add("active");
+      }
+
       if (name === "prep") {
         requestAnimationFrame(() => {
-          resizeLatteCanvas();
           updateShelfPosition();
         });
       }
@@ -2633,7 +2711,7 @@
           "탄산수": "기포가 톡톡 올라옵니다.",
           "펄": "펄이 컵 아래로 떨어졌어요.",
           "휘핑크림": "휘핑이 폭신하게 올라갔어요.",
-          "춘장": "코토리가 조용히 눈을 크게 떴습니다.",
+          "춘장": "점장이 조용히 눈을 크게 떴습니다.",
           "시금치": "건강한 기운이 너무 앞서갑니다."
         };
         showToast(messages[ingredient.name] || `${ingredient.name} 추가`);
@@ -2665,8 +2743,7 @@
       state.cup = {
         temp: null,
         shots: 0,
-        ingredients: [],
-        latteArt: false
+        ingredients: []
       };
       els.hotButton.classList.remove("selected");
       els.iceButton.classList.remove("selected");
@@ -2677,7 +2754,6 @@
       els.cup.style.left = "";
       els.cup.style.top = "";
       els.cup.style.transform = "";
-      clearLatteCanvas();
       renderCup();
       els.cup.classList.remove("shake", "dragging");
       els.cup.classList.add("pop");
@@ -2723,11 +2799,6 @@
         els.cupBody.appendChild(whip);
       }
 
-      const canLatte = state.day >= 5 && hasMilkBase() && fill > 20;
-      els.latteButton.disabled = !canLatte;
-      if (!canLatte) {
-        els.latteCanvas.classList.remove("enabled");
-      }
       els.deliveryZone.classList.toggle("ready", cup.temp && visibleItems.length > 0);
       els.cupLabel.textContent = labelCup();
     }
@@ -2737,10 +2808,6 @@
       const count = state.cup.ingredients.length + state.cup.shots;
       if (count === 0) return `${state.cup.temp} 컵`;
       return `${state.cup.temp} · ${count}개`;
-    }
-
-    function hasMilkBase() {
-      return state.cup.ingredients.includes("우유") || state.cup.ingredients.includes("두유") || state.cup.ingredients.includes("연유");
     }
 
     function addIceCubes(count) {
@@ -2861,67 +2928,6 @@
       return ax > b.left && ax < b.right && ay > b.top && ay < b.bottom;
     }
 
-    function toggleLatteArt() {
-      if (els.latteButton.disabled) return;
-      state.cup.latteArt = !state.cup.latteArt;
-      resizeLatteCanvas();
-      els.latteCanvas.classList.toggle("enabled", state.cup.latteArt);
-      showToast(state.cup.latteArt ? "컵 위에 손가락으로 라떼아트를 그려보세요." : "라떼아트 모드를 껐어요.");
-    }
-
-    function resizeLatteCanvas() {
-      const rect = els.latteCanvas.getBoundingClientRect();
-      const ratio = window.devicePixelRatio || 1;
-      els.latteCanvas.width = Math.max(1, Math.floor(rect.width * ratio));
-      els.latteCanvas.height = Math.max(1, Math.floor(rect.height * ratio));
-      const ctx = els.latteCanvas.getContext("2d");
-      ctx.scale(ratio, ratio);
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.strokeStyle = "rgba(255,255,255,.9)";
-      ctx.lineWidth = Math.max(3, rect.width * .035);
-    }
-
-    function clearLatteCanvas() {
-      const canvas = els.latteCanvas;
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      canvas.classList.remove("enabled");
-    }
-
-    function getCanvasPoint(event) {
-      const rect = els.latteCanvas.getBoundingClientRect();
-      return {
-        x: event.clientX - rect.left,
-        y: event.clientY - rect.top
-      };
-    }
-
-    function startLatteDraw(event) {
-      if (!state.cup.latteArt) return;
-      event.preventDefault();
-      state.latteDrawing = true;
-      const ctx = els.latteCanvas.getContext("2d");
-      const point = getCanvasPoint(event);
-      ctx.beginPath();
-      ctx.moveTo(point.x, point.y);
-    }
-
-    function moveLatteDraw(event) {
-      if (!state.latteDrawing || !state.cup.latteArt) return;
-      event.preventDefault();
-      const ctx = els.latteCanvas.getContext("2d");
-      const point = getCanvasPoint(event);
-      ctx.lineTo(point.x, point.y);
-      ctx.stroke();
-    }
-
-    function stopLatteDraw() {
-      if (!state.latteDrawing) return;
-      state.latteDrawing = false;
-      showToast("라떼아트가 컵 위에 번졌어요.");
-    }
-
     async function evaluateDrink() {
       const customer = state.currentCustomer;
       const recipe = customer.recipe;
@@ -2946,12 +2952,12 @@
         result = "normal";
       }
 
-      let reward = result === "success" ? 2500 + (made.latteArt ? 500 : 0) : result === "normal" ? 1800 : result === "funny" ? 700 : 900;
-      let tip = result === "success" ? 700 + (made.latteArt ? 300 : 0) : 0;
+      let reward = result === "success" ? 2500 : result === "normal" ? 1800 : result === "funny" ? 700 : 900;
+      let tip = result === "success" ? 700 : 0;
 
       if (bridge.enabled) {
         try {
-          const rewardData = await submitBridgeReward(result, made.latteArt);
+          const rewardData = await submitBridgeReward(result);
           if (rewardData) {
             reward = Number(rewardData.earned_money ?? reward);
             tip = Number(rewardData.tip ?? 0);
@@ -2965,12 +2971,6 @@
       }
       updateHud();
 
-      const titles = {
-        success: "대만족",
-        normal: "괜찮은 반응",
-        fail: "실패",
-        funny: "웃긴 실패"
-      };
       let line = customer[result] || customer.fail;
       if (result === "funny") {
         line = danger === "춘장" ? "춘장 왜 넣었어요ㅋㅋ 이건 음료가 아니라 사건인데요?" : "건강해지긴 했는데, 제가 원한 건 카페였어요.";
@@ -2982,13 +2982,32 @@
         line += made.temp ? ` 온도가 반대였어요.` : " 컵 온도부터 골라야 했어요.";
       }
 
-      els.reactionTitle.textContent = titles[result];
-      els.reactionLine.textContent = line;
-      els.rewardLine.textContent = tip > 0 ? `매출 +${formatWon(reward)}, 팁 +${formatWon(tip)}` : `매출 +${formatWon(reward)}`;
-      els.resultImage.src = customer.img;
-      els.resultLayer.classList.add("show");
-      els.nextButton.disabled = false;
-      els.nextButton.textContent = "다음 손님";
+      const rewardText = tip > 0 ? `매출 +${formatWon(reward)}, 팁 +${formatWon(tip)}` : `매출 +${formatWon(reward)}`;
+
+      resetCup();
+      switchScreen("cafe");
+
+      els.customerName.textContent = customer.name;
+      els.orderText.textContent = line;
+      showToast(rewardText);
+
+      els.makeButton.style.display = "none";
+      els.listenButton.style.display = "none";
+
+      const exitDuration = 2600;
+      const animDuration = 550;
+
+      window.setTimeout(() => {
+        els.cafeCustomer.style.animation = `walkOut ${animDuration}ms ease-in forwards`;
+        const bubble = document.getElementById("speechBubble");
+        bubble.style.animation = `bubbleOut ${animDuration}ms ease-in forwards`;
+      }, exitDuration - animDuration);
+
+      window.setTimeout(() => {
+        els.makeButton.style.display = "";
+        els.listenButton.style.display = "";
+        nextCustomer();
+      }, exitDuration);
     }
 
     function closeResult() {
@@ -2999,19 +3018,14 @@
 
     function watchStory() {
       if (bridge.enabled) {
-        notifyHost("story_requested", { heroine_name: "코토리" });
-        showToast("코토리 스토리로 돌아간 뒤, 다시 미니게임에 와주세요.");
+        notifyHost("story_requested", {});
+        showToast("스토리로 돌아간 뒤, 다시 미니게임에 와주세요.");
         return;
       }
       state.energy = state.energy + 1;
-      state.money += 0;
       updateHud();
-      showToast("짧은 코토리 스토리를 보고 행동력이 1 회복됐어요.");
-      if (els.resultLayer.classList.contains("show")) {
-        queueNextCustomer(true);
-      } else {
-        switchScreen("cafe");
-      }
+      showToast("짧은 스토리를 보고 행동력이 1 회복됐어요.");
+      switchScreen("cafe");
     }
 
     function showToast(message) {

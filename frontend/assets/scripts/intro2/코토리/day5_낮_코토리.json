@@ -2,7 +2,11 @@
   {
     "bg_image": "assets/images/bg/cafe.jpg",
     "speaker": "{name}",
-    "text": "코토리가 오늘은 커피를 사면서 꽃 한 송이를 카운터에 올려뒀다. 보라색 꽃. 처음 보는 종류였다."
+    "text": "코토리가 오늘은 커피를 사면서 꽃 한 송이를 카운터에 올려뒀다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "보라색 꽃. 처음 보는 종류였다"
   },
   {
     "character_image": "assets/images/character/코토리/코토리_기본.png",
@@ -43,12 +47,8 @@
     "text": "{name}씨한테 어울리는 꽃 찾아줄까요?"
   },
   {
-    "speaker": "{name}",
-    "text": "코토리가 턱에 손을 대고 정말로 진지하게 나를 관찰했다. 너무 빤히 쳐다봐서 오히려 눈을 어디에 둬야 할지 모를 지경이었다."
-  },
-  {
     "action": "choice",
-    "text": "[선택지 ⑤] 코토리가 나를 빤히 보고 있다.",
+    "text": "뭐라고 대답하지?",
     "choices": [
       {
         "text": "코토리한테 어울리는 꽃은 뭔데?",

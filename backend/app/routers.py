@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Header, Body
 from sqlalchemy.orm import Session
 
 from app import models
-from app.config import GameConfig, HEROINE_INFO, STORY_CONFIG, JWT_SECRET_KEY, ALGORITHM, ADMIN_SECRET_KEY, GameState, TimeZone
+from app.config import GameConfig, HEROINE_INFO, STORY_CONFIG, JWT_SECRET_KEY, ALGORITHM, ADMIN_SECRET_KEY, GameState, TimeZone, GIFTS_DATA
 from app.dependencies import get_db, get_current_user
 from app.services import GameLogicService
 from app.chat_service import ChatService
@@ -20,15 +20,16 @@ CAFE_GAME_TYPE = "cafe_kotori"
 # 💡 일러스트 해금 조건 매핑 테이블 (히로인 이름 -> (Day, Zone) -> 일러스트 ID)
 ILLUSTRATION_UNLOCK_CONDITIONS = {
     "리안": {
-        (1, "밤"): "lian_first_meet",
-        (2, "밤"): "lian_home_lobby",
+        (3, "저녁"): "lian_riding_day3",
         (3, "밤"): "lian_riding_day3",
+        (9, "아침"): "lian_morning_day9",
+        (14, "저녁"): "lian_cafe_day14",
     },
     "이서연": {
         (9, "아침"): "seoyeon_flowershop",
     },
     "코토리": {
-        (2, "낮"): "kotori_cafe",
+        (6, "낮"): "kotori_day6",
     }
 }
 
@@ -279,8 +280,23 @@ def complete_story(
         all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
         for h in all_heroines:
             h.is_cleared_today = True
+        
+        # 💡 코토리 첫 만남 일러스트 해금 (프롤로그 완료 시점)
+        kotori = next((h for h in all_heroines if h.heroine_name == KOTORI_NAME), None)
+        unlocked_id = None
+        if kotori:
+            current_unlocked = [x.strip() for x in (kotori.unlocked_illustrations or "").split(",") if x.strip()]
+            if "kotori_intro1" not in current_unlocked:
+                current_unlocked.append("kotori_intro1")
+                kotori.unlocked_illustrations = ",".join(current_unlocked)
+                unlocked_id = "kotori_intro1"
+                
         db.commit()
-        return {"status": "success"}
+        
+        response_data = {"status": "success"}
+        if unlocked_id:
+            response_data["unlocked_id"] = unlocked_id
+        return response_data
 
     heroine = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id, models.HeroineProgress.heroine_name == heroine_name).with_for_update().first()
     if not heroine:
@@ -332,6 +348,25 @@ def complete_story(
                 current_unlocked.append(tgt_id)
                 heroine.unlocked_illustrations = ",".join(current_unlocked)
                 unlocked_id = tgt_id
+
+    # 💡 엔딩 일러스트 동적 해금 판정
+    if user.game_state == GameState.END.value:
+        if heroine.affection < 30:
+            ending_type = "bad"
+        elif 30 <= heroine.affection < 80:
+            ending_type = "normal"
+        else:
+            ending_type = "true"
+        
+        name_map = {"리안": "lian", "코토리": "kotori", "이서연": "seoyeon"}
+        h_en = name_map.get(heroine_name, "heroine")
+        tgt_id = f"{h_en}_ending_{ending_type}"
+        
+        current_unlocked = [x.strip() for x in (heroine.unlocked_illustrations or "").split(",") if x.strip()]
+        if tgt_id not in current_unlocked:
+            current_unlocked.append(tgt_id)
+            heroine.unlocked_illustrations = ",".join(current_unlocked)
+            unlocked_id = tgt_id
 
     db.commit()
     
@@ -490,6 +525,69 @@ def buy_gift(heroine_name: str = Body(..., embed=True), user_id: str = Depends(g
     heroine.affection += GameConfig.GIFT_AFFECTION_BOOST
     db.commit()
     return {"status": "success", "current_money": user.money, "hidden_affection": heroine.affection}
+
+
+@router.get("/gifts")
+def get_gifts_list(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    gifts = []
+    for g in GIFTS_DATA:
+        gifts.append({
+            "id": g["id"],
+            "name": g["name"],
+            "price": g["price"],
+            "affection_boost": g["affection_boost"],
+            "description": g["description"]
+        })
+    return {"status": "success", "gifts": gifts}
+
+
+@router.post("/gifts/send")
+def send_gift(
+    heroine_name: str = Body(..., embed=True),
+    gift_id: str = Body(..., embed=True),
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
+    heroine = db.query(models.HeroineProgress).filter(
+        models.HeroineProgress.user_id == user_id, 
+        models.HeroineProgress.heroine_name == heroine_name
+    ).with_for_update().first()
+    
+    if not user or not heroine:
+        return {"status": "error", "error_code": "NOT_FOUND"}
+        
+    # gift 찾기
+    gift = next((g for g in GIFTS_DATA if g["id"] == gift_id), None)
+    if not gift:
+        return {"status": "error", "error_code": "GIFT_NOT_FOUND"}
+        
+    if user.money < gift["price"]:
+        return {"status": "fail", "error_code": "NOT_ENOUGH_MONEY"}
+        
+    # 돈 차감 및 호감도 증가
+    user.money -= gift["price"]
+    heroine.affection += gift["affection_boost"]
+    
+    # 히로인의 답장 가져오기
+    replies = gift.get("replies", {})
+    reply_message = replies.get(heroine_name, "선물 고마워요!")
+    
+    db.commit()
+    
+    # 현재 서버 시간대 유추
+    current_zone = _zone_from_hour(datetime.datetime.now(KST).hour)
+    
+    return {
+        "status": "success", 
+        "current_money": user.money, 
+        "affection_boost": gift["affection_boost"],
+        "hidden_affection": heroine.affection,
+        "gift_name": gift["name"],
+        "reply_message": reply_message,
+        "heroine_current_day": heroine.current_day,
+        "current_zone": current_zone
+    }
 
 
 # ==========================================

@@ -1,0 +1,62 @@
+[
+  {
+    "speaker": "리안",
+    "text": "야."
+  },
+  {
+    "speaker": "리안",
+    "text": "오늘 시간 돼?"
+  },
+  {
+    "speaker": "리안",
+    "text": "음악 도와준다며."
+  },
+  {
+    "action": "choice",
+    "choices": [
+      {
+        "text": "어, 갈게.",
+        "next_lines": [
+          {
+            "speaker": "리안",
+            "text": "그래 와"
+          }
+        ]
+      },
+      {
+        "text": "사실 잘 모르는데 도움이 될지 모르겠어.",
+        "next_lines": [
+          {
+            "speaker": "리안",
+            "text": "알아"
+          },
+          {
+            "speaker": "리안",
+            "text": "그냥 와"
+          }
+        ]
+      },
+      {
+        "text": "지금 당장?",
+        "next_lines": [
+          {
+            "speaker": "리안",
+            "text": "어"
+          },
+          {
+            "speaker": "리안",
+            "text": "왜, 바빠?"
+          },
+          {
+            "speaker": "{name}",
+            "text": "아니."
+          },
+          {
+            "speaker": "리안",
+            "text": "그럼 와"
+          }
+        ]
+      }
+    ]
+  }
+]

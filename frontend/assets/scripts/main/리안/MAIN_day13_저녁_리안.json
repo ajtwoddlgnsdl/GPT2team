@@ -1,50 +1,7 @@
-﻿[
-    {
-        "text":  "해가 있는 동안, 쉬는 날",
-        "bg_image":  "assets/images/bg/lobby_afternoon.jpg",
-        "character_image":  null
-    },
-    {
-        "text":  "리안에게서 연락이 왔다."
-    },
-    {
-        "speaker":  "리안",
-        "text":  "오늘 시간 돼?"
-    },
-    {
-        "speaker":  "{name}",
-        "text":  "어, 왜?"
-    },
-    {
-        "speaker":  "리안",
-        "text":  "장비 사러 가야 하는데."
-    },
-    {
-        "speaker":  "리안",
-        "text":  "같이 가."
-    },
-    {
-        "text":  "같이 가, 가 부탁인지 명령인지 또 모르겠다."
-    },
-    {
-        "speaker":  "{name}",
-        "text":  "내가 가면 뭐가 달라?"
-    },
-    {
-        "speaker":  "리안",
-        "text":  "짐 들어줄 수 있잖아."
-    },
-    {
-        "speaker":  "{name}",
-        "text":  "……짐꾼."
-    },
-    {
-        "speaker":  "리안",
-        "text":  "어울려"
-    },
+[
     {
         "text":  "해가 기울기 전, 악기 거리 근처",
-        "bg_image":  "assets/images/bg/카페앞_밤.png",
+        "bg_image":  "assets/images/bg/rian_music_shop_exterior_night.png",
         "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
@@ -70,7 +27,7 @@
     },
     {
         "text":  "안으로 들어갔다.",
-        "bg_image":  "assets/images/bg/리안_day9.png",
+        "bg_image":  "assets/images/bg/rian_music_shop_interior_night.png",
         "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
@@ -289,7 +246,7 @@
     },
     {
         "text":  "돌아오는 길",
-        "bg_image":  "assets/images/bg/카페앞_밤.png",
+        "bg_image":  "assets/images/bg/rian_cafe_street_night.png",
         "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
@@ -429,7 +386,7 @@
     },
     {
         "text":  "건물 앞에 도착했다.",
-        "bg_image":  "assets/images/bg/리안집1층.png",
+        "bg_image":  "assets/images/bg/rian_home_ground_floor.png",
         "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {

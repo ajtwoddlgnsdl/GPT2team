@@ -1,0 +1,142 @@
+[
+  {
+    "text": "공모전 당일 밤, 행사장 앞",
+    "bg_image": "assets/images/bg/night_alley.png",
+    "character_image": null
+  },
+  {
+    "text": "마지막 곡이 끝난 뒤에도 안쪽의 박수 소리가 한동안 이어졌다."
+  },
+  {
+    "text": "사람들 사이에서 리안이 나왔다.",
+    "character_image": "assets/images/character/리안/리안_실외_기본.png"
+  },
+  {
+    "text": "평소와 같은 얼굴을 하려 했지만 손에는 아직 긴장이 남아 있었다."
+  },
+  {
+    "speaker": "{name}",
+    "text": "잘했어."
+  },
+  {
+    "speaker": "리안",
+    "text": "들었어?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "처음부터 끝까지."
+  },
+  {
+    "speaker": "리안",
+    "text": "발소리도?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "응. 두 사람 거."
+  },
+  {
+    "text": "리안이 짧게 숨을 내쉬었다."
+  },
+  {
+    "speaker": "리안",
+    "text": "결과는 나중에 나온대."
+  },
+  {
+    "speaker": "{name}",
+    "text": "상관없어. 오늘 네가 올라간 게 중요하지."
+  },
+  {
+    "speaker": "리안",
+    "text": "쉽게 말한다고 할 줄 알았지?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "이번에는 네가 선택한 거니까."
+  },
+  {
+    "text": "리안은 한동안 이쪽을 봤다."
+  },
+  {
+    "speaker": "리안",
+    "text": "어제 한 말."
+  },
+  {
+    "speaker": "{name}",
+    "text": "앞으로도 옆에 있고 싶다는 말?"
+  },
+  {
+    "speaker": "리안",
+    "text": "……꼭 그대로 다시 말해야 돼?"
+  },
+  {
+    "speaker": "{name}",
+    "text": "확인해야지."
+  },
+  {
+    "text": "리안이 시선을 피했다가 다시 마주쳤다.",
+    "bg_image": "assets/images/bg/ENDING_TRUE_rian.png",
+    "character_image": "null"
+  },
+  {
+    "speaker": "리안",
+    "text": "나도."
+  },
+  {
+    "speaker": "리안",
+    "text": "네가 계속 옆에 있었으면 좋겠어."
+  },
+  {
+    "speaker": "{name}",
+    "text": "곡 만들 때만?"
+  },
+  {
+    "speaker": "리안",
+    "text": "아니."
+  },
+  {
+    "text": "이번 대답은 짧았지만 망설임이 없었다."
+  },
+  {
+    "speaker": "리안",
+    "text": "내일도, 그다음도."
+  },
+  {
+    "speaker": "리안",
+    "text": "집이 바뀌어도."
+  },
+  {
+    "speaker": "{name}",
+    "text": "그럼 새 작업실도 같이 찾자."
+  },
+  {
+    "speaker": "리안",
+    "text": "짐은 네가 들어."
+  },
+  {
+    "speaker": "{name}",
+    "text": "역시 짐꾼이네."
+  },
+  {
+    "speaker": "리안",
+    "text": "그리고."
+  },
+  {
+    "text": "리안이 조심스럽게 손을 내밀었다."
+  },
+  {
+    "speaker": "리안",
+    "text": "같이 가."
+  },
+  {
+    "text": "처음 들었던 그 말과 같았지만 이번에는 부탁이라는 걸 알 수 있었다."
+  },
+  {
+    "text": "손을 잡고 나란히 걸었다."
+  },
+  {
+    "text": "두 사람의 발소리가 같은 박자로 밤거리 위에 이어졌다."
+  },
+  {
+    "text": "이번에는 녹음기가 없어도 잊지 않을 소리였다."
+  }
+]

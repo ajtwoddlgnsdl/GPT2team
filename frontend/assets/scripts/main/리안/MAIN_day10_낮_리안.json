@@ -90,14 +90,17 @@
     },
     {
         "speaker":  "리안",
-        "text":  "고마워!"
+        "text":  "고마워!",
+        "character_image":  "assets/images/character/리안/리안_실외_미소.png"
     },
     {
-        "text":  "음료를 받은 리안이 자리로 가 노트북을 골똘히 쳐다보기 시작한다."
+        "text":  "음료를 받은 리안이 자리로 가 노트북을 골똘히 쳐다보기 시작한다.",
+        "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
         "speaker":  "???",
-        "text":  "여기 블루베리 스무디 하나, 바닐라라떼 하나 마시고 갈게요"
+        "text":  "여기 블루베리 스무디 하나, 바닐라라떼 하나 마시고 갈게요",
+        "character_image": null
     },
     {
         "speaker":  "{name}",
@@ -129,11 +132,13 @@
         "text":  "이런 작은 화면으로도 작업하는 구나."
     },
     {
-        "text":  "한참 후, 리안이 카운터로 왔다."
+        "text":  "한참 후, 리안이 카운터로 왔다.",
+        "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
         "speaker":  "리안",
         "text":  "야."
+
     },
     {
         "speaker":  "{name}",
@@ -160,7 +165,8 @@
     },
     {
         "speaker":  "리안",
-        "text":  "괴물이라니. 예술이라고 해."
+        "text":  "괴물이라니. 예술이라고 해.",
+        "character_image":  "assets/images/character/리안/리안_실외_짜증.png"
     },
     {
         "speaker":  "{name}",
@@ -185,7 +191,8 @@
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "……기억해?"
+                                                   "text":  "……기억해?",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_미소.png"
                                                },
                                                {
                                                    "speaker":  "{name}",
@@ -210,7 +217,8 @@
                             "next_lines":  [
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "왜 네가 정해."
+                                                   "text":  "왜 네가 정해.",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_짜증.png"
                                                },
                                                {
                                                    "speaker":  "{name}",
@@ -233,7 +241,8 @@
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "뭐 추천하는데."
+                                                   "text":  "뭐 추천하는데.",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_기본.png"
                                                },
                                                {
                                                    "text":  "나쁘지 않은 반응이다."
@@ -256,7 +265,8 @@
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "……그래?"
+                                                   "text":  "……그래?",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_짜증.png"
                                                },
                                                {
                                                    "speaker":  "{name}",
@@ -267,14 +277,16 @@
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "아무거나."
+                                                   "text":  "아무거나.",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_짜증.png"
                                                }
                                            ]
                         }
                     ]
     },
     {
-        "text":  "음료를 만들었다. 저번처럼 커스텀 천지는 아니었지만, 기억나는 것들을 조금 챙겼다."
+        "text":  "음료를 만들었다. 저번처럼 커스텀 천지는 아니었지만, 기억나는 것들을 조금 챙겼다.",
+        "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
         "text":  "리안이 받아서 자기 자리로 돌아갔다."
@@ -410,7 +422,8 @@
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "…나쁘지 않아?"
+                                                   "text":  "…나쁘지 않아?",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_미소.png"
                                                },
                                                {
                                                    "speaker":  "{name}",
@@ -457,7 +470,8 @@
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "칭찬이야."
+                                                   "text":  "칭찬이야.",
+                                                   "character_image":  "assets/images/character/리안/리안_실외_미소.png"
                                                },
                                                {
                                                    "text":  "그 말을 남기고 가방을 들었다."
@@ -504,7 +518,8 @@
     },
     {
         "speaker":  "리안",
-        "text":  "지나가다 들를 수도 있고."
+        "text":  "지나가다 들를 수도 있고.",
+        "character_image":  "assets/images/character/리안/리안_실외_미소.png"
     },
     {
         "speaker":  "{name}",
@@ -520,7 +535,8 @@
     },
     {
         "speaker":  "리안",
-        "text":  "……됐어."
+        "text":  "……됐어.",
+        "character_image":  "assets/images/character/리안/리안_실외_기본.png"
     },
     {
         "text":  "문이 열렸다 닫혔다.",

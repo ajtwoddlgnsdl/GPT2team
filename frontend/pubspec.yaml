@@ -74,6 +74,7 @@ flutter:
     - assets/scripts/main/코토리/
     - assets/scripts/main/리안/
     - assets/scripts/ending/코토리/
+    - assets/scripts/ending/리안/
     - assets/scripts/chat_script/코토리/
     - assets/scripts/chat_script/이서연/
     - assets/scripts/chat_script/리안/

@@ -1,7 +1,7 @@
-﻿[
+[
     {
         "text":  "리안의 집 소파, 아침",
-        "bg_image":  "assets/images/bg/리안집_아침.png",
+        "bg_image":  "assets/images/bg/rian_home_morning.png",
         "character_image":  null
     },
     {
@@ -22,9 +22,8 @@
     {
         "text":  "부엌 쪽에서 소리가 났다."
     },
-    {
-        "text":  "리안이다. 잠옷 차림이다. 머리가 살짝 헝클어져 있다.",
-        "character_image":  "assets/images/character/리안/리안_실내_기본.png"
+    {   "bg_image" : "assets/images/bg/rian_day9.png",
+        "text":  "리안이다. 잠옷 차림이다. 머리가 살짝 헝클어져 있다."
     },
     {
         "text":  "어제까지 봤던 가죽재킷이나 오토바이 이미지랑 완전히 다르다."
@@ -46,7 +45,10 @@
         "text":  "죽을래?"
     },
     {
-        "text":  "냉장고를 열면서 말한다. 시선도 안 준다."
+        "text":  "냉장고를 열면서 말한다. 시선도 안 준다.",
+        "character_image":  "assets/images/character/리안/리안_실내_기본.png",
+        "bg_image":  "assets/images/bg/rian_home_morning.png"
+
     },
     {
         "action":  "choice",
@@ -79,7 +81,7 @@
                                            ]
                         },
                         {
-                            "text":  "잠옷 귀엽다.",
+                            "text":  "...머리 귀엽다.",
                             "bonus_score":  -5,
                             "next_lines":  [
                                                {
@@ -191,8 +193,7 @@
     },
     {
         "text":  "근처 편의점으로 나왔다.",
-        "bg_image":  "assets/images/bg/cafe_street.jpg",
-        "character_image":  "assets/images/character/리안/리안_실외_기본.png"
+        "bg_image":  "assets/images/bg/cafe_street.jpg"
     },
     {
         "text":  "이른 시간이라 골목이 조용하다. 햇빛이 생각보다 강하다."
@@ -228,11 +229,12 @@
         "text":  "……"
     },
     {
-        "text":  "잠깐 이쪽을 보더니 크림 찹쌀떡 세트를 들었다."
+        "text":  "잠깐 이쪽을 보더니 크림 찹쌀떡 세트를 들었다.",
+        "character_image":  "assets/images/character/리안/리안_실내_미소.png"
     },
     {
         "text":  "리안의 집으로 돌아왔다.",
-        "bg_image":  "assets/images/bg/리안집_아침.png",
+        "bg_image":  "assets/images/bg/rian_home_morning.png",
         "character_image":  "assets/images/character/리안/리안_실내_기본.png"
     },
     {
@@ -333,7 +335,8 @@
                                                },
                                                {
                                                    "speaker":  "리안",
-                                                   "text":  "이상한 소리."
+                                                   "text":  "이상한 소리.",
+                                                   "character_image":  "assets/images/character/리안/리안_실내_미소.png"
                                                },
                                                {
                                                    "text":  "이상하다고 하는데 기분 나빠 보이지 않는다."
@@ -416,7 +419,8 @@
                     ]
     },
     {
-        "text":  "자리를 정리하고 일어섰다."
+        "text":  "자리를 정리하고 일어섰다.",
+        "character_image":  "assets/images/character/리안/리안_실내_기본.png"
     },
     {
         "speaker":  "{name}",
@@ -447,7 +451,8 @@
     },
     {
         "speaker":  "리안",
-        "text":  "갈 수도 있고."
+        "text":  "갈 수도 있고.",
+        "character_image":  "assets/images/character/리안/리안_실내_미소.png"
     },
     {
         "text":  "창밖을 보면서 말한다. 이쪽을 안 본다."
@@ -458,7 +463,8 @@
     },
     {
         "speaker":  "리안",
-        "text":  "온다는 말은 안 했어."
+        "text":  "온다는 말은 안 했어.",
+        "character_image":  "assets/images/character/리안/리안_실내_기본.png"
     },
     {
         "speaker":  "{name}",
@@ -466,7 +472,7 @@
     },
     {
         "text":  "신발을 신고 나왔다.",
-        "bg_image":  "assets/images/bg/리안집1층.png",
+        "bg_image":  "assets/images/bg/cafe_street.jpg",
         "character_image":  null
     },
     {
