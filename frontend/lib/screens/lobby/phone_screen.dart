@@ -38,8 +38,8 @@ List<PhoneApp> buildDefaultApps({Map<String, VoidCallback?> callbacks = const {}
   return [
     PhoneApp(
       name: '쇼핑',
-      icon: Icons.shopping_bag_outlined,
-      gradientColors: const [Color(0xFFFF8B86), Color(0xFFFF7276)],
+      icon: Icons.card_giftcard,
+      gradientColors: const [Color(0xFFFFB7B2), Color(0xFFFF9AA2)],
       onTap: callbacks['쇼핑'],
     ),
     PhoneApp(

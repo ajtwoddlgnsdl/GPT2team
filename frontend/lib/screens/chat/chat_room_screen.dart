@@ -45,6 +45,7 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final notifier = ref.read(chatRoomProvider.notifier);
       await notifier.loadRoom(widget.heroineName, widget.currentDay, widget.currentTimeZone);
+      await notifier.markAsRead(widget.heroineName);
 
       final roomState = ref.read(chatRoomProvider.notifier).getRoomState(widget.heroineName);
       if (roomState.mode == ChatMode.scenario) {
@@ -357,6 +358,17 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
 
         final isPlayer = sender == 'player';
 
+        // 💡 선물 메시지 여부 판단 및 정보 파싱
+        String displayText = text;
+        String? giftId;
+        if (isPlayer && text.startsWith('[선물:') && text.contains(']')) {
+          final closeIndex = text.indexOf(']');
+          giftId = text.substring(5, closeIndex);
+          displayText = text.substring(closeIndex + 1).trim();
+        }
+
+        final isGift = giftId != null;
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: Row(
@@ -390,9 +402,14 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
               // 말풍선
               Flexible(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+                  padding: isGift
+                      ? const EdgeInsets.all(8)
+                      : const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
                   decoration: BoxDecoration(
-                    color: _getBubbleColor(sender),
+                    color: isGift ? const Color(0xFFFFF2EE) : _getBubbleColor(sender),
+                    border: isGift
+                        ? Border.all(color: const Color(0xFFFFDEC9), width: 1.2)
+                        : null,
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(16),
                       topRight: const Radius.circular(16),
@@ -407,20 +424,22 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
                       )
                     ],
                   ),
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      color: _getTextColor(sender),
-                      fontSize: 14.5,
-                      height: 1.35,
-                      fontFamilyFallback: const [
-                        'Apple Color Emoji',
-                        'Noto Color Emoji',
-                        'Segoe UI Emoji',
-                        'EmojiOne Color',
-                      ],
-                    ),
-                  ),
+                  child: isGift
+                      ? _buildGiftCard(giftId, displayText)
+                      : Text(
+                          displayText,
+                          style: TextStyle(
+                            color: _getTextColor(sender),
+                            fontSize: 14.5,
+                            height: 1.35,
+                            fontFamilyFallback: const [
+                              'Apple Color Emoji',
+                              'Noto Color Emoji',
+                              'Segoe UI Emoji',
+                              'EmojiOne Color',
+                            ],
+                          ),
+                        ),
                 ),
               ),
               if (!isPlayer) ...[
@@ -430,6 +449,115 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildGiftCard(String giftId, String text) {
+    String giftName = "선물";
+    IconData giftIcon = Icons.card_giftcard_outlined;
+    List<Color> colors = const [Color(0xFFFFC6FF), Color(0xFFFFADAD)];
+
+    switch (giftId) {
+      case "test_item":
+        giftName = "테스트용 막대사탕";
+        giftIcon = Icons.circle_rounded;
+        colors = const [Color(0xFFFFC6FF), Color(0xFFFFD6A5)];
+        break;
+      case "coffee":
+        giftName = "스타벅스 아메리카노";
+        giftIcon = Icons.local_cafe_outlined;
+        colors = const [Color(0xFFE6CCB2), Color(0xFFB08968)];
+        break;
+      case "chocolate":
+        giftName = "달콤한 초콜릿 상자";
+        giftIcon = Icons.cookie_outlined;
+        colors = const [Color(0xFFFFADAD), Color(0xFFFF85A1)];
+        break;
+      case "macaron":
+        giftName = "고급 마카롱 세트";
+        giftIcon = Icons.cake_outlined;
+        colors = const [Color(0xFFFDFFB6), Color(0xFFFFD6A5)];
+        break;
+      case "teddy":
+        giftName = "포근한 곰 인형";
+        giftIcon = Icons.toys_outlined;
+        colors = const [Color(0xFFCAFFBF), Color(0xFF96E072)];
+        break;
+      case "perfume":
+        giftName = "명품 향수";
+        giftIcon = Icons.spa_outlined;
+        colors = const [Color(0xFFBDB2FF), Color(0xFF9BF6FF)];
+        break;
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFF7F2),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: colors,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Icon(giftIcon, color: Colors.white, size: 22),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      '🎁 GIFT CARD',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFFE85D75),
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      giftName,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF2D2420),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Color(0xFF5F4A41),
+              fontSize: 13.5,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

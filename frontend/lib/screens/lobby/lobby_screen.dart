@@ -12,6 +12,8 @@ import 'album_constants.dart';
 import 'album_home_screen.dart';
 import 'calendar_home_screen.dart';
 import '../chat/chat_list_screen.dart';
+import '../chat/chat_room_screen.dart';
+import 'gift_app_screen.dart';
 
 
 /// 다각형 기반 핸드폰 히트박스 (원근감 있는 기울어진 스마트폰 모양 매칭)
@@ -740,6 +742,35 @@ class _LobbyScreenState extends State<LobbyScreen>
                                       },
                                       onAPChanged: (newAP) {
                                         setState(() => _studyAp = newAP);
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                              '쇼핑': () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => GiftAppScreen(
+                                      initialMoney: _money,
+                                      currentZoneCode: _getZoneCode(_serverHour),
+                                      onGiftSent: (newMoney) {
+                                        setState(() {
+                                          _money = newMoney;
+                                        });
+                                      },
+                                      onGoToChat: (heroineName, day, zone) {
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) => ChatRoomScreen(
+                                              heroineName: heroineName,
+                                              currentDay: day,
+                                              currentTimeZone: zone,
+                                            ),
+                                          ),
+                                        ).then((_) {
+                                          _loadLobbyData();
+                                        });
                                       },
                                     ),
                                   ),

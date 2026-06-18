@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Header, Body
 from sqlalchemy.orm import Session
 
 from app import models
-from app.config import GameConfig, HEROINE_INFO, STORY_CONFIG, JWT_SECRET_KEY, ALGORITHM, ADMIN_SECRET_KEY, GameState, TimeZone
+from app.config import GameConfig, HEROINE_INFO, STORY_CONFIG, JWT_SECRET_KEY, ALGORITHM, ADMIN_SECRET_KEY, GameState, TimeZone, GIFTS_DATA
 from app.dependencies import get_db, get_current_user
 from app.services import GameLogicService
 from app.chat_service import ChatService
@@ -490,6 +490,69 @@ def buy_gift(heroine_name: str = Body(..., embed=True), user_id: str = Depends(g
     heroine.affection += GameConfig.GIFT_AFFECTION_BOOST
     db.commit()
     return {"status": "success", "current_money": user.money, "hidden_affection": heroine.affection}
+
+
+@router.get("/gifts")
+def get_gifts_list(user_id: str = Depends(get_current_user), db: Session = Depends(get_db)):
+    gifts = []
+    for g in GIFTS_DATA:
+        gifts.append({
+            "id": g["id"],
+            "name": g["name"],
+            "price": g["price"],
+            "affection_boost": g["affection_boost"],
+            "description": g["description"]
+        })
+    return {"status": "success", "gifts": gifts}
+
+
+@router.post("/gifts/send")
+def send_gift(
+    heroine_name: str = Body(..., embed=True),
+    gift_id: str = Body(..., embed=True),
+    user_id: str = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    user = db.query(models.User).filter(models.User.id == user_id).with_for_update().first()
+    heroine = db.query(models.HeroineProgress).filter(
+        models.HeroineProgress.user_id == user_id, 
+        models.HeroineProgress.heroine_name == heroine_name
+    ).with_for_update().first()
+    
+    if not user or not heroine:
+        return {"status": "error", "error_code": "NOT_FOUND"}
+        
+    # gift 찾기
+    gift = next((g for g in GIFTS_DATA if g["id"] == gift_id), None)
+    if not gift:
+        return {"status": "error", "error_code": "GIFT_NOT_FOUND"}
+        
+    if user.money < gift["price"]:
+        return {"status": "fail", "error_code": "NOT_ENOUGH_MONEY"}
+        
+    # 돈 차감 및 호감도 증가
+    user.money -= gift["price"]
+    heroine.affection += gift["affection_boost"]
+    
+    # 히로인의 답장 가져오기
+    replies = gift.get("replies", {})
+    reply_message = replies.get(heroine_name, "선물 고마워요!")
+    
+    db.commit()
+    
+    # 현재 서버 시간대 유추
+    current_zone = _zone_from_hour(datetime.datetime.now(KST).hour)
+    
+    return {
+        "status": "success", 
+        "current_money": user.money, 
+        "affection_boost": gift["affection_boost"],
+        "hidden_affection": heroine.affection,
+        "gift_name": gift["name"],
+        "reply_message": reply_message,
+        "heroine_current_day": heroine.current_day,
+        "current_zone": current_zone
+    }
 
 
 # ==========================================

@@ -14,6 +14,7 @@ class ChatMessageModel {
   final String sender; // 'player' or 'heroine'
   final String messageText;
   final String timestamp;
+  final int isRead; // 0=unread, 1=read
 
   ChatMessageModel({
     this.id,
@@ -21,6 +22,7 @@ class ChatMessageModel {
     required this.sender,
     required this.messageText,
     required this.timestamp,
+    this.isRead = 1,
   });
 
   factory ChatMessageModel.fromMap(Map<String, dynamic> map) {
@@ -30,6 +32,7 @@ class ChatMessageModel {
       sender: map['sender'],
       messageText: map['message_text'],
       timestamp: map['timestamp'],
+      isRead: map['is_read'] ?? 1,
     );
   }
 }
@@ -49,6 +52,7 @@ class ChatRoomState {
   final bool isTyping; // 상대가 타이핑 중인지 (AI 대기)
   final int remainingFreeChats; // 오늘 남은 무료 채팅 수 (최대 10회)
   final bool isClearedToday; // 오늘 대본 모드를 완료했는지
+  final int unreadCount; // 안 읽은 메시지 개수
 
   ChatRoomState({
     required this.messages,
@@ -56,6 +60,7 @@ class ChatRoomState {
     this.isTyping = false,
     this.remainingFreeChats = 10,
     this.isClearedToday = false,
+    this.unreadCount = 0,
   });
 
   ChatRoomState copyWith({
@@ -64,6 +69,7 @@ class ChatRoomState {
     bool? isTyping,
     int? remainingFreeChats,
     bool? isClearedToday,
+    int? unreadCount,
   }) {
     return ChatRoomState(
       messages: messages ?? this.messages,
@@ -71,6 +77,7 @@ class ChatRoomState {
       isTyping: isTyping ?? this.isTyping,
       remainingFreeChats: remainingFreeChats ?? this.remainingFreeChats,
       isClearedToday: isClearedToday ?? this.isClearedToday,
+      unreadCount: unreadCount ?? this.unreadCount,
     );
   }
 }
@@ -123,7 +130,10 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
       final rawMessages = await _db.getMessages(heroineName);
       final msgList = rawMessages.map((m) => ChatMessageModel.fromMap(m)).toList();
 
-      // 4. 남은 무료 횟수 로드
+      // 4. 안 읽은 메시지 수 로드
+      final unread = await _db.getUnreadCount(heroineName);
+
+      // 5. 남은 무료 횟수 로드
       final limitKey = 'free_chats_${heroineName}_day$currentDay';
       final rawLimit = await _api.storage.read(key: limitKey);
       int remaining = 10;
@@ -140,6 +150,7 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
           mode: activeMode,
           remainingFreeChats: remaining,
           isClearedToday: isCleared,
+          unreadCount: unread,
         ),
       );
     } catch (e) {
@@ -152,9 +163,27 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
           mode: ChatMode.aiFreeChat,
           remainingFreeChats: 10,
           isClearedToday: false,
+          unreadCount: 0,
         ),
       );
     }
+  }
+
+  // 안 읽은 메시지 읽음 처리 및 상태 갱신
+  Future<void> markAsRead(String heroineName) async {
+    await _db.markMessagesAsRead(heroineName);
+    
+    final currentRoom = getRoomState(heroineName);
+    final rawMessages = await _db.getMessages(heroineName);
+    final msgList = rawMessages.map((m) => ChatMessageModel.fromMap(m)).toList();
+
+    _updateRoomState(
+      heroineName,
+      currentRoom.copyWith(
+        messages: msgList,
+        unreadCount: 0,
+      ),
+    );
   }
 
   // 시나리오 대본 모드 완료 처리
@@ -178,22 +207,26 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
     final currentRoom = getRoomState(heroineName);
     _updateRoomState(
       heroineName,
-      currentRoom.copyWith(messages: []),
+      currentRoom.copyWith(messages: [], unreadCount: 0),
     );
   }
 
   // 메시지 로컬 DB 추가
-  Future<void> saveLocalMessage(String heroineName, String sender, String text) async {
-    await _db.insertMessage(heroineName, sender, text);
+  Future<void> saveLocalMessage(String heroineName, String sender, String text, {int isRead = 1}) async {
+    await _db.insertMessage(heroineName, sender, text, isRead: isRead);
     
     // 상태 갱신
     final rawMessages = await _db.getMessages(heroineName);
     final msgList = rawMessages.map((m) => ChatMessageModel.fromMap(m)).toList();
+    final unread = await _db.getUnreadCount(heroineName);
     
     final currentRoom = getRoomState(heroineName);
     _updateRoomState(
       heroineName,
-      currentRoom.copyWith(messages: msgList),
+      currentRoom.copyWith(
+        messages: msgList,
+        unreadCount: unread,
+      ),
     );
   }
 
