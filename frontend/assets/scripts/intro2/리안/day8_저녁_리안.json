@@ -211,7 +211,7 @@
   {
     "speaker": "리안",
     "text": "아, 아니라고.",
-    "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
+    "character_image": "assets/images/character/리안/리안_실내_헤드폰_짜증.png"
   },
   {
     "text": "혼잣말이다. 누가 뭐라 한 게 아닌데 목소리가 날이 서 있다."
@@ -225,8 +225,7 @@
   },
   {
     "speaker": "리안",
-    "text": "왜 듣고도 모르는 척해?",
-    "character_image": "assets/images/character/리안/리안_실내_헤드폰_짜증.png"
+    "text": "왜 듣고도 모르는 척해?"
   },
   {
     "text": "그건 이쪽을 향한 말 같았다. 근데 아무도 뭐라 하지 않았다."
@@ -280,7 +279,8 @@
             "text": "잠깐만."
           },
           {
-            "text": "의자에 등을 기대더니 천장을 올려다봤다. 뻗는다는 게 이런 모습이구나."
+            "text": "의자에 등을 기대더니 천장을 올려다봤다. 뻗는다는 게 이런 모습이구나.",
+            "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png"
           }
         ]
       },
@@ -403,7 +403,8 @@
   },
   {
     "speaker": "리안",
-    "text": "……"
+    "text": "……",
+    "character_image": "assets/images/character/리안/리안_실내_헤드폰_기본.png"
   },
   {
     "speaker": "{name}",
@@ -421,8 +422,7 @@
         "next_lines": [
           {
             "speaker": "리안",
-            "text": "생각보다가 뭐야, 생각보다가.",
-            "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
+            "text": "생각보다가 뭐야, 생각보다가."
           },
           {
             "speaker": "{name}",
@@ -517,8 +517,7 @@
   },
   {
     "speaker": "리안",
-    "text": "귀찮아.",
-    "character_image": "assets/images/character/리안/리안_실내_헤드폰_언짢.png"
+    "text": "귀찮아."
   },
   {
     "speaker": "{name}",
@@ -564,7 +563,9 @@
     "text": "어이없어."
   },
   {
-    "text": "코웃음을 치더니 불을 껐다."
+    "text": "코웃음을 치더니 불을 껐다.",
+    "character_image": "null"
+    
   },
   {
     "text": "소파에 눕자마자 편했다. 부잣집이라 그런가?"
