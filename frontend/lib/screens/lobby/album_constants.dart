@@ -105,5 +105,23 @@ const Map<String, List<AlbumItem>> kHeroineAlbumMetadata = {
       unlockDay: 6,
       unlockZone: "낮",
     ),
+    AlbumItem(
+      id: "kotori_day13",
+      title: "코토리의 과거",
+      description: "도시락의 추억.",
+      imagePath: "assets/images/bg/kotori_day13.png",
+      hint: "Day 13 낮 스토리 감상 후 해금",
+      unlockDay: 13,
+      unlockZone: "낮",
+    ),
+    AlbumItem(
+      id: "kotori_Happy.png",
+      title: "코토리의 과거",
+      description: "도시락의 추억.",
+      imagePath: "assets/images/bg/kotori_Happy.png",
+      hint: "Day 13 낮 스토리 감상 후 해금",
+      unlockDay: 20,
+      unlockZone: "엔딩",
+    )
   ]
 };

@@ -47,12 +47,14 @@
     "speaker": "코토리",
     "text": "그냥 단순하게, 도시락이 많아 보이길래. 저희 엄마가 항상 많이 싸주셨거든요."
   },
-  {
-    "character_image": "assets/images/character/코토리/코토리_기본.png",
-    "speaker": "코토리",
+    {
+    "bg_image": "assets/images/bg/kotori_day13.png",
+    "character_image": null,
+    "speaker": "{name}",
     "text": "그랬더니 한 입 먹고 처음으로 웃으면서 '코토리 밥 맛있다'고 했어요."
   },
   {
+    "bg_image": "assets/images/bg/cafe_street.jpg",
     "character_image": "assets/images/character/코토리/코토리_기본.png",
     "speaker": "코토리",
     "text": "그게 시작이었어요."
