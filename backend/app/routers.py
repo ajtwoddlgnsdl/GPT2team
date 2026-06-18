@@ -20,15 +20,16 @@ CAFE_GAME_TYPE = "cafe_kotori"
 # 💡 일러스트 해금 조건 매핑 테이블 (히로인 이름 -> (Day, Zone) -> 일러스트 ID)
 ILLUSTRATION_UNLOCK_CONDITIONS = {
     "리안": {
-        (1, "밤"): "lian_first_meet",
-        (2, "밤"): "lian_home_lobby",
+        (3, "저녁"): "lian_riding_day3",
         (3, "밤"): "lian_riding_day3",
+        (9, "아침"): "lian_morning_day9",
+        (14, "저녁"): "lian_cafe_day14",
     },
     "이서연": {
         (9, "아침"): "seoyeon_flowershop",
     },
     "코토리": {
-        (2, "낮"): "kotori_cafe",
+        (6, "낮"): "kotori_day6",
     }
 }
 
@@ -279,8 +280,23 @@ def complete_story(
         all_heroines = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id).all()
         for h in all_heroines:
             h.is_cleared_today = True
+        
+        # 💡 코토리 첫 만남 일러스트 해금 (프롤로그 완료 시점)
+        kotori = next((h for h in all_heroines if h.heroine_name == KOTORI_NAME), None)
+        unlocked_id = None
+        if kotori:
+            current_unlocked = [x.strip() for x in (kotori.unlocked_illustrations or "").split(",") if x.strip()]
+            if "kotori_intro1" not in current_unlocked:
+                current_unlocked.append("kotori_intro1")
+                kotori.unlocked_illustrations = ",".join(current_unlocked)
+                unlocked_id = "kotori_intro1"
+                
         db.commit()
-        return {"status": "success"}
+        
+        response_data = {"status": "success"}
+        if unlocked_id:
+            response_data["unlocked_id"] = unlocked_id
+        return response_data
 
     heroine = db.query(models.HeroineProgress).filter(models.HeroineProgress.user_id == user_id, models.HeroineProgress.heroine_name == heroine_name).with_for_update().first()
     if not heroine:
@@ -332,6 +348,25 @@ def complete_story(
                 current_unlocked.append(tgt_id)
                 heroine.unlocked_illustrations = ",".join(current_unlocked)
                 unlocked_id = tgt_id
+
+    # 💡 엔딩 일러스트 동적 해금 판정
+    if user.game_state == GameState.END.value:
+        if heroine.affection < 30:
+            ending_type = "bad"
+        elif 30 <= heroine.affection < 80:
+            ending_type = "normal"
+        else:
+            ending_type = "true"
+        
+        name_map = {"리안": "lian", "코토리": "kotori", "이서연": "seoyeon"}
+        h_en = name_map.get(heroine_name, "heroine")
+        tgt_id = f"{h_en}_ending_{ending_type}"
+        
+        current_unlocked = [x.strip() for x in (heroine.unlocked_illustrations or "").split(",") if x.strip()]
+        if tgt_id not in current_unlocked:
+            current_unlocked.append(tgt_id)
+            heroine.unlocked_illustrations = ",".join(current_unlocked)
+            unlocked_id = tgt_id
 
     db.commit()
     
