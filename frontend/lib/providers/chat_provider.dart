@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -186,10 +187,48 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
     );
   }
 
+  // 특정 히로인의 대기 중인 선물/자유 메시지 키 생성 (시나리오 진행 중인 동안 큐잉용)
+  String _getPendingGiftsKey(String heroineName) {
+    return 'pending_gifts_$heroineName';
+  }
+
+  // 대기 중인 메시지 가져오기
+  Future<List<Map<String, dynamic>>> _getPendingGifts(String heroineName) async {
+    final key = _getPendingGiftsKey(heroineName);
+    final raw = await _api.storage.read(key: key);
+    if (raw == null) return [];
+    try {
+      final decoded = jsonDecode(raw) as List<dynamic>;
+      return decoded.map((e) => Map<String, dynamic>.from(e)).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  // 대기 중인 메시지 저장
+  Future<void> _savePendingGifts(String heroineName, List<Map<String, dynamic>> gifts) async {
+    final key = _getPendingGiftsKey(heroineName);
+    await _api.storage.write(key: key, value: jsonEncode(gifts));
+  }
+
   // 시나리오 대본 모드 완료 처리
   Future<void> completeScenarioMode(String heroineName, int currentDay, String currentTimeZone) async {
     await _db.markScriptCleared(heroineName, currentDay, currentTimeZone);
     
+    // 시나리오 모드가 해제되었으므로 대기 중이던 선물 등의 메시지를 로컬 DB에 순서대로 추가합니다.
+    final pending = await _getPendingGifts(heroineName);
+    if (pending.isNotEmpty) {
+      debugPrint("🎁 [선물 메시지 플러시] 대기 중이던 메시지 ${pending.length}개를 DB에 저장합니다.");
+      for (final msg in pending) {
+        final sender = msg['sender'] as String;
+        final text = msg['text'] as String;
+        final isRead = msg['is_read'] as int? ?? 1;
+        // isPriority: true를 주어 대기 큐에 다시 들어가지 않고 직접 DB에 저장되도록 합니다.
+        await saveLocalMessage(heroineName, sender, text, isRead: isRead, isPriority: true);
+      }
+      await _savePendingGifts(heroineName, []);
+    }
+
     final currentRoom = getRoomState(heroineName);
     _updateRoomState(
       heroineName,
@@ -203,6 +242,7 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
   // 스토리 진행으로 인한 채팅 리셋 처리
   Future<void> resetHistory(String heroineName) async {
     await _db.clearHistory(heroineName);
+    await _savePendingGifts(heroineName, []);
     
     final currentRoom = getRoomState(heroineName);
     _updateRoomState(
@@ -212,7 +252,22 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
   }
 
   // 메시지 로컬 DB 추가
-  Future<void> saveLocalMessage(String heroineName, String sender, String text, {int isRead = 1}) async {
+  Future<void> saveLocalMessage(String heroineName, String sender, String text, {int isRead = 1, bool isPriority = false}) async {
+    final currentRoom = getRoomState(heroineName);
+    
+    // 💡 시나리오 진행 모드 중이고 우선순위(시나리오 대사)가 아닌 일반 메시지/선물은 큐에 임시 저장
+    if (currentRoom.mode == ChatMode.scenario && !isPriority) {
+      final pending = await _getPendingGifts(heroineName);
+      pending.add({
+        'sender': sender,
+        'text': text,
+        'is_read': isRead,
+      });
+      await _savePendingGifts(heroineName, pending);
+      debugPrint("🎁 [선물 메시지 대기] 시나리오 진행 중이므로 메시지를 임시 저장합니다: $text");
+      return;
+    }
+
     await _db.insertMessage(heroineName, sender, text, isRead: isRead);
     
     // 상태 갱신
@@ -220,7 +275,6 @@ class ChatRoomNotifier extends Notifier<Map<String, ChatRoomState>> {
     final msgList = rawMessages.map((m) => ChatMessageModel.fromMap(m)).toList();
     final unread = await _db.getUnreadCount(heroineName);
     
-    final currentRoom = getRoomState(heroineName);
     _updateRoomState(
       heroineName,
       currentRoom.copyWith(

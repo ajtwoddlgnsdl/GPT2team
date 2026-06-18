@@ -199,7 +199,7 @@ class _ChatRoomScreenState extends ConsumerState<ChatRoomScreen> {
     
     // 1) 대본 대화 내용을 기기 SQLite 로컬 DB에 영구 저장
     for (final b in _visibleScenarioBubbles) {
-      await notifier.saveLocalMessage(widget.heroineName, b['sender']!, b['text']!);
+      await notifier.saveLocalMessage(widget.heroineName, b['sender']!, b['text']!, isPriority: true);
     }
 
     // 2) 클리어 기록 저장 및 모드 변경
