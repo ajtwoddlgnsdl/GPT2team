@@ -747,7 +747,7 @@ class _LobbyScreenState extends State<LobbyScreen>
                                   ),
                                 );
                               },
-                              '쇼핑': () {
+                              '선물샵': () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => GiftAppScreen(

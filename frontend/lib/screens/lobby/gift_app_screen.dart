@@ -442,7 +442,11 @@ class _GiftAppScreenState extends ConsumerState<GiftAppScreen> {
                     // ── 🎁 선물 목록 리스트 ──
                     Expanded(
                       child: GridView.builder(
-                        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 90),
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          bottom: 90 + MediaQuery.of(context).padding.bottom,
+                        ),
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           childAspectRatio: 0.76,
@@ -582,25 +586,29 @@ class _GiftAppScreenState extends ConsumerState<GiftAppScreen> {
                         ],
                       ),
                     ),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: selectedGift == null
-                            ? null
-                            : () => _showHeroineSelectSheet(selectedGift),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF5F4A41),
-                          disabledBackgroundColor: Colors.grey.shade300,
-                          elevation: 0.5,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        ),
-                        child: Text(
-                          selectedGift == null ? '선물을 선택해주세요' : '선물 보내기',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                            color: selectedGift == null ? Colors.grey.shade600 : Colors.white,
+                    child: SafeArea(
+                      top: false,
+                      bottom: true,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 52,
+                        child: ElevatedButton(
+                          onPressed: selectedGift == null
+                              ? null
+                              : () => _showHeroineSelectSheet(selectedGift),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF5F4A41),
+                            disabledBackgroundColor: Colors.grey.shade300,
+                            elevation: 0.5,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          child: Text(
+                            selectedGift == null ? '선물을 선택해주세요' : '선물 보내기',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: selectedGift == null ? Colors.grey.shade600 : Colors.white,
+                            ),
                           ),
                         ),
                       ),

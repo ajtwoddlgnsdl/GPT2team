@@ -37,10 +37,10 @@ class PhoneApp {
 List<PhoneApp> buildDefaultApps({Map<String, VoidCallback?> callbacks = const {}}) {
   return [
     PhoneApp(
-      name: '쇼핑',
+      name: '선물샵',
       icon: Icons.card_giftcard,
       gradientColors: const [Color(0xFFFFB7B2), Color(0xFFFF9AA2)],
-      onTap: callbacks['쇼핑'],
+      onTap: callbacks['선물샵'],
     ),
     PhoneApp(
       name: 'E-class',
