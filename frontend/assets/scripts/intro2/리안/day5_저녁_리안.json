@@ -326,7 +326,7 @@
       }
     ]
   },
-  { "character_image": "null",
+  { "character_image": null,
     "bg_image" : "assets/images/bg/rian_cafe_street_night.png",
     "text": "*잠시 후*"
   },

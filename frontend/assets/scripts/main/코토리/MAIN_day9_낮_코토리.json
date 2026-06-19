@@ -40,6 +40,7 @@
     "text": "저도 스니커즈요! 좋아요, 가볼까요?"
   },
   {
+    "bg_image": "assets/images/bg/traditional_market.png",
     "speaker": "{name}",
     "text": "코토리가 데리고 간 곳은 버스로 세 정거장 거리의 재래시장이었다."
   },
