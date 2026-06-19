@@ -19,7 +19,7 @@
   {
     "speaker": "",
     "text": "대충 세수를 하고, 물기 어린 손으로 뻗친 머리를 꾹꾹 눌러 정리한 뒤 가방을 챙겨 현관문을 나섰다.",
-    "bg_image": "assets/images/bg/morningroom.png.jpg"
+    "bg_image": "assets/images/bg/morningroom.jpg"
   },
   {
     "speaker": "",
@@ -27,7 +27,7 @@
     "bg_image": "assets/images/bg/door.jpg"
   },
   {
-    "character_image": "assets/images/character/이서연_기본.jpg",
+    "character_image": "assets/images/character/이서연/이서연_기본.png",
     "speaker": "",
     "text": "문틈 사이로 모습을 드러낸 여자는 단정한 정장 차림이었다. 나와 눈이 마주치자 흠칫 놀라며 가방을 몸쪽으로 바짝 당겨 안았고, 다른 한 손으로는 텀블러를 생명줄처럼 꽉 움켜쥐었다."
   },
@@ -42,12 +42,12 @@
   {
     "speaker": "",
     "text": "나도 서둘러 엘리베이터 앞으로 다가갔다.",
-    "bg_image":"assets/images/bg/Elevator1.png.jpg"
+    "bg_image":"assets/images/bg/Elevator1.jpg"
   },
   {
     "speaker": "이서연",
     "text": "…….",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -72,7 +72,7 @@
           {
             "speaker": "이서연",
             "text": "아... 네... 안녕하세요... 이서연이에요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -95,7 +95,7 @@
           {
             "speaker": "이서연",
             "text": "……일주일 됐어요.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           },
           {
             "speaker": "",
@@ -104,7 +104,7 @@
           {
             "speaker": "이서연",
             "text": "아, 네... 안녕하세요... 이서연이라고 합니다.",
-            "character_image": "assets/images/character/이서연_기본.jpg"
+            "character_image": "assets/images/character/이서연/이서연_기본.png"
           }
         ]
       }
@@ -117,12 +117,12 @@
   {
     "speaker": "",
     "text": "엘리베이터 문이 닫히고 아래로 내려가는 동안 이서연은 텀블러를 두 손으로 꼭 감싸 쥐고만 있었다.",
-    "bg_image":"assets/images/bg/Elevator2.png.jpg"
+    "bg_image":"assets/images/bg/Elevator2.jpg"
   },
   {
     "speaker": "이서연",
     "text": "…….",
-    "character_image": "assets/images/character/이서연_기본.jpg"
+    "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
     "speaker": "",
@@ -131,6 +131,6 @@
   {
     "speaker": "",
     "text": "문이 열리자, 그녀는 누군가에게 쫓기기라도 하는 듯 빠른 걸음으로 로비를 빠져나갔다.",
-    "bg_image":"assets/images/bg/morninglobby.png.jpg"
+    "bg_image":"assets/images/bg/morninglobby.jpg"
   }
 ]
