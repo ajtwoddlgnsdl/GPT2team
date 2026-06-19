@@ -103,7 +103,9 @@ class ChatService:
             "model": LLM_MODEL_NAME,
             "messages": messages,
             "temperature": 0.8,
-            # 💡 gemma4는 thinking 모델이라 reasoning + content 모두 생성해야 하므로 토큰 여유 필요
+            # 💡 thinking 비활성화 — 사고 과정 없이 바로 답변 생성 (Ollama 확장 필드)
+            "think": False,
+            # 💡 think=False가 간헐적으로 안 먹힐 수 있어 토큰 여유 확보 (안전장치)
             "max_tokens": 512,
             # 💡 모델을 30분간 메모리에 상주시켜 콜드스타트(첫 응답 지연/공백)를 완화 (Ollama 확장 필드)
             "keep_alive": "30m",
