@@ -70,6 +70,7 @@
     "character_image": "assets/images/character/이서연/이서연_기본.png"
   },
   {
+    "bg_image": "assets/images/bg/park.png",
     "speaker": "",
     "text": "붉은 노을이 짙게 깔리기 시작한 강변 산책로.",
     "character_image": "assets/images/character/이서연/이서연_기본.png"
@@ -157,31 +158,31 @@
   {
     "speaker": "이서연",
     "text": "{name} 씨와 함께하고 싶어요.",
-    "character_image": "assets/images/character/이서연/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/트루엔딩일러.png"
   },
   {
     "speaker": "이서연",
     "text": "앞으로도 {name} 씨 곁에서, 이렇게 같이 천천히 걸어가도 될까요?",
-    "character_image": "assets/images/character/이서연/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/트루엔딩일러.png"
   },
   {
     "speaker": "",
     "text": "그것은 겁 많고 늘 뒷걸음질 치기 바빴던 그녀가 내게 건넬 수 있는 가장 솔직하고 용기 있는 고백이었다.",
-    "character_image": "assets/images/character/이서연/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/트루엔딩일러.png"
   },
   {
     "speaker": "{name}",
     "text": "당연하죠. 언제든 다 보여줘요. 제가 전부 받을 테니까.",
-    "character_image": "assets/images/character/이서연/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/트루엔딩일러.png"
   },
   {
     "speaker": "",
     "text": "그 순간, 서연 씨의 얼굴에 그 어느 때보다 환하고 아름다운 웃음이 번졌다.",
-    "character_image": "assets/images/character/이서연/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/트루엔딩일러.png"
   },
   {
     "speaker": "",
     "text": "늘 두꺼운 방어막을 치고 주춤거리던 그녀가, 마침내 아무런 벽 없이 온전히 내게 기대어 온 순간이었다.",
-    "character_image": "assets/images/character/이서연/이서연_기본.png"
+    "character_image": "assets/images/character/이서연/트루엔딩일러.png"
   }
 ]
