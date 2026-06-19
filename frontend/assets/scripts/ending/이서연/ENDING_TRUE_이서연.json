@@ -1,5 +1,6 @@
 [
   {
+    "bg_image": "assets/images/bg/door.png",
     "speaker": "",
     "text": "현관문을 여는 것과 동시에 맞은편 서연 씨의 집 문도 열렸다.",
     "character_image": "assets/images/character/이서연/이서연_기본.png"
