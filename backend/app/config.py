@@ -14,7 +14,7 @@ JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = "HS256"
 
 LLM_API_URL = os.getenv("LLM_API_URL", "http://localhost:11434/v1/chat/completions")
-LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "qwen2.5:3b")
+LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "gemma4:e4b")
 
 if not JWT_SECRET_KEY or not ADMIN_SECRET_KEY:
 
