@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:dio/dio.dart';
 import '../../core/api_client.dart';
+import '../../core/bgm_controller.dart';
 import '../story/story_screen.dart';
 import '../lobby/lobby_screen.dart';
 
@@ -901,7 +902,7 @@ class _TitleScreenState extends State<TitleScreen>
             ),
           ),
           const SizedBox(height: 22),
-          _SettingRow(label: '음악 볼륨', value: '준비 중'),
+          const _BgmSettingRow(),
           const SizedBox(height: 8),
           _SettingRow(label: '효과음 볼륨', value: '준비 중'),
           const SizedBox(height: 8),
@@ -1616,6 +1617,74 @@ class _SettingRow extends StatelessWidget {
               color: Color(0x60FFFFFF),
               fontSize: 12,
               fontStyle: FontStyle.italic,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// 배경음악 볼륨 설정 행 (켜고끄기 토글 + 슬라이더)
+// ══════════════════════════════════════════════════════════════════════════════
+class _BgmSettingRow extends StatelessWidget {
+  const _BgmSettingRow();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        color: const Color(0x1AFFFFFF),
+        border: Border.all(color: const Color(0x33FFFFFF)),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                '음악 볼륨',
+                style: TextStyle(color: Colors.white70, fontSize: 13),
+              ),
+              // 켜고 끄기 토글
+              ValueListenableBuilder<bool>(
+                valueListenable: Bgm.instance.enabled,
+                builder: (_, on, _) => GestureDetector(
+                  onTap: () => Bgm.instance.setEnabled(!on),
+                  behavior: HitTestBehavior.opaque,
+                  child: Icon(
+                    on ? Icons.volume_up_rounded : Icons.volume_off_rounded,
+                    color: on ? Colors.white70 : const Color(0x60FFFFFF),
+                    size: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          // 볼륨 슬라이더
+          ValueListenableBuilder<bool>(
+            valueListenable: Bgm.instance.enabled,
+            builder: (_, on, _) => ValueListenableBuilder<double>(
+              valueListenable: Bgm.instance.volume,
+              builder: (_, vol, _) => SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  trackHeight: 2,
+                  thumbShape:
+                      const RoundSliderThumbShape(enabledThumbRadius: 6),
+                  overlayShape:
+                      const RoundSliderOverlayShape(overlayRadius: 12),
+                ),
+                child: Slider(
+                  value: vol,
+                  activeColor:
+                      on ? Colors.white70 : const Color(0x40FFFFFF),
+                  inactiveColor: const Color(0x22FFFFFF),
+                  onChanged: on ? (v) => Bgm.instance.setVolume(v) : null,
+                ),
+              ),
             ),
           ),
         ],
